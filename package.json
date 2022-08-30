@@ -5,8 +5,15 @@
     "description": "Bunch of random features.",
     "unity": "2021.3",
     "dependencies": {
-        
+
     },
+    "samples": [
+        {
+            "displayName": "UI",
+            "description": "UI Baseline Components",
+            "path": "Samples~/UI"
+        }
+    ],
     "keywords": [
         "UI"
     ],
