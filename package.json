@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "displayName": "CollieMollie Core Library",
     "description": "Bunch of random features.",
-    "unity": "2021.3.8f1",
+    "unity": "2021.3",
     "dependencies": {
         
     },
