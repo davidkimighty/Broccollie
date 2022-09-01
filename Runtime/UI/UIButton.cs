@@ -151,7 +151,7 @@ namespace CollieMollie.UI
         #region Button Behaviors
         private void DefaultButton(bool instantChange = false)
         {
-            hovering = false;
+            selected = pressed = hovering = false;
             ChangeColors(ButtonState.Default, instantChange);
         }
 
