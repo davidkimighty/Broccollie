@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,6 +7,12 @@ namespace CollieMollie.UI
     public class UIButton : BaseUI
     {
         #region Variable Field
+        public event Action<UIEventArgs> OnDefault = null;
+        public event Action<UIEventArgs> OnHovered = null;
+        public event Action<UIEventArgs> OnPressed = null;
+        public event Action<UIEventArgs> OnSelected = null;
+        public event Action<UIEventArgs> OnDisabled = null;
+
         [Header("Button")]
         [SerializeField] private ButtonType type = ButtonType.Button;
         [SerializeField] private UIColorChanger colorChanger = null;
@@ -13,11 +20,14 @@ namespace CollieMollie.UI
 
         private void Start()
         {
-            isHovering = isPressed = isSelected = false;
-
+            hovering = pressed = selected = false;
+            if (interactable)
+                DefaultButton(true);
+            else
+                DisabledButton(true);
         }
 
-        #region Button Features
+        #region Button Functions
         /// <summary>
         /// Change button state with event invocation.
         /// </summary>
@@ -25,10 +35,10 @@ namespace CollieMollie.UI
         {
             switch (state)
             {
-                case ButtonState.Default: InvokeDefaultAction(); break;
-                case ButtonState.Hovered: InvokeHoverInAction(); break;
-                case ButtonState.Pressed: InvokePressAction(); break;
-                case ButtonState.Selected: InvokeSelectAction(); break;
+                case ButtonState.Default: InvokeExitAction(); break;
+                case ButtonState.Hovered: InvokeEnterAction(); break;
+                case ButtonState.Pressed: InvokeDownAction(); break;
+                case ButtonState.Selected: InvokeClickAction(); break;
                 case ButtonState.Disabled: InvokeDisableAction(); break;
             }
         }
@@ -49,107 +59,157 @@ namespace CollieMollie.UI
         }
         #endregion
 
-        #region Button Actions
-        protected override sealed void InvokeDefaultAction(PointerEventData eventData = null, UIEventArgs args = null)
+        #region Button Interaction Publishers
+        protected override sealed void InvokeEnterAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!isInteractable) return;
+            if (!interactable) return;
 
-            DefaultButton();
-            // Sound feature
-            base.InvokeDefaultAction(eventData, new UIEventArgs(this));
-        }
-
-        protected override sealed void InvokeHoverInAction(PointerEventData eventData = null, UIEventArgs args = null)
-        {
-            if (!isInteractable) return;
+            hovering = true;
+            if (selected) return;
 
             HoveredButton();
-            // Sound feature
-            base.InvokeHoverInAction(eventData, new UIEventArgs(this));
+
+            OnHovered?.Invoke(new UIEventArgs(this));
+            //Debug.Log("[UIButton] Invoke Hovered");
         }
 
-        protected override sealed void InvokePressAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override sealed void InvokeExitAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!isInteractable) return;
+            if (!interactable) return;
+
+            hovering = false;
+            if (selected) return;
+
+            DefaultButton();
+
+            OnDefault?.Invoke(new UIEventArgs(this));
+            //Debug.Log("[UIButton] Invoke Default");
+        }
+
+        protected override sealed void InvokeDownAction(PointerEventData eventData = null, UIEventArgs args = null)
+        {
+            if (!interactable) return;
 
             PressedButton();
-            // Sound feature
-            base.InvokePressAction(eventData, new UIEventArgs(this));
+
+            OnPressed?.Invoke(new UIEventArgs(this));
+            //Debug.Log("[UIButton] Invoke Pressed");
         }
 
-        protected override sealed void InvokeSelectAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override sealed void InvokeUpAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!isInteractable) return;
+            if (!interactable) return;
+
+            pressed = false;
+            CancelInteraction();
+
+            void CancelInteraction()
+            {
+                if (!selected && !hovering)
+                {
+                    ChangeColors(ButtonState.Default);
+                }
+                else if (selected && !hovering)
+                {
+                    ChangeColors(ButtonState.Selected);
+                }
+            }
+        }
+
+        protected override sealed void InvokeClickAction(PointerEventData eventData = null, UIEventArgs args = null)
+        {
+            if (!interactable) return;
 
             SelectedButton();
-            // Sound feature
-            base.InvokeSelectAction(eventData, new UIEventArgs(this));
+
+            if (selected)
+            {
+                OnSelected?.Invoke(new UIEventArgs(this));
+                //Debug.Log("[UIButton] Invoke Selected");
+            }
+            else if (hovering)
+            {
+                OnHovered?.Invoke(new UIEventArgs(this));
+                //Debug.Log("[UIButton] Invoke Hovered");
+            }
+            else
+            {
+                OnDefault?.Invoke(new UIEventArgs(this));
+                //Debug.Log("[UIButton] Invoke Default");
+            }
         }
 
-        protected override void InvokeDisableAction(UIEventArgs args = null)
+        private void InvokeDisableAction()
         {
-            // Sound feature
-            base.InvokeDisableAction(args);
+            DisabledButton();
+
+            OnDisabled?.Invoke(new UIEventArgs(this));
+            //Debug.Log("[UIButton] Invoke Disabled");
         }
         #endregion
 
         #region Button Behaviors
-        private void DefaultButton()
+        private void DefaultButton(bool instantChange = false)
         {
-            isHovering = isPressed;
-            isPressed = false;
+            hovering = false;
+            ChangeColors(ButtonState.Default, instantChange);
+        }
 
-            switch (type)
+        private void HoveredButton(bool instantChange = false)
+        {
+            hovering = true;
+            ChangeColors(ButtonState.Hovered, instantChange);
+        }
+
+        private void PressedButton(bool instantChange = false)
+        {
+            pressed = true;
+            ChangeColors(ButtonState.Pressed, instantChange);
+        }
+
+        private void SelectedButton(bool instantChange = false)
+        {
+            selected = type switch
             {
-                case ButtonType.Button:
-                    // Change visuals
-                    break;
+                ButtonType.Radio => true,
+                ButtonType.Checkbox => !selected,
+                _ => false
+            };
 
-                case ButtonType.Radio:
-
-                    break;
-
-                case ButtonType.Checkbox:
-
-                    break;
+            if (selected)
+            {
+                ChangeColors(ButtonState.Selected, instantChange);
+            }
+            else if (hovering)
+            {
+                ChangeColors(ButtonState.Hovered, instantChange);
+            }
+            else
+            {
+                ChangeColors(ButtonState.Default, instantChange);
             }
         }
 
-        private void HoveredButton()
+        private void DisabledButton(bool instantChange = false)
         {
-            isHovering = true;
+            interactable = false;
+            ChangeColors(ButtonState.Disabled, instantChange);
+        }
+        #endregion
 
+        #region Button Features
+        private void ChangeColors(ButtonState state, bool instantChange = false)
+        {
+            if (colorChanger == null) return;
+
+            if (instantChange)
+                colorChanger.ChangeInstantly(state);
+            else
+                colorChanger.ChangeGradually(state);
         }
 
-        private void PressedButton()
+        private void ChangeSprites(ButtonState state)
         {
-            isPressed = true;
-
-        }
-
-        private void SelectedButton()
-        {
-            switch (type)
-            {
-                case ButtonType.Button:
-                    // Change visuals
-                    break;
-
-                case ButtonType.Radio:
-                    isSelected = true;
-
-                    break;
-
-                case ButtonType.Checkbox:
-                    isSelected = !isSelected;
-                    
-                    break;
-            }
-        }
-
-        private void DisabledButton()
-        {
-             isHovering = isPressed = isInteractable = false;
 
         }
         #endregion

@@ -7,132 +7,95 @@ namespace CollieMollie.UI
     public abstract class BaseUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         #region Variable Field
-        public event Action<UIEventArgs> OnDefault = null;
-        public event Action<UIEventArgs> OnHovered = null;
-        public event Action<UIEventArgs> OnPressed = null;
-        public event Action<UIEventArgs> OnSelected = null;
-        public event Action<UIEventArgs> OnDisabled = null;
-
-        public event Action<UIEventArgs> OnUIBeginDrag = null;
-        public event Action<UIEventArgs> OnUIDrag = null;
-        public event Action<UIEventArgs> OnUIEndDrag = null;
-
         [Header("BaseUI")]
-        [SerializeField] protected bool isInteractable = true;
+        [SerializeField] protected bool interactable = true;
         public bool IsInteractable
         {
-            get => isInteractable;
+            get => interactable;
         }
 
-        [SerializeField] protected bool isHovering = false;
+        [SerializeField] protected bool hovering = false;
         public bool IsHovering
         {
-            get => IsHovering;
+            get => hovering;
         }
 
-        [SerializeField] protected bool isPressed = false;
+        [SerializeField] protected bool pressed = false;
         public bool IsPressed
         {
-            get => isPressed;
+            get => pressed;
         }
 
-        [SerializeField] protected bool isSelected = false;
+        [SerializeField] protected bool selected = false;
         public bool IsSelected
         {
-            get => IsSelected;
+            get => selected;
         }
 
-        [SerializeField] protected bool isDragging = false;
+        [SerializeField] protected bool dragging = false;
         public bool IsDragging
         {
-            get => isDragging;
+            get => dragging;
         }
         #endregion
 
         #region Pointer Callbacks
-        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => InvokeHoverInAction(eventData);
+        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => InvokeEnterAction(eventData, new UIEventArgs());
 
-        void IPointerExitHandler.OnPointerExit(PointerEventData eventData) => InvokeDefaultAction(eventData);
+        void IPointerExitHandler.OnPointerExit(PointerEventData eventData) => InvokeExitAction(eventData, new UIEventArgs());
 
-        void IPointerDownHandler.OnPointerDown(PointerEventData eventData) => InvokePressAction(eventData);
+        void IPointerDownHandler.OnPointerDown(PointerEventData eventData) => InvokeDownAction(eventData, new UIEventArgs());
 
-        void IPointerUpHandler.OnPointerUp(PointerEventData eventData) => InvokeDefaultAction(eventData);
+        void IPointerUpHandler.OnPointerUp(PointerEventData eventData) => InvokeUpAction(eventData, new UIEventArgs());
 
-        void IPointerClickHandler.OnPointerClick(PointerEventData eventData) => InvokeSelectAction(eventData);
+        void IPointerClickHandler.OnPointerClick(PointerEventData eventData) => InvokeClickAction(eventData, new UIEventArgs());
 
-        void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) => BeginDragAction(eventData);
+        void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) => BeginDragAction(eventData, new UIEventArgs());
 
-        void IDragHandler.OnDrag(PointerEventData eventData) => DragAction(eventData);
+        void IDragHandler.OnDrag(PointerEventData eventData) => DragAction(eventData, new UIEventArgs());
 
-        void IEndDragHandler.OnEndDrag(PointerEventData eventData) => EndDragAction(eventData);
+        void IEndDragHandler.OnEndDrag(PointerEventData eventData) => EndDragAction(eventData, new UIEventArgs());
         #endregion
 
-        #region Interaction Publishers
-        protected virtual void InvokeDefaultAction(PointerEventData eventData = null, UIEventArgs args = null)
+        #region Pointer Subscribers
+        protected virtual void InvokeEnterAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!IsValid(args)) return;
 
-            OnDefault?.Invoke(args);
         }
 
-        protected virtual void InvokeHoverInAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected virtual void InvokeExitAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!IsValid(args)) return;
 
-            OnHovered?.Invoke(args);
         }
 
-        protected virtual void InvokePressAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected virtual void InvokeDownAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!IsValid(args)) return;
 
-            OnPressed?.Invoke(args);
         }
 
-        protected virtual void InvokeSelectAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected virtual void InvokeUpAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!IsValid(args)) return;
 
-            OnSelected?.Invoke(args);
         }
 
-        protected virtual void InvokeDisableAction(UIEventArgs args = null)
+        protected virtual void InvokeClickAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!IsValid(args)) return;
 
-            OnDisabled?.Invoke(args);
         }
 
         protected virtual void BeginDragAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!IsValid(args)) return;
 
-            OnUIBeginDrag?.Invoke(args);
         }
 
         protected virtual void DragAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!IsValid(args)) return;
 
-            OnUIDrag?.Invoke(args);
         }
 
         protected virtual void EndDragAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!IsValid(args)) return;
 
-            OnUIEndDrag?.Invoke(args);
-        }
-        #endregion
-
-        #region BaseUI Features
-        /// <summary>
-        /// Check if UI event argument is valid.
-        /// To publish an event, the argument itself and the sender can not be null.
-        /// </summary>
-        private bool IsValid(UIEventArgs args)
-        {
-            return args != null && args.sender != null;
         }
         #endregion
     }
@@ -141,9 +104,16 @@ namespace CollieMollie.UI
     {
         public BaseUI sender = null;
 
+        public UIEventArgs() { }
+
         public UIEventArgs(BaseUI sender)
         {
             this.sender = sender;
+        }
+
+        public bool IsValid()
+        {
+            return sender != null;
         }
     }
 }

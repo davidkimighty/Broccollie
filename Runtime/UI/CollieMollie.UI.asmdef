@@ -1,3 +1,16 @@
 {
-	"name": "CollieMollie.UI"
+    "name": "CollieMollie.UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b7cef62209d65481ab0c769cff124f47"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
