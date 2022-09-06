@@ -1,21 +1,27 @@
 {
     "name": "com.colliemollie.corelibrary",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "displayName": "CollieMollie Core Library",
     "description": "Bunch of random game features.",
     "unity": "2021.3",
     "dependencies": {
-
+        "addressables": "1.19.19"
     },
     "samples": [
         {
-            "displayName": "UI",
-            "description": "UI Baseline Components",
+            "displayName": "UI Baseline Components",
+            "description": "Preset based UI components",
             "path": "Samples~/UI"
+        },
+        {
+            "displayName": "Project Structure",
+            "description": "Managing project scenes using Addressables.",
+            "path": "Samples~/System"
         }
     ],
     "keywords": [
-        "UI"
+        "UI",
+        "Scene Manager"
     ],
     "author": {
         "name": "Hyunwoo Kim",

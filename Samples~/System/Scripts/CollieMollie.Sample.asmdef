@@ -1,0 +1,16 @@
+{
+    "name": "CollieMollie.Sample",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f5d6e7bc0ce0245d9ab3a13e04ddb829"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
