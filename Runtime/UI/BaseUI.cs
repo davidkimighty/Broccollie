@@ -8,34 +8,34 @@ namespace CollieMollie.UI
     {
         #region Variable Field
         [Header("BaseUI")]
-        [SerializeField] protected bool interactable = true;
+        [SerializeField] protected bool _interactable = true;
         public bool IsInteractable
         {
-            get => interactable;
+            get => _interactable;
         }
 
-        [SerializeField] protected bool hovering = false;
+        [SerializeField] protected bool _hovering = false;
         public bool IsHovering
         {
-            get => hovering;
+            get => _hovering;
         }
 
-        [SerializeField] protected bool pressed = false;
+        [SerializeField] protected bool _pressed = false;
         public bool IsPressed
         {
-            get => pressed;
+            get => _pressed;
         }
 
-        [SerializeField] protected bool selected = false;
+        [SerializeField] protected bool _selected = false;
         public bool IsSelected
         {
-            get => selected;
+            get => _selected;
         }
 
-        [SerializeField] protected bool dragging = false;
+        [SerializeField] protected bool _dragging = false;
         public bool IsDragging
         {
-            get => dragging;
+            get => _dragging;
         }
         #endregion
 
@@ -102,18 +102,18 @@ namespace CollieMollie.UI
 
     public class UIEventArgs
     {
-        public BaseUI sender = null;
+        public BaseUI Sender = null;
 
         public UIEventArgs() { }
 
         public UIEventArgs(BaseUI sender)
         {
-            this.sender = sender;
+            this.Sender = sender;
         }
 
         public bool IsValid()
         {
-            return sender != null;
+            return Sender != null;
         }
     }
 }

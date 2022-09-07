@@ -9,7 +9,7 @@ namespace CollieMollie.Audio
     public class AudioPlayer : MonoBehaviour
     {
         #region Variable Field
-        public IObjectPool<AudioPlayer> pool = null;
+        public IObjectPool<AudioPlayer> Pool = null;
 
         [SerializeField] private AudioSource _source = null;
 
@@ -38,7 +38,7 @@ namespace CollieMollie.Audio
             _source.Play();
             while (_source.isPlaying)
                 yield return null;
-            pool.Release(this);
+            Pool.Release(this);
         }
         #endregion
 

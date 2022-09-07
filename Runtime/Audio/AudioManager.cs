@@ -45,7 +45,7 @@ namespace CollieMollie.Audio
             AudioPlayer.Data audioPlayerData = new AudioPlayer.Data
             {
                 clip = preset.GetAudioClip(),
-                group = preset.mixerGroup
+                group = preset.MixerGroup
             };
             audioPlayer.Play(audioPlayerData);
         }
@@ -55,7 +55,7 @@ namespace CollieMollie.Audio
         private AudioPlayer CreatePooledItem()
         {
             AudioPlayer audioPlayer = Instantiate(_audioPlayerRef, _poolHolder);
-            audioPlayer.pool = _pool;
+            audioPlayer.Pool = _pool;
             return audioPlayer;
         }
 

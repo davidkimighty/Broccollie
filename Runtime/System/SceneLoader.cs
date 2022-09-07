@@ -13,52 +13,52 @@ namespace CollieMollie.System
     {
         #region Variable Field
         [Header("Scene Loader")]
-        [SerializeField] private SceneEventChannel sceneEventChannel = null;
-        [SerializeField] private ScenePreset loadingScene = null;
+        [SerializeField] private SceneEventChannel _sceneEventChannel = null;
+        [SerializeField] private ScenePreset _loadingScene = null;
 
-        [SerializeField] private FadeController fadeController = null;
+        [SerializeField] private FadeController _fadeController = null;
 
-        private bool loading = false;
-        private ScenePreset currentlyLoadedScene = null;
-        private IEnumerator sceneLoadAction = null;
+        private bool _loading = false;
+        private ScenePreset _currentlyLoadedScene = null;
+        private IEnumerator _sceneLoadAction = null;
         #endregion
 
         private void OnEnable()
         {
-            sceneEventChannel.OnSceneLoadRequest += LoadNewScene;
+            _sceneEventChannel.OnSceneLoadRequest += LoadNewScene;
         }
 
         private void OnDisable()
         {
-            sceneEventChannel.OnSceneLoadRequest -= LoadNewScene;
+            _sceneEventChannel.OnSceneLoadRequest -= LoadNewScene;
         }
 
         #region Subscribers
         private void LoadNewScene(ScenePreset scene, bool showLoadingScreen)
         {
-            if (loading) return;
-            loading = true;
+            if (_loading) return;
+            _loading = true;
 
-            if (sceneLoadAction != null)
-                StopCoroutine(sceneLoadAction);
+            if (_sceneLoadAction != null)
+                StopCoroutine(_sceneLoadAction);
 
-            sceneLoadAction = SceneLoadProcess(scene, showLoadingScreen);
-            StartCoroutine(sceneLoadAction);
+            _sceneLoadAction = SceneLoadProcess(scene, showLoadingScreen);
+            StartCoroutine(_sceneLoadAction);
         }
         #endregion
 
         #region Scene Load Features
         private IEnumerator SceneLoadProcess(ScenePreset targetScene, bool showLoadingScreen, Action transitionLogic = null)
         {
-            yield return fadeController.FadeIn();
+            yield return _fadeController.FadeIn();
 
-            if (currentlyLoadedScene != null)
-                SceneUnload(currentlyLoadedScene);
+            if (_currentlyLoadedScene != null)
+                SceneUnload(_currentlyLoadedScene);
 
             if (showLoadingScreen)
             {
-                yield return SceneLoad(loadingScene, true);
-                yield return fadeController.FadeOut();
+                yield return SceneLoad(_loadingScene, true);
+                yield return _fadeController.FadeOut();
             }
 
             transitionLogic?.Invoke();
@@ -66,25 +66,25 @@ namespace CollieMollie.System
 
             if (showLoadingScreen)
             {
-                yield return fadeController.FadeIn();
-                SceneUnload(loadingScene);
+                yield return _fadeController.FadeIn();
+                SceneUnload(_loadingScene);
             }
 
             yield return SceneLoad(targetScene, true);
-            currentlyLoadedScene = targetScene;
+            _currentlyLoadedScene = targetScene;
 
-            yield return fadeController.FadeOut();
-            loading = false;
+            yield return _fadeController.FadeOut();
+            _loading = false;
         }
 
         private void SceneUnload(ScenePreset scene)
         {
-            scene.sceneReference.UnLoadScene();
+            scene.SceneReference.UnLoadScene();
         }
 
         private IEnumerator SceneLoad(ScenePreset scene, bool activate)
         {
-            AsyncOperationHandle loadOperation = scene.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, activate);
+            AsyncOperationHandle loadOperation = scene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, activate);
             if (!loadOperation.IsValid()) yield break;
             
             while (!loadOperation.IsDone)

@@ -10,15 +10,15 @@ namespace CollieMollie.System
     {
         #region Variable Field
         [Header("Initializer")]
-        [SerializeField] private ScenePreset persistentScene = null;
+        [SerializeField] private ScenePreset _persistentScene = null;
 
         #endregion
 
         private void Start()
         {
-            if (persistentScene.sceneType == SceneType.Persistent)
+            if (_persistentScene.SceneType == SceneType.Persistent)
             {
-                persistentScene.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += UnloadInitializer;
+                _persistentScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += UnloadInitializer;
             }
         }
 

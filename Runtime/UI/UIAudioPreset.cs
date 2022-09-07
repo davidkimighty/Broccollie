@@ -8,14 +8,14 @@ namespace CollieMollie.UI
     [CreateAssetMenu(fileName = "UIAudioPreset", menuName = "CollieMollie/UI/AudioPreset")]
     public class UIAudioPreset : ScriptableObject
     {
-        public AudioState[] audioStates = null;
+        public AudioState[] AudioStates = null;
 
         [System.Serializable]
         public struct AudioState
         {
-            public AudioPreset audioPreset;
-            public ButtonState executionState;
-            public bool isEnabled;
+            public AudioPreset AudioPreset;
+            public ButtonState ExecutionState;
+            public bool IsEnabled;
         }
     }
 }

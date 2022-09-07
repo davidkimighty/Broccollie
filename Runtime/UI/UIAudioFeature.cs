@@ -21,7 +21,7 @@ namespace CollieMollie.UI
 
             foreach (Element element in _elements)
             {
-                if (!element.isEnabled) continue;
+                if (!element.IsEnabled) continue;
                 element.PlayAudio(this, state, _eventChannel);
             }
         }
@@ -32,8 +32,8 @@ namespace CollieMollie.UI
         public class Element
         {
             #region Variabled Field
-            public bool isEnabled = true;
-            public UIAudioPreset preset = null;
+            public bool IsEnabled = true;
+            public UIAudioPreset Preset = null;
 
             private IEnumerator _audioPlayAction = null;
             #endregion
@@ -44,15 +44,15 @@ namespace CollieMollie.UI
                 if (_audioPlayAction != null)
                     mono.StopCoroutine(_audioPlayAction);
 
-                UIAudioPreset.AudioState? audioState = Array.Find(preset.audioStates, x => x.executionState == state);
+                UIAudioPreset.AudioState? audioState = Array.Find(Preset.AudioStates, x => x.ExecutionState == state);
                 if (audioState == null)
-                    audioState = Array.Find(preset.audioStates, x => x.executionState == ButtonState.Default);
+                    audioState = Array.Find(Preset.AudioStates, x => x.ExecutionState == ButtonState.Default);
 
                 if (audioState != null)
                 {
-                    if (!audioState.Value.isEnabled) return;
+                    if (!audioState.Value.IsEnabled) return;
 
-                    eventChannel.RaisePlayAudioEvent(audioState.Value.audioPreset);
+                    eventChannel.RaisePlayAudioEvent(audioState.Value.AudioPreset);
                 }
             }
             #endregion

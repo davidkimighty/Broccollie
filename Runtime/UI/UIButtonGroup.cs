@@ -7,25 +7,24 @@ namespace CollieMollie.UI
     public class UIButtonGroup : MonoBehaviour
     {
         #region Variable Field
-        [Header("Button Group")]
-        [SerializeField] private List<UIButton> buttons = null;
-        [SerializeField] private bool useRadioButtonGroup = false;
+        [SerializeField] private List<UIButton> _buttons = null;
+        [SerializeField] private bool _useRadioButtonGroup = false;
         #endregion
 
         private void OnEnable()
         {
-            if (useRadioButtonGroup)
+            if (_useRadioButtonGroup)
             {
-                foreach (UIButton button in buttons)
+                foreach (UIButton button in _buttons)
                     button.OnSelected += RadioButtonGroup;
             }
         }
 
         private void OnDisable()
         {
-            if (useRadioButtonGroup)
+            if (_useRadioButtonGroup)
             {
-                foreach (UIButton button in buttons)
+                foreach (UIButton button in _buttons)
                     button.OnSelected -= RadioButtonGroup;
             }
         }
@@ -35,9 +34,9 @@ namespace CollieMollie.UI
         {
             if (!args.IsValid()) return;
 
-            foreach (UIButton button in buttons)
+            foreach (UIButton button in _buttons)
             {
-                if (button == args.sender) continue;
+                if (button == args.Sender) continue;
                 button.ChangeStateQuietly(ButtonState.Default);
             }
         }

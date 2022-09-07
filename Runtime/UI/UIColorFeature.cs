@@ -10,29 +10,29 @@ namespace CollieMollie.UI
     public class UIColorFeature : MonoBehaviour
     {
         #region Variable Field
-        [SerializeField] private bool isEnabled = true;
-        [SerializeField] private List<Element> elements = null;
+        [SerializeField] private bool _isEnabled = true;
+        [SerializeField] private List<Element> _elements = null;
         #endregion
 
         #region ColorChanger Functions
         public void ChangeGradually(ButtonState state)
         {
-            if (!isEnabled) return;
+            if (!_isEnabled) return;
 
-            foreach (Element element in elements)
+            foreach (Element element in _elements)
             {
-                if (!element.isEnabled) continue;
+                if (!element.IsEnabled) continue;
                 element.ChangeColor(this, state);
             }
         }
 
         public void ChangeInstantly(ButtonState state)
         {
-            if (!isEnabled) return;
+            if (!_isEnabled) return;
 
-            foreach (Element element in elements)
+            foreach (Element element in _elements)
             {
-                if (!element.isEnabled) continue;
+                if (!element.IsEnabled) continue;
                 element.ChangeColor(this, state, true);
             }
         }
@@ -42,35 +42,35 @@ namespace CollieMollie.UI
         public class Element
         {
             #region Variabled Field
-            public bool isEnabled = true;
-            public MaskableGraphic graphic = null;
-            public UIColorPreset preset = null;
+            public bool IsEnabled = true;
+            public MaskableGraphic Graphic = null;
+            public UIColorPreset Preset = null;
 
-            private IEnumerator colorChangeAction = null;
+            private IEnumerator _colorChangeAction = null;
             #endregion
 
             #region ColorChanger Element Functions
             public void ChangeColor(MonoBehaviour mono, ButtonState state, bool instantChange = false)
             {
-                if (colorChangeAction != null)
-                    mono.StopCoroutine(colorChangeAction);
+                if (_colorChangeAction != null)
+                    mono.StopCoroutine(_colorChangeAction);
 
-                UIColorPreset.ColorState? colorState = Array.Find(preset.colorStates, x => x.executionState == state);
+                UIColorPreset.ColorState? colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == state);
                 if (colorState == null)
-                    colorState = Array.Find(preset.colorStates, x => x.executionState == ButtonState.Default);
+                    colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == ButtonState.Default);
 
                 if (colorState != null)
                 {
-                    if (!colorState.Value.isEnabled) return;
+                    if (!colorState.Value.IsEnabled) return;
 
                     if (!instantChange)
                     {
-                        colorChangeAction = graphic.ChangeColorGradually(colorState.Value.targetColor, colorState.Value.duration, colorState.Value.curve);
-                        mono.StartCoroutine(colorChangeAction);
+                        _colorChangeAction = Graphic.ChangeColorGradually(colorState.Value.TargetColor, colorState.Value.Duration, colorState.Value.Curve);
+                        mono.StartCoroutine(_colorChangeAction);
                     }
                     else
                     {
-                        graphic.color = colorState.Value.targetColor;
+                        Graphic.color = colorState.Value.TargetColor;
                     }
                 }
             }

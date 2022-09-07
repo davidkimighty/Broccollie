@@ -5,16 +5,16 @@ namespace CollieMollie.UI
     [CreateAssetMenu(fileName = "UIColorPreset", menuName = "CollieMollie/UI/ColorPreset")]
     public class UIColorPreset : ScriptableObject
     {
-        public ColorState[] colorStates = null;
+        public ColorState[] ColorStates = null;
 
         [System.Serializable]
         public struct ColorState
         {
-            public Color targetColor;
-            public ButtonState executionState;
-            public bool isEnabled;
-            public float duration;
-            public AnimationCurve curve;
+            public Color TargetColor;
+            public ButtonState ExecutionState;
+            public bool IsEnabled;
+            public float Duration;
+            public AnimationCurve Curve;
         }
     }
 }

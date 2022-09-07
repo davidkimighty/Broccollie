@@ -21,8 +21,8 @@ namespace CollieMollie.UI
 
         private void Start()
         {
-            hovering = pressed = selected = false;
-            if (interactable)
+            _hovering = _pressed = _selected = false;
+            if (_interactable)
                 DefaultButton(true);
             else
                 DisabledButton(true);
@@ -63,10 +63,10 @@ namespace CollieMollie.UI
         #region Button Interaction Publishers
         protected override sealed void InvokeEnterAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!interactable) return;
+            if (!_interactable) return;
 
-            hovering = true;
-            if (selected) return;
+            _hovering = true;
+            if (_selected) return;
 
             HoveredButton();
 
@@ -76,10 +76,10 @@ namespace CollieMollie.UI
 
         protected override sealed void InvokeExitAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!interactable) return;
+            if (!_interactable) return;
 
-            hovering = false;
-            if (selected) return;
+            _hovering = false;
+            if (_selected) return;
 
             DefaultButton();
 
@@ -89,7 +89,7 @@ namespace CollieMollie.UI
 
         protected override sealed void InvokeDownAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!interactable) return;
+            if (!_interactable) return;
 
             PressedButton();
 
@@ -99,18 +99,18 @@ namespace CollieMollie.UI
 
         protected override sealed void InvokeUpAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!interactable) return;
+            if (!_interactable) return;
 
-            pressed = false;
+            _pressed = false;
             CancelInteraction();
 
             void CancelInteraction()
             {
-                if (!selected && !hovering)
+                if (!_selected && !_hovering)
                 {
                     ChangeColors(ButtonState.Default);
                 }
-                else if (selected && !hovering)
+                else if (_selected && !_hovering)
                 {
                     ChangeColors(ButtonState.Selected);
                 }
@@ -119,16 +119,16 @@ namespace CollieMollie.UI
 
         protected override sealed void InvokeClickAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
-            if (!interactable) return;
+            if (!_interactable) return;
 
             SelectedButton();
 
-            if (selected)
+            if (_selected)
             {
                 OnSelected?.Invoke(new UIEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Selected");
             }
-            else if (hovering)
+            else if (_hovering)
             {
                 OnHovered?.Invoke(new UIEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Hovered");
@@ -152,40 +152,40 @@ namespace CollieMollie.UI
         #region Button Behaviors
         private void DefaultButton(bool instantChange = false)
         {
-            selected = pressed = hovering = false;
+            _selected = _pressed = _hovering = false;
             ChangeColors(ButtonState.Default, instantChange);
             PlayAudio(ButtonState.Default);
         }
 
         private void HoveredButton(bool instantChange = false)
         {
-            hovering = true;
+            _hovering = true;
             ChangeColors(ButtonState.Hovered, instantChange);
             PlayAudio(ButtonState.Hovered);
         }
 
         private void PressedButton(bool instantChange = false)
         {
-            pressed = true;
+            _pressed = true;
             ChangeColors(ButtonState.Pressed, instantChange);
             PlayAudio(ButtonState.Pressed);
         }
 
         private void SelectedButton(bool instantChange = false)
         {
-            selected = _type switch
+            _selected = _type switch
             {
                 ButtonType.Radio => true,
-                ButtonType.Checkbox => !selected,
+                ButtonType.Checkbox => !_selected,
                 _ => false
             };
 
-            if (selected)
+            if (_selected)
             {
                 ChangeColors(ButtonState.Selected, instantChange);
                 PlayAudio(ButtonState.Selected);
             }
-            else if (hovering)
+            else if (_hovering)
             {
                 ChangeColors(ButtonState.Hovered, instantChange);
                 PlayAudio(ButtonState.Hovered);
@@ -199,7 +199,7 @@ namespace CollieMollie.UI
 
         private void DisabledButton(bool instantChange = false)
         {
-            interactable = false;
+            _interactable = false;
             ChangeColors(ButtonState.Disabled, instantChange);
             PlayAudio(ButtonState.Disabled);
         }

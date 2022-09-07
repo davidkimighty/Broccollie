@@ -7,8 +7,8 @@ namespace CollieMollie.System
     public class ScenePreset : ScriptableObject
     {
         #region Variable Field
-        public SceneType sceneType;
-        public AssetReference sceneReference = null;
+        public SceneType SceneType;
+        public AssetReference SceneReference = null;
         #endregion
     }
 

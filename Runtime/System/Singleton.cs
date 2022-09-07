@@ -4,22 +4,22 @@ namespace CollieMollie.System
 {
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        private static T instance = null;
+        private static T s_instance = null;
 
         public static T Instance
         {
             get
             {
-                if ((object)instance == null)
+                if ((object)s_instance == null)
                 {
-                    instance = (T)FindObjectOfType(typeof(T));
-                    if (instance == null)
+                    s_instance = (T)FindObjectOfType(typeof(T));
+                    if (s_instance == null)
                     {
                         GameObject singletoneObject = new GameObject(typeof(T).ToString());
-                        instance = singletoneObject.AddComponent<T>();
+                        s_instance = singletoneObject.AddComponent<T>();
                     }
                 }
-                return instance;
+                return s_instance;
             }
         }
     }
