@@ -5,7 +5,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
   <!-- <img src="" alt="Logo" width="130" height="130"> -->
-  <h1 align="center">Core Library</h1>
+  <h1 align="center">Random GameDev Library</h1>
   <p align="center">
     Bunch of random game features.
     <br />
