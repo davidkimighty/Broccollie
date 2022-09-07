@@ -1,7 +1,7 @@
 {
-    "name": "com.colliemollie.collielibrary",
+    "name": "com.colliemollie.randomgamedevlibrary",
     "version": "0.3.0",
-    "displayName": "Collie Library",
+    "displayName": "Random GameDev Library",
     "description": "Bunch of random game features.",
     "unity": "2021.3",
     "dependencies": {
