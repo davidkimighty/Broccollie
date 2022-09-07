@@ -5,7 +5,7 @@
     "description": "Bunch of random game features.",
     "unity": "2021.3",
     "dependencies": {
-        "addressables": "1.19.19"
+        //"addressables": "1.19.19"
     },
     "samples": [
         {
