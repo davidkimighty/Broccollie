@@ -7,10 +7,9 @@ using UnityEngine.UI;
 
 namespace CollieMollie.UI
 {
-    public class UIColorChanger : MonoBehaviour
+    public class UIColorFeature : MonoBehaviour
     {
         #region Variable Field
-        [Header("Color Changer")]
         [SerializeField] private bool isEnabled = true;
         [SerializeField] private List<Element> elements = null;
         #endregion
@@ -56,22 +55,22 @@ namespace CollieMollie.UI
                 if (colorChangeAction != null)
                     mono.StopCoroutine(colorChangeAction);
 
-                UIColorPreset.ColorState colorState = Array.Find(preset.colorStates, x => x.executionState == state);
+                UIColorPreset.ColorState? colorState = Array.Find(preset.colorStates, x => x.executionState == state);
                 if (colorState == null)
                     colorState = Array.Find(preset.colorStates, x => x.executionState == ButtonState.Default);
 
                 if (colorState != null)
                 {
-                    if (!colorState.isEnabled) return;
+                    if (!colorState.Value.isEnabled) return;
 
                     if (!instantChange)
                     {
-                        colorChangeAction = graphic.ChangeColorGradually(colorState.targetColor, colorState.duration, colorState.curve);
+                        colorChangeAction = graphic.ChangeColorGradually(colorState.Value.targetColor, colorState.Value.duration, colorState.Value.curve);
                         mono.StartCoroutine(colorChangeAction);
                     }
                     else
                     {
-                        graphic.color = colorState.targetColor;
+                        graphic.color = colorState.Value.targetColor;
                     }
                 }
             }

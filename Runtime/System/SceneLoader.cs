@@ -13,7 +13,7 @@ namespace CollieMollie.System
     {
         #region Variable Field
         [Header("Scene Loader")]
-        [SerializeField] private EventChannel sceneEventChannel = null;
+        [SerializeField] private SceneEventChannel sceneEventChannel = null;
         [SerializeField] private ScenePreset loadingScene = null;
 
         [SerializeField] private FadeController fadeController = null;
@@ -53,9 +53,7 @@ namespace CollieMollie.System
             yield return fadeController.FadeIn();
 
             if (currentlyLoadedScene != null)
-            {
-                yield return SceneUnload(currentlyLoadedScene);
-            }
+                SceneUnload(currentlyLoadedScene);
 
             if (showLoadingScreen)
             {
@@ -69,7 +67,7 @@ namespace CollieMollie.System
             if (showLoadingScreen)
             {
                 yield return fadeController.FadeIn();
-                yield return SceneUnload(loadingScene);
+                SceneUnload(loadingScene);
             }
 
             yield return SceneLoad(targetScene, true);
@@ -79,18 +77,9 @@ namespace CollieMollie.System
             loading = false;
         }
 
-        private IEnumerator SceneUnload(ScenePreset scene)
+        private void SceneUnload(ScenePreset scene)
         {
-            string name = scene.sceneReference.editorAsset.name;
-            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(name);
-            if (unloadOperation == null) yield break;
-
-            while (!unloadOperation.isDone)
-            {
-                float progress = Mathf.Clamp01(unloadOperation.progress / 0.9f);
-                //Debug.Log($"[SceneLoader] Unload {progress}");
-                yield return null;
-            }
+            scene.sceneReference.UnLoadScene();
         }
 
         private IEnumerator SceneLoad(ScenePreset scene, bool activate)

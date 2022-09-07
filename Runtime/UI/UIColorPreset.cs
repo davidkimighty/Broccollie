@@ -8,13 +8,13 @@ namespace CollieMollie.UI
         public ColorState[] colorStates = null;
 
         [System.Serializable]
-        public class ColorState
+        public struct ColorState
         {
-            public Color targetColor = Color.white;
-            public ButtonState executionState = ButtonState.Default;
-            public bool isEnabled = true;
-            public float duration = 1f;
-            public AnimationCurve curve = null;
+            public Color targetColor;
+            public ButtonState executionState;
+            public bool isEnabled;
+            public float duration;
+            public AnimationCurve curve;
         }
     }
 }

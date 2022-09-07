@@ -1,6 +1,6 @@
 {
     "name": "com.colliemollie.corelibrary",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "displayName": "CollieMollie Core Library",
     "description": "Bunch of random game features.",
     "unity": "2021.3",
@@ -17,11 +17,17 @@
             "displayName": "Project Structure",
             "description": "Managing project scenes using Addressables.",
             "path": "Samples~/System"
+        },
+        {
+            "displayName": "Audio Manager",
+            "description": "Preset based audio manager.",
+            "path": "Samples~/Audio"
         }
     ],
     "keywords": [
         "UI",
-        "Scene Manager"
+        "Scene Manager",
+        "Audio Manager"
     ],
     "author": {
         "name": "Hyunwoo Kim",

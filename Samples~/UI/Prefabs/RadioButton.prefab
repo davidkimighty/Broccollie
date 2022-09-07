@@ -57,8 +57,9 @@ MonoBehaviour:
   pressed: 0
   selected: 0
   dragging: 0
-  type: 1
-  colorChanger: {fileID: 7388875288576020070}
+  _type: 1
+  _colorFeature: {fileID: 7388875288576020070}
+  _audioFeature: {fileID: 0}
 --- !u!114 &7388875288576020070
 MonoBehaviour:
   m_ObjectHideFlags: 0

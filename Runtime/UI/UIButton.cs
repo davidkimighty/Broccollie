@@ -14,8 +14,9 @@ namespace CollieMollie.UI
         public event Action<UIEventArgs> OnDisabled = null;
 
         [Header("Button")]
-        [SerializeField] private ButtonType type = ButtonType.Button;
-        [SerializeField] private UIColorChanger colorChanger = null;
+        [SerializeField] private ButtonType _type = ButtonType.Button;
+        [SerializeField] private UIColorFeature _colorFeature = null;
+        [SerializeField] private UIAudioFeature _audioFeature = null;
         #endregion
 
         private void Start()
@@ -27,7 +28,7 @@ namespace CollieMollie.UI
                 DisabledButton(true);
         }
 
-        #region Button Functions
+        #region Public Functions
         /// <summary>
         /// Change button state with event invocation.
         /// </summary>
@@ -153,23 +154,26 @@ namespace CollieMollie.UI
         {
             selected = pressed = hovering = false;
             ChangeColors(ButtonState.Default, instantChange);
+            PlayAudio(ButtonState.Default);
         }
 
         private void HoveredButton(bool instantChange = false)
         {
             hovering = true;
             ChangeColors(ButtonState.Hovered, instantChange);
+            PlayAudio(ButtonState.Hovered);
         }
 
         private void PressedButton(bool instantChange = false)
         {
             pressed = true;
             ChangeColors(ButtonState.Pressed, instantChange);
+            PlayAudio(ButtonState.Pressed);
         }
 
         private void SelectedButton(bool instantChange = false)
         {
-            selected = type switch
+            selected = _type switch
             {
                 ButtonType.Radio => true,
                 ButtonType.Checkbox => !selected,
@@ -179,14 +183,17 @@ namespace CollieMollie.UI
             if (selected)
             {
                 ChangeColors(ButtonState.Selected, instantChange);
+                PlayAudio(ButtonState.Selected);
             }
             else if (hovering)
             {
                 ChangeColors(ButtonState.Hovered, instantChange);
+                PlayAudio(ButtonState.Hovered);
             }
             else
             {
                 ChangeColors(ButtonState.Default, instantChange);
+                PlayAudio(ButtonState.Default);
             }
         }
 
@@ -194,23 +201,31 @@ namespace CollieMollie.UI
         {
             interactable = false;
             ChangeColors(ButtonState.Disabled, instantChange);
+            PlayAudio(ButtonState.Disabled);
         }
         #endregion
 
         #region Button Features
         private void ChangeColors(ButtonState state, bool instantChange = false)
         {
-            if (colorChanger == null) return;
+            if (_colorFeature == null) return;
 
             if (instantChange)
-                colorChanger.ChangeInstantly(state);
+                _colorFeature.ChangeInstantly(state);
             else
-                colorChanger.ChangeGradually(state);
+                _colorFeature.ChangeGradually(state);
         }
 
         private void ChangeSprites(ButtonState state)
         {
 
+        }
+
+        private void PlayAudio(ButtonState state)
+        {
+            if (_audioFeature == null) return;
+
+            _audioFeature.Play(state);
         }
         #endregion
     }

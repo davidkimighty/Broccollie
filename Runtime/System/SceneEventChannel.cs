@@ -5,16 +5,21 @@ using UnityEngine;
 
 namespace CollieMollie.System
 {
-    [CreateAssetMenu(fileName = "EventChannel", menuName = "CollieMollie/System/EventChannel")]
-    public class EventChannel : ScriptableObject
+    [CreateAssetMenu(fileName = "EventChannel_Scene", menuName = "CollieMollie/System/SceneEventChannel")]
+    public class SceneEventChannel : ScriptableObject
     {
+        #region Events
         public event Action<ScenePreset, bool> OnSceneLoadRequest = null;
 
-        public void RaiseEvent(ScenePreset targetScene, bool showLoadingScreen)
+        #endregion
+
+        #region Publishers
+        public void RaiseSceneLoadEvent(ScenePreset targetScene, bool showLoadingScreen)
         {
             if (targetScene == null) return;
 
             OnSceneLoadRequest?.Invoke(targetScene, showLoadingScreen);
         }
+        #endregion
     }
 }
