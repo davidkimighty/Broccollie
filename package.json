@@ -1,8 +1,8 @@
 {
-    "name": "com.colliemollie.randomgamedevlibrary",
+    "name": "com.colliemollie.randomlibrary",
     "version": "0.3.0",
-    "displayName": "Random GameDev Library",
-    "description": "Bunch of random game features.",
+    "displayName": "Random Library",
+    "description": "Bunch of random game ready features.",
     "unity": "2021.3",
     "dependencies": {
 
@@ -14,7 +14,7 @@
             "path": "Samples~/UI"
         },
         {
-            "displayName": "Project Structure",
+            "displayName": "Scene Management",
             "description": "Managing project scenes using Addressables.",
             "path": "Samples~/System"
         },
