@@ -61,7 +61,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Button Interaction Publishers
-        protected override sealed void InvokeEnterAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override sealed void InvokeEnterAction(PointerEventData eventData = null)
         {
             if (!_interactable) return;
 
@@ -74,7 +74,7 @@ namespace CollieMollie.UI
             //Debug.Log("[UIButton] Invoke Hovered");
         }
 
-        protected override sealed void InvokeExitAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override sealed void InvokeExitAction(PointerEventData eventData = null)
         {
             if (!_interactable) return;
 
@@ -87,7 +87,7 @@ namespace CollieMollie.UI
             //Debug.Log("[UIButton] Invoke Default");
         }
 
-        protected override sealed void InvokeDownAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override sealed void InvokeDownAction(PointerEventData eventData = null)
         {
             if (!_interactable) return;
 
@@ -97,7 +97,7 @@ namespace CollieMollie.UI
             //Debug.Log("[UIButton] Invoke Pressed");
         }
 
-        protected override sealed void InvokeUpAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override sealed void InvokeUpAction(PointerEventData eventData = null)
         {
             if (!_interactable) return;
 
@@ -117,7 +117,7 @@ namespace CollieMollie.UI
             }
         }
 
-        protected override sealed void InvokeClickAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override sealed void InvokeClickAction(PointerEventData eventData = null)
         {
             if (!_interactable) return;
 
