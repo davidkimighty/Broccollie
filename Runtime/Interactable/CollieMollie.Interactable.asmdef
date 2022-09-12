@@ -2,7 +2,8 @@
     "name": "CollieMollie.Interactable",
     "rootNamespace": "",
     "references": [
-        "GUID:b7cef62209d65481ab0c769cff124f47"
+        "GUID:b7cef62209d65481ab0c769cff124f47",
+        "GUID:87a79356b29334a1cab74d349466cac0"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
