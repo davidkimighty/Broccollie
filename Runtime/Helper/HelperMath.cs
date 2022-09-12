@@ -39,7 +39,35 @@ namespace CollieMollie.Helper
         #endregion
 
         #region Quaternion
+        public static IEnumerator LerpRotation(this Transform transform, Quaternion targetRotation, float duration)
+        {
+            float elapsedTime = 0f;
+            Quaternion startingRotation = transform.rotation;
 
+            while (elapsedTime < duration)
+            {
+                Quaternion lerpValue = Quaternion.Lerp(startingRotation, targetRotation, elapsedTime / duration);
+                transform.rotation = lerpValue;
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            transform.rotation = targetRotation;
+        }
+
+        public static IEnumerator LerpLocalRotation(this Transform transform, Quaternion targetRotation, float duration)
+        {
+            float elapsedTime = 0f;
+            Quaternion startingRotation = transform.localRotation;
+
+            while (elapsedTime < duration)
+            {
+                Quaternion lerpValue = Quaternion.Lerp(startingRotation, targetRotation, elapsedTime / duration);
+                transform.localRotation = lerpValue;
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            transform.localRotation = targetRotation;
+        }
         #endregion
     }
 }
