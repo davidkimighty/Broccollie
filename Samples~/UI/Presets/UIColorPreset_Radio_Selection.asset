@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb5f5fb211fad4a82bb0db1593a3719e, type: 3}
   m_Name: UIColorPreset_Radio_Selection
   m_EditorClassIdentifier: 
-  colorStates:
-  - targetColor: {r: 0.17254902, g: 0.3019608, b: 0.41176474, a: 0}
-    executionState: 0
-    isEnabled: 1
-    duration: 1
-    curve:
+  ColorStates:
+  - TargetColor: {r: 0.16862746, g: 0.29411766, b: 0.4039216, a: 1}
+    ExecutionState: 0
+    IsEnabled: 1
+    Duration: 0.6
+    Curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -41,11 +41,11 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-  - targetColor: {r: 0.37254903, g: 0.29803923, b: 0.40000004, a: 1}
-    executionState: 2
-    isEnabled: 1
-    duration: 0.3
-    curve:
+  - TargetColor: {r: 0.64705884, g: 0.3529412, b: 0.43529415, a: 1}
+    ExecutionState: 1
+    IsEnabled: 1
+    Duration: 0.3
+    Curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -69,11 +69,11 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-  - targetColor: {r: 0.37254903, g: 0.29803923, b: 0.4, a: 1}
-    executionState: 3
-    isEnabled: 1
-    duration: 1
-    curve:
+  - TargetColor: {r: 0.37254903, g: 0.2901961, b: 0.39607847, a: 1}
+    ExecutionState: 2
+    IsEnabled: 1
+    Duration: 0.3
+    Curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -97,11 +97,39 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-  - targetColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
-    executionState: 4
-    isEnabled: 1
-    duration: 1
-    curve:
+  - TargetColor: {r: 0.83921576, g: 0.38431376, b: 0.42352945, a: 1}
+    ExecutionState: 3
+    IsEnabled: 1
+    Duration: 0.3
+    Curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+  - TargetColor: {r: 0.16862746, g: 0.29411766, b: 0.4039216, a: 1}
+    ExecutionState: 4
+    IsEnabled: 1
+    Duration: 0.6
+    Curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3

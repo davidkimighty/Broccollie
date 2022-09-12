@@ -340,11 +340,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc51e4c99d49047ce81e53d935cd999d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactable: 1
-  hovering: 0
-  pressed: 0
-  selected: 0
-  dragging: 0
+  _interactable: 1
+  _hovering: 0
+  _pressed: 0
+  _selected: 0
+  _dragging: 0
   _type: 2
   _colorFeature: {fileID: 841566986641341814}
   _audioFeature: {fileID: 0}
@@ -360,11 +360,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f62afe136f747e4a93cb07bbcde050, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEnabled: 1
-  elements:
-  - isEnabled: 1
-    graphic: {fileID: 1704179876839879025}
-    preset: {fileID: 11400000, guid: e425361083a9d48b68ef769f825282a1, type: 2}
-  - isEnabled: 1
-    graphic: {fileID: 2930117594773860565}
-    preset: {fileID: 11400000, guid: b5a45b082b1734e7eaecb3f821c2c01c, type: 2}
+  _isEnabled: 1
+  _elements:
+  - IsEnabled: 1
+    Graphic: {fileID: 1704179876839879025}
+    Preset: {fileID: 11400000, guid: e425361083a9d48b68ef769f825282a1, type: 2}
+  - IsEnabled: 1
+    Graphic: {fileID: 2930117594773860565}
+    Preset: {fileID: 11400000, guid: b5a45b082b1734e7eaecb3f821c2c01c, type: 2}

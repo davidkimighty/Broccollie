@@ -52,11 +52,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc51e4c99d49047ce81e53d935cd999d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactable: 1
-  hovering: 0
-  pressed: 0
-  selected: 0
-  dragging: 0
+  _interactable: 1
+  _hovering: 0
+  _pressed: 0
+  _selected: 0
+  _dragging: 0
   _type: 1
   _colorFeature: {fileID: 7388875288576020070}
   _audioFeature: {fileID: 0}
@@ -72,14 +72,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f62afe136f747e4a93cb07bbcde050, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEnabled: 1
-  elements:
-  - isEnabled: 1
-    graphic: {fileID: 8827372804566893153}
-    preset: {fileID: 11400000, guid: 73972e9bf3df74e899d1eebd592da253, type: 2}
-  - isEnabled: 1
-    graphic: {fileID: 5012093209121227717}
-    preset: {fileID: 11400000, guid: 0da8d1852c372492a83b2c1ce2589a3e, type: 2}
+  _isEnabled: 1
+  _elements:
+  - IsEnabled: 1
+    Graphic: {fileID: 8827372804566893153}
+    Preset: {fileID: 11400000, guid: 73972e9bf3df74e899d1eebd592da253, type: 2}
+  - IsEnabled: 1
+    Graphic: {fileID: 5012093209121227717}
+    Preset: {fileID: 11400000, guid: 0da8d1852c372492a83b2c1ce2589a3e, type: 2}
 --- !u!1 &5012093209121227771
 GameObject:
   m_ObjectHideFlags: 0
