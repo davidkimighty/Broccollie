@@ -1346,11 +1346,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 183c106c0536c4f65ac0e00fa9dbc81f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttons:
+  _buttons:
   - {fileID: 8032619808928241444}
   - {fileID: 3095962096583898092}
   - {fileID: 3095962096827776256}
-  useRadioButtonGroup: 1
+  _useRadioButtonGroup: 1
 --- !u!1 &584226147106140159
 GameObject:
   m_ObjectHideFlags: 0
