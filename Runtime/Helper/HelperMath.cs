@@ -14,7 +14,7 @@ namespace CollieMollie.Helper
 
             while(elapsedTime < duration)
             {
-                Vector3 lerpValue = Vector3.Lerp(transform.position, targetPosition, elapsedTime / duration);
+                Vector3 lerpValue = Vector3.Lerp(startingPosition, targetPosition, elapsedTime / duration);
                 transform.position = lerpValue;
                 elapsedTime += Time.deltaTime;
                 yield return null;
@@ -29,7 +29,7 @@ namespace CollieMollie.Helper
 
             while (elapsedTime < duration)
             {
-                Vector3 lerpValue = Vector3.Lerp(transform.localPosition, targetPosition, elapsedTime / duration);
+                Vector3 lerpValue = Vector3.Lerp(startingPosition, targetPosition, elapsedTime / duration);
                 transform.localPosition = lerpValue;
                 elapsedTime += Time.deltaTime;
                 yield return null;

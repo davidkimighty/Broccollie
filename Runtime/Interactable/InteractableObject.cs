@@ -10,32 +10,48 @@ namespace CollieMollie.Interactable
     public class InteractableObject : BaseInteractable
     {
         #region Variable Field
-        public event Action OnDefault = null;
-        public event Action OnHovered = null;
-        public event Action OnPressed = null;
-        public event Action OnBeginDrag = null;
-        public event Action OnEndDrag = null;
+        public event Action<InteractableEventArgs> OnDefault = null;
+        public event Action<InteractableEventArgs> OnHovered = null;
+        public event Action<InteractableEventArgs> OnPressed = null;
+        public event Action<InteractableEventArgs> OnBeginDrag = null;
+        public event Action<InteractableEventArgs> OnEndDrag = null;
 
         #endregion
 
         #region Publishers
         protected override void InvokeEnterAction(PointerEventData eventData = null)
         {
-            base.InvokeEnterAction(eventData);
+            if (!_interactable) return;
+
+            _hovering = true;
+            if (_selected) return;
+
+            
+
+            OnHovered?.Invoke(new InteractableEventArgs(this));
+            //Debug.Log("[InteractableObject] Invoke Hovered");
         }
 
         protected override void InvokeExitAction(PointerEventData eventData = null)
         {
-            base.InvokeExitAction(eventData);
+            if (!_interactable) return;
+
+            _hovering = false;
+            if (_selected) return;
+
         }
 
         protected override void InvokeDownAction(PointerEventData eventData = null)
         {
-            base.InvokeDownAction(eventData);
+            if (!_interactable) return;
+
+            _pressed = true;
         }
 
         protected override void InvokeUpAction(PointerEventData eventData = null)
         {
+            _pressed = false;
+
             base.InvokeUpAction(eventData);
         }
 
