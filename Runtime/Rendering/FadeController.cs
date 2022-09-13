@@ -20,6 +20,7 @@ namespace CollieMollie.Rendering
 
         private void Awake()
         {
+            if (_rendererData == null) return;
             _fadeFeature = (FadeFeature)_rendererData.rendererFeatures.Find(feature => feature is FadeFeature);
         }
 
@@ -46,6 +47,11 @@ namespace CollieMollie.Rendering
             fadeAmount = Mathf.Clamp(fadeAmount, MIN_VALUE, MAX_VALUE);
             yield return Fade(fadeAmount, duration);
             done?.Invoke();
+        }
+
+        public void FadeAmout(float fadeAmount)
+        {
+            _fadeFeature.RenderPass.SetFadeAmount(fadeAmount);
         }
         #endregion
 

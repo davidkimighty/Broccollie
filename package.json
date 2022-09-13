@@ -1,6 +1,6 @@
 {
     "name": "com.colliemollie.randomlibrary",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "displayName": "Random Library",
     "description": "Bunch of random game ready features.",
     "unity": "2021.3",
@@ -22,12 +22,18 @@
             "displayName": "Audio Manager",
             "description": "Preset based audio manager.",
             "path": "Samples~/Audio"
+        },
+        {
+            "displayName": "Render Pass",
+            "description": "Screen effects using SRP.",
+            "path": "Samples~/Rendering"
         }
     ],
     "keywords": [
         "UI",
         "Scene Manager",
-        "Audio Manager"
+        "Audio Manager",
+        "Rendering"
     ],
     "author": {
         "name": "Hyunwoo Kim",
