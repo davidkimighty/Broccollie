@@ -287,9 +287,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a27fa61c9184a218ad6301c84f3bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneEventChannel: {fileID: 11400000, guid: 1060f2332f8e24839a9e2ba7c2211431, type: 2}
-  loadingScene: {fileID: 11400000, guid: da38af80ac85246849341d4040b03938, type: 2}
-  fadeController: {fileID: 1574437489}
+  _sceneEventChannel: {fileID: 11400000, guid: 1060f2332f8e24839a9e2ba7c2211431, type: 2}
+  _loadingScene: {fileID: 11400000, guid: da38af80ac85246849341d4040b03938, type: 2}
+  _fadeController: {fileID: 1574437489}
 --- !u!114 &1574437488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +304,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneEventChannel: {fileID: 11400000, guid: 1060f2332f8e24839a9e2ba7c2211431, type: 2}
   sceneOne: {fileID: 11400000, guid: 23c25355c5db8409f996517f4d7bf767, type: 2}
-  sceneTwo: {fileID: 11400000, guid: 95c0cf9f59bb64032bd75e6340773d5d, type: 2}
 --- !u!114 &1574437489
 MonoBehaviour:
   m_ObjectHideFlags: 0
