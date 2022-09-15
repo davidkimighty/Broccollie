@@ -71,6 +71,38 @@ namespace CollieMollie.Helper
             transform.localPosition = targetPosition;
             done?.Invoke();
         }
+
+        public static IEnumerator LerpScale(this Transform transform, Vector3 targetScale, float duration, Action done = null)
+        {
+            float elapsedTime = 0f;
+            Vector3 startingScale = transform.localScale;
+
+            while (elapsedTime < duration)
+            {
+                Vector3 lerpValue = Vector3.LerpUnclamped(startingScale, targetScale, elapsedTime / duration);
+                transform.localScale = lerpValue;
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            transform.localScale = targetScale;
+            done?.Invoke();
+        }
+
+        public static IEnumerator LerpScale(this Transform transform, Vector3 targetScale, float duration, AnimationCurve curve, Action done = null)
+        {
+            float elapsedTime = 0f;
+            Vector3 startingScale = transform.localScale;
+
+            while (elapsedTime < duration)
+            {
+                Vector3 lerpValue = Vector3.LerpUnclamped(startingScale, targetScale, curve.Evaluate(elapsedTime / duration));
+                transform.localScale = lerpValue;
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            transform.localScale = targetScale;
+            done?.Invoke();
+        }
         #endregion
 
         #region Quaternion
