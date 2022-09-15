@@ -15,7 +15,7 @@ namespace CollieMollie.Helper
 
             while(elapsedTime < duration)
             {
-                Vector3 lerpValue = Vector3.Lerp(startingPosition, targetPosition, elapsedTime / duration);
+                Vector3 lerpValue = Vector3.LerpUnclamped(startingPosition, targetPosition, elapsedTime / duration);
                 transform.position = lerpValue;
                 elapsedTime += Time.deltaTime;
                 yield return null;
@@ -31,7 +31,7 @@ namespace CollieMollie.Helper
 
             while (elapsedTime < duration)
             {
-                Vector3 lerpValue = Vector3.Lerp(startingPosition, targetPosition, curve.Evaluate(elapsedTime / duration));
+                Vector3 lerpValue = Vector3.LerpUnclamped(startingPosition, targetPosition, curve.Evaluate(elapsedTime / duration));
                 transform.position = lerpValue;
                 elapsedTime += Time.deltaTime;
                 yield return null;
@@ -47,7 +47,7 @@ namespace CollieMollie.Helper
 
             while (elapsedTime < duration)
             {
-                Vector3 lerpValue = Vector3.Lerp(startingPosition, targetPosition, elapsedTime / duration);
+                Vector3 lerpValue = Vector3.LerpUnclamped(startingPosition, targetPosition, elapsedTime / duration);
                 transform.localPosition = lerpValue;
                 elapsedTime += Time.deltaTime;
                 yield return null;
@@ -63,7 +63,7 @@ namespace CollieMollie.Helper
 
             while (elapsedTime < duration)
             {
-                Vector3 lerpValue = Vector3.Lerp(startingPosition, targetPosition, curve.Evaluate(elapsedTime / duration));
+                Vector3 lerpValue = Vector3.LerpUnclamped(startingPosition, targetPosition, curve.Evaluate(elapsedTime / duration));
                 transform.localPosition = lerpValue;
                 elapsedTime += Time.deltaTime;
                 yield return null;
@@ -81,7 +81,7 @@ namespace CollieMollie.Helper
 
             while (elapsedTime < duration)
             {
-                Quaternion lerpValue = Quaternion.Lerp(startingRotation, targetRotation, elapsedTime / duration);
+                Quaternion lerpValue = Quaternion.LerpUnclamped(startingRotation, targetRotation, elapsedTime / duration);
                 transform.rotation = lerpValue;
                 elapsedTime += Time.deltaTime;
                 yield return null;
@@ -97,7 +97,7 @@ namespace CollieMollie.Helper
 
             while (elapsedTime < duration)
             {
-                Quaternion lerpValue = Quaternion.Lerp(startingRotation, targetRotation, curve.Evaluate(elapsedTime / duration));
+                Quaternion lerpValue = Quaternion.LerpUnclamped(startingRotation, targetRotation, curve.Evaluate(elapsedTime / duration));
                 transform.rotation = lerpValue;
                 elapsedTime += Time.deltaTime;
                 yield return null;
@@ -113,7 +113,7 @@ namespace CollieMollie.Helper
 
             while (elapsedTime < duration)
             {
-                Quaternion lerpValue = Quaternion.Lerp(startingRotation, targetRotation, elapsedTime / duration);
+                Quaternion lerpValue = Quaternion.LerpUnclamped(startingRotation, targetRotation, elapsedTime / duration);
                 transform.localRotation = lerpValue;
                 elapsedTime += Time.deltaTime;
                 yield return null;
@@ -129,7 +129,7 @@ namespace CollieMollie.Helper
 
             while (elapsedTime < duration)
             {
-                Quaternion lerpValue = Quaternion.Lerp(startingRotation, targetRotation, curve.Evaluate(elapsedTime / duration));
+                Quaternion lerpValue = Quaternion.LerpUnclamped(startingRotation, targetRotation, curve.Evaluate(elapsedTime / duration));
                 transform.localRotation = lerpValue;
                 elapsedTime += Time.deltaTime;
                 yield return null;
