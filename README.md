@@ -37,14 +37,9 @@
 
 Baseline UI is a preset-based and event-driven UI component. Using presets for colors, sprites, and more will enable reusability and ease of modification.
 
-### Buttons
-
-3 types of buttons are provided: Button, Radio Button, and Checkbox.
-
-All 3 buttons have 4 button states: Default, Hovered, Pressed, Disabled. Radio Button and Checkbox have one additional state, Selected.
-
-### UI Color Changer
-
+![ButtonGIF](https://user-images.githubusercontent.com/32338791/190601427-8f3b7954-ecf9-4197-8842-9586201a0424.gif)
+![RadioButtonGIF](https://user-images.githubusercontent.com/32338791/190601424-50887fe6-1ab3-470b-a0c1-2e8f2996eeb5.gif)
+![CheckboxGIF](https://user-images.githubusercontent.com/32338791/190601388-829e0f33-d986-4187-833e-00797786e43d.gif)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <br />
