@@ -20,6 +20,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#baseline-ui">Baseline UI</a></li>
+    <li><a href="#baseline-ui">Render Pass</a></li>
   </ol>
 </details>
 
@@ -34,6 +35,26 @@ Baseline UI is a preset-based and event-driven UI component. Using presets for c
 ![CheckboxGIF](https://user-images.githubusercontent.com/32338791/190601388-829e0f33-d986-4187-833e-00797786e43d.gif)
 
 ## Development Progress
+
+- [x] Button, Checkbox, Radio Button baseline components.
+- [x] Button State(Default, Hoverred, Pressed, Selected, Enabled, Disabled) events. 
+- [x] Button group controls.
+- [x] Preset based Color Feature.
+- [x] Preset based Audio Feature.
+- [x] Preset based Sprite Feature.
+- [ ] Animation Curve preset + Loop(Linear, Boomerang).
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+<br />
+
+# Render Pass
+
+Screen effect using SRP.
+
+## Development Progress
+
+- [x] Fade Control.
+- [x] Blur Control.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <br />
