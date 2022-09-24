@@ -20,7 +20,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#baseline-ui">Baseline UI</a></li>
-    <li><a href="#baseline-ui">Render Pass</a></li>
+    <li><a href="#render-pass">Render Pass</a></li>
   </ol>
 </details>
 
@@ -41,7 +41,8 @@ Baseline UI is a preset-based and event-driven UI component. Using presets for c
 - [x] Button group controls.
 - [x] Preset based Color Feature.
 - [x] Preset based Audio Feature.
-- [x] Preset based Sprite Feature.
+- [ ] Preset based Sprite Feature.
+- [ ] Preset based Scale Feature.
 - [ ] Animation Curve preset + Loop(Linear, Boomerang).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -49,7 +50,7 @@ Baseline UI is a preset-based and event-driven UI component. Using presets for c
 
 # Render Pass
 
-Screen effect using SRP.
+Screen effect using Render Pipeline.
 
 ## Development Progress
 
