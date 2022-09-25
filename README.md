@@ -52,6 +52,17 @@ Baseline UI is a preset-based and event-driven UI component. Using presets for c
 
 Screen effect using Render Pipeline.
 
+<table border="0">
+ <tr>
+    <td><b style="font-size:30px">Fade</b></td>
+    <td><b style="font-size:30px">Blur</b></td>
+ </tr>
+ <tr>
+    <td><img src="https://user-images.githubusercontent.com/32338791/192141847-b21680f0-cca7-4135-8eb5-d000072974ae.gif" alt="Blur GIF" width="360"></td>
+    <td><img src="https://user-images.githubusercontent.com/32338791/192141856-55930a84-a316-4df3-9167-98309c3ce402.gif" alt="Blur GIF" width="360"></td>
+ </tr>
+</table>
+
 ## Development Progress
 
 - [x] Fade Control.
