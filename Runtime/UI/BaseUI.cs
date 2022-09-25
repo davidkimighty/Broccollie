@@ -7,43 +7,6 @@ namespace CollieMollie.UI
 {
     public abstract class BaseUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        #region Variable Field
-        [Header("BaseUI")]
-        [SerializeField] protected bool _interactable = true;
-        public bool IsInteractable
-        {
-            get => _interactable;
-        }
-
-        [ReadOnly]
-        [SerializeField] protected bool _hovering = false;
-        public bool IsHovering
-        {
-            get => _hovering;
-        }
-
-        [ReadOnly]
-        [SerializeField] protected bool _pressed = false;
-        public bool IsPressed
-        {
-            get => _pressed;
-        }
-
-        [ReadOnly]
-        [SerializeField] protected bool _selected = false;
-        public bool IsSelected
-        {
-            get => _selected;
-        }
-
-        [ReadOnly]
-        [SerializeField] protected bool _dragging = false;
-        public bool IsDragging
-        {
-            get => _dragging;
-        }
-        #endregion
-
         #region Pointer Callbacks
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => InvokeEnterAction(eventData);
 

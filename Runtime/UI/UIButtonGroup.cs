@@ -8,29 +8,22 @@ namespace CollieMollie.UI
     {
         #region Variable Field
         [SerializeField] private List<UIButton> _buttons = null;
-        [SerializeField] private bool _useRadioButtonGroup = false;
         #endregion
 
         private void OnEnable()
         {
-            if (_useRadioButtonGroup)
-            {
-                foreach (UIButton button in _buttons)
-                    button.OnSelected += RadioButtonGroup;
-            }
+            foreach (UIButton button in _buttons)
+                button.OnSelected += ChangeOthersToDefault;
         }
 
         private void OnDisable()
         {
-            if (_useRadioButtonGroup)
-            {
-                foreach (UIButton button in _buttons)
-                    button.OnSelected -= RadioButtonGroup;
-            }
+            foreach (UIButton button in _buttons)
+                button.OnSelected -= ChangeOthersToDefault;
         }
 
-        #region Button Group Functions
-        public void RadioButtonGroup(UIEventArgs args)
+        #region Subscribers
+        private void ChangeOthersToDefault(UIEventArgs args)
         {
             if (!args.IsValid()) return;
 
