@@ -5,14 +5,13 @@ using UnityEngine;
 
 namespace CollieMollie.UI
 {
-    public class UIPanel : BaseUI
+    public abstract class BaseUIPanel : BaseUI
     {
         #region Variable Field
         public event Action<UIEventArgs> OnShow = null;
         public event Action<UIEventArgs> OnHide = null;
 
         [SerializeField] private Canvas _canvas = null;
-        [SerializeField] private UIButton _triggerButton = null;
 
         [SerializeField] private bool _visible = true;
         public bool IsVisible
@@ -21,14 +20,6 @@ namespace CollieMollie.UI
         }
         #endregion
 
-        private void Awake()
-        {
-            if (_triggerButton != null)
-            {
-                _triggerButton.OnSelected += (eventArgs) => SetVisible(true);
-            }
-        }
-
         private void Start()
         {
             if (_canvas.enabled != _visible)
@@ -36,7 +27,7 @@ namespace CollieMollie.UI
         }
 
         #region Public Functions
-        public void SetVisible(bool isVisible)
+        public void SetPanelVisible(bool isVisible)
         {
             if (_canvas.enabled != isVisible)
                 _canvas.enabled = isVisible;
@@ -47,7 +38,7 @@ namespace CollieMollie.UI
                 OnHide?.Invoke(new UIEventArgs(this));
         }
 
-        public void SetVisibleQuietly(bool isVisible)
+        public void SetPanelVisibleQuietly(bool isVisible)
         {
             if (_canvas.enabled != isVisible)
                 _canvas.enabled = isVisible;

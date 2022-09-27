@@ -7,18 +7,18 @@ namespace CollieMollie.UI
     public class UIPanelGroup : MonoBehaviour
     {
         #region Variable Field
-        [SerializeField] private List<UIPanel> _panels = null;
+        [SerializeField] private List<BaseUIPanel> _panels = null;
         #endregion
 
         private void OnEnable()
         {
-            foreach (UIPanel panel in _panels)
+            foreach (BaseUIPanel panel in _panels)
                 panel.OnShow += HideOthers;
         }
 
         private void OnDisable()
         {
-            foreach (UIPanel panel in _panels)
+            foreach (BaseUIPanel panel in _panels)
                 panel.OnShow -= HideOthers;
         }
 
@@ -27,10 +27,10 @@ namespace CollieMollie.UI
         {
             if (!args.IsValid()) return;
 
-            foreach (UIPanel panel in _panels)
+            foreach (BaseUIPanel panel in _panels)
             {
                 if (panel == args.Sender) continue;
-                panel.SetVisibleQuietly(false);
+                panel.SetPanelVisibleQuietly(false);
             }
         }
         #endregion
