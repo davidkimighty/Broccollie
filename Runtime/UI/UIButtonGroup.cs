@@ -34,5 +34,20 @@ namespace CollieMollie.UI
             }
         }
         #endregion
+
+        #region Public Functions
+        public void AddButton(UIButton button)
+        {
+            button.OnSelected += ChangeOthersToDefault;
+            _buttons.Add(button);
+        }
+
+        public void RemoveButton(UIButton button)
+        {
+            button.OnSelected -= ChangeOthersToDefault;
+            if (_buttons.Contains(button))
+                _buttons.Remove(button);
+        }
+        #endregion
     }
 }
