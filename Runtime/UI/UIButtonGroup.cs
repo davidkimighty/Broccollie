@@ -30,7 +30,7 @@ namespace CollieMollie.UI
             foreach (UIButton button in _buttons)
             {
                 if (button == args.Sender) continue;
-                button.ChangeStateQuietly(ButtonState.Default);
+                button.ChangeState(ButtonState.Default, false, false, false);
             }
         }
         #endregion

@@ -79,18 +79,15 @@ namespace CollieMollie.UI
             }
         }
 
-        /// <summary>
-        /// Change button state only visually.
-        /// </summary>
-        public void ChangeStateQuietly(ButtonState state)
+        public void ChangeState(ButtonState state, bool instantChange, bool playAudio, bool invokeEvent)
         {
             switch (state)
             {
-                case ButtonState.Default: DefaultButton(); break;
-                case ButtonState.Hovered: HoveredButton(); break;
-                case ButtonState.Pressed: PressedButton(); break;
-                case ButtonState.Selected: SelectedButton(); break;
-                case ButtonState.Disabled: DisabledButton(); break;
+                case ButtonState.Default: DefaultButton(instantChange, playAudio, invokeEvent); break;
+                case ButtonState.Hovered: HoveredButton(instantChange, playAudio, invokeEvent); break;
+                case ButtonState.Pressed: PressedButton(instantChange, playAudio, invokeEvent); break;
+                case ButtonState.Selected: SelectedButton(instantChange, playAudio, invokeEvent); break;
+                case ButtonState.Disabled: DisabledButton(instantChange, playAudio, invokeEvent); break;
             }
         }
         #endregion
@@ -104,9 +101,6 @@ namespace CollieMollie.UI
             if (_selected) return;
 
             HoveredButton();
-
-            OnHovered?.Invoke(new UIEventArgs(this));
-            //Debug.Log("[UIButton] Invoke Hovered");
         }
 
         protected override sealed void InvokeExitAction(PointerEventData eventData = null)
@@ -117,9 +111,6 @@ namespace CollieMollie.UI
             if (_selected) return;
 
             DefaultButton();
-
-            OnDefault?.Invoke(new UIEventArgs(this));
-            //Debug.Log("[UIButton] Invoke Default");
         }
 
         protected override sealed void InvokeDownAction(PointerEventData eventData = null)
@@ -127,9 +118,6 @@ namespace CollieMollie.UI
             if (!_interactable) return;
 
             PressedButton();
-
-            OnPressed?.Invoke(new UIEventArgs(this));
-            //Debug.Log("[UIButton] Invoke Pressed");
         }
 
         protected override sealed void InvokeUpAction(PointerEventData eventData = null)
@@ -157,22 +145,6 @@ namespace CollieMollie.UI
             if (!_interactable) return;
 
             SelectedButton();
-
-            if (_selected)
-            {
-                OnSelected?.Invoke(new UIEventArgs(this));
-                //Debug.Log("[UIButton] Invoke Selected");
-            }
-            else if (_hovering)
-            {
-                OnHovered?.Invoke(new UIEventArgs(this));
-                //Debug.Log("[UIButton] Invoke Hovered");
-            }
-            else
-            {
-                OnDefault?.Invoke(new UIEventArgs(this));
-                //Debug.Log("[UIButton] Invoke Default");
-            }
         }
 
         private void InvokeDisableAction()
@@ -185,28 +157,49 @@ namespace CollieMollie.UI
         #endregion
 
         #region Button Behaviors
-        private void DefaultButton(bool instantChange = false)
+        private void DefaultButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
             _selected = _pressed = _hovering = false;
             ChangeColors(ButtonState.Default, instantChange);
-            PlayAudio(ButtonState.Default);
+            if (playAudio)
+                PlayAudio(ButtonState.Default);
+
+            if (invokeEvent)
+            {
+                OnDefault?.Invoke(new UIEventArgs(this));
+                //Debug.Log("[UIButton] Invoke Default");
+            }
         }
 
-        private void HoveredButton(bool instantChange = false)
+        private void HoveredButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
             _hovering = true;
             ChangeColors(ButtonState.Hovered, instantChange);
-            PlayAudio(ButtonState.Hovered);
+            if (playAudio)
+                PlayAudio(ButtonState.Hovered);
+
+            if (invokeEvent)
+            {
+                OnHovered?.Invoke(new UIEventArgs(this));
+                //Debug.Log("[UIButton] Invoke Hovered");
+            }
         }
 
-        private void PressedButton(bool instantChange = false)
+        private void PressedButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
             _pressed = true;
             ChangeColors(ButtonState.Pressed, instantChange);
-            PlayAudio(ButtonState.Pressed);
+            if (playAudio)
+                PlayAudio(ButtonState.Pressed);
+
+            if (invokeEvent)
+            {
+                OnPressed?.Invoke(new UIEventArgs(this));
+                //Debug.Log("[UIButton] Invoke Pressed");
+            }
         }
 
-        private void SelectedButton(bool instantChange = false)
+        private void SelectedButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
             _selected = _type switch
             {
@@ -218,25 +211,48 @@ namespace CollieMollie.UI
             if (_selected)
             {
                 ChangeColors(ButtonState.Selected, instantChange);
-                PlayAudio(ButtonState.Selected);
+                if (playAudio)
+                    PlayAudio(ButtonState.Selected);
             }
             else if (_hovering)
             {
                 ChangeColors(ButtonState.Hovered, instantChange);
-                PlayAudio(ButtonState.Hovered);
+                if (playAudio)
+                    PlayAudio(ButtonState.Hovered);
             }
             else
             {
                 ChangeColors(ButtonState.Default, instantChange);
-                PlayAudio(ButtonState.Default);
+                if (playAudio)
+                    PlayAudio(ButtonState.Default);
+            }
+
+            if (invokeEvent)
+            {
+                if (_selected)
+                {
+                    OnSelected?.Invoke(new UIEventArgs(this));
+                    //Debug.Log("[UIButton] Invoke Selected");
+                }
+                else if (_hovering)
+                {
+                    OnHovered?.Invoke(new UIEventArgs(this));
+                    //Debug.Log("[UIButton] Invoke Hovered");
+                }
+                else
+                {
+                    OnDefault?.Invoke(new UIEventArgs(this));
+                    //Debug.Log("[UIButton] Invoke Default");
+                }
             }
         }
 
-        private void DisabledButton(bool instantChange = false)
+        private void DisabledButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
             _interactable = false;
             ChangeColors(ButtonState.Disabled, instantChange);
-            PlayAudio(ButtonState.Disabled);
+            if (playAudio)
+                PlayAudio(ButtonState.Disabled);
         }
         #endregion
 
