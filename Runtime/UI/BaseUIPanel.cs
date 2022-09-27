@@ -20,7 +20,7 @@ namespace CollieMollie.UI
         }
         #endregion
 
-        private void Start()
+        protected virtual void Awake()
         {
             if (_canvas.enabled != _visible)
                 _canvas.enabled = _visible;
