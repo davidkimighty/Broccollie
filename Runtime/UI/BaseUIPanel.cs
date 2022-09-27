@@ -22,15 +22,17 @@ namespace CollieMollie.UI
 
         protected virtual void Awake()
         {
-            if (_canvas.enabled != _visible)
-                _canvas.enabled = _visible;
+            SetPanelVisibleQuietly(_visible);
         }
 
         #region Panel Features
         public virtual void SetPanelVisible(bool isVisible)
         {
             if (_canvas.enabled != isVisible)
+            {
                 _canvas.enabled = isVisible;
+                _visible = isVisible;
+            }
 
             if (isVisible)
                 OnShow?.Invoke(new UIEventArgs(this));
