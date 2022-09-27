@@ -22,11 +22,11 @@ namespace CollieMollie.UI
 
         protected virtual void Awake()
         {
-            SetPanelVisibleQuietly(_visible);
+            SetPanelVisible(_visible, false);
         }
 
-        #region Panel Features
-        public virtual void SetPanelVisible(bool isVisible)
+        #region Public Functions
+        public virtual void SetPanelVisible(bool isVisible, bool invokeEvent = true)
         {
             if (_canvas.enabled != isVisible)
             {
@@ -34,16 +34,26 @@ namespace CollieMollie.UI
                 _visible = isVisible;
             }
 
-            if (isVisible)
-                OnShow?.Invoke(new UIEventArgs(this));
-            else
-                OnHide?.Invoke(new UIEventArgs(this));
+            if (invokeEvent)
+            {
+                if (isVisible)
+                    OnPanelShow();
+                else
+                    OnPanelHide();
+            }
         }
 
-        public virtual void SetPanelVisibleQuietly(bool isVisible)
+        #endregion
+
+        #region Panel Features
+        protected virtual void OnPanelShow()
         {
-            if (_canvas.enabled != isVisible)
-                _canvas.enabled = isVisible;
+            OnShow?.Invoke(new UIEventArgs(this));
+        }
+
+        protected virtual void OnPanelHide()
+        {
+            OnHide?.Invoke(new UIEventArgs(this));
         }
         #endregion
     }

@@ -30,7 +30,7 @@ namespace CollieMollie.UI
             foreach (BaseUIPanel panel in _panels)
             {
                 if (panel == args.Sender) continue;
-                panel.SetPanelVisibleQuietly(false);
+                panel.SetPanelVisible(false, false);
             }
         }
         #endregion
