@@ -13,7 +13,7 @@ namespace CollieMollie.UI
 
         [SerializeField] private Canvas _canvas = null;
 
-        protected bool _visible = true;
+        [SerializeField] protected bool _visible = true;
         public bool IsVisible
         {
             get => _visible;
