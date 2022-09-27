@@ -26,8 +26,8 @@ namespace CollieMollie.UI
                 _canvas.enabled = _visible;
         }
 
-        #region Public Functions
-        public void SetPanelVisible(bool isVisible)
+        #region Panel Features
+        public virtual void SetPanelVisible(bool isVisible)
         {
             if (_canvas.enabled != isVisible)
                 _canvas.enabled = isVisible;
@@ -38,7 +38,7 @@ namespace CollieMollie.UI
                 OnHide?.Invoke(new UIEventArgs(this));
         }
 
-        public void SetPanelVisibleQuietly(bool isVisible)
+        public virtual void SetPanelVisibleQuietly(bool isVisible)
         {
             if (_canvas.enabled != isVisible)
                 _canvas.enabled = isVisible;
