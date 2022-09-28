@@ -22,7 +22,8 @@ namespace CollieMollie.UI
 
         protected virtual void Awake()
         {
-            SetPanelVisible(_visible, false);
+            if (_canvas.enabled != _visible)
+                _canvas.enabled = _visible;
         }
 
         #region Public Functions
