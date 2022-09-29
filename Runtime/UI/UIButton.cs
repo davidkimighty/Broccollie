@@ -65,29 +65,33 @@ namespace CollieMollie.UI
 
         #region Public Functions
         /// <summary>
-        /// Change button state with event invocation.
+        /// Force
         /// </summary>
-        public void ChangeState(ButtonState state)
+        public void ChangeState(ButtonState state, bool invokeEvent = true, bool playAudio = true, bool instantChange = false)
         {
+            _interactable = true;
             switch (state)
             {
-                case ButtonState.Default: InvokeExitAction(); break;
-                case ButtonState.Hovered: InvokeEnterAction(); break;
-                case ButtonState.Pressed: InvokeDownAction(); break;
-                case ButtonState.Selected: InvokeClickAction(); break;
-                case ButtonState.Disabled: InvokeDisableAction(); break;
-            }
-        }
+                case ButtonState.Default:
+                    DefaultButton(instantChange, playAudio, invokeEvent);
+                    break;
 
-        public void ChangeState(ButtonState state, bool instantChange, bool playAudio, bool invokeEvent)
-        {
-            switch (state)
-            {
-                case ButtonState.Default: DefaultButton(instantChange, playAudio, invokeEvent); break;
-                case ButtonState.Hovered: HoveredButton(instantChange, playAudio, invokeEvent); break;
-                case ButtonState.Pressed: PressedButton(instantChange, playAudio, invokeEvent); break;
-                case ButtonState.Selected: SelectedButton(instantChange, playAudio, invokeEvent); break;
-                case ButtonState.Disabled: DisabledButton(instantChange, playAudio, invokeEvent); break;
+                case ButtonState.Hovered:
+                    HoveredButton(instantChange, playAudio, invokeEvent);
+                    break;
+
+                case ButtonState.Pressed:
+                    PressedButton(instantChange, playAudio, invokeEvent);
+                    break;
+
+                case ButtonState.Selected:
+                    SelectedButton(instantChange, playAudio, invokeEvent);
+                    break;
+
+                case ButtonState.Disabled:
+                    _interactable = false;
+                    DisabledButton(instantChange, playAudio, invokeEvent);
+                    break;
             }
         }
         #endregion
