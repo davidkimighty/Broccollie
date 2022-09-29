@@ -65,7 +65,7 @@ namespace CollieMollie.UI
 
         #region Public Functions
         /// <summary>
-        /// Force
+        /// Force state change.
         /// </summary>
         public void ChangeState(ButtonState state, bool invokeEvent = true, bool playAudio = true, bool instantChange = false)
         {
