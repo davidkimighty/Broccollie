@@ -229,21 +229,8 @@ namespace CollieMollie.UI
 
             if (invokeEvent)
             {
-                if (_selected)
-                {
-                    OnSelected?.Invoke(new UIEventArgs(this));
-                    //Debug.Log("[UIButton] Invoke Selected");
-                }
-                else if (_hovering)
-                {
-                    OnHovered?.Invoke(new UIEventArgs(this));
-                    //Debug.Log("[UIButton] Invoke Hovered");
-                }
-                else
-                {
-                    OnDefault?.Invoke(new UIEventArgs(this));
-                    //Debug.Log("[UIButton] Invoke Default");
-                }
+                OnSelected?.Invoke(new UIEventArgs(this));
+                //Debug.Log("[UIButton] Invoke Selected");
             }
         }
 
