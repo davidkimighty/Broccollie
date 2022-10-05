@@ -20,32 +20,36 @@ namespace CollieMollie.Audio
         #region Public Functions
         public void Play(Data data)
         {
-            _source.clip = data.clip;
-            _source.outputAudioMixerGroup = data.group;
+            _source.clip = data.Clip;
+            _source.outputAudioMixerGroup = data.Group;
+            _source.loop = data.Loop;
 
             if (_audioPlayAction != null)
                 StopCoroutine(_audioPlayAction);
 
-            _audioPlayAction = PlayAudioSource();
+            _audioPlayAction = PlayAudioSource(data.Loop);
             StartCoroutine(_audioPlayAction);
         }
 
         #endregion
 
         #region AudioPlayer Features
-        private IEnumerator PlayAudioSource()
+        private IEnumerator PlayAudioSource(bool loop)
         {
             _source.Play();
             while (_source.isPlaying)
                 yield return null;
-            Pool.Release(this);
+
+            if (!loop)
+                Pool.Release(this);
         }
         #endregion
 
         public struct Data
         {
-            public AudioClip clip;
-            public AudioMixerGroup group;
+            public AudioClip Clip;
+            public AudioMixerGroup Group;
+            public bool Loop;
         }
     }
 }

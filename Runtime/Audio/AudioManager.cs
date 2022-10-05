@@ -23,7 +23,7 @@ namespace CollieMollie.Audio
         [SerializeField] private IObjectPool<AudioPlayer> _pool = null;
         #endregion
 
-        private void Start()
+        private void Awake()
         {
             _pool = new ObjectPool<AudioPlayer>(CreatePooledItem, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
         }
@@ -44,8 +44,9 @@ namespace CollieMollie.Audio
             AudioPlayer audioPlayer = _pool.Get();
             AudioPlayer.Data audioPlayerData = new AudioPlayer.Data
             {
-                clip = preset.GetAudioClip(),
-                group = preset.MixerGroup
+                Clip = preset.GetAudioClip(),
+                Group = preset.MixerGroup,
+                Loop = preset.Loop
             };
             audioPlayer.Play(audioPlayerData);
         }

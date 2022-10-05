@@ -14,6 +14,7 @@ namespace CollieMollie.Audio
         public Vector2 Volume = new Vector2(0.5f, 0.5f);
         public Vector2 Pitch = new Vector2(1f, 1f);
         public float Delay = 0f;
+        public bool Loop = false;
 
         [SerializeField] private int _playIndex = 0;
         [SerializeField] private AudioPlayOrder _playOrder = AudioPlayOrder.Random;
