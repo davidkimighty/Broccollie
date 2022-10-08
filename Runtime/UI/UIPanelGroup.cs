@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CollieMollie.Core;
 using UnityEngine;
 
 namespace CollieMollie.UI
@@ -23,7 +24,7 @@ namespace CollieMollie.UI
         }
 
         #region Subscribers
-        private void HideOthers(UIEventArgs args)
+        private void HideOthers(InteractableEventArgs args)
         {
             if (!args.IsValid()) return;
 

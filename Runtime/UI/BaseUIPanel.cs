@@ -1,15 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CollieMollie.Core;
 using UnityEngine;
 
 namespace CollieMollie.UI
 {
-    public abstract class BaseUIPanel : BaseUI
+    public abstract class BaseUIPanel : BasePointerInteractable
     {
         #region Variable Field
-        public event Action<UIEventArgs> OnShow = null;
-        public event Action<UIEventArgs> OnHide = null;
+        public event Action<InteractableEventArgs> OnShow = null;
+        public event Action<InteractableEventArgs> OnHide = null;
 
         [SerializeField] private Canvas _canvas = null;
 
@@ -49,12 +50,12 @@ namespace CollieMollie.UI
         #region Panel Features
         protected virtual void OnPanelShow()
         {
-            OnShow?.Invoke(new UIEventArgs(this));
+            OnShow?.Invoke(new InteractableEventArgs(this));
         }
 
         protected virtual void OnPanelHide()
         {
-            OnHide?.Invoke(new UIEventArgs(this));
+            OnHide?.Invoke(new InteractableEventArgs(this));
         }
         #endregion
     }

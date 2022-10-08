@@ -1,18 +1,19 @@
 using System;
+using CollieMollie.Core;
 using CollieMollie.Editor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace CollieMollie.UI
 {
-    public class UIButton : BaseUI
+    public class UIButton : BasePointerInteractable
     {
         #region Variable Field
-        public event Action<UIEventArgs> OnDefault = null;
-        public event Action<UIEventArgs> OnHovered = null;
-        public event Action<UIEventArgs> OnPressed = null;
-        public event Action<UIEventArgs> OnSelected = null;
-        public event Action<UIEventArgs> OnDisabled = null;
+        public event Action<InteractableEventArgs> OnDefault = null;
+        public event Action<InteractableEventArgs> OnHovered = null;
+        public event Action<InteractableEventArgs> OnPressed = null;
+        public event Action<InteractableEventArgs> OnSelected = null;
+        public event Action<InteractableEventArgs> OnDisabled = null;
 
         [Header("Button")]
         [SerializeField] private ButtonType _type = ButtonType.Button;
@@ -155,7 +156,7 @@ namespace CollieMollie.UI
         {
             DisabledButton();
 
-            OnDisabled?.Invoke(new UIEventArgs(this));
+            OnDisabled?.Invoke(new InteractableEventArgs(this));
             //Debug.Log("[UIButton] Invoke Disabled");
         }
         #endregion
@@ -170,7 +171,7 @@ namespace CollieMollie.UI
 
             if (invokeEvent)
             {
-                OnDefault?.Invoke(new UIEventArgs(this));
+                OnDefault?.Invoke(new InteractableEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Default");
             }
         }
@@ -184,7 +185,7 @@ namespace CollieMollie.UI
 
             if (invokeEvent)
             {
-                OnHovered?.Invoke(new UIEventArgs(this));
+                OnHovered?.Invoke(new InteractableEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Hovered");
             }
         }
@@ -198,7 +199,7 @@ namespace CollieMollie.UI
 
             if (invokeEvent)
             {
-                OnPressed?.Invoke(new UIEventArgs(this));
+                OnPressed?.Invoke(new InteractableEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Pressed");
             }
         }
@@ -233,7 +234,7 @@ namespace CollieMollie.UI
 
             if (invokeEvent)
             {
-                OnSelected?.Invoke(new UIEventArgs(this));
+                OnSelected?.Invoke(new InteractableEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Selected");
             }
         }

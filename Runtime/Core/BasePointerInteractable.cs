@@ -3,9 +3,9 @@ using CollieMollie.Editor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace CollieMollie.UI
+namespace CollieMollie.Core
 {
-    public abstract class BaseUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public abstract class BasePointerInteractable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         #region Pointer Callbacks
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => InvokeEnterAction(eventData);
@@ -28,53 +28,53 @@ namespace CollieMollie.UI
         #region Pointer Subscribers
         protected virtual void InvokeEnterAction(PointerEventData eventData = null)
         {
-            if (this.GetType() == typeof(BaseUI)) return;
+            if (this.GetType() == typeof(BasePointerInteractable)) return;
         }
 
         protected virtual void InvokeExitAction(PointerEventData eventData = null)
         {
-            if (this.GetType() == typeof(BaseUI)) return;
+            if (this.GetType() == typeof(BasePointerInteractable)) return;
         }
 
         protected virtual void InvokeDownAction(PointerEventData eventData = null)
         {
-            if (this.GetType() == typeof(BaseUI)) return;
+            if (this.GetType() == typeof(BasePointerInteractable)) return;
         }
 
         protected virtual void InvokeUpAction(PointerEventData eventData = null)
         {
-            if (this.GetType() == typeof(BaseUI)) return;
+            if (this.GetType() == typeof(BasePointerInteractable)) return;
         }
 
         protected virtual void InvokeClickAction(PointerEventData eventData = null)
         {
-            if (this.GetType() == typeof(BaseUI)) return;
+            if (this.GetType() == typeof(BasePointerInteractable)) return;
         }
 
         protected virtual void BeginDragAction(PointerEventData eventData = null)
         {
-            if (this.GetType() == typeof(BaseUI)) return;
+            if (this.GetType() == typeof(BasePointerInteractable)) return;
         }
 
         protected virtual void DragAction(PointerEventData eventData = null)
         {
-            if (this.GetType() == typeof(BaseUI)) return;
+            if (this.GetType() == typeof(BasePointerInteractable)) return;
         }
 
         protected virtual void EndDragAction(PointerEventData eventData = null)
         {
-            if (this.GetType() == typeof(BaseUI)) return;
+            if (this.GetType() == typeof(BasePointerInteractable)) return;
         }
         #endregion
     }
 
-    public class UIEventArgs
+    public class InteractableEventArgs
     {
-        public BaseUI Sender = null;
+        public BasePointerInteractable Sender = null;
 
-        public UIEventArgs() { }
+        public InteractableEventArgs() { }
 
-        public UIEventArgs(BaseUI sender)
+        public InteractableEventArgs(BasePointerInteractable sender)
         {
             this.Sender = sender;
         }
