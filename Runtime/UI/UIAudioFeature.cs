@@ -38,21 +38,20 @@ namespace CollieMollie.UI
             private IEnumerator _audioPlayAction = null;
             #endregion
 
-            #region Public Functions
+            #region Features
             public void PlayAudio(MonoBehaviour mono, ButtonState state, AudioEventChannel eventChannel)
             {
                 if (_audioPlayAction != null)
                     mono.StopCoroutine(_audioPlayAction);
 
-                UIAudioPreset.AudioState? audioState = Array.Find(Preset.AudioStates, x => x.ExecutionState == state);
-                if (audioState == null)
+                UIAudioPreset.AudioState audioState = Array.Find(Preset.AudioStates, x => x.ExecutionState == state);
+                if (!audioState.IsValid())
                     audioState = Array.Find(Preset.AudioStates, x => x.ExecutionState == ButtonState.Default);
 
-                if (audioState != null)
+                if (audioState.IsValid())
                 {
-                    if (!audioState.Value.IsEnabled) return;
-
-                    eventChannel.RaisePlayAudioEvent(audioState.Value.AudioPreset);
+                    if (!audioState.IsEnabled) return;
+                    eventChannel.RaisePlayAudioEvent(audioState.AudioPreset);
                 }
             }
             #endregion

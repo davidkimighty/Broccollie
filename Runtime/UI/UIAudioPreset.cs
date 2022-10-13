@@ -16,6 +16,8 @@ namespace CollieMollie.UI
             public AudioPreset AudioPreset;
             public ButtonState ExecutionState;
             public bool IsEnabled;
+
+            public bool IsValid() => ExecutionState != ButtonState.None;
         }
     }
 }

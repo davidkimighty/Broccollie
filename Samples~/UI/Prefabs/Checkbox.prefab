@@ -299,7 +299,9 @@ GameObject:
   - component: {fileID: 7662808611167770011}
   - component: {fileID: 5749920042183171454}
   - component: {fileID: 841566986641341814}
+  - component: {fileID: -6159424817350854860}
   - component: {fileID: -4874131533187139284}
+  - component: {fileID: -148029227143971325}
   m_Layer: 5
   m_Name: Checkbox
   m_TagString: Untagged
@@ -343,8 +345,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 2
   _colorFeature: {fileID: 841566986641341814}
-  _audioFeature: {fileID: 0}
+  _audioFeature: {fileID: -6159424817350854860}
   _spriteFeature: {fileID: -4874131533187139284}
+  _animationFeature: {fileID: -148029227143971325}
   _interactable: 1
   _hovering: 0
   _pressed: 0
@@ -370,6 +373,21 @@ MonoBehaviour:
   - IsEnabled: 1
     Graphic: {fileID: 2930117594773860565}
     Preset: {fileID: 11400000, guid: b5a45b082b1734e7eaecb3f821c2c01c, type: 2}
+--- !u!114 &-6159424817350854860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5835693001275424392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43aae9abfc21f4e46b6d687174620f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _eventChannel: {fileID: 0}
+  _isEnabled: 1
+  _elements: []
 --- !u!114 &-4874131533187139284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,3 +402,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isEnabled: 1
   _elements: []
+--- !u!114 &-148029227143971325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5835693001275424392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4d60472c31d04038a7819ee14df5b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isEnabled: 1
+  _animator: {fileID: 0}

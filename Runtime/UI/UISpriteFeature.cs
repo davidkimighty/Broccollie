@@ -13,7 +13,7 @@ namespace CollieMollie.UI
         [SerializeField] private List<Element> _elements = null;
         #endregion
 
-        #region ColorChanger Functions
+        #region Public Functions
         public void Change(ButtonState state)
         {
             if (!_isEnabled) return;
@@ -38,27 +38,26 @@ namespace CollieMollie.UI
             private IEnumerator _spriteChangeAction = null;
             #endregion
 
-            #region Public Functions
+            #region Features
             public void ChangeSprite(MonoBehaviour mono, ButtonState state)
             {
                 if (_spriteChangeAction != null)
                     mono.StopCoroutine(_spriteChangeAction);
 
-                UISpritePreset.SpriteState? spriteState = Array.Find(Preset.SpriteStates, x => x.ExecutionState == state);
-                if (spriteState == null)
+                UISpritePreset.SpriteState spriteState = Array.Find(Preset.SpriteStates, x => x.ExecutionState == state);
+                if (!spriteState.IsValid())
                     spriteState = Array.Find(Preset.SpriteStates, x => x.ExecutionState == ButtonState.Default);
 
-                if (spriteState != null)
+                if (spriteState.IsValid())
                 {
-                    if (!spriteState.Value.IsEnabled) return;
-
+                    if (!spriteState.IsEnabled) return;
                     _spriteChangeAction = ChangeSprite();
                     mono.StartCoroutine(_spriteChangeAction);
                 }
 
                 IEnumerator ChangeSprite()
                 {
-                    GraphicImage.sprite = spriteState.Value.TargetSprite;
+                    GraphicImage.sprite = spriteState.TargetSprite;
                     yield return null;
                 }
             }

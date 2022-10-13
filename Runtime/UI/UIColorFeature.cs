@@ -14,7 +14,7 @@ namespace CollieMollie.UI
         [SerializeField] private List<Element> _elements = null;
         #endregion
 
-        #region ColorChanger Functions
+        #region Public Functions
         public void ChangeGradually(ButtonState state)
         {
             if (!_isEnabled) return;
@@ -49,7 +49,7 @@ namespace CollieMollie.UI
             private IEnumerator _colorChangeAction = null;
             #endregion
 
-            #region ColorChanger Element Functions
+            #region Features
             public void ChangeColor(MonoBehaviour mono, ButtonState state, bool instantChange = false)
             {
                 if (_colorChangeAction != null)
@@ -57,15 +57,11 @@ namespace CollieMollie.UI
 
                 UIColorPreset.ColorState colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == state);
                 if (!colorState.IsValid())
-                {
                     colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == ButtonState.Default);
-                    Debug.Log("[UIColorFeature] Couldn't find execution state. Falling back to default state.");
-                }
 
                 if (colorState.IsValid())
                 {
                     if (!colorState.IsEnabled) return;
-
                     if (!instantChange)
                     {
                         _colorChangeAction = Graphic.ChangeColorGradually(colorState.TargetColor, colorState.Duration, colorState.Curve);

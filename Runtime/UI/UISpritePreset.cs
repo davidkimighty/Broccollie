@@ -15,6 +15,8 @@ namespace CollieMollie.UI
             public Sprite TargetSprite;
             public ButtonState ExecutionState;
             public bool IsEnabled;
+
+            public bool IsValid() => ExecutionState != ButtonState.None;
         }
     }
 }
