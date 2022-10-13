@@ -110,7 +110,8 @@ namespace CollieMollie.UI
             if (!_interactable) return;
 
             _hovering = true;
-            HoveredButton();
+            HoveredButton(false, true, false);
+            OnHovered?.Invoke(new InteractableEventArgs(this));
         }
 
         protected override sealed void InvokeExitAction(PointerEventData eventData = null)
@@ -120,12 +121,12 @@ namespace CollieMollie.UI
             _hovering = false;
             if (_selected)
             {
-                SelectedButton();
+                SelectedButton(false, true, false);
             }
             else
             {
                 _selected = _pressed = false;
-                DefaultButton();
+                DefaultButton(false, true, false);
             }
         }
 
@@ -134,7 +135,9 @@ namespace CollieMollie.UI
             if (!_interactable) return;
 
             _pressed = true;
-            PressedButton();
+            PressedButton(false, true, false);
+
+            OnPressed?.Invoke(new InteractableEventArgs(this));
         }
 
         protected override sealed void InvokeUpAction(PointerEventData eventData = null)
@@ -146,11 +149,11 @@ namespace CollieMollie.UI
             if (!_selected && !_hovering)
             {
                 _selected = _pressed = _hovering = false;
-                DefaultButton();
+                DefaultButton(false, true, false);
             }
             else if (_selected && !_hovering)
             {
-                SelectedButton();
+                SelectedButton(false, true, false);
             }
         }
 
@@ -165,20 +168,15 @@ namespace CollieMollie.UI
                 _ => false
             };
 
-            if (_type == ButtonType.Button)
-            {
-                OnSelected?.Invoke(new InteractableEventArgs(this));
-            }
+            if (_selected)
+                SelectedButton(false, true, false);
             else
-            {
-                if (_selected)
-                    SelectedButton();
-                else
-                    DefaultButton();
+                DefaultButton(false, true, false);
 
-                if (_hovering)
-                    HoveredButton();
-            }
+            if (_hovering)
+                HoveredButton(false, true, false);
+
+            OnSelected?.Invoke(new InteractableEventArgs(this));
         }
 
         private void InvokeDisableAction()
