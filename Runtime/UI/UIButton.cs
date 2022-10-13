@@ -165,18 +165,19 @@ namespace CollieMollie.UI
                 _ => false
             };
 
-            if (_selected)
+            if (_type == ButtonType.Button)
             {
-                SelectedButton();
+                OnSelected?.Invoke(new InteractableEventArgs(this));
             }
             else
             {
-                DefaultButton();
-            }
+                if (_selected)
+                    SelectedButton();
+                else
+                    DefaultButton();
 
-            if (_hovering)
-            {
-                HoveredButton();
+                if (_hovering)
+                    HoveredButton();
             }
         }
 
