@@ -15,6 +15,8 @@ namespace CollieMollie.UI
             public bool IsEnabled;
             public float Duration;
             public AnimationCurve Curve;
+
+            public bool IsValid() => ExecutionState != ButtonState.None;
         }
     }
 }

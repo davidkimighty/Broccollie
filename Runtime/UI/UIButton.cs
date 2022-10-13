@@ -19,6 +19,7 @@ namespace CollieMollie.UI
         [SerializeField] private ButtonType _type = ButtonType.Button;
         [SerializeField] private UIColorFeature _colorFeature = null;
         [SerializeField] private UIAudioFeature _audioFeature = null;
+        [SerializeField] private UISpriteFeature _spriteFeature = null;
 
         [SerializeField] private bool _interactable = true;
         public bool IsInteractable
@@ -137,10 +138,12 @@ namespace CollieMollie.UI
                 if (!_selected && !_hovering)
                 {
                     ChangeColors(ButtonState.Default);
+                    ChangeSprites(ButtonState.Default);
                 }
                 else if (_selected && !_hovering)
                 {
                     ChangeColors(ButtonState.Selected);
+                    ChangeSprites(ButtonState.Selected);
                 }
             }
         }
@@ -166,6 +169,7 @@ namespace CollieMollie.UI
         {
             _selected = _pressed = _hovering = false;
             ChangeColors(ButtonState.Default, instantChange);
+            ChangeSprites(ButtonState.Default);
             if (playAudio)
                 PlayAudio(ButtonState.Default);
 
@@ -180,6 +184,7 @@ namespace CollieMollie.UI
         {
             _hovering = true;
             ChangeColors(ButtonState.Hovered, instantChange);
+            ChangeSprites(ButtonState.Hovered);
             if (playAudio)
                 PlayAudio(ButtonState.Hovered);
 
@@ -194,6 +199,7 @@ namespace CollieMollie.UI
         {
             _pressed = true;
             ChangeColors(ButtonState.Pressed, instantChange);
+            ChangeSprites(ButtonState.Pressed);
             if (playAudio)
                 PlayAudio(ButtonState.Pressed);
 
@@ -216,18 +222,21 @@ namespace CollieMollie.UI
             if (_selected)
             {
                 ChangeColors(ButtonState.Selected, instantChange);
+                ChangeSprites(ButtonState.Selected);
                 if (playAudio)
                     PlayAudio(ButtonState.Selected);
             }
             else if (_hovering)
             {
                 ChangeColors(ButtonState.Hovered, instantChange);
+                ChangeSprites(ButtonState.Hovered);
                 if (playAudio)
                     PlayAudio(ButtonState.Hovered);
             }
             else
             {
                 ChangeColors(ButtonState.Default, instantChange);
+                ChangeSprites(ButtonState.Default);
                 if (playAudio)
                     PlayAudio(ButtonState.Default);
             }
@@ -243,6 +252,7 @@ namespace CollieMollie.UI
         {
             _interactable = false;
             ChangeColors(ButtonState.Disabled, instantChange);
+            ChangeSprites(ButtonState.Disabled);
             if (playAudio)
                 PlayAudio(ButtonState.Disabled);
         }
@@ -261,7 +271,9 @@ namespace CollieMollie.UI
 
         private void ChangeSprites(ButtonState state)
         {
+            if (_spriteFeature == null) return;
 
+            _spriteFeature.Change(state);
         }
 
         private void PlayAudio(ButtonState state)
@@ -274,5 +286,5 @@ namespace CollieMollie.UI
     }
 
     public enum ButtonType { Button, Radio, Checkbox }
-    public enum ButtonState { Default, Hovered, Pressed, Selected, Disabled }
+    public enum ButtonState { None, Default, Hovered, Pressed, Selected, Enabled, Disabled }
 }

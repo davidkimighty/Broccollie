@@ -55,22 +55,25 @@ namespace CollieMollie.UI
                 if (_colorChangeAction != null)
                     mono.StopCoroutine(_colorChangeAction);
 
-                UIColorPreset.ColorState? colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == state);
-                if (colorState == null)
-                    colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == ButtonState.Default);
-
-                if (colorState != null)
+                UIColorPreset.ColorState colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == state);
+                if (!colorState.IsValid())
                 {
-                    if (!colorState.Value.IsEnabled) return;
+                    colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == ButtonState.Default);
+                    Debug.Log("[UIColorFeature] Couldn't find execution state. Falling back to default state.");
+                }
+
+                if (colorState.IsValid())
+                {
+                    if (!colorState.IsEnabled) return;
 
                     if (!instantChange)
                     {
-                        _colorChangeAction = Graphic.ChangeColorGradually(colorState.Value.TargetColor, colorState.Value.Duration, colorState.Value.Curve);
+                        _colorChangeAction = Graphic.ChangeColorGradually(colorState.TargetColor, colorState.Duration, colorState.Curve);
                         mono.StartCoroutine(_colorChangeAction);
                     }
                     else
                     {
-                        Graphic.color = colorState.Value.TargetColor;
+                        Graphic.color = colorState.TargetColor;
                     }
                 }
             }
