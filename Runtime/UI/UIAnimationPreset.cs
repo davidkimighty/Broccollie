@@ -14,10 +14,10 @@ namespace CollieMollie.UI
         public struct AnimationState
         {
             public AnimationClip Animation;
-            public ButtonState ExecutionState;
+            public InteractionState ExecutionState;
             public bool IsEnabled;
 
-            public bool IsValid() => ExecutionState != ButtonState.None;
+            public bool IsValid() => ExecutionState != InteractionState.None;
         }
     }
 }

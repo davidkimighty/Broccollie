@@ -11,12 +11,12 @@ namespace CollieMollie.UI
         public struct ColorState
         {
             public Color TargetColor;
-            public ButtonState ExecutionState;
+            public InteractionState ExecutionState;
             public bool IsEnabled;
             public float Duration;
             public AnimationCurve Curve;
 
-            public bool IsValid() => ExecutionState != ButtonState.None;
+            public bool IsValid() => ExecutionState != InteractionState.None;
         }
     }
 }

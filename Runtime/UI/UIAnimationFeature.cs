@@ -17,7 +17,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public void Change(ButtonState state)
+        public void Change(InteractionState state)
         {
             if (!_isEnabled) return;
 
@@ -43,14 +43,14 @@ namespace CollieMollie.UI
             #endregion
 
             #region Features
-            public void PlayAnimation(MonoBehaviour mono, ButtonState state)
+            public void PlayAnimation(MonoBehaviour mono, InteractionState state)
             {
                 if (_animationAction != null)
                     mono.StopCoroutine(_animationAction);
 
                 UIAnimationPreset.AnimationState animationState = Array.Find(Preset.AnimationStates, x => x.ExecutionState == state);
                 if (!animationState.IsValid())
-                    animationState = Array.Find(Preset.AnimationStates, x => x.ExecutionState == ButtonState.Default);
+                    animationState = Array.Find(Preset.AnimationStates, x => x.ExecutionState == InteractionState.Default);
 
                 if (animationState.IsValid())
                 {
@@ -67,14 +67,15 @@ namespace CollieMollie.UI
                     if (Animator.runtimeAnimatorController != OverrideAnimator)
                         Animator.runtimeAnimatorController = OverrideAnimator;
 
-                    if (animationState.ExecutionState != ButtonState.Hovered)
+                    if (animationState.ExecutionState != InteractionState.Hovered)
                     {
-                        ButtonState[] layerZeroStates = new ButtonState[]
+                        InteractionState[] layerZeroStates = new InteractionState[]
                         {
-                            ButtonState.Default,
-                            ButtonState.Pressed,
-                            ButtonState.Selected,
-                            ButtonState.NonInteractive
+                            InteractionState.Default,
+                            InteractionState.Pressed,
+                            InteractionState.Selected,
+                            InteractionState.NonInteractive,
+                            InteractionState.Show
                         };
                         for (int i = 0; i < layerZeroStates.Length; i++)
                         {
@@ -83,11 +84,11 @@ namespace CollieMollie.UI
                         }
                         Animator.SetBool(animationState.ExecutionState.ToString(), true);
                     }
-                    else Animator.SetBool(ButtonState.Hovered.ToString(), true);
+                    else Animator.SetBool(InteractionState.Hovered.ToString(), true);
 
-                    if (animationState.ExecutionState == ButtonState.Default ||
-                        animationState.ExecutionState == ButtonState.Selected)
-                        Animator.SetBool(ButtonState.Hovered.ToString(), false);
+                    if (animationState.ExecutionState == InteractionState.Default ||
+                        animationState.ExecutionState == InteractionState.Selected)
+                        Animator.SetBool(InteractionState.Hovered.ToString(), false);
 
                     yield return null;
                 }

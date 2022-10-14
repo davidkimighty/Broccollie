@@ -15,7 +15,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public void Play(ButtonState state)
+        public void Play(InteractionState state)
         {
             if (!_isEnabled) return;
 
@@ -39,14 +39,14 @@ namespace CollieMollie.UI
             #endregion
 
             #region Features
-            public void PlayAudio(MonoBehaviour mono, ButtonState state, AudioEventChannel eventChannel)
+            public void PlayAudio(MonoBehaviour mono, InteractionState state, AudioEventChannel eventChannel)
             {
                 if (_audioPlayAction != null)
                     mono.StopCoroutine(_audioPlayAction);
 
                 UIAudioPreset.AudioState audioState = Array.Find(Preset.AudioStates, x => x.ExecutionState == state);
                 if (!audioState.IsValid())
-                    audioState = Array.Find(Preset.AudioStates, x => x.ExecutionState == ButtonState.Default);
+                    audioState = Array.Find(Preset.AudioStates, x => x.ExecutionState == InteractionState.Default);
 
                 if (audioState.IsValid())
                 {

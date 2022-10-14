@@ -14,7 +14,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public void Change(ButtonState state)
+        public void Change(InteractionState state)
         {
             if (!_isEnabled) return;
 
@@ -39,14 +39,14 @@ namespace CollieMollie.UI
             #endregion
 
             #region Features
-            public void ChangeSprite(MonoBehaviour mono, ButtonState state)
+            public void ChangeSprite(MonoBehaviour mono, InteractionState state)
             {
                 if (_spriteChangeAction != null)
                     mono.StopCoroutine(_spriteChangeAction);
 
                 UISpritePreset.SpriteState spriteState = Array.Find(Preset.SpriteStates, x => x.ExecutionState == state);
                 if (!spriteState.IsValid())
-                    spriteState = Array.Find(Preset.SpriteStates, x => x.ExecutionState == ButtonState.Default);
+                    spriteState = Array.Find(Preset.SpriteStates, x => x.ExecutionState == InteractionState.Default);
 
                 if (spriteState.IsValid())
                 {

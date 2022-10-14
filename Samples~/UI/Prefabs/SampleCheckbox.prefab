@@ -402,7 +402,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isEnabled: 1
-  _elements: []
+  _elements:
+  - IsEnabled: 1
+    GraphicImage: {fileID: 2930117594773860565}
+    Preset: {fileID: 11400000, guid: 756df5d8546604f4096d69ec7f7fb86c, type: 2}
 --- !u!114 &-148029227143971325
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using CollieMollie.Core;
 using CollieMollie.Editor;
 using UnityEngine;
@@ -73,53 +74,62 @@ namespace CollieMollie.UI
         /// <summary>
         /// Force state change.
         /// </summary>
-        public void ChangeState(ButtonState state, bool invokeEvent = true, bool playAudio = true, bool instantChange = false)
+        public void ChangeState(InteractionState state, bool invokeEvent = true, bool playAudio = true, bool instantChange = false)
         {
             _interactable = true;
             switch (state)
             {
-                case ButtonState.Default:
+                case InteractionState.Default:
                     _selected = _pressed = _hovering = false;
                     DefaultButton(instantChange, playAudio, invokeEvent);
                     break;
 
-                case ButtonState.Hovered:
+                case InteractionState.Hovered:
                     _hovering = true; _pressed = false;
                     HoveredButton(instantChange, playAudio, invokeEvent);
                     break;
 
-                case ButtonState.Pressed:
+                case InteractionState.Pressed:
                     _pressed = true;
                     PressedButton(instantChange, playAudio, invokeEvent);
                     break;
 
-                case ButtonState.Selected:
+                case InteractionState.Selected:
                     _hovering = false; _pressed = false; _selected = true;
                     SelectedButton(instantChange, playAudio, invokeEvent);
                     break;
 
-                case ButtonState.Interactive:
+                case InteractionState.Interactive:
                     _selected = _pressed = _hovering = false;
                     _interactable = true;
                     InteractiveButton(instantChange, playAudio, invokeEvent);
                     break;
 
-                case ButtonState.NonInteractive:
+                case InteractionState.NonInteractive:
                     _selected = _pressed = _hovering = false;
                     _interactable = false;
                     NonInteractiveButton(instantChange, playAudio, invokeEvent);
                     break;
-
-                case ButtonState.Show:
-                    _interactable = true;
-                    ShowButton(instantChange, playAudio, invokeEvent);
-                    break;
-
-                case ButtonState.Hide:
-                    _interactable = false;
-                    HideButton(instantChange, playAudio, invokeEvent);
-                    break;
             }
+        }
+
+        public void Show(float duration, bool invokeEvent = true, bool playAudio = true, bool instantChange = false)
+        {
+            _interactable = true;
+            gameObject.SetActive(true);
+            StartCoroutine(ShowButton(duration, instantChange, playAudio, invokeEvent, () =>
+            {
+                ChangeState(InteractionState.Default, invokeEvent, playAudio, instantChange);
+            }));
+        }
+
+        public void Hide(float duration, bool invokeEvent = true, bool playAudio = true, bool instantChange = false)
+        {
+            _interactable = false;
+            StartCoroutine(HideButton(duration, instantChange, playAudio, invokeEvent, () =>
+            {
+                gameObject.SetActive(false);
+            }));
         }
         #endregion
 
@@ -203,11 +213,11 @@ namespace CollieMollie.UI
         #region Button Behaviors
         private void DefaultButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
-            ChangeColors(ButtonState.Default, instantChange);
-            ChangeSprites(ButtonState.Default);
-            ChangeAnimation(ButtonState.Default);
+            ChangeColors(InteractionState.Default, instantChange);
+            ChangeSprites(InteractionState.Default);
+            ChangeAnimation(InteractionState.Default);
             if (playAudio)
-                PlayAudio(ButtonState.Default);
+                PlayAudio(InteractionState.Default);
 
             if (invokeEvent)
             {
@@ -218,11 +228,11 @@ namespace CollieMollie.UI
 
         private void HoveredButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
-            ChangeColors(ButtonState.Hovered, instantChange);
-            ChangeSprites(ButtonState.Hovered);
-            ChangeAnimation(ButtonState.Hovered);
+            ChangeColors(InteractionState.Hovered, instantChange);
+            ChangeSprites(InteractionState.Hovered);
+            ChangeAnimation(InteractionState.Hovered);
             if (playAudio)
-                PlayAudio(ButtonState.Hovered);
+                PlayAudio(InteractionState.Hovered);
 
             if (invokeEvent)
             {
@@ -233,11 +243,11 @@ namespace CollieMollie.UI
 
         private void PressedButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
-            ChangeColors(ButtonState.Pressed, instantChange);
-            ChangeSprites(ButtonState.Pressed);
-            ChangeAnimation(ButtonState.Pressed);
+            ChangeColors(InteractionState.Pressed, instantChange);
+            ChangeSprites(InteractionState.Pressed);
+            ChangeAnimation(InteractionState.Pressed);
             if (playAudio)
-                PlayAudio(ButtonState.Pressed);
+                PlayAudio(InteractionState.Pressed);
 
             if (invokeEvent)
             {
@@ -248,11 +258,11 @@ namespace CollieMollie.UI
 
         private void SelectedButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
-            ChangeColors(ButtonState.Selected, instantChange);
-            ChangeSprites(ButtonState.Selected);
-            ChangeAnimation(ButtonState.Selected);
+            ChangeColors(InteractionState.Selected, instantChange);
+            ChangeSprites(InteractionState.Selected);
+            ChangeAnimation(InteractionState.Selected);
             if (playAudio)
-                PlayAudio(ButtonState.Selected);
+                PlayAudio(InteractionState.Selected);
 
             if (invokeEvent)
             {
@@ -263,11 +273,11 @@ namespace CollieMollie.UI
 
         private void InteractiveButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
-            ChangeColors(ButtonState.Interactive, instantChange);
-            ChangeSprites(ButtonState.Interactive);
-            ChangeAnimation(ButtonState.Interactive);
+            ChangeColors(InteractionState.Interactive, instantChange);
+            ChangeSprites(InteractionState.Interactive);
+            ChangeAnimation(InteractionState.Interactive);
             if (playAudio)
-                PlayAudio(ButtonState.Interactive);
+                PlayAudio(InteractionState.Interactive);
 
             if (invokeEvent)
             {
@@ -277,11 +287,11 @@ namespace CollieMollie.UI
 
         private void NonInteractiveButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
-            ChangeColors(ButtonState.NonInteractive, instantChange);
-            ChangeSprites(ButtonState.NonInteractive);
-            ChangeAnimation(ButtonState.NonInteractive);
+            ChangeColors(InteractionState.NonInteractive, instantChange);
+            ChangeSprites(InteractionState.NonInteractive);
+            ChangeAnimation(InteractionState.NonInteractive);
             if (playAudio)
-                PlayAudio(ButtonState.NonInteractive);
+                PlayAudio(InteractionState.NonInteractive);
 
             if (invokeEvent)
             {
@@ -289,37 +299,39 @@ namespace CollieMollie.UI
             }
         }
 
-        private void ShowButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
+        private IEnumerator ShowButton(float duration, bool instantChange = false, bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            ChangeColors(ButtonState.Show, instantChange);
-            ChangeSprites(ButtonState.Show);
-            ChangeAnimation(ButtonState.Show);
+            ChangeColors(InteractionState.Show, instantChange);
+            ChangeSprites(InteractionState.Show);
+            ChangeAnimation(InteractionState.Show);
             if (playAudio)
-                PlayAudio(ButtonState.Show);
+                PlayAudio(InteractionState.Show);
+
+            yield return new WaitForSeconds(duration);
 
             if (invokeEvent)
-            {
                 OnShow?.Invoke(new InteractableEventArgs(this));
-            }
+            done?.Invoke();
         }
 
-        private void HideButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
+        private IEnumerator HideButton(float duration, bool instantChange = false, bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            ChangeColors(ButtonState.Hide, instantChange);
-            ChangeSprites(ButtonState.Hide);
-            ChangeAnimation(ButtonState.Hide);
+            ChangeColors(InteractionState.Hide, instantChange);
+            ChangeSprites(InteractionState.Hide);
+            ChangeAnimation(InteractionState.Hide);
             if (playAudio)
-                PlayAudio(ButtonState.Hide);
+                PlayAudio(InteractionState.Hide);
+
+            yield return new WaitForSeconds(duration);
 
             if (invokeEvent)
-            {
                 OnHide?.Invoke(new InteractableEventArgs(this));
-            }
+            done?.Invoke();
         }
         #endregion
 
         #region Button Features
-        private void ChangeColors(ButtonState state, bool instantChange = false)
+        private void ChangeColors(InteractionState state, bool instantChange = false)
         {
             if (_colorFeature == null) return;
 
@@ -329,21 +341,21 @@ namespace CollieMollie.UI
                 _colorFeature.ChangeGradually(state);
         }
 
-        private void ChangeSprites(ButtonState state)
+        private void ChangeSprites(InteractionState state)
         {
             if (_spriteFeature == null) return;
 
             _spriteFeature.Change(state);
         }
 
-        private void PlayAudio(ButtonState state)
+        private void PlayAudio(InteractionState state)
         {
             if (_audioFeature == null) return;
 
             _audioFeature.Play(state);
         }
 
-        private void ChangeAnimation(ButtonState state)
+        private void ChangeAnimation(InteractionState state)
         {
             if (_animationFeature == null) return;
 
@@ -353,5 +365,5 @@ namespace CollieMollie.UI
     }
 
     public enum ButtonType { Button, Radio, Checkbox }
-    public enum ButtonState { None, Default, Hovered, Pressed, Selected, Interactive, NonInteractive, Show, Hide }
+    public enum InteractionState { None, Default, Hovered, Pressed, Selected, Interactive, NonInteractive, Show, Hide }
 }

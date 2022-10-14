@@ -15,7 +15,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public void ChangeGradually(ButtonState state)
+        public void ChangeGradually(InteractionState state)
         {
             if (!_isEnabled) return;
 
@@ -26,7 +26,7 @@ namespace CollieMollie.UI
             }
         }
 
-        public void ChangeInstantly(ButtonState state)
+        public void ChangeInstantly(InteractionState state)
         {
             if (!_isEnabled) return;
 
@@ -50,14 +50,14 @@ namespace CollieMollie.UI
             #endregion
 
             #region Features
-            public void ChangeColor(MonoBehaviour mono, ButtonState state, bool instantChange = false)
+            public void ChangeColor(MonoBehaviour mono, InteractionState state, bool instantChange = false)
             {
                 if (_colorChangeAction != null)
                     mono.StopCoroutine(_colorChangeAction);
 
                 UIColorPreset.ColorState colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == state);
                 if (!colorState.IsValid())
-                    colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == ButtonState.Default);
+                    colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == InteractionState.Default);
 
                 if (colorState.IsValid())
                 {

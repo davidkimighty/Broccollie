@@ -25,3 +25,6 @@ MonoBehaviour:
   - Animation: {fileID: 7400000, guid: 596425e6cfcc8452ea6d6d8902e70965, type: 2}
     ExecutionState: 6
     IsEnabled: 1
+  - Animation: {fileID: 7400000, guid: b04e6738aac1e4642a8cdc6a8c2ecf17, type: 2}
+    ExecutionState: 7
+    IsEnabled: 1
