@@ -13,15 +13,16 @@ namespace CollieMollie.Audio
 
         [SerializeField] private AudioSource _source = null;
 
-        private Data _data;
+        private AudioData _data;
         private IEnumerator _audioPlayAction = null;
         #endregion
 
         #region Public Functions
-        public void Play(Data data)
+        public void Play(AudioData data)
         {
             _source.clip = data.Clip;
             _source.outputAudioMixerGroup = data.Group;
+            _source.volume = data.Volume;
             _source.loop = data.Loop;
 
             if (_audioPlayAction != null)
@@ -45,10 +46,11 @@ namespace CollieMollie.Audio
         }
         #endregion
 
-        public struct Data
+        public struct AudioData
         {
             public AudioClip Clip;
             public AudioMixerGroup Group;
+            public float Volume;
             public bool Loop;
         }
     }

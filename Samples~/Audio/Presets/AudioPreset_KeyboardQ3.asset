@@ -21,9 +21,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5cd95ec64c9e04524b13ef036abbf258, type: 3}
   MixerGroup: {fileID: -9002409420600538122, guid: 82bc663cb80ce4c5b90a6432d996e499,
     type: 2}
-  Volume: {x: 0.5, y: 0.5}
-  Pitch: {x: 1, y: 1}
+  Volume: 0.8
   Delay: 0
   Loop: 0
-  _playIndex: 2
+  _playIndex: 4
   _playOrder: 0

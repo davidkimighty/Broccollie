@@ -42,10 +42,11 @@ namespace CollieMollie.Audio
         private void PlayAudio(AudioPreset preset)
         {
             AudioPlayer audioPlayer = _pool.Get();
-            AudioPlayer.Data audioPlayerData = new AudioPlayer.Data
+            AudioPlayer.AudioData audioPlayerData = new AudioPlayer.AudioData
             {
                 Clip = preset.GetAudioClip(),
                 Group = preset.MixerGroup,
+                Volume = preset.Volume,
                 Loop = preset.Loop
             };
             audioPlayer.Play(audioPlayerData);

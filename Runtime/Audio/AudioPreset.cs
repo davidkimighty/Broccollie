@@ -11,8 +11,7 @@ namespace CollieMollie.Audio
         #region Variable Field
         public AudioClip[] AudioClips = null;
         public AudioMixerGroup MixerGroup = null;
-        public Vector2 Volume = new Vector2(0.5f, 0.5f);
-        public Vector2 Pitch = new Vector2(1f, 1f);
+        [Range(0f, 1f)] public float Volume = 1f;
         public float Delay = 0f;
         public bool Loop = false;
 
