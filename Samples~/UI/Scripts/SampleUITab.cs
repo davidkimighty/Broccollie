@@ -8,7 +8,6 @@ using UnityEngine;
 public class SampleUITab : BaseUIPanel
 {
     [SerializeField] private UIButton _triggerButton = null;
-    [SerializeField] private UIAnimationFeature _animationFeature = null;
 
 
     private void Awake()
@@ -19,21 +18,4 @@ public class SampleUITab : BaseUIPanel
         }
     }
 
-    public void Show(float duration, bool playAudio = true)
-    {
-        SetPanelVisible(true);
-        StartCoroutine(ShowButton(duration, playAudio, () =>
-        {
-
-        }));
-    }
-
-    private IEnumerator ShowButton(float duration, bool playAudio = true, Action done = null)
-    {
-        _animationFeature.Change(InteractionState.Show);
-
-        yield return new WaitForSeconds(duration);
-
-        done?.Invoke();
-    }
 }

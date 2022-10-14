@@ -4145,15 +4145,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3879707388038448241}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 032fef2aff12d480c9f6d04760a9f1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _panels:
-  - {fileID: 6362703722101543988}
-  - {fileID: 8292612273699952033}
-  - {fileID: 6792833552153396336}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!224 &816601379061621939
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4964,8 +4964,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 1768168493885989809}
   _visible: 0
-  _triggerButton: {fileID: 9016471941615282570}
   _animationFeature: {fileID: 6362703722101543989}
+  _triggerButton: {fileID: 9016471941615282570}
 --- !u!114 &6362703722101543989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5099,8 +5099,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 1074253236398843518}
   _visible: 1
-  _triggerButton: {fileID: 6923342107384722264}
   _animationFeature: {fileID: 0}
+  _triggerButton: {fileID: 6923342107384722264}
 --- !u!114 &6923342107384722264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5400,8 +5400,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 4969478821936808810}
   _visible: 1
-  _triggerButton: {fileID: 14116148552739822}
   _animationFeature: {fileID: 0}
+  _triggerButton: {fileID: 14116148552739822}
 --- !u!1 &8516547677131014129
 GameObject:
   m_ObjectHideFlags: 0

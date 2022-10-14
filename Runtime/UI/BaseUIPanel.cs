@@ -19,6 +19,8 @@ namespace CollieMollie.UI
         {
             get => _visible;
         }
+
+        [SerializeField] private UIAnimationFeature _animationFeature = null;
         #endregion
 
         protected virtual void Awake()
@@ -43,6 +45,29 @@ namespace CollieMollie.UI
                 else
                     OnPanelHide();
             }
+        }
+
+        public void Show(float duration, bool invokeEvent = true)
+        {
+            SetPanelVisible(true, invokeEvent);
+            StartCoroutine(ShowPanel(duration, () =>
+            {
+
+            }));
+        }
+
+        #endregion
+
+
+
+        #region Panel Behaviors
+        private IEnumerator ShowPanel(float duration, Action done = null)
+        {
+            _animationFeature.Change(InteractionState.Show);
+
+            yield return new WaitForSeconds(duration);
+
+            done?.Invoke();
         }
 
         #endregion
