@@ -51,11 +51,11 @@ namespace CollieMollie.UI
                 if (spriteState.IsValid())
                 {
                     if (!spriteState.IsEnabled) return;
-                    _spriteChangeAction = ChangeSprite();
+                    _spriteChangeAction = ApplySprite();
                     mono.StartCoroutine(_spriteChangeAction);
                 }
 
-                IEnumerator ChangeSprite()
+                IEnumerator ApplySprite()
                 {
                     GraphicImage.sprite = spriteState.TargetSprite;
                     yield return null;

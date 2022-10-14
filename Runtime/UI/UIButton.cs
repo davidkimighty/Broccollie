@@ -13,7 +13,10 @@ namespace CollieMollie.UI
         public event Action<InteractableEventArgs> OnHovered = null;
         public event Action<InteractableEventArgs> OnPressed = null;
         public event Action<InteractableEventArgs> OnSelected = null;
-        public event Action<InteractableEventArgs> OnDisabled = null;
+        public event Action<InteractableEventArgs> OnInteractive = null;
+        public event Action<InteractableEventArgs> OnNonInteractive = null;
+        public event Action<InteractableEventArgs> OnShow = null;
+        public event Action<InteractableEventArgs> OnHide = null;
 
         [Header("Button")]
         [SerializeField] private ButtonType _type = ButtonType.Button;
@@ -63,7 +66,7 @@ namespace CollieMollie.UI
             if (_interactable)
                 DefaultButton(true);
             else
-                DisabledButton(true);
+                NonInteractiveButton(true);
         }
 
         #region Public Functions
@@ -95,10 +98,26 @@ namespace CollieMollie.UI
                     SelectedButton(instantChange, playAudio, invokeEvent);
                     break;
 
-                case ButtonState.Disabled:
+                case ButtonState.Interactive:
+                    _selected = _pressed = _hovering = false;
+                    _interactable = true;
+                    InteractiveButton(instantChange, playAudio, invokeEvent);
+                    break;
+
+                case ButtonState.NonInteractive:
                     _selected = _pressed = _hovering = false;
                     _interactable = false;
-                    DisabledButton(instantChange, playAudio, invokeEvent);
+                    NonInteractiveButton(instantChange, playAudio, invokeEvent);
+                    break;
+
+                case ButtonState.Show:
+                    _interactable = true;
+                    ShowButton(instantChange, playAudio, invokeEvent);
+                    break;
+
+                case ButtonState.Hide:
+                    _interactable = false;
+                    HideButton(instantChange, playAudio, invokeEvent);
                     break;
             }
         }
@@ -179,14 +198,6 @@ namespace CollieMollie.UI
             OnSelected?.Invoke(new InteractableEventArgs(this));
         }
 
-        private void InvokeDisableAction()
-        {
-            _interactable = false;
-            DisabledButton();
-
-            OnDisabled?.Invoke(new InteractableEventArgs(this));
-            //Debug.Log("[UIButton] Invoke Disabled");
-        }
         #endregion
 
         #region Button Behaviors
@@ -250,15 +261,61 @@ namespace CollieMollie.UI
             }
         }
 
-        private void DisabledButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
+        private void InteractiveButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
-            ChangeColors(ButtonState.Disabled, instantChange);
-            ChangeSprites(ButtonState.Disabled);
-            ChangeAnimation(ButtonState.Disabled);
+            ChangeColors(ButtonState.Interactive, instantChange);
+            ChangeSprites(ButtonState.Interactive);
+            ChangeAnimation(ButtonState.Interactive);
             if (playAudio)
-                PlayAudio(ButtonState.Disabled);
+                PlayAudio(ButtonState.Interactive);
+
+            if (invokeEvent)
+            {
+                OnInteractive?.Invoke(new InteractableEventArgs(this));
+            }
         }
 
+        private void NonInteractiveButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
+        {
+            ChangeColors(ButtonState.NonInteractive, instantChange);
+            ChangeSprites(ButtonState.NonInteractive);
+            ChangeAnimation(ButtonState.NonInteractive);
+            if (playAudio)
+                PlayAudio(ButtonState.NonInteractive);
+
+            if (invokeEvent)
+            {
+                OnNonInteractive?.Invoke(new InteractableEventArgs(this));
+            }
+        }
+
+        private void ShowButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
+        {
+            ChangeColors(ButtonState.Show, instantChange);
+            ChangeSprites(ButtonState.Show);
+            ChangeAnimation(ButtonState.Show);
+            if (playAudio)
+                PlayAudio(ButtonState.Show);
+
+            if (invokeEvent)
+            {
+                OnShow?.Invoke(new InteractableEventArgs(this));
+            }
+        }
+
+        private void HideButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
+        {
+            ChangeColors(ButtonState.Hide, instantChange);
+            ChangeSprites(ButtonState.Hide);
+            ChangeAnimation(ButtonState.Hide);
+            if (playAudio)
+                PlayAudio(ButtonState.Hide);
+
+            if (invokeEvent)
+            {
+                OnHide?.Invoke(new InteractableEventArgs(this));
+            }
+        }
         #endregion
 
         #region Button Features
@@ -296,5 +353,5 @@ namespace CollieMollie.UI
     }
 
     public enum ButtonType { Button, Radio, Checkbox }
-    public enum ButtonState { None, Default, Hovered, Pressed, Selected, Enabled, Disabled }
+    public enum ButtonState { None, Default, Hovered, Pressed, Selected, Interactive, NonInteractive, Show, Hide }
 }

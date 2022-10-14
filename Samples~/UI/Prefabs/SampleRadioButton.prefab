@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -6489496076943585334}
   - component: {fileID: -7038941520266472371}
   - component: {fileID: -1756701333263320495}
+  - component: {fileID: 6143896071426045740}
   m_Layer: 5
   m_Name: SampleRadioButton
   m_TagString: Untagged
@@ -127,7 +128,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isEnabled: 1
-  _animator: {fileID: 0}
+  _elements:
+  - IsEnabled: 1
+    Animator: {fileID: 6143896071426045740}
+    OverrideAnimator: {fileID: 22100000, guid: e696c3f5dae5346b5bbc5bdab3e65b07, type: 2}
+    Preset: {fileID: 11400000, guid: 5fe387dea2950414895fc6818bfd41d9, type: 2}
+--- !u!95 &6143896071426045740
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4457399831778725272}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: e696c3f5dae5346b5bbc5bdab3e65b07, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5012093209121227771
 GameObject:
   m_ObjectHideFlags: 0

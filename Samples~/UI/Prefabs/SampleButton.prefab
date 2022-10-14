@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 6028969808745046360}
   - component: {fileID: -4096549255333956787}
   - component: {fileID: 6934814546311554928}
+  - component: {fileID: 6089998500727069878}
   m_Layer: 5
   m_Name: SampleButton
   m_TagString: Untagged
@@ -270,6 +271,7 @@ MonoBehaviour:
   _colorFeature: {fileID: 3382791220654752589}
   _audioFeature: {fileID: 6028969808745046360}
   _spriteFeature: {fileID: -4096549255333956787}
+  _animationFeature: {fileID: 6934814546311554928}
   _interactable: 1
   _hovering: 0
   _pressed: 0
@@ -335,3 +337,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d60472c31d04038a7819ee14df5b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isEnabled: 1
+  _elements:
+  - IsEnabled: 1
+    Animator: {fileID: 6089998500727069878}
+    OverrideAnimator: {fileID: 22100000, guid: e696c3f5dae5346b5bbc5bdab3e65b07, type: 2}
+    Preset: {fileID: 11400000, guid: e84a36df42fa34f2eafed103356dcdda, type: 2}
+--- !u!95 &6089998500727069878
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8476695733936652467}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
