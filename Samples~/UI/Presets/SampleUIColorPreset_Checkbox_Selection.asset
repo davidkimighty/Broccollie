@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb5f5fb211fad4a82bb0db1593a3719e, type: 3}
-  m_Name: UIColorPreset_Checkbox_Selection
+  m_Name: SampleUIColorPreset_Checkbox_Selection
   m_EditorClassIdentifier: 
   ColorStates:
   - TargetColor: {r: 0.16862746, g: 0.29411766, b: 0.4039216, a: 0}

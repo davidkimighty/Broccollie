@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2aeba627d01c47ac9faac084f4b61d3, type: 3}
-  m_Name: UIAudioPreset_Button
+  m_Name: SampleUIAudioPreset_Button
   m_EditorClassIdentifier: 
   AudioStates:
   - AudioPreset: {fileID: 11400000, guid: 6749566d393864acaa50d66ddfc18542, type: 2}

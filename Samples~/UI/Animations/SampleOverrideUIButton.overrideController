@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SampleUIButton
+  m_Name: SampleOverrideUIButton
   m_Controller: {fileID: 9100000, guid: 690831171c8b1439e918f4ad94c2ec52, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 4855a109e6ab04d5daab1f35371a9467, type: 2}

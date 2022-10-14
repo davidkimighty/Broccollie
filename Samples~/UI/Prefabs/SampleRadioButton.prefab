@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -7038941520266472371}
   - component: {fileID: -1756701333263320495}
   m_Layer: 5
-  m_Name: RadioButton
+  m_Name: SampleRadioButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
