@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OverrideAnimator: {fileID: 22100000, guid: e696c3f5dae5346b5bbc5bdab3e65b07, type: 2}
   AnimationStates:
-  - Animation: {fileID: 7400000, guid: 4855a109e6ab04d5daab1f35371a9467, type: 2}
-    ExecutionState: 1
-    IsEnabled: 1
   - Animation: {fileID: 7400000, guid: b04e6738aac1e4642a8cdc6a8c2ecf17, type: 2}
     ExecutionState: 7
     IsEnabled: 1

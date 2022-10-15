@@ -48,6 +48,9 @@ namespace CollieMollie.UI
                 if (_animationAction != null)
                     mono.StopCoroutine(_animationAction);
 
+                if (Animator.runtimeAnimatorController != Preset.OverrideAnimator)
+                    Animator.runtimeAnimatorController = Preset.OverrideAnimator;
+
                 UIAnimationPreset.AnimationState animationState = Array.Find(Preset.AnimationStates, x => x.ExecutionState == state);
                 if (!animationState.IsValid())
                     animationState = Array.Find(Preset.AnimationStates, x => x.ExecutionState == InteractionState.Default);
@@ -56,16 +59,18 @@ namespace CollieMollie.UI
                 {
                     if (!animationState.IsEnabled) return;
 
-                    _animationAction = PlayAnimation(Preset.OverrideAnimator);
+                    _animationAction = PlayAnimation();
                     mono.StartCoroutine(_animationAction);
                 }
 
-                IEnumerator PlayAnimation(AnimatorOverrideController overrideAnimator)
+                IEnumerator PlayAnimation()
                 {
-                    overrideAnimator[state.ToString()] = animationState.Animation;
-
-                    if (Animator.runtimeAnimatorController != overrideAnimator)
-                        Animator.runtimeAnimatorController = overrideAnimator;
+                    AnimatorOverrideController animator = (AnimatorOverrideController)Animator.runtimeAnimatorController;
+                    if (animator[state.ToString()] != animationState.Animation)
+                    {
+                        animator[state.ToString()] = animationState.Animation;
+                        Animator.runtimeAnimatorController = animator;
+                    }
 
                     if (animationState.ExecutionState != InteractionState.Hovered)
                     {
@@ -78,6 +83,7 @@ namespace CollieMollie.UI
                             InteractionState.Show,
                             InteractionState.Hide
                         };
+
                         for (int i = 0; i < layerZeroStates.Length; i++)
                         {
                             if (layerZeroStates[i] == animationState.ExecutionState) continue;
