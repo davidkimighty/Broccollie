@@ -83,4 +83,6 @@ namespace CollieMollie.Core
             return Sender != null;
         }
     }
+
+    public enum InteractionState { None, Default, Hovered, Pressed, Selected, Interactive, NonInteractive, Show, Hide }
 }

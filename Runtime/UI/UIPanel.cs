@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using CollieMollie.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace CollieMollie.UI
 {
-    public class UIButton : BasePointerInteractable
+    public class UIPanel : BasePointerInteractable
     {
         #region Variable Field
         public event Action<InteractableEventArgs> OnDefault = null;
@@ -18,8 +19,11 @@ namespace CollieMollie.UI
         public event Action<InteractableEventArgs> OnShow = null;
         public event Action<InteractableEventArgs> OnHide = null;
 
-        [Header("Button")]
-        [SerializeField] private ButtonType _type = ButtonType.Button;
+        [Header("Panel")]
+        // Nested Canvas method has lot of bugs in Unity 2021.3.
+        // [SerializeField] private Canvas _canvas = null;
+        [SerializeField] private GameObject _popupObject = null;
+
         [SerializeField] private UIColorFeature _colorFeature = null;
         [SerializeField] private UIAudioFeature _audioFeature = null;
         [SerializeField] private UISpriteFeature _spriteFeature = null;
@@ -62,19 +66,12 @@ namespace CollieMollie.UI
         }
         #endregion
 
-        private void Start()
+        protected virtual void Awake()
         {
-            _hovering = _pressed = _selected = false;
-            if (_interactable)
-                DefaultButton(true);
-            else
-                NonInteractiveButton(true);
+            _popupObject.gameObject.SetActive(_visible);
         }
 
         #region Public Functions
-        /// <summary>
-        /// Force state change.
-        /// </summary>
         public void ChangeState(InteractionState state, bool invokeEvent = true, bool playAudio = true, bool instantChange = false)
         {
             _interactable = true;
@@ -82,34 +79,34 @@ namespace CollieMollie.UI
             {
                 case InteractionState.Default:
                     _selected = _pressed = _hovering = false;
-                    DefaultButton(instantChange, playAudio, invokeEvent);
+                    Default(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.Hovered:
                     _hovering = true; _pressed = false;
-                    HoveredButton(instantChange, playAudio, invokeEvent);
+                    Hovered(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.Pressed:
                     _pressed = true;
-                    PressedButton(instantChange, playAudio, invokeEvent);
+                    Pressed(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.Selected:
                     _hovering = false; _pressed = false; _selected = true;
-                    SelectedButton(instantChange, playAudio, invokeEvent);
+                    Selected(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.Interactive:
                     _selected = _pressed = _hovering = false;
                     _interactable = true;
-                    InteractiveButton(instantChange, playAudio, invokeEvent);
+                    Interactive(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.NonInteractive:
                     _selected = _pressed = _hovering = false;
                     _interactable = false;
-                    NonInteractiveButton(instantChange, playAudio, invokeEvent);
+                    NonInteractive(instantChange, playAudio, invokeEvent);
                     break;
             }
         }
@@ -117,21 +114,21 @@ namespace CollieMollie.UI
         public virtual void SetVisible(bool isVisible, float duration, bool invokeEvent = true,
             bool playAudio = true, bool instantChange = false)
         {
-            if (gameObject.activeSelf != isVisible)
+            if (_popupObject.gameObject.activeSelf != isVisible)
             {
                 if (isVisible)
                 {
-                    gameObject.SetActive(isVisible);
-                    StartCoroutine(ShowButton(duration, instantChange, playAudio, invokeEvent, () =>
+                    _popupObject.gameObject.SetActive(isVisible);
+                    StartCoroutine(Show(duration, instantChange, playAudio, invokeEvent, () =>
                     {
                         ChangeState(InteractionState.Default);
                     }));
                 }
                 else
                 {
-                    StartCoroutine(HideButton(duration, instantChange, playAudio, invokeEvent, () =>
+                    StartCoroutine(Hide(duration, instantChange, playAudio, invokeEvent, () =>
                     {
-                        gameObject.SetActive(isVisible);
+                        _popupObject.gameObject.SetActive(isVisible);
                     }));
                 }
                 _visible = isVisible;
@@ -147,85 +144,8 @@ namespace CollieMollie.UI
         }
         #endregion
 
-        #region Button Interaction Publishers
-        protected override sealed void InvokeEnterAction(PointerEventData eventData = null)
-        {
-            if (!_interactable) return;
-
-            _hovering = true;
-            HoveredButton(false, true, false);
-            OnHovered?.Invoke(new InteractableEventArgs(this));
-        }
-
-        protected override sealed void InvokeExitAction(PointerEventData eventData = null)
-        {
-            if (!_interactable) return;
-
-            _hovering = false;
-            if (_selected)
-            {
-                SelectedButton(false, true, false);
-            }
-            else
-            {
-                _selected = _pressed = false;
-                DefaultButton(false, true, false);
-            }
-        }
-
-        protected override sealed void InvokeDownAction(PointerEventData eventData = null)
-        {
-            if (!_interactable) return;
-
-            _pressed = true;
-            PressedButton(false, true, false);
-
-            OnPressed?.Invoke(new InteractableEventArgs(this));
-        }
-
-        protected override sealed void InvokeUpAction(PointerEventData eventData = null)
-        {
-            if (!_interactable) return;
-
-            // Cancel Interaction
-            _pressed = false;
-            if (!_selected && !_hovering)
-            {
-                _selected = _pressed = _hovering = false;
-                DefaultButton(false, true, false);
-            }
-            else if (_selected && !_hovering)
-            {
-                SelectedButton(false, true, false);
-            }
-        }
-
-        protected override sealed void InvokeClickAction(PointerEventData eventData = null)
-        {
-            if (!_interactable) return;
-
-            _selected = _type switch
-            {
-                ButtonType.Radio => true,
-                ButtonType.Checkbox => !_selected,
-                _ => false
-            };
-
-            if (_selected)
-                SelectedButton(false, true, false);
-            else
-                DefaultButton(false, true, false);
-
-            if (_hovering)
-                HoveredButton(false, true, false);
-
-            OnSelected?.Invoke(new InteractableEventArgs(this));
-        }
-
-        #endregion
-
-        #region Button Behaviors
-        private void DefaultButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
+        #region Panel Behaviors
+        private void Default(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
             ChangeColors(InteractionState.Default, instantChange);
             ChangeSprites(InteractionState.Default);
@@ -240,7 +160,7 @@ namespace CollieMollie.UI
             }
         }
 
-        private void HoveredButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
+        private void Hovered(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
             ChangeColors(InteractionState.Hovered, instantChange);
             ChangeSprites(InteractionState.Hovered);
@@ -255,7 +175,7 @@ namespace CollieMollie.UI
             }
         }
 
-        private void PressedButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
+        private void Pressed(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
             ChangeColors(InteractionState.Pressed, instantChange);
             ChangeSprites(InteractionState.Pressed);
@@ -270,7 +190,7 @@ namespace CollieMollie.UI
             }
         }
 
-        private void SelectedButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
+        private void Selected(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
             ChangeColors(InteractionState.Selected, instantChange);
             ChangeSprites(InteractionState.Selected);
@@ -285,7 +205,7 @@ namespace CollieMollie.UI
             }
         }
 
-        private void InteractiveButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
+        private void Interactive(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
             ChangeColors(InteractionState.Interactive, instantChange);
             ChangeSprites(InteractionState.Interactive);
@@ -299,7 +219,7 @@ namespace CollieMollie.UI
             }
         }
 
-        private void NonInteractiveButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
+        private void NonInteractive(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
         {
             ChangeColors(InteractionState.NonInteractive, instantChange);
             ChangeSprites(InteractionState.NonInteractive);
@@ -313,7 +233,7 @@ namespace CollieMollie.UI
             }
         }
 
-        private IEnumerator ShowButton(float duration, bool instantChange = false, bool playAudio = true, bool invokeEvent = true, Action done = null)
+        private IEnumerator Show(float duration, bool instantChange = false, bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
             ChangeColors(InteractionState.Show, instantChange);
             ChangeSprites(InteractionState.Show);
@@ -328,7 +248,7 @@ namespace CollieMollie.UI
             done?.Invoke();
         }
 
-        private IEnumerator HideButton(float duration, bool instantChange = false, bool playAudio = true, bool invokeEvent = true, Action done = null)
+        private IEnumerator Hide(float duration, bool instantChange = false, bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
             ChangeColors(InteractionState.Hide, instantChange);
             ChangeSprites(InteractionState.Hide);
@@ -344,7 +264,7 @@ namespace CollieMollie.UI
         }
         #endregion
 
-        #region Button Features
+        #region Features
         private void ChangeColors(InteractionState state, bool instantChange = false)
         {
             if (_colorFeature == null) return;
@@ -377,7 +297,4 @@ namespace CollieMollie.UI
         }
         #endregion
     }
-
-    public enum ButtonType { Button, Radio, Checkbox }
-    
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CollieMollie.Audio;
+using CollieMollie.Core;
 using CollieMollie.Helper;
 using UnityEngine;
 
@@ -75,7 +76,8 @@ namespace CollieMollie.UI
                             InteractionState.Pressed,
                             InteractionState.Selected,
                             InteractionState.NonInteractive,
-                            InteractionState.Show
+                            InteractionState.Show,
+                            InteractionState.Hide
                         };
                         for (int i = 0; i < layerZeroStates.Length; i++)
                         {
