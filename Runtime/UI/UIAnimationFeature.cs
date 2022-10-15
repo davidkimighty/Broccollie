@@ -37,7 +37,6 @@ namespace CollieMollie.UI
             #region Variabled Field
             public bool IsEnabled = true;
             public Animator Animator = null;
-            public AnimatorOverrideController OverrideAnimator = null;
             public UIAnimationPreset Preset = null;
 
             private IEnumerator _animationAction = null;
@@ -57,16 +56,16 @@ namespace CollieMollie.UI
                 {
                     if (!animationState.IsEnabled) return;
 
-                    _animationAction = PlayAnimation();
+                    _animationAction = PlayAnimation(Preset.OverrideAnimator);
                     mono.StartCoroutine(_animationAction);
                 }
 
-                IEnumerator PlayAnimation()
+                IEnumerator PlayAnimation(AnimatorOverrideController overrideAnimator)
                 {
-                    OverrideAnimator[state.ToString()] = animationState.Animation;
+                    overrideAnimator[state.ToString()] = animationState.Animation;
 
-                    if (Animator.runtimeAnimatorController != OverrideAnimator)
-                        Animator.runtimeAnimatorController = OverrideAnimator;
+                    if (Animator.runtimeAnimatorController != overrideAnimator)
+                        Animator.runtimeAnimatorController = overrideAnimator;
 
                     if (animationState.ExecutionState != InteractionState.Hovered)
                     {

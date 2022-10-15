@@ -9,6 +9,7 @@ namespace CollieMollie.UI
     [CreateAssetMenu(fileName = "UIAnimationPreset", menuName = "CollieMollie/UI/AnimationPreset")]
     public class UIAnimationPreset : ScriptableObject
     {
+        public AnimatorOverrideController OverrideAnimator = null;
         public AnimationState[] AnimationStates = null;
 
         [System.Serializable]

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3071dd99f87924354a237199c2fdc90c, type: 3}
   m_Name: SampleUIAnimationPreset_Popup
   m_EditorClassIdentifier: 
+  OverrideAnimator: {fileID: 22100000, guid: e696c3f5dae5346b5bbc5bdab3e65b07, type: 2}
   AnimationStates:
   - Animation: {fileID: 7400000, guid: 4855a109e6ab04d5daab1f35371a9467, type: 2}
     ExecutionState: 1
