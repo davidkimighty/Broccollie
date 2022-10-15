@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace CollieMollie.UI
 {
-    [RequireComponent(typeof(Animator))]
     public class UIAnimationFeature : MonoBehaviour
     {
         #region Variable Field
