@@ -114,7 +114,7 @@ namespace CollieMollie.UI
             }
         }
 
-        public virtual void SetVisible(bool isVisible, float duration, bool invokeEvent = true,
+        public virtual void SetVisible(bool isVisible, float duration = 1f, bool invokeEvent = true,
             bool playAudio = true, bool instantChange = false)
         {
             if (gameObject.activeSelf != isVisible)
