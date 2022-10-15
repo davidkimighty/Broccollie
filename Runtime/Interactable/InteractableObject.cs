@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CollieMollie.Core;
-using CollieMollie.Editor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -23,28 +22,24 @@ namespace CollieMollie.Interactable
             get => _interactable;
         }
 
-        [ReadOnly]
         [SerializeField] private bool _hovering = false;
         public bool IsHovering
         {
             get => _hovering;
         }
 
-        [ReadOnly]
         [SerializeField] private bool _pressed = false;
         public bool IsPressed
         {
             get => _pressed;
         }
 
-        [ReadOnly]
         [SerializeField] private bool _selected = false;
         public bool IsSelected
         {
             get => _selected;
         }
 
-        [ReadOnly]
         [SerializeField] private bool _dragging = false;
         public bool IsDragging
         {
