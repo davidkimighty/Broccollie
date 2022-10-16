@@ -114,25 +114,24 @@ namespace CollieMollie.UI
         public virtual void SetVisible(bool isVisible, float duration = 1f, bool invokeEvent = true,
             bool playAudio = true, bool instantChange = false)
         {
-            if (_popupObject.gameObject.activeSelf != isVisible)
+            if (_popupObject.gameObject.activeSelf == isVisible) return;
+
+            if (isVisible)
             {
-                if (isVisible)
+                _popupObject.gameObject.SetActive(isVisible);
+                StartCoroutine(Show(duration, instantChange, playAudio, invokeEvent, () =>
+                {
+                    ChangeState(InteractionState.Default);
+                }));
+            }
+            else
+            {
+                StartCoroutine(Hide(duration, instantChange, playAudio, invokeEvent, () =>
                 {
                     _popupObject.gameObject.SetActive(isVisible);
-                    StartCoroutine(Show(duration, instantChange, playAudio, invokeEvent, () =>
-                    {
-                        ChangeState(InteractionState.Default);
-                    }));
-                }
-                else
-                {
-                    StartCoroutine(Hide(duration, instantChange, playAudio, invokeEvent, () =>
-                    {
-                        _popupObject.gameObject.SetActive(isVisible);
-                    }));
-                }
-                _visible = isVisible;
+                }));
             }
+            _visible = isVisible;
 
             if (invokeEvent)
             {
