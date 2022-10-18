@@ -48,7 +48,10 @@ namespace CollieMollie.UI
                     mono.StopCoroutine(_animationAction);
 
                 if (Animator.runtimeAnimatorController != Preset.OverrideAnimator)
-                    Animator.runtimeAnimatorController = Preset.OverrideAnimator;
+                {
+                    AnimatorOverrideController overrideController = new AnimatorOverrideController(Preset.OverrideAnimator);
+                    Animator.runtimeAnimatorController = overrideController;
+                }
 
                 UIAnimationPreset.AnimationState animationState = Array.Find(Preset.AnimationStates, x => x.ExecutionState == state);
                 if (!animationState.IsValid())
