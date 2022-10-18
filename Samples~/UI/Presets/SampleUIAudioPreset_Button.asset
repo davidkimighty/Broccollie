@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AudioStates:
   - AudioPreset: {fileID: 11400000, guid: 6749566d393864acaa50d66ddfc18542, type: 2}
-    ExecutionState: 4
+    ExecutionState: 3
     IsEnabled: 1

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3071dd99f87924354a237199c2fdc90c, type: 3}
+  m_Name: SampleUIAnimationPreset_PopupButton
+  m_EditorClassIdentifier: 
+  OverrideAnimator: {fileID: 22100000, guid: e696c3f5dae5346b5bbc5bdab3e65b07, type: 2}
+  AnimationStates:
+  - Animation: {fileID: 7400000, guid: b8059aee8d4224b9eb54153782526ca5, type: 2}
+    ExecutionState: 1
+    IsEnabled: 1
+  - Animation: {fileID: 7400000, guid: b04e6738aac1e4642a8cdc6a8c2ecf17, type: 2}
+    ExecutionState: 7
+    IsEnabled: 1
+  - Animation: {fileID: 7400000, guid: 6f6fa3921f7b94ab6853a4e8a7691de5, type: 2}
+    ExecutionState: 8
+    IsEnabled: 1

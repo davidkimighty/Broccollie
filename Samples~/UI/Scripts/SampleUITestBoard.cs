@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CollieMollie.Core;
 using CollieMollie.UI;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ public class SampleUITestBoard : MonoBehaviour
     [SerializeField] private UIButton _popupButtonOne = null;
     [SerializeField] private UIButton _popupButtonTwo = null;
     [SerializeField] private UIButton _popupButtonThree = null;
+
+    [Header("Tab Menu")]
+    [SerializeField] private UIButton _firstTab = null;
     #endregion
 
     private void Awake()
@@ -21,5 +25,10 @@ public class SampleUITestBoard : MonoBehaviour
         _triggerButtonTwo.OnSelected += (eventArgs) => _popupButtonTwo.SetVisible(!_popupButtonTwo.IsVisible);
         _triggerButtonThree.OnSelected += (eventArgs) => _popupButtonThree.SetVisible(!_popupButtonThree.IsVisible);
 
+    }
+
+    private void Start()
+    {
+        _firstTab.ChangeState(InteractionState.Selected, true, false);
     }
 }

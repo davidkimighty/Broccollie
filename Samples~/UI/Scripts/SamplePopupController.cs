@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CollieMollie.UI;
 using UnityEngine;
 
-public class SampleUIPanelController : MonoBehaviour
+public class SamplePopupController : MonoBehaviour
 {
     [SerializeField] private UIButton _triggerButton = null;
     [SerializeField] private UIPanel _panel = null;
@@ -11,7 +11,7 @@ public class SampleUIPanelController : MonoBehaviour
 
     private void Awake()
     {
-        _triggerButton.OnSelected += (eventArgs) => _panel.SetVisible(true, 1.3f);
-        _closeButton.OnSelected += (eventArgs) => _panel.SetVisible(false, 1.3f);
+        _triggerButton.OnSelected += (eventArgs) => _panel.SetVisible(true);
+        _closeButton.OnSelected += (eventArgs) => _panel.SetVisible(false);
     }
 }

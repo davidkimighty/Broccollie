@@ -38,6 +38,7 @@ namespace CollieMollie.UI
             public Animator Animator = null;
             public UIAnimationPreset Preset = null;
 
+            private AnimatorOverrideController _overrideController = null;
             private IEnumerator _animationAction = null;
             #endregion
 
@@ -47,10 +48,10 @@ namespace CollieMollie.UI
                 if (_animationAction != null)
                     mono.StopCoroutine(_animationAction);
 
-                if (Animator.runtimeAnimatorController != Preset.OverrideAnimator)
+                if (_overrideController == null)
                 {
-                    AnimatorOverrideController overrideController = new AnimatorOverrideController(Preset.OverrideAnimator);
-                    Animator.runtimeAnimatorController = overrideController;
+                    _overrideController = new AnimatorOverrideController(Preset.OverrideAnimator);
+                    Animator.runtimeAnimatorController = _overrideController;
                 }
 
                 UIAnimationPreset.AnimationState animationState = Array.Find(Preset.AnimationStates, x => x.ExecutionState == state);
