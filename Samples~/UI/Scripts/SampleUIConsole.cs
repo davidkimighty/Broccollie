@@ -11,25 +11,16 @@ public class SampleUIConsole : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _console = null;
 
+    [SerializeField] private GameObject _testBoard = null;
     [SerializeField] private UIButton[] _buttons = null;
-    [SerializeField] private UIButton[] _radioButtons = null;
-    [SerializeField] private UIButton[] _checkboxButtons = null;
 
     private void Awake()
     {
+        _buttons = _testBoard.GetComponentsInChildren<UIButton>();
+
         for (int i = 0; i < _buttons.Length; i++)
         {
             _buttons[i].OnSelected += (eventArgs) => PrintName(eventArgs, ONSELECT);
-        }
-
-        for (int i = 0; i < _radioButtons.Length; i++)
-        {
-            _radioButtons[i].OnSelected += (eventArgs) => PrintName(eventArgs, ONSELECT);
-        }
-
-        for (int i = 0; i < _checkboxButtons.Length; i++)
-        {
-            _checkboxButtons[i].OnSelected += (eventArgs) => PrintName(eventArgs, ONSELECT);
         }
     }
 

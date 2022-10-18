@@ -9,15 +9,6 @@ namespace CollieMollie.UI
     public class UIButton : BasePointerInteractable
     {
         #region Variable Field
-        public event Action<InteractableEventArgs> OnDefault = null;
-        public event Action<InteractableEventArgs> OnHovered = null;
-        public event Action<InteractableEventArgs> OnPressed = null;
-        public event Action<InteractableEventArgs> OnSelected = null;
-        public event Action<InteractableEventArgs> OnInteractive = null;
-        public event Action<InteractableEventArgs> OnNonInteractive = null;
-        public event Action<InteractableEventArgs> OnShow = null;
-        public event Action<InteractableEventArgs> OnHide = null;
-
         [Header("Button")]
         [SerializeField] private ButtonType _type = ButtonType.Button;
         [SerializeField] private UIColorFeature _colorFeature = null;
@@ -25,179 +16,37 @@ namespace CollieMollie.UI
         [SerializeField] private UISpriteFeature _spriteFeature = null;
         [SerializeField] private UIAnimationFeature _animationFeature = null;
 
-        [SerializeField] protected bool _visible = true;
-        public bool IsVisible
-        {
-            get => _visible;
-        }
-
-        [SerializeField] private bool _interactable = true;
-        public bool IsInteractable
-        {
-            get => _interactable;
-        }
-
-        [SerializeField] private bool _hovering = false;
-        public bool IsHovering
-        {
-            get => _hovering;
-        }
-
-        [SerializeField] private bool _pressed = false;
-        public bool IsPressed
-        {
-            get => _pressed;
-        }
-
-        [SerializeField] private bool _selected = false;
-        public bool IsSelected
-        {
-            get => _selected;
-        }
-
-        [SerializeField] private bool _dragging = false;
-        public bool IsDragging
-        {
-            get => _dragging;
-        }
         #endregion
 
         private void Start()
         {
+            _interactableTarget = gameObject;
             _hovering = _pressed = _selected = false;
             if (_interactable)
-                DefaultButton(true);
+                DefaultBehavior(true);
             else
-                NonInteractiveButton(true);
+                NonInteractiveBehavior(true);
         }
 
-        #region Public Functions
-        /// <summary>
-        /// Force state change.
-        /// </summary>
-        public void ChangeState(InteractionState state, bool invokeEvent = true, bool playAudio = true, bool instantChange = false)
+        #region Button Interactions
+        protected override void InvokeEnterAction(PointerEventData eventData = null)
         {
-            _interactable = true;
-            switch (state)
-            {
-                case InteractionState.Default:
-                    _selected = _pressed = _hovering = false;
-                    DefaultButton(instantChange, playAudio, invokeEvent);
-                    break;
-
-                case InteractionState.Hovered:
-                    _hovering = true; _pressed = false;
-                    HoveredButton(instantChange, playAudio, invokeEvent);
-                    break;
-
-                case InteractionState.Pressed:
-                    _pressed = true;
-                    PressedButton(instantChange, playAudio, invokeEvent);
-                    break;
-
-                case InteractionState.Selected:
-                    _hovering = false; _pressed = false; _selected = true;
-                    SelectedButton(instantChange, playAudio, invokeEvent);
-                    break;
-
-                case InteractionState.Interactive:
-                    _selected = _pressed = _hovering = false;
-                    _interactable = true;
-                    InteractiveButton(instantChange, playAudio, invokeEvent);
-                    break;
-
-                case InteractionState.NonInteractive:
-                    _selected = _pressed = _hovering = false;
-                    _interactable = false;
-                    NonInteractiveButton(instantChange, playAudio, invokeEvent);
-                    break;
-            }
+            base.InvokeEnterAction(eventData);
         }
 
-        public virtual void SetVisible(bool isVisible, float duration = 1f, bool invokeEvent = true,
-            bool playAudio = true, bool instantChange = false)
+        protected override void InvokeExitAction(PointerEventData eventData = null)
         {
-            if (gameObject.activeSelf != isVisible)
-            {
-                if (isVisible)
-                {
-                    gameObject.SetActive(isVisible);
-                    StartCoroutine(ShowButton(duration, instantChange, playAudio, invokeEvent, () =>
-                    {
-                        ChangeState(InteractionState.Default);
-                    }));
-                }
-                else
-                {
-                    StartCoroutine(HideButton(duration, instantChange, playAudio, invokeEvent, () =>
-                    {
-                        gameObject.SetActive(isVisible);
-                    }));
-                }
-                _visible = isVisible;
-            }
-
-            if (invokeEvent)
-            {
-                if (isVisible)
-                    OnShow?.Invoke(new InteractableEventArgs(this));
-                else
-                    OnHide?.Invoke(new InteractableEventArgs(this));
-            }
-        }
-        #endregion
-
-        #region Button Interaction Publishers
-        protected override sealed void InvokeEnterAction(PointerEventData eventData = null)
-        {
-            if (!_interactable) return;
-
-            _hovering = true;
-            HoveredButton(false, true, false);
-            OnHovered?.Invoke(new InteractableEventArgs(this));
+            base.InvokeExitAction(eventData);
         }
 
-        protected override sealed void InvokeExitAction(PointerEventData eventData = null)
+        protected override void InvokeDownAction(PointerEventData eventData = null)
         {
-            if (!_interactable) return;
-
-            _hovering = false;
-            if (_selected)
-            {
-                SelectedButton(false, true, false);
-            }
-            else
-            {
-                _selected = _pressed = false;
-                DefaultButton(false, true, false);
-            }
+            base.InvokeDownAction(eventData);
         }
 
-        protected override sealed void InvokeDownAction(PointerEventData eventData = null)
+        protected override void InvokeUpAction(PointerEventData eventData = null)
         {
-            if (!_interactable) return;
-
-            _pressed = true;
-            PressedButton(false, true, false);
-
-            OnPressed?.Invoke(new InteractableEventArgs(this));
-        }
-
-        protected override sealed void InvokeUpAction(PointerEventData eventData = null)
-        {
-            if (!_interactable) return;
-
-            // Cancel Interaction
-            _pressed = false;
-            if (!_selected && !_hovering)
-            {
-                _selected = _pressed = _hovering = false;
-                DefaultButton(false, true, false);
-            }
-            else if (_selected && !_hovering)
-            {
-                SelectedButton(false, true, false);
-            }
+            base.InvokeUpAction(eventData);
         }
 
         protected override sealed void InvokeClickAction(PointerEventData eventData = null)
@@ -212,140 +61,19 @@ namespace CollieMollie.UI
             };
 
             if (_selected)
-                SelectedButton(false, true, false);
+                SelectedBehavior(false, true, false);
             else
-                DefaultButton(false, true, false);
+                DefaultBehavior(false, true, false);
 
             if (_hovering)
-                HoveredButton(false, true, false);
+                HoveredBehavior(false, true, false);
 
-            OnSelected?.Invoke(new InteractableEventArgs(this));
-        }
-
-        #endregion
-
-        #region Button Behaviors
-        private void DefaultButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
-        {
-            ChangeColors(InteractionState.Default, instantChange);
-            ChangeSprites(InteractionState.Default);
-            ChangeAnimation(InteractionState.Default);
-            if (playAudio)
-                PlayAudio(InteractionState.Default);
-
-            if (invokeEvent)
-            {
-                OnDefault?.Invoke(new InteractableEventArgs(this));
-                //Debug.Log("[UIButton] Invoke Default");
-            }
-        }
-
-        private void HoveredButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
-        {
-            ChangeColors(InteractionState.Hovered, instantChange);
-            ChangeSprites(InteractionState.Hovered);
-            ChangeAnimation(InteractionState.Hovered);
-            if (playAudio)
-                PlayAudio(InteractionState.Hovered);
-
-            if (invokeEvent)
-            {
-                OnHovered?.Invoke(new InteractableEventArgs(this));
-                //Debug.Log("[UIButton] Invoke Hovered");
-            }
-        }
-
-        private void PressedButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
-        {
-            ChangeColors(InteractionState.Pressed, instantChange);
-            ChangeSprites(InteractionState.Pressed);
-            ChangeAnimation(InteractionState.Pressed);
-            if (playAudio)
-                PlayAudio(InteractionState.Pressed);
-
-            if (invokeEvent)
-            {
-                OnPressed?.Invoke(new InteractableEventArgs(this));
-                //Debug.Log("[UIButton] Invoke Pressed");
-            }
-        }
-
-        private void SelectedButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
-        {
-            ChangeColors(InteractionState.Selected, instantChange);
-            ChangeSprites(InteractionState.Selected);
-            ChangeAnimation(InteractionState.Selected);
-            if (playAudio)
-                PlayAudio(InteractionState.Selected);
-
-            if (invokeEvent)
-            {
-                OnSelected?.Invoke(new InteractableEventArgs(this));
-                //Debug.Log("[UIButton] Invoke Selected");
-            }
-        }
-
-        private void InteractiveButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
-        {
-            ChangeColors(InteractionState.Interactive, instantChange);
-            ChangeSprites(InteractionState.Interactive);
-            ChangeAnimation(InteractionState.Interactive);
-            if (playAudio)
-                PlayAudio(InteractionState.Interactive);
-
-            if (invokeEvent)
-            {
-                OnInteractive?.Invoke(new InteractableEventArgs(this));
-            }
-        }
-
-        private void NonInteractiveButton(bool instantChange = false, bool playAudio = true, bool invokeEvent = true)
-        {
-            ChangeColors(InteractionState.NonInteractive, instantChange);
-            ChangeSprites(InteractionState.NonInteractive);
-            ChangeAnimation(InteractionState.NonInteractive);
-            if (playAudio)
-                PlayAudio(InteractionState.NonInteractive);
-
-            if (invokeEvent)
-            {
-                OnNonInteractive?.Invoke(new InteractableEventArgs(this));
-            }
-        }
-
-        private IEnumerator ShowButton(float duration, bool instantChange = false, bool playAudio = true, bool invokeEvent = true, Action done = null)
-        {
-            ChangeColors(InteractionState.Show, instantChange);
-            ChangeSprites(InteractionState.Show);
-            ChangeAnimation(InteractionState.Show);
-            if (playAudio)
-                PlayAudio(InteractionState.Show);
-
-            yield return new WaitForSeconds(duration);
-
-            if (invokeEvent)
-                OnShow?.Invoke(new InteractableEventArgs(this));
-            done?.Invoke();
-        }
-
-        private IEnumerator HideButton(float duration, bool instantChange = false, bool playAudio = true, bool invokeEvent = true, Action done = null)
-        {
-            ChangeColors(InteractionState.Hide, instantChange);
-            ChangeSprites(InteractionState.Hide);
-            ChangeAnimation(InteractionState.Hide);
-            if (playAudio)
-                PlayAudio(InteractionState.Hide);
-
-            yield return new WaitForSeconds(duration);
-
-            if (invokeEvent)
-                OnHide?.Invoke(new InteractableEventArgs(this));
-            done?.Invoke();
+            RaiseSelectedEvent(new InteractableEventArgs(this));
         }
         #endregion
 
         #region Button Features
-        private void ChangeColors(InteractionState state, bool instantChange = false)
+        protected override void ChangeColors(InteractionState state, bool instantChange = false)
         {
             if (_colorFeature == null) return;
 
@@ -355,21 +83,21 @@ namespace CollieMollie.UI
                 _colorFeature.ChangeGradually(state);
         }
 
-        private void ChangeSprites(InteractionState state)
+        protected override void ChangeSprites(InteractionState state)
         {
             if (_spriteFeature == null) return;
 
             _spriteFeature.Change(state);
         }
 
-        private void PlayAudio(InteractionState state)
+        protected override void PlayAudio(InteractionState state)
         {
             if (_audioFeature == null) return;
 
             _audioFeature.Play(state);
         }
 
-        private void ChangeAnimation(InteractionState state)
+        protected override void PlayAnimation(InteractionState state)
         {
             if (_animationFeature == null) return;
 
