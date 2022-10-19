@@ -19,8 +19,6 @@ namespace CollieMollie.Core
         public event Action<InteractableEventArgs> OnHide = null;
 
         [Header("Base Pointer Interactable")]
-        [SerializeField] protected GameObject _interactableTarget = null;
-
         [SerializeField] protected bool _visible = true;
         public bool IsVisible
         {
@@ -56,6 +54,8 @@ namespace CollieMollie.Core
         {
             get => _dragging;
         }
+
+        protected GameObject _interactableTarget = null;
         #endregion
 
         #region Public Functions
