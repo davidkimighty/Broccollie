@@ -23,7 +23,7 @@ namespace CollieMollie.UI
 
         #endregion
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
             _interactableTarget = _popupObject;
             _interactableTarget.SetActive(_visible);

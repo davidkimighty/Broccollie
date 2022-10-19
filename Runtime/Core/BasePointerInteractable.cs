@@ -62,40 +62,48 @@ namespace CollieMollie.Core
         /// <summary>
         /// Force state change.
         /// </summary>
-        public void ChangeState(InteractionState state, bool invokeEvent = true, bool playAudio = true, bool instantChange = false)
+        public void ChangeState(InteractionState state, bool invokeEvent = true, bool playAudio = true,
+            bool instantChange = false, bool forceChange = false)
         {
-            _interactable = true;
             switch (state)
             {
                 case InteractionState.Default:
+                    if (!_interactable || forceChange) return;
+                    _interactable = true;
                     _selected = _pressed = _hovering = false;
                     DefaultBehavior(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.Hovered:
+                    if (!_interactable || forceChange) return;
+                    _interactable = true;
                     _hovering = true; _pressed = false;
                     HoveredBehavior(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.Pressed:
+                    if (!_interactable || forceChange) return;
+                    _interactable = true;
                     _pressed = true;
                     PressedBehavior(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.Selected:
+                    if (!_interactable || forceChange) return;
+                    _interactable = true;
                     _hovering = false; _pressed = false; _selected = true;
                     SelectedBehavior(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.Interactive:
-                    _selected = _pressed = _hovering = false;
                     _interactable = true;
+                    _selected = _pressed = _hovering = false;
                     InteractiveBehavior(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.NonInteractive:
-                    _selected = _pressed = _hovering = false;
                     _interactable = false;
+                    _selected = _pressed = _hovering = false;
                     NonInteractiveBehavior(instantChange, playAudio, invokeEvent);
                     break;
             }
@@ -104,6 +112,7 @@ namespace CollieMollie.Core
         public void SetVisible(bool isVisible, float duration = 1f, bool invokeEvent = true,
             bool playAudio = true, bool instantChange = false)
         {
+            _interactable = false;
             if (_interactableTarget.activeSelf != isVisible)
             {
                 if (isVisible)
@@ -111,6 +120,7 @@ namespace CollieMollie.Core
                     _interactableTarget.SetActive(isVisible);
                     StartCoroutine(ShowBehavior(duration, instantChange, playAudio, invokeEvent, () =>
                     {
+                        _interactable = true;
                         ChangeState(InteractionState.Default);
                     }));
                 }
@@ -133,6 +143,15 @@ namespace CollieMollie.Core
             }
         }
         #endregion
+
+        protected virtual void Awake()
+        {
+            _hovering = _pressed = _selected = false;
+            if (_interactable)
+                DefaultBehavior(true);
+            else
+                NonInteractiveBehavior(true);
+        }
 
         #region Publishers
         protected void RaiseDefaultEvent(InteractableEventArgs args) => OnDefault?.Invoke(args);

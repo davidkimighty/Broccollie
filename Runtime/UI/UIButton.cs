@@ -18,14 +18,11 @@ namespace CollieMollie.UI
 
         #endregion
 
-        private void Start()
+        protected override void Awake()
         {
             _interactableTarget = gameObject;
-            _hovering = _pressed = _selected = false;
-            if (_interactable)
-                DefaultBehavior(true);
-            else
-                NonInteractiveBehavior(true);
+
+            base.Awake();
         }
 
         #region Button Interactions
