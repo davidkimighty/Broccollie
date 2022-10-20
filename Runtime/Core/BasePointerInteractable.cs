@@ -113,26 +113,23 @@ namespace CollieMollie.Core
             bool playAudio = true, bool instantChange = false)
         {
             _interactable = false;
-            if (_interactableTarget.activeSelf != isVisible)
+            if (isVisible)
             {
-                if (isVisible)
+                _interactableTarget.SetActive(isVisible);
+                StartCoroutine(ShowBehavior(duration, instantChange, playAudio, invokeEvent, () =>
+                {
+                    _interactable = true;
+                    ChangeState(InteractionState.Default);
+                }));
+            }
+            else
+            {
+                StartCoroutine(HideBehavior(duration, instantChange, playAudio, invokeEvent, () =>
                 {
                     _interactableTarget.SetActive(isVisible);
-                    StartCoroutine(ShowBehavior(duration, instantChange, playAudio, invokeEvent, () =>
-                    {
-                        _interactable = true;
-                        ChangeState(InteractionState.Default);
-                    }));
-                }
-                else
-                {
-                    StartCoroutine(HideBehavior(duration, instantChange, playAudio, invokeEvent, () =>
-                    {
-                        _interactableTarget.SetActive(isVisible);
-                    }));
-                }
-                _visible = isVisible;
+                }));
             }
+            _visible = isVisible;
 
             if (invokeEvent)
             {
