@@ -373,6 +373,9 @@ namespace CollieMollie.Core
         protected virtual IEnumerator ShowBehavior(float duration, bool instantChange = false, bool playAudio = true,
             bool invokeEvent = true, Action done = null)
         {
+            if (invokeEvent)
+                RaiseShowEvent(new InteractableEventArgs(this));
+
             ChangeColors(InteractionState.Show, instantChange);
             ChangeSprites(InteractionState.Show);
             PlayAnimation(InteractionState.Show);
@@ -381,14 +384,15 @@ namespace CollieMollie.Core
 
             yield return new WaitForSeconds(duration);
 
-            if (invokeEvent)
-                RaiseShowEvent(new InteractableEventArgs(this));
             done?.Invoke();
         }
 
         protected virtual IEnumerator HideBehavior(float duration, bool instantChange = false, bool playAudio = true,
             bool invokeEvent = true, Action done = null)
         {
+            if (invokeEvent)
+                RaiseHideEvent(new InteractableEventArgs(this));
+
             ChangeColors(InteractionState.Hide, instantChange);
             ChangeSprites(InteractionState.Hide);
             PlayAnimation(InteractionState.Hide);
@@ -397,8 +401,6 @@ namespace CollieMollie.Core
 
             yield return new WaitForSeconds(duration);
 
-            if (invokeEvent)
-                RaiseHideEvent(new InteractableEventArgs(this));
             done?.Invoke();
         }
         #endregion
