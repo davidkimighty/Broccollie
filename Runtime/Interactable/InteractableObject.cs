@@ -14,6 +14,11 @@ namespace CollieMollie.Interactable
         #endregion
 
         #region Button Features
+        protected override void SetActive(bool state)
+        {
+            
+        }
+
         protected override void ChangeColors(InteractionState state, bool instantChange = false)
         {
             

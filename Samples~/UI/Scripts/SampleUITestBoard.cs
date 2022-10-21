@@ -21,9 +21,9 @@ public class SampleUITestBoard : MonoBehaviour
 
     private void Awake()
     {
-        _triggerButtonOne.OnSelected += (eventArgs) => _popupButtonOne.SetVisible(!_popupButtonOne.IsVisible);
-        _triggerButtonTwo.OnSelected += (eventArgs) => _popupButtonTwo.SetVisible(!_popupButtonTwo.IsVisible);
-        _triggerButtonThree.OnSelected += (eventArgs) => _popupButtonThree.SetVisible(!_popupButtonThree.IsVisible);
+        _triggerButtonOne.OnSelected += (eventArgs) => _popupButtonOne.SetVisible(!_popupButtonOne.IsVisible, 0.6f);
+        _triggerButtonTwo.OnSelected += (eventArgs) => _popupButtonTwo.SetVisible(!_popupButtonTwo.IsVisible, 0.6f);
+        _triggerButtonThree.OnSelected += (eventArgs) => _popupButtonThree.SetVisible(!_popupButtonThree.IsVisible, 0.6f);
 
     }
 

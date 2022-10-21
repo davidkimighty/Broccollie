@@ -267,17 +267,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc51e4c99d49047ce81e53d935cd999d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 0
-  _colorFeature: {fileID: 3382791220654752589}
-  _audioFeature: {fileID: 6028969808745046360}
-  _spriteFeature: {fileID: -4096549255333956787}
-  _animationFeature: {fileID: 6934814546311554928}
   _visible: 1
   _interactable: 1
   _hovering: 0
   _pressed: 0
   _selected: 0
   _dragging: 0
+  _buttonObject: {fileID: 8476695733936652467}
+  _type: 0
+  _colorFeature: {fileID: 3382791220654752589}
+  _audioFeature: {fileID: 6028969808745046360}
+  _spriteFeature: {fileID: -4096549255333956787}
+  _animationFeature: {fileID: 6934814546311554928}
 --- !u!114 &3382791220654752589
 MonoBehaviour:
   m_ObjectHideFlags: 0

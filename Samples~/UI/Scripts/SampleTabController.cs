@@ -10,7 +10,7 @@ public class SampleTabController : MonoBehaviour
 
     private void Awake()
     {
-        _triggerButton.OnSelected += (eventArgs) => _panel.SetVisible(true, 0, false, false);
+        _triggerButton.OnSelected += (eventArgs) => _panel.SetVisible(true);
         _triggerButton.OnDefault += (eventArgs) => _panel.SetVisible(false, 0, false, false);
     }
 

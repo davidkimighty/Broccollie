@@ -11,7 +11,7 @@ public class SamplePopupController : MonoBehaviour
 
     private void Awake()
     {
-        _triggerButton.OnSelected += (eventArgs) => _panel.SetVisible(true);
-        _closeButton.OnSelected += (eventArgs) => _panel.SetVisible(false);
+        _triggerButton.OnSelected += (eventArgs) => _panel.SetVisible(true, 0.6f);
+        _closeButton.OnSelected += (eventArgs) => _panel.SetVisible(false, 0.6f);
     }
 }

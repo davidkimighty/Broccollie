@@ -10,6 +10,7 @@ namespace CollieMollie.UI
     {
         #region Variable Field
         [Header("Button")]
+        [SerializeField] private GameObject _buttonObject = null;
         [SerializeField] private ButtonType _type = ButtonType.Button;
         [SerializeField] private UIColorFeature _colorFeature = null;
         [SerializeField] private UIAudioFeature _audioFeature = null;
@@ -17,13 +18,6 @@ namespace CollieMollie.UI
         [SerializeField] private UIAnimationFeature _animationFeature = null;
 
         #endregion
-
-        protected override void Awake()
-        {
-            _interactableTarget = gameObject;
-
-            base.Awake();
-        }
 
         #region Button Interactions
         protected override void InvokeEnterAction(PointerEventData eventData = null)
@@ -70,6 +64,11 @@ namespace CollieMollie.UI
         #endregion
 
         #region Button Features
+        protected override void SetActive(bool state)
+        {
+            _buttonObject.SetActive(state);
+        }
+
         protected override void ChangeColors(InteractionState state, bool instantChange = false)
         {
             if (_colorFeature == null) return;

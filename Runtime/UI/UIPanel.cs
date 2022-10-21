@@ -23,12 +23,6 @@ namespace CollieMollie.UI
 
         #endregion
 
-        protected override void Awake()
-        {
-            _interactableTarget = _popupObject;
-            _interactableTarget.SetActive(_visible);
-        }
-
         #region Panel Interactions
         protected override void InvokeEnterAction(PointerEventData eventData = null)
         {
@@ -57,6 +51,11 @@ namespace CollieMollie.UI
         #endregion
 
         #region Features
+        protected override void SetActive(bool state)
+        {
+            _popupObject.SetActive(state);
+        }
+
         protected override void ChangeColors(InteractionState state, bool instantChange = false)
         {
             if (_colorFeature == null) return;
@@ -87,6 +86,7 @@ namespace CollieMollie.UI
 
             _animationFeature.Change(state);
         }
+
         #endregion
     }
 }

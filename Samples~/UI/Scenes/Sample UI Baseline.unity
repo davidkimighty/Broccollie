@@ -274,6 +274,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1543573768093949115, guid: ee7c78c48639c4d24a72eb4ac6fbbc42,
         type: 3}
+      propertyPath: _visible
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1543573768093949115, guid: ee7c78c48639c4d24a72eb4ac6fbbc42,
+        type: 3}
       propertyPath: _spriteFeature
       value: 
       objectReference: {fileID: 0}
@@ -405,7 +410,7 @@ PrefabInstance:
     - target: {fileID: 8476695733936652467, guid: ee7c78c48639c4d24a72eb4ac6fbbc42,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -4096549255333956787, guid: ee7c78c48639c4d24a72eb4ac6fbbc42, type: 3}
@@ -1440,7 +1445,7 @@ PrefabInstance:
     - target: {fileID: 375660086595221650, guid: f4fbc1f8286fd484bb8c7e93641dedc4,
         type: 3}
       propertyPath: _visible
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2747317186560632227, guid: f4fbc1f8286fd484bb8c7e93641dedc4,
         type: 3}
@@ -1944,14 +1949,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23
-  m_fontSizeBase: 23
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 8
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2903,7 +2908,7 @@ PrefabInstance:
     - target: {fileID: 2516535319062752878, guid: 9aa3c779f34b442a094bf746472b19e1,
         type: 3}
       propertyPath: _interactable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4457399831778725272, guid: 9aa3c779f34b442a094bf746472b19e1,
         type: 3}
@@ -3217,6 +3222,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3247021469232871493, guid: f4fbc1f8286fd484bb8c7e93641dedc4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7864935840171923871, guid: f4fbc1f8286fd484bb8c7e93641dedc4,
         type: 3}
       propertyPath: m_Name
@@ -3393,7 +3403,7 @@ PrefabInstance:
     - target: {fileID: 375660086595221650, guid: f4fbc1f8286fd484bb8c7e93641dedc4,
         type: 3}
       propertyPath: _visible
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2747317186560632227, guid: f4fbc1f8286fd484bb8c7e93641dedc4,
         type: 3}
@@ -4903,6 +4913,7 @@ MonoBehaviour:
   - {fileID: 2046578800}
   - {fileID: 1931259378}
   - {fileID: 1194952478}
+  _panels: []
 --- !u!1 &1175598486
 GameObject:
   m_ObjectHideFlags: 0
@@ -4980,7 +4991,7 @@ PrefabInstance:
     - target: {fileID: -1543573768093949115, guid: ee7c78c48639c4d24a72eb4ac6fbbc42,
         type: 3}
       propertyPath: _interactable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5694816930031578016, guid: ee7c78c48639c4d24a72eb4ac6fbbc42,
         type: 3}
@@ -5128,7 +5139,7 @@ PrefabInstance:
     - target: {fileID: 5749920042183171454, guid: 7d881b04dd6f844ceb06b468ac3a060b,
         type: 3}
       propertyPath: _interactable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5835693001275424392, guid: 7d881b04dd6f844ceb06b468ac3a060b,
         type: 3}

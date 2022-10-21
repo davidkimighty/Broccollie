@@ -55,7 +55,7 @@ namespace CollieMollie.Core
             get => _dragging;
         }
 
-        protected GameObject _interactableTarget = null;
+        private IEnumerator _visibleAction = null;
         #endregion
 
         #region Public Functions
@@ -109,46 +109,38 @@ namespace CollieMollie.Core
             }
         }
 
-        public void SetVisible(bool isVisible, float duration = 1f, bool invokeEvent = true,
+        /// <summary>
+        /// 
+        /// </summary>
+        public void SetVisible(bool isVisible, float duration = 0f, bool invokeEvent = true,
             bool playAudio = true, bool instantChange = false)
         {
+            if (_visibleAction != null)
+                StopCoroutine(_visibleAction);
             _interactable = false;
+
             if (isVisible)
             {
-                _interactableTarget.SetActive(isVisible);
-                StartCoroutine(ShowBehavior(duration, instantChange, playAudio, invokeEvent, () =>
+                SetActive(isVisible);
+                _visibleAction = ShowBehavior(duration, instantChange, playAudio, invokeEvent, () =>
                 {
                     _interactable = true;
                     ChangeState(InteractionState.Default);
-                }));
+                });
+                StartCoroutine(_visibleAction);
+                _interactable = true;
             }
             else
             {
-                StartCoroutine(HideBehavior(duration, instantChange, playAudio, invokeEvent, () =>
+                _visibleAction = HideBehavior(duration, instantChange, playAudio, invokeEvent, () =>
                 {
-                    _interactableTarget.SetActive(isVisible);
-                }));
+                    SetActive(isVisible);
+                });
+                StartCoroutine(_visibleAction);
             }
             _visible = isVisible;
-
-            if (invokeEvent)
-            {
-                if (isVisible)
-                    OnShow?.Invoke(new InteractableEventArgs(this));
-                else
-                    OnHide?.Invoke(new InteractableEventArgs(this));
-            }
         }
         #endregion
-
-        protected virtual void Awake()
-        {
-            _hovering = _pressed = _selected = false;
-            if (_interactable)
-                DefaultBehavior(true);
-            else
-                NonInteractiveBehavior(true);
-        }
 
         #region Publishers
         protected void RaiseDefaultEvent(InteractableEventArgs args) => OnDefault?.Invoke(args);
@@ -295,7 +287,7 @@ namespace CollieMollie.Core
 
             if (invokeEvent)
             {
-                OnDefault?.Invoke(new InteractableEventArgs(this));
+                RaiseDefaultEvent(new InteractableEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Default");
             }
         }
@@ -311,7 +303,7 @@ namespace CollieMollie.Core
 
             if (invokeEvent)
             {
-                OnHovered?.Invoke(new InteractableEventArgs(this));
+                RaiseHoveredEvent(new InteractableEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Hovered");
             }
         }
@@ -327,7 +319,7 @@ namespace CollieMollie.Core
 
             if (invokeEvent)
             {
-                OnPressed?.Invoke(new InteractableEventArgs(this));
+                RaisePressedEvent(new InteractableEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Pressed");
             }
         }
@@ -343,7 +335,7 @@ namespace CollieMollie.Core
 
             if (invokeEvent)
             {
-                OnSelected?.Invoke(new InteractableEventArgs(this));
+                RaiseSelectedEvent(new InteractableEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Selected");
             }
         }
@@ -359,7 +351,7 @@ namespace CollieMollie.Core
 
             if (invokeEvent)
             {
-                OnInteractive?.Invoke(new InteractableEventArgs(this));
+                RaiseInteractiveEvent(new InteractableEventArgs(this));
             }
         }
 
@@ -374,7 +366,7 @@ namespace CollieMollie.Core
 
             if (invokeEvent)
             {
-                OnNonInteractive?.Invoke(new InteractableEventArgs(this));
+                RaiseNonInteractiveEvent(new InteractableEventArgs(this));
             }
         }
 
@@ -390,7 +382,7 @@ namespace CollieMollie.Core
             yield return new WaitForSeconds(duration);
 
             if (invokeEvent)
-                OnShow?.Invoke(new InteractableEventArgs(this));
+                RaiseShowEvent(new InteractableEventArgs(this));
             done?.Invoke();
         }
 
@@ -406,12 +398,14 @@ namespace CollieMollie.Core
             yield return new WaitForSeconds(duration);
 
             if (invokeEvent)
-                OnHide?.Invoke(new InteractableEventArgs(this));
+                RaiseHideEvent(new InteractableEventArgs(this));
             done?.Invoke();
         }
         #endregion
 
         #region Features
+        protected abstract void SetActive(bool state);
+
         protected virtual void ChangeColors(InteractionState state, bool instantChange = false) { }
 
         protected virtual void ChangeSprites(InteractionState state) { }
@@ -419,6 +413,7 @@ namespace CollieMollie.Core
         protected virtual void PlayAudio(InteractionState state) { }
 
         protected virtual void PlayAnimation(InteractionState state) { }
+
         #endregion
     }
 
