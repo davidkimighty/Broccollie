@@ -68,28 +68,28 @@ namespace CollieMollie.Core
             switch (state)
             {
                 case InteractionState.Default:
-                    if (!_interactable || forceChange) return;
+                    if (!_interactable && !forceChange) return;
                     _interactable = true;
                     _selected = _pressed = _hovering = false;
                     DefaultBehavior(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.Hovered:
-                    if (!_interactable || forceChange) return;
+                    if (!_interactable && !forceChange) return;
                     _interactable = true;
                     _hovering = true; _pressed = false;
                     HoveredBehavior(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.Pressed:
-                    if (!_interactable || forceChange) return;
+                    if (!_interactable && !forceChange) return;
                     _interactable = true;
                     _pressed = true;
                     PressedBehavior(instantChange, playAudio, invokeEvent);
                     break;
 
                 case InteractionState.Selected:
-                    if (!_interactable || forceChange) return;
+                    if (!_interactable && !forceChange) return;
                     _interactable = true;
                     _hovering = false; _pressed = false; _selected = true;
                     SelectedBehavior(instantChange, playAudio, invokeEvent);
