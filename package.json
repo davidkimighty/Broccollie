@@ -1,8 +1,8 @@
 {
-    "name": "com.colliemollie.randomlibrary",
-    "version": "0.6.2",
-    "displayName": "Random Library",
-    "description": "Bunch of random game ready features.",
+    "name": "com.colliemollie.brocollie",
+    "version": "0.6.3",
+    "displayName": "Brocollie",
+    "description": "Essential game ready features in URP",
     "unity": "2021.3",
     "dependencies": {
 
