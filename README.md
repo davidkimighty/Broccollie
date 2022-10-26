@@ -5,9 +5,9 @@
 <!-- PROJECT LOGO -->
 <div align="center">
   <!-- <img src="" alt="Logo" width="130" height="130"> -->
-  <h1 align="center">Random Library</h1>
+  <h1 align="center">Brocollie</h1>
   <p align="center">
-    Bunch of random game features in URP.
+    Essential game features in Unity URP.
     <br />
     <a href="https://colliecollie.netlify.app"><strong>Find more about me »</strong></a>
     <br />
