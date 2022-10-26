@@ -34,17 +34,6 @@ Baseline UI is a preset-based and event-driven UI component. Using presets for c
 ![RadioButtonGIF](https://user-images.githubusercontent.com/32338791/190601424-50887fe6-1ab3-470b-a0c1-2e8f2996eeb5.gif)
 ![CheckboxGIF](https://user-images.githubusercontent.com/32338791/190601388-829e0f33-d986-4187-833e-00797786e43d.gif)
 
-## Development Progress
-
-- [x] Button, Checkbox, Radio Button baseline components.
-- [x] Button State(Default, Hoverred, Pressed, Selected, Enabled, Disabled) events. 
-- [x] Button group controls.
-- [x] Preset based Color Feature.
-- [x] Preset based Audio Feature.
-- [ ] Preset based Sprite Feature.
-- [ ] Preset based Scale Feature.
-- [ ] Animation Curve preset + Loop(Linear, Boomerang).
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 <br />
 
