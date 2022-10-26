@@ -52,10 +52,5 @@ Screen effect using Render Pipeline.
  </tr>
 </table>
 
-## Development Progress
-
-- [x] Fade Control.
-- [x] Blur Control.
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 <br />
