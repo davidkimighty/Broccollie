@@ -5,7 +5,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
   <!-- <img src="" alt="Logo" width="130" height="130"> -->
-  <h1 align="center">Brocollie</h1>
+  <h1 align="center">Broccollie</h1>
   <p align="center">
     Essential game features in Unity URP.
     <br />
