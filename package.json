@@ -1,7 +1,7 @@
 {
-    "name": "com.colliemollie.brocollie",
-    "version": "0.6.3",
-    "displayName": "Brocollie",
+    "name": "com.colliemollie.broccollie",
+    "version": "0.6.4",
+    "displayName": "Broccollie",
     "description": "Essential game ready features in URP",
     "unity": "2021.3",
     "dependencies": {
