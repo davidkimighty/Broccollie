@@ -19,22 +19,22 @@ namespace CollieMollie.Interactable
             
         }
 
-        protected override void ChangeColors(InteractionState state, bool instantChange = false)
+        protected override void ChangeColorFeature(InteractionState state, bool instantChange = false)
         {
             
         }
 
-        protected override void ChangeSprites(InteractionState state)
+        protected override void ChangeSpriteFeature(InteractionState state)
         {
             
         }
 
-        protected override void PlayAudio(InteractionState state)
+        protected override void PlayAudioFeature(InteractionState state)
         {
             
         }
 
-        protected override void PlayAnimation(InteractionState state)
+        protected override void PlayAnimationFeature(InteractionState state)
         {
             
         }

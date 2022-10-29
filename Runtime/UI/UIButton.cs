@@ -16,6 +16,7 @@ namespace CollieMollie.UI
         [SerializeField] private UIAudioFeature _audioFeature = null;
         [SerializeField] private UISpriteFeature _spriteFeature = null;
         [SerializeField] private UIAnimationFeature _animationFeature = null;
+        [SerializeField] private UIDragFeature _dragFeature = null;
 
         #endregion
 
@@ -61,6 +62,25 @@ namespace CollieMollie.UI
 
             RaiseSelectedEvent(new InteractableEventArgs(this));
         }
+
+        protected override void BeginDragAction(PointerEventData eventData = null)
+        {
+            base.BeginDragAction(eventData);
+
+            _dragFeature.SetBlocksRaycasts(false);
+        }
+
+        protected override void DragAction(PointerEventData eventData = null)
+        {
+            base.DragAction(eventData);
+        }
+
+        protected override void EndDragAction(PointerEventData eventData = null)
+        {
+            base.EndDragAction(eventData);
+
+            _dragFeature.SetBlocksRaycasts(true);
+        }
         #endregion
 
         #region Button Features
@@ -69,7 +89,7 @@ namespace CollieMollie.UI
             _buttonObject.SetActive(state);
         }
 
-        protected override void ChangeColors(InteractionState state, bool instantChange = false)
+        protected override void ChangeColorFeature(InteractionState state, bool instantChange = false)
         {
             if (_colorFeature == null) return;
 
@@ -79,25 +99,32 @@ namespace CollieMollie.UI
                 _colorFeature.ChangeGradually(state);
         }
 
-        protected override void ChangeSprites(InteractionState state)
+        protected override void ChangeSpriteFeature(InteractionState state)
         {
             if (_spriteFeature == null) return;
 
             _spriteFeature.Change(state);
         }
 
-        protected override void PlayAudio(InteractionState state)
+        protected override void PlayAudioFeature(InteractionState state)
         {
             if (_audioFeature == null) return;
 
             _audioFeature.Play(state);
         }
 
-        protected override void PlayAnimation(InteractionState state)
+        protected override void PlayAnimationFeature(InteractionState state)
         {
             if (_animationFeature == null) return;
 
             _animationFeature.Change(state);
+        }
+
+        protected override void DragFeature(PointerEventData eventData)
+        {
+            if (_dragFeature == null) return;
+
+            _dragFeature.Drag(eventData);
         }
         #endregion
     }

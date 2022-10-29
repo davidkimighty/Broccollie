@@ -56,7 +56,7 @@ namespace CollieMollie.UI
             _popupObject.SetActive(state);
         }
 
-        protected override void ChangeColors(InteractionState state, bool instantChange = false)
+        protected override void ChangeColorFeature(InteractionState state, bool instantChange = false)
         {
             if (_colorFeature == null) return;
 
@@ -66,21 +66,21 @@ namespace CollieMollie.UI
                 _colorFeature.ChangeGradually(state);
         }
 
-        protected override void ChangeSprites(InteractionState state)
+        protected override void ChangeSpriteFeature(InteractionState state)
         {
             if (_spriteFeature == null) return;
 
             _spriteFeature.Change(state);
         }
 
-        protected override void PlayAudio(InteractionState state)
+        protected override void PlayAudioFeature(InteractionState state)
         {
             if (_audioFeature == null) return;
 
             _audioFeature.Play(state);
         }
 
-        protected override void PlayAnimation(InteractionState state)
+        protected override void PlayAnimationFeature(InteractionState state)
         {
             if (_animationFeature == null) return;
 

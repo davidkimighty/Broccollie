@@ -6,7 +6,8 @@ using UnityEngine.EventSystems;
 
 namespace CollieMollie.Core
 {
-    public abstract class BasePointerInteractable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public abstract class BasePointerInteractable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler,
+        IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         #region Variable Field
         public event Action<InteractableEventArgs> OnDefault = null;
@@ -17,8 +18,12 @@ namespace CollieMollie.Core
         public event Action<InteractableEventArgs> OnNonInteractive = null;
         public event Action<InteractableEventArgs> OnShow = null;
         public event Action<InteractableEventArgs> OnHide = null;
+        public event Action<InteractableEventArgs> OnBeginDrag = null;
+        public event Action<InteractableEventArgs> OnDrag = null;
+        public event Action<InteractableEventArgs> OnEndDrag = null;
+        public event Action<InteractableEventArgs> OnDrop = null;
 
-        [Header("Base Pointer Interactable")]
+        [Header("State")]
         [SerializeField] protected bool _visible = true;
         public bool IsVisible
         {
@@ -159,6 +164,12 @@ namespace CollieMollie.Core
 
         protected void RaiseHideEvent(InteractableEventArgs args) => OnHide?.Invoke(args);
 
+        protected void RaiseBeginDragEvent(InteractableEventArgs args) => OnBeginDrag?.Invoke(args);
+
+        protected void RaiseDragEvent(InteractableEventArgs args) => OnDrag?.Invoke(args);
+
+        protected void RaiseEndDragEvent(InteractableEventArgs args) => OnEndDrag?.Invoke(args);
+
         #endregion
 
         #region Pointer Callbacks
@@ -263,6 +274,8 @@ namespace CollieMollie.Core
         protected virtual void DragAction(PointerEventData eventData = null)
         {
             if (this.GetType() == typeof(BasePointerInteractable)) return;
+
+            DragBehavior(eventData);
         }
 
         protected virtual void EndDragAction(PointerEventData eventData = null)
@@ -273,17 +286,18 @@ namespace CollieMollie.Core
 
             _dragging = false;
         }
+
         #endregion
 
         #region Behaviors
         protected virtual void DefaultBehavior(bool instantChange = false, bool playAudio = true,
             bool invokeEvent = true)
         {
-            ChangeColors(InteractionState.Default, instantChange);
-            ChangeSprites(InteractionState.Default);
-            PlayAnimation(InteractionState.Default);
+            ChangeColorFeature(InteractionState.Default, instantChange);
+            ChangeSpriteFeature(InteractionState.Default);
+            PlayAnimationFeature(InteractionState.Default);
             if (playAudio)
-                PlayAudio(InteractionState.Default);
+                PlayAudioFeature(InteractionState.Default);
 
             if (invokeEvent)
             {
@@ -295,79 +309,79 @@ namespace CollieMollie.Core
         protected virtual void HoveredBehavior(bool instantChange = false, bool playAudio = true,
             bool invokeEvent = true)
         {
-            ChangeColors(InteractionState.Hovered, instantChange);
-            ChangeSprites(InteractionState.Hovered);
-            PlayAnimation(InteractionState.Hovered);
-            if (playAudio)
-                PlayAudio(InteractionState.Hovered);
-
             if (invokeEvent)
             {
                 RaiseHoveredEvent(new InteractableEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Hovered");
             }
+
+            ChangeColorFeature(InteractionState.Hovered, instantChange);
+            ChangeSpriteFeature(InteractionState.Hovered);
+            PlayAnimationFeature(InteractionState.Hovered);
+            if (playAudio)
+                PlayAudioFeature(InteractionState.Hovered);
         }
 
         protected virtual void PressedBehavior(bool instantChange = false, bool playAudio = true,
             bool invokeEvent = true)
         {
-            ChangeColors(InteractionState.Pressed, instantChange);
-            ChangeSprites(InteractionState.Pressed);
-            PlayAnimation(InteractionState.Pressed);
-            if (playAudio)
-                PlayAudio(InteractionState.Pressed);
-
             if (invokeEvent)
             {
                 RaisePressedEvent(new InteractableEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Pressed");
             }
+
+            ChangeColorFeature(InteractionState.Pressed, instantChange);
+            ChangeSpriteFeature(InteractionState.Pressed);
+            PlayAnimationFeature(InteractionState.Pressed);
+            if (playAudio)
+                PlayAudioFeature(InteractionState.Pressed);
         }
 
         protected virtual void SelectedBehavior(bool instantChange = false, bool playAudio = true,
             bool invokeEvent = true)
         {
-            ChangeColors(InteractionState.Selected, instantChange);
-            ChangeSprites(InteractionState.Selected);
-            PlayAnimation(InteractionState.Selected);
-            if (playAudio)
-                PlayAudio(InteractionState.Selected);
-
             if (invokeEvent)
             {
                 RaiseSelectedEvent(new InteractableEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Selected");
             }
+
+            ChangeColorFeature(InteractionState.Selected, instantChange);
+            ChangeSpriteFeature(InteractionState.Selected);
+            PlayAnimationFeature(InteractionState.Selected);
+            if (playAudio)
+                PlayAudioFeature(InteractionState.Selected);
         }
 
         protected virtual void InteractiveBehavior(bool instantChange = false, bool playAudio = true,
             bool invokeEvent = true)
         {
-            ChangeColors(InteractionState.Interactive, instantChange);
-            ChangeSprites(InteractionState.Interactive);
-            PlayAnimation(InteractionState.Interactive);
-            if (playAudio)
-                PlayAudio(InteractionState.Interactive);
-
             if (invokeEvent)
             {
                 RaiseInteractiveEvent(new InteractableEventArgs(this));
             }
+
+            ChangeColorFeature(InteractionState.Interactive, instantChange);
+            ChangeSpriteFeature(InteractionState.Interactive);
+            PlayAnimationFeature(InteractionState.Interactive);
+            if (playAudio)
+                PlayAudioFeature(InteractionState.Interactive);
         }
 
         protected virtual void NonInteractiveBehavior(bool instantChange = false, bool playAudio = true,
             bool invokeEvent = true)
         {
-            ChangeColors(InteractionState.NonInteractive, instantChange);
-            ChangeSprites(InteractionState.NonInteractive);
-            PlayAnimation(InteractionState.NonInteractive);
-            if (playAudio)
-                PlayAudio(InteractionState.NonInteractive);
-
             if (invokeEvent)
             {
                 RaiseNonInteractiveEvent(new InteractableEventArgs(this));
             }
+
+            ChangeColorFeature(InteractionState.NonInteractive, instantChange);
+            ChangeSpriteFeature(InteractionState.NonInteractive);
+            PlayAnimationFeature(InteractionState.NonInteractive);
+            if (playAudio)
+                PlayAudioFeature(InteractionState.NonInteractive);
         }
 
         protected virtual IEnumerator ShowBehavior(float duration, bool instantChange = false, bool playAudio = true,
@@ -376,11 +390,11 @@ namespace CollieMollie.Core
             if (invokeEvent)
                 RaiseShowEvent(new InteractableEventArgs(this));
 
-            ChangeColors(InteractionState.Show, instantChange);
-            ChangeSprites(InteractionState.Show);
-            PlayAnimation(InteractionState.Show);
+            ChangeColorFeature(InteractionState.Show, instantChange);
+            ChangeSpriteFeature(InteractionState.Show);
+            PlayAnimationFeature(InteractionState.Show);
             if (playAudio)
-                PlayAudio(InteractionState.Show);
+                PlayAudioFeature(InteractionState.Show);
 
             yield return new WaitForSeconds(duration);
 
@@ -393,28 +407,57 @@ namespace CollieMollie.Core
             if (invokeEvent)
                 RaiseHideEvent(new InteractableEventArgs(this));
 
-            ChangeColors(InteractionState.Hide, instantChange);
-            ChangeSprites(InteractionState.Hide);
-            PlayAnimation(InteractionState.Hide);
+            ChangeColorFeature(InteractionState.Hide, instantChange);
+            ChangeSpriteFeature(InteractionState.Hide);
+            PlayAnimationFeature(InteractionState.Hide);
             if (playAudio)
-                PlayAudio(InteractionState.Hide);
+                PlayAudioFeature(InteractionState.Hide);
 
             yield return new WaitForSeconds(duration);
 
             done?.Invoke();
         }
+
+        protected virtual void BeginDragBehavior(PointerEventData eventData, bool invokeEvent = true)
+        {
+            if (invokeEvent)
+            {
+                RaiseBeginDragEvent(new InteractableEventArgs(this));
+            }
+        }
+
+        protected virtual void DragBehavior(PointerEventData eventData, bool invokeEvent = true)
+        {
+            if (invokeEvent)
+            {
+                RaiseDragEvent(new InteractableEventArgs(this));
+            }
+
+            DragFeature(eventData);
+        }
+
+        protected virtual void EndDragBehavior(PointerEventData eventData, bool invokeEvent = true)
+        {
+            if (invokeEvent)
+            {
+                RaiseEndDragEvent(new InteractableEventArgs(this));
+            }
+        }
+
         #endregion
 
         #region Features
         protected abstract void SetActive(bool state);
 
-        protected virtual void ChangeColors(InteractionState state, bool instantChange = false) { }
+        protected virtual void ChangeColorFeature(InteractionState state, bool instantChange = false) { }
 
-        protected virtual void ChangeSprites(InteractionState state) { }
+        protected virtual void ChangeSpriteFeature(InteractionState state) { }
 
-        protected virtual void PlayAudio(InteractionState state) { }
+        protected virtual void PlayAudioFeature(InteractionState state) { }
 
-        protected virtual void PlayAnimation(InteractionState state) { }
+        protected virtual void PlayAnimationFeature(InteractionState state) { }
+
+        protected virtual void DragFeature(PointerEventData eventData) { }
 
         #endregion
     }
