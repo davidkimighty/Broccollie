@@ -16,6 +16,7 @@ namespace CollieMollie.System
     {
         Persistent,
         Title,
+        Loading,
         Gameplay
     }
 }

@@ -48,7 +48,8 @@ namespace CollieMollie.System
         #endregion
 
         #region Scene Load Features
-        private IEnumerator SceneLoadProcess(ScenePreset targetScene, bool showLoadingScreen, Action transitionLogic = null)
+        private IEnumerator SceneLoadProcess(ScenePreset targetScene, bool showLoadingScreen,
+            float minimumWaitTime = 0f, Action transitionLogic = null)
         {
             yield return _fadeController.FadeIn();
 
@@ -62,7 +63,7 @@ namespace CollieMollie.System
             }
 
             transitionLogic?.Invoke();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(minimumWaitTime);
 
             if (showLoadingScreen)
             {
