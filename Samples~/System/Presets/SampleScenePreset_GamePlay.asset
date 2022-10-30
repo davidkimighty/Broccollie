@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba92080e47c04cc3bd5e5b7d0d6495c, type: 3}
   m_Name: SampleScenePreset_GamePlay
   m_EditorClassIdentifier: 
-  SceneType: 0
+  SceneType: 3
   SceneReference:
     m_AssetGUID: 1170a9d121fa344cabda3f4c508c06e5
     m_SubObjectName: 

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -11,22 +12,14 @@ namespace CollieMollie.System
         #region Variable Field
         [Header("Initializer")]
         [SerializeField] private ScenePreset _persistentScene = null;
-
         #endregion
 
         private void Start()
         {
             if (_persistentScene.SceneType == SceneType.Persistent)
             {
-                _persistentScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += UnloadInitializer;
+                _persistentScene.SceneReference.LoadSceneAsync(LoadSceneMode.Single, true);
             }
         }
-
-        #region Subscribers
-        private void UnloadInitializer(AsyncOperationHandle<SceneInstance> obj)
-        {
-            SceneManager.UnloadSceneAsync(0);
-        }
-        #endregion
     }
 }
