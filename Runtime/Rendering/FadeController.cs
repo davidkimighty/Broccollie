@@ -58,6 +58,7 @@ namespace CollieMollie.Rendering
         #region Fade Features
         private IEnumerator Fade(float targetValue, float duration = 1f)
         {
+            if (_fadeFeature == null) yield break;
             float elapsedTime = 0f;
             float startFadeValue = _fadeFeature.RenderPass.GetFadeAmount();
             while (elapsedTime < duration)

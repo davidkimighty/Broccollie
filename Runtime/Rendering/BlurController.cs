@@ -53,6 +53,7 @@ namespace CollieMollie.Rendering
         #region Blur Controls
         private IEnumerator Blur(float targetValue, float duration = 1f)
         {
+            if (_blurFeature == null) yield break;
             float elapsedTime = 0f;
             float startBlurValue = _blurFeature.RenderPass.GetBlurStrength();
             while (elapsedTime < duration)
