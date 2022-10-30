@@ -53,9 +53,9 @@ namespace CollieMollie.System
             {
                 yield return LoadScene(_loadingScene);
                 yield return _fadeController.FadeOut();
-            }
 
-            yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(2f);
+            }
 
             if (showLoadingScreen)
             {
