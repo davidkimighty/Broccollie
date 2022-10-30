@@ -73,7 +73,7 @@ namespace CollieMollie.System
             {
                 if (preset == null || preset.SceneType == SceneType.Persistent) yield break;
 
-                AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(preset.scene.name);
+                AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(preset.SceneName);
                 if (unloadOperation == null) yield break;
 
                 while (!unloadOperation.isDone)
@@ -86,7 +86,7 @@ namespace CollieMollie.System
 
             IEnumerator LoadScene(SceneAssetPreset preset)
             {
-                AsyncOperation loadOperation = SceneManager.LoadSceneAsync(preset.scene.name, LoadSceneMode.Additive);
+                AsyncOperation loadOperation = SceneManager.LoadSceneAsync(preset.SceneName, LoadSceneMode.Additive);
                 if (loadOperation == null) yield break;
 
                 while (!loadOperation.isDone)

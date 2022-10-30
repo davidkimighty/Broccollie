@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: SampleSceneAssetPreset_Persistent
   m_EditorClassIdentifier: 
   SceneType: 0
-  scene: {fileID: 102900000, guid: 1fcb432ccd68f43dbbb94623202dba70, type: 3}
+  Scene: {fileID: 102900000, guid: 1fcb432ccd68f43dbbb94623202dba70, type: 3}
+  SceneName: SampleSceneAsset_Persistent

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CollieMollie.System
 {
@@ -10,7 +11,16 @@ namespace CollieMollie.System
     {
         public SceneType SceneType;
 #if UNITY_EDITOR
-        public SceneAsset scene;
+        public SceneAsset Scene;
+#endif
+        public string SceneName;
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (Scene != null)
+                SceneName = Scene.name;
+        }
 #endif
     }
 }

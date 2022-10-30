@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: SampleSceneAssetPreset_GamePlay
   m_EditorClassIdentifier: 
   SceneType: 3
-  scene: {fileID: 102900000, guid: 1c92958b73b3c4173b2dc2bf49a0fd8c, type: 3}
+  Scene: {fileID: 102900000, guid: 1c92958b73b3c4173b2dc2bf49a0fd8c, type: 3}
+  SceneName: SampleSceneAsset_GamePlay
