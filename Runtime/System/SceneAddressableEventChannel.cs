@@ -6,15 +6,15 @@ using UnityEngine;
 namespace CollieMollie.System
 {
     [CreateAssetMenu(fileName = "EventChannel_Scene", menuName = "CollieMollie/System/SceneEventChannel")]
-    public class SceneEventChannel : ScriptableObject
+    public class SceneAddressableEventChannel : ScriptableObject
     {
         #region Events
-        public event Action<ScenePreset, bool> OnSceneLoadRequest = null;
+        public event Action<SceneAddressablePreset, bool> OnSceneLoadRequest = null;
 
         #endregion
 
         #region Publishers
-        public void RaiseSceneLoadEvent(ScenePreset targetScene, bool showLoadingScreen)
+        public void RaiseSceneLoadEvent(SceneAddressablePreset targetScene, bool showLoadingScreen)
         {
             if (targetScene == null) return;
 

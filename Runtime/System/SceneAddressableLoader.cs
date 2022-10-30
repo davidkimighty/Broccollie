@@ -9,17 +9,17 @@ using UnityEngine.SceneManagement;
 
 namespace CollieMollie.System
 {
-    public class SceneLoader : MonoBehaviour
+    public class SceneAddressableLoader : MonoBehaviour
     {
         #region Variable Field
         [Header("Scene Loader")]
-        [SerializeField] private SceneEventChannel _sceneEventChannel = null;
-        [SerializeField] private ScenePreset _loadingScene = null;
+        [SerializeField] private SceneAddressableEventChannel _sceneEventChannel = null;
+        [SerializeField] private SceneAddressablePreset _loadingScene = null;
 
         [SerializeField] private FadeController _fadeController = null;
 
         private bool _loading = false;
-        private ScenePreset _currentlyLoadedScene = null;
+        private SceneAddressablePreset _currentlyLoadedScene = null;
         private IEnumerator _sceneLoadAction = null;
         #endregion
 
@@ -34,7 +34,7 @@ namespace CollieMollie.System
         }
 
         #region Subscribers
-        private void LoadNewScene(ScenePreset scene, bool showLoadingScreen)
+        private void LoadNewScene(SceneAddressablePreset scene, bool showLoadingScreen)
         {
             if (_loading) return;
             _loading = true;
@@ -48,7 +48,7 @@ namespace CollieMollie.System
         #endregion
 
         #region Scene Load Features
-        private IEnumerator SceneLoadProcess(ScenePreset targetScene, bool showLoadingScreen,
+        private IEnumerator SceneLoadProcess(SceneAddressablePreset targetScene, bool showLoadingScreen,
             float minimumWaitTime = 0f, Action transitionLogic = null)
         {
             yield return _fadeController.FadeIn();
@@ -78,12 +78,12 @@ namespace CollieMollie.System
             _loading = false;
         }
 
-        private void SceneUnload(ScenePreset scene)
+        private void SceneUnload(SceneAddressablePreset scene)
         {
             scene.SceneReference.UnLoadScene();
         }
 
-        private IEnumerator SceneLoad(ScenePreset scene, bool activate)
+        private IEnumerator SceneLoad(SceneAddressablePreset scene, bool activate)
         {
             AsyncOperationHandle loadOperation = scene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, activate);
             if (!loadOperation.IsValid()) yield break;

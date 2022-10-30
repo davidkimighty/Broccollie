@@ -3,8 +3,8 @@ using UnityEngine.AddressableAssets;
 
 namespace CollieMollie.System
 {
-    [CreateAssetMenu(fileName = "ScenePreset", menuName = "CollieMollie/System/ScenePreset")]
-    public class ScenePreset : ScriptableObject
+    [CreateAssetMenu(fileName = "SceneAddressablePreset", menuName = "CollieMollie/System/SceneAddressablePreset")]
+    public class SceneAddressablePreset : ScriptableObject
     {
         #region Variable Field
         public SceneType SceneType;

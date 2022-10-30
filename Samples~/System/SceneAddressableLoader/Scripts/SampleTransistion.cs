@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class SampleTransistion : MonoBehaviour
 {
-    [SerializeField] private SceneEventChannel sceneEventChannel = null;
-    [SerializeField] private ScenePreset sceneOne = null;
+    [SerializeField] private SceneAddressableEventChannel sceneEventChannel = null;
+    [SerializeField] private SceneAddressablePreset sceneOne = null;
 
     private void Start()
     {
