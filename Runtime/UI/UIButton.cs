@@ -67,7 +67,8 @@ namespace CollieMollie.UI
         {
             base.BeginDragAction(eventData);
 
-            _dragFeature.SetBlocksRaycasts(false);
+            if (_dragFeature != null)
+                _dragFeature.SetBlocksRaycasts(false);
         }
 
         protected override void DragAction(PointerEventData eventData = null)
@@ -79,7 +80,8 @@ namespace CollieMollie.UI
         {
             base.EndDragAction(eventData);
 
-            _dragFeature.SetBlocksRaycasts(true);
+            if (_dragFeature != null)
+                _dragFeature.SetBlocksRaycasts(true);
         }
         #endregion
 
