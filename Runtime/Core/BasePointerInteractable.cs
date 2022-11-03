@@ -269,6 +269,8 @@ namespace CollieMollie.Core
             if (!_interactable) return;
 
             _dragging = true;
+
+            BeginDragBehavior(eventData);
         }
 
         protected virtual void DragAction(PointerEventData eventData = null)
@@ -285,6 +287,8 @@ namespace CollieMollie.Core
             if (!_interactable) return;
 
             _dragging = false;
+
+            EndDragBehavior(eventData);
         }
 
         #endregion
