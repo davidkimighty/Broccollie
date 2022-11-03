@@ -36,6 +36,11 @@ namespace CollieMollie.UI
             _canvasGroup.blocksRaycasts = state;
             _dragging = !state;
         }
+
+        public void SetDragArea(Canvas canvas)
+        {
+            _dragArea = canvas;
+        }
         #endregion
 
         private IEnumerator UpdateDraggablePosition()
