@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CollieMollie.Helper;
+using CollieMollie.System;
 using TMPro;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class SampleSaveManager : MonoBehaviour
     private const string SAVEFILENAME = "TestData.json";
     private static string s_savePath = null;
 
+    [SerializeField] private SaveLoadController _saveController = null;
     [SerializeField] private SamplePlayerData _playerData = null;
     [SerializeField] private TextMeshProUGUI _nameText = null;
 
@@ -24,13 +26,13 @@ public class SampleSaveManager : MonoBehaviour
 
     public void Save()
     {
-        Helper.SaveDataEncrypt(s_savePath, AESKEY, _playerData);
+        _saveController.SaveDataEncrypt(s_savePath, AESKEY, _playerData);
         Debug.Log($"[SampleSaveManager] Saved path: {s_savePath}");
     }
 
     public void Load()
     {
-        Helper.LoadDataDecrypt(Application.persistentDataPath + SAVEFOLDER, SAVEFILENAME, AESKEY, _playerData);
+        _saveController.LoadDataDecrypt(Application.persistentDataPath + SAVEFOLDER, SAVEFILENAME, AESKEY, _playerData);
         _nameText.text = _playerData.Name;
     }
 }

@@ -24,6 +24,7 @@ public class SampleUIConsole : MonoBehaviour
         for (int i = 0; i < _buttons.Length; i++)
         {
             _buttons[i].OnSelected += (eventArgs) => PrintName(eventArgs, ONSELECT);
+            _buttons[i].OnBeginDrag += (eventArgs) => PrintName(eventArgs, "Begin Drag");
         }
 
         for (int i = 0; i < _panels.Length; i++)

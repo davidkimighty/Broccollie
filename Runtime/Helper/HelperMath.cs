@@ -170,5 +170,21 @@ namespace CollieMollie.Helper
             done?.Invoke();
         }
         #endregion
+
+        #region Value
+        public static IEnumerator<float> LerpValue(float startValue, float targetValue, float duration, AnimationCurve curve, Action done = null)
+        {
+            float elapsedTime = 0f;
+            while (elapsedTime < duration)
+            {
+                float lerpValue = Mathf.LerpUnclamped(startValue, targetValue, curve.Evaluate(elapsedTime / duration));
+                elapsedTime += Time.deltaTime;
+                yield return lerpValue;
+            }
+            yield return targetValue;
+            done?.Invoke();
+        }
+
+        #endregion
     }
 }

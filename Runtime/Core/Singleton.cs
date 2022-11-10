@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CollieMollie.System
+namespace CollieMollie.Core
 {
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {

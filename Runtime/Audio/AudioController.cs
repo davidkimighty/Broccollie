@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace CollieMollie.Audio
 {
-    public class AudioManager : MonoBehaviour
+    public class AudioController : MonoBehaviour
     {
         #region Variable Field
         [Header("Event")]

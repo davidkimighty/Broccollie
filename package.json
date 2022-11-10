@@ -1,25 +1,31 @@
 {
     "name": "com.colliemollie.broccollie",
-    "version": "0.8.1",
+    "version": "0.8.2",
     "displayName": "Broccollie",
     "description": "Essential game ready features in URP",
     "unity": "2021.3",
     "dependencies": {
+        "com.unity.addressables": "1.19.19"
 
     },
     "samples": [
         {
-            "displayName": "UI Baseline Components",
+            "displayName": "Baseline UI",
             "description": "Preset based UI components",
             "path": "Samples~/UI"
         },
         {
-            "displayName": "Scene Management",
-            "description": "Managing project scenes using Addressables.",
-            "path": "Samples~/System"
+            "displayName": "Scene Controller",
+            "description": "Preset based scenes manager.",
+            "path": "Samples~/System/Scene"
         },
         {
-            "displayName": "Audio Manager",
+            "displayName": "Save Controller",
+            "description": "Save / Load manager.",
+            "path": "Samples~/System/SaveLoad"
+        },
+        {
+            "displayName": "Audio Controller",
             "description": "Preset based audio manager.",
             "path": "Samples~/Audio"
         },
@@ -31,8 +37,9 @@
     ],
     "keywords": [
         "UI",
-        "Scene Manager",
-        "Audio Manager",
+        "Scene Controller",
+        "Save Controller",
+        "Audio Controller",
         "Rendering"
     ],
     "author": {

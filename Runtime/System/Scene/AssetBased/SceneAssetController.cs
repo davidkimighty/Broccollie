@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace CollieMollie.System
 {
-    public class SceneAssetLoader : MonoBehaviour
+    public class SceneAssetController : MonoBehaviour
     {
         #region Variable Field
         [Header("Scene Loader")]
