@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -9,25 +8,21 @@ namespace CollieMollie.System
 {
     public class SaveLoadController : MonoBehaviour
     {
-        #region Save Load
-        public IEnumerator LoadDataDecrypt(string saveFolderPath, string fileName, string aesKey, object data)
+        #region Public Functions
+        public IEnumerator LoadDataDecrypt(string saveFolderPath, string fileName, string aesKey, object data, Action done = null)
         {
-            if (!Directory.Exists(saveFolderPath))
-            {
-                Debug.Log("[Helper] Save folder does not exist.");
-                Directory.CreateDirectory(saveFolderPath);
-                Debug.Log("[Helper] Save folder was created successfully.");
-            }
+            CheckPath(saveFolderPath);
+            string savePath = Path.Combine(saveFolderPath, fileName);
 
-            if (!File.Exists(saveFolderPath + fileName) || !PlayerPrefs.HasKey(aesKey))
+            if (!File.Exists(savePath) || !PlayerPrefs.HasKey(aesKey))
             {
-                Debug.Log("[Helper] Couldn't find any saved player data.");
+                Debug.Log("[SaveLoadController] Couldn't find any saved player data.");
                 yield break;
             }
 
             try
             {
-                using (FileStream fileStream = new FileStream(saveFolderPath + fileName, FileMode.Open))
+                using (FileStream fileStream = new FileStream(savePath, FileMode.Open))
                 {
                     Aes aes = Aes.Create();
                     byte[] outputIV = new byte[aes.IV.Length];
@@ -40,18 +35,22 @@ namespace CollieMollie.System
                         {
                             string dataText = streamReader.ReadToEnd();
                             JsonUtility.FromJsonOverwrite(dataText, data);
+                            done?.Invoke();
                         }
                     }
                 }
             }
             catch (Exception e)
             {
-                Debug.LogError($"[Helper] {e}");
+                Debug.LogError($"[SaveLoadController] {e}");
             }
         }
 
-        public IEnumerator SaveDataEncrypt(string savePath, string aesKey, object data)
+        public IEnumerator SaveDataEncrypt(string saveFolderPath, string fileName, string aesKey, object data, Action done = null)
         {
+            CheckPath(saveFolderPath);
+            string savePath = Path.Combine(saveFolderPath, fileName);
+
             try
             {
                 Aes aes = Aes.Create();
@@ -69,15 +68,27 @@ namespace CollieMollie.System
                         {
                             string jsonString = JsonUtility.ToJson(data);
                             streamWriter.Write(jsonString);
+                            done?.Invoke();
                         }
                     }
                 }
             }
             catch (Exception e)
             {
-                Debug.LogError($"[Helper] {e}");
+                Debug.LogError($"[SaveLoadController] {e}");
             }
             yield return null;
+        }
+        #endregion
+
+        #region
+        private void CheckPath(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+                Debug.Log("[SaveLoadController] Save folder was created successfully.");
+            }
         }
         #endregion
     }
