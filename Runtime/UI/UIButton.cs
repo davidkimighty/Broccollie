@@ -45,6 +45,8 @@ namespace CollieMollie.UI
         {
             if (!_interactable) return;
 
+            RaiseSelectedEvent(new InteractableEventArgs(this));
+
             _selected = _type switch
             {
                 ButtonType.Radio => true,
@@ -55,12 +57,10 @@ namespace CollieMollie.UI
             if (_selected)
                 SelectedBehavior(false, true, false);
             else
-                DefaultBehavior(false, true, false);
+                DefaultBehavior(false, true, true);
 
             if (_hovering)
                 HoveredBehavior(false, true, false);
-
-            RaiseSelectedEvent(new InteractableEventArgs(this));
         }
 
         protected override void BeginDragAction(PointerEventData eventData = null)

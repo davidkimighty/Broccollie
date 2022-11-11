@@ -297,17 +297,17 @@ namespace CollieMollie.Core
         protected virtual void DefaultBehavior(bool instantChange = false, bool playAudio = true,
             bool invokeEvent = true)
         {
-            ChangeColorFeature(InteractionState.Default, instantChange);
-            ChangeSpriteFeature(InteractionState.Default);
-            PlayAnimationFeature(InteractionState.Default);
-            if (playAudio)
-                PlayAudioFeature(InteractionState.Default);
-
             if (invokeEvent)
             {
                 RaiseDefaultEvent(new InteractableEventArgs(this));
                 //Debug.Log("[UIButton] Invoke Default");
             }
+
+            ChangeColorFeature(InteractionState.Default, instantChange);
+            ChangeSpriteFeature(InteractionState.Default);
+            PlayAnimationFeature(InteractionState.Default);
+            if (playAudio)
+                PlayAudioFeature(InteractionState.Default);
         }
 
         protected virtual void HoveredBehavior(bool instantChange = false, bool playAudio = true,
