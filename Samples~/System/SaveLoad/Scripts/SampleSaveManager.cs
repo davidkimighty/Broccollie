@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using CollieMollie.Helper;
+using System.IO;
 using CollieMollie.System;
 using TMPro;
 using UnityEngine;
@@ -9,7 +7,7 @@ using UnityEngine;
 public class SampleSaveManager : MonoBehaviour
 {
     private const string AESKEY = "KEY";
-    private const string SAVEFOLDER = "/Saved/";
+    private const string SAVEFOLDER = "Saved";
     private const string SAVEFILENAME = "TestData.json";
     private static string s_savePath = null;
 
@@ -21,18 +19,26 @@ public class SampleSaveManager : MonoBehaviour
 
     private void Awake()
     {
-        s_savePath = Application.persistentDataPath + SAVEFOLDER + SAVEFILENAME;
+        s_savePath = Path.Combine(Application.persistentDataPath, SAVEFOLDER);
     }
 
     public void Save()
     {
-        _saveController.SaveDataEncrypt(s_savePath, AESKEY, _playerData);
+        if (_saveAction != null)
+            StopCoroutine(_saveAction);
+        _saveAction = _saveController.SaveDataEncrypt(s_savePath, SAVEFILENAME, AESKEY, _playerData);
+        StartCoroutine(_saveAction);
         Debug.Log($"[SampleSaveManager] Saved path: {s_savePath}");
     }
 
     public void Load()
     {
-        _saveController.LoadDataDecrypt(Application.persistentDataPath + SAVEFOLDER, SAVEFILENAME, AESKEY, _playerData);
-        _nameText.text = _playerData.Name;
+        if (_saveAction != null)
+            StopCoroutine(_saveAction);
+        _saveAction = _saveController.LoadDataDecrypt(s_savePath, SAVEFILENAME, AESKEY, _playerData, () =>
+        {
+            _nameText.text = _playerData.Name;
+        });
+        StartCoroutine(_saveAction);
     }
 }

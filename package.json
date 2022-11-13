@@ -1,12 +1,11 @@
 {
     "name": "com.colliemollie.broccollie",
-    "version": "0.8.5",
+    "version": "0.8.6",
     "displayName": "Broccollie",
     "description": "Essential game ready features in URP",
     "unity": "2021.3",
     "dependencies": {
         "com.unity.addressables": "1.19.19"
-
     },
     "samples": [
         {
@@ -16,13 +15,18 @@
         },
         {
             "displayName": "Scene Controller",
-            "description": "Preset based scenes manager.",
+            "description": "Preset based scenes controller.",
             "path": "Samples~/System/Scene"
         },
         {
             "displayName": "Save Controller",
-            "description": "Save / Load manager.",
+            "description": "Save / Load controller.",
             "path": "Samples~/System/SaveLoad"
+        },
+        {
+            "displayName": "Network Controller",
+            "description": "Basic network request controller.",
+            "path": "Samples~/System/Network"
         },
         {
             "displayName": "Audio Controller",
@@ -36,11 +40,12 @@
         }
     ],
     "keywords": [
-        "UI",
+        "UI Conponent",
         "Scene Controller",
         "Save Controller",
+        "Network Controller",
         "Audio Controller",
-        "Rendering"
+        "Rendering Pass"
     ],
     "author": {
         "name": "Hyunwoo Kim",
