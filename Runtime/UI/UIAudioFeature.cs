@@ -32,14 +32,11 @@ namespace CollieMollie.UI
         [Serializable]
         public class Element
         {
-            #region Variabled Field
             public bool IsEnabled = true;
             public UIAudioPreset Preset = null;
 
             private IEnumerator _audioPlayAction = null;
-            #endregion
 
-            #region Features
             public void PlayAudio(MonoBehaviour mono, InteractionState state, AudioEventChannel eventChannel)
             {
                 if (_audioPlayAction != null)
@@ -55,7 +52,6 @@ namespace CollieMollie.UI
                     eventChannel.RaisePlayAudioEvent(audioState.AudioPreset);
                 }
             }
-            #endregion
         }
     }
 }

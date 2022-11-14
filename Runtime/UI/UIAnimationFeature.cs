@@ -33,16 +33,13 @@ namespace CollieMollie.UI
         [Serializable]
         public class Element
         {
-            #region Variabled Field
             public bool IsEnabled = true;
             public Animator Animator = null;
             public UIAnimationPreset Preset = null;
 
             private AnimatorOverrideController _overrideController = null;
             private IEnumerator _animationAction = null;
-            #endregion
 
-            #region Features
             public void PlayAnimation(MonoBehaviour mono, InteractionState state)
             {
                 if (_animationAction != null)
@@ -103,7 +100,6 @@ namespace CollieMollie.UI
                     yield return null;
                 }
             }
-            #endregion
         }
     }
 }

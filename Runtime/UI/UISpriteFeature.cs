@@ -31,15 +31,12 @@ namespace CollieMollie.UI
         [Serializable]
         public class Element
         {
-            #region Variabled Field
             public bool IsEnabled = true;
             public Image GraphicImage = null;
             public UISpritePreset Preset = null;
 
             private IEnumerator _spriteChangeAction = null;
-            #endregion
 
-            #region Features
             public void ChangeSprite(MonoBehaviour mono, InteractionState state)
             {
                 if (_spriteChangeAction != null)
@@ -62,7 +59,6 @@ namespace CollieMollie.UI
                     yield return null;
                 }
             }
-            #endregion
         }
     }
 }

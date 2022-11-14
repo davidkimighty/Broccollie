@@ -42,15 +42,12 @@ namespace CollieMollie.UI
         [Serializable]
         public class Element
         {
-            #region Variabled Field
             public bool IsEnabled = true;
             public MaskableGraphic Graphic = null;
             public UIColorPreset Preset = null;
 
             private IEnumerator _colorChangeAction = null;
-            #endregion
 
-            #region Features
             public void ChangeColor(MonoBehaviour mono, InteractionState state, bool instantChange = false)
             {
                 if (_colorChangeAction != null)
@@ -74,7 +71,6 @@ namespace CollieMollie.UI
                     }
                 }
             }
-            #endregion
         }
     }
 }

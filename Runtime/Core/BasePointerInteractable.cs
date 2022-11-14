@@ -305,6 +305,7 @@ namespace CollieMollie.Core
 
             ChangeColorFeature(InteractionState.Default, instantChange);
             ChangeSpriteFeature(InteractionState.Default);
+            ChangeScaleFeature(InteractionState.Default);
             PlayAnimationFeature(InteractionState.Default);
             if (playAudio)
                 PlayAudioFeature(InteractionState.Default);
@@ -321,6 +322,7 @@ namespace CollieMollie.Core
 
             ChangeColorFeature(InteractionState.Hovered, instantChange);
             ChangeSpriteFeature(InteractionState.Hovered);
+            ChangeScaleFeature(InteractionState.Hovered);
             PlayAnimationFeature(InteractionState.Hovered);
             if (playAudio)
                 PlayAudioFeature(InteractionState.Hovered);
@@ -337,6 +339,7 @@ namespace CollieMollie.Core
 
             ChangeColorFeature(InteractionState.Pressed, instantChange);
             ChangeSpriteFeature(InteractionState.Pressed);
+            ChangeScaleFeature(InteractionState.Pressed);
             PlayAnimationFeature(InteractionState.Pressed);
             if (playAudio)
                 PlayAudioFeature(InteractionState.Pressed);
@@ -353,6 +356,7 @@ namespace CollieMollie.Core
 
             ChangeColorFeature(InteractionState.Selected, instantChange);
             ChangeSpriteFeature(InteractionState.Selected);
+            ChangeScaleFeature(InteractionState.Selected);
             PlayAnimationFeature(InteractionState.Selected);
             if (playAudio)
                 PlayAudioFeature(InteractionState.Selected);
@@ -368,6 +372,7 @@ namespace CollieMollie.Core
 
             ChangeColorFeature(InteractionState.Interactive, instantChange);
             ChangeSpriteFeature(InteractionState.Interactive);
+            ChangeScaleFeature(InteractionState.Interactive);
             PlayAnimationFeature(InteractionState.Interactive);
             if (playAudio)
                 PlayAudioFeature(InteractionState.Interactive);
@@ -383,6 +388,7 @@ namespace CollieMollie.Core
 
             ChangeColorFeature(InteractionState.NonInteractive, instantChange);
             ChangeSpriteFeature(InteractionState.NonInteractive);
+            ChangeScaleFeature(InteractionState.NonInteractive);
             PlayAnimationFeature(InteractionState.NonInteractive);
             if (playAudio)
                 PlayAudioFeature(InteractionState.NonInteractive);
@@ -396,6 +402,7 @@ namespace CollieMollie.Core
 
             ChangeColorFeature(InteractionState.Show, instantChange);
             ChangeSpriteFeature(InteractionState.Show);
+            ChangeScaleFeature(InteractionState.Show);
             PlayAnimationFeature(InteractionState.Show);
             if (playAudio)
                 PlayAudioFeature(InteractionState.Show);
@@ -413,6 +420,7 @@ namespace CollieMollie.Core
 
             ChangeColorFeature(InteractionState.Hide, instantChange);
             ChangeSpriteFeature(InteractionState.Hide);
+            ChangeScaleFeature(InteractionState.Hide);
             PlayAnimationFeature(InteractionState.Hide);
             if (playAudio)
                 PlayAudioFeature(InteractionState.Hide);
@@ -457,9 +465,11 @@ namespace CollieMollie.Core
 
         protected virtual void ChangeSpriteFeature(InteractionState state) { }
 
-        protected virtual void PlayAudioFeature(InteractionState state) { }
+        protected virtual void ChangeScaleFeature(InteractionState state) { }
 
         protected virtual void PlayAnimationFeature(InteractionState state) { }
+
+        protected virtual void PlayAudioFeature(InteractionState state) { }
 
         protected virtual void DragFeature(PointerEventData eventData) { }
 

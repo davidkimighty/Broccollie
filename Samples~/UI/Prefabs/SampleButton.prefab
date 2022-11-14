@@ -278,7 +278,9 @@ MonoBehaviour:
   _colorFeature: {fileID: 3382791220654752589}
   _audioFeature: {fileID: 6028969808745046360}
   _spriteFeature: {fileID: -4096549255333956787}
+  _scaleFeature: {fileID: 0}
   _animationFeature: {fileID: 6934814546311554928}
+  _dragFeature: {fileID: 0}
 --- !u!114 &3382791220654752589
 MonoBehaviour:
   m_ObjectHideFlags: 0

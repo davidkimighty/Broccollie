@@ -15,6 +15,7 @@ namespace CollieMollie.UI
         [SerializeField] private UIColorFeature _colorFeature = null;
         [SerializeField] private UIAudioFeature _audioFeature = null;
         [SerializeField] private UISpriteFeature _spriteFeature = null;
+        [SerializeField] private UIScaleFeature _scaleFeature = null;
         [SerializeField] private UIAnimationFeature _animationFeature = null;
         [SerializeField] private UIDragFeature _dragFeature = null;
 
@@ -108,11 +109,11 @@ namespace CollieMollie.UI
             _spriteFeature.Change(state);
         }
 
-        protected override void PlayAudioFeature(InteractionState state)
+        protected override void ChangeScaleFeature(InteractionState state)
         {
-            if (_audioFeature == null) return;
+            if (_scaleFeature == null) return;
 
-            _audioFeature.Play(state);
+            _scaleFeature.Change(state);
         }
 
         protected override void PlayAnimationFeature(InteractionState state)
@@ -120,6 +121,13 @@ namespace CollieMollie.UI
             if (_animationFeature == null) return;
 
             _animationFeature.Change(state);
+        }
+
+        protected override void PlayAudioFeature(InteractionState state)
+        {
+            if (_audioFeature == null) return;
+
+            _audioFeature.Play(state);
         }
 
         protected override void DragFeature(PointerEventData eventData)
