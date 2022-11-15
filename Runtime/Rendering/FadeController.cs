@@ -13,6 +13,7 @@ namespace CollieMollie.Rendering
         private const float MIN_VALUE = 0f;
 
         [SerializeField] private UniversalRendererData _rendererData = null;
+        [SerializeField] private Renderer2DData _rendererData2D = null;
         [SerializeField] private AnimationCurve _fadeCurve = null;
 
         private FadeFeature _fadeFeature = null;
@@ -20,8 +21,10 @@ namespace CollieMollie.Rendering
 
         private void Awake()
         {
-            if (_rendererData == null) return;
-            _fadeFeature = (FadeFeature)_rendererData.rendererFeatures.Find(feature => feature is FadeFeature);
+            if (_rendererData != null)
+                _fadeFeature = (FadeFeature)_rendererData.rendererFeatures.Find(feature => feature is FadeFeature);
+            else if (_rendererData2D != null)
+                _fadeFeature = (FadeFeature)_rendererData2D.rendererFeatures.Find(feature => feature is FadeFeature);
         }
 
         #region Public Functions

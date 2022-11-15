@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 namespace CollieMollie.System
 {
-    public class SceneAddressableController : MonoBehaviour
+    public class SceneAddressableLoader : MonoBehaviour
     {
         #region Variable Field
         [Header("Scene Loader")]
