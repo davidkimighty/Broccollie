@@ -288,6 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rendererData: {fileID: 11400000, guid: c40be3174f62c4acf8c1216858c64956, type: 2}
+  _rendererData2D: {fileID: 0}
   _fadeCurve:
     serializedVersion: 2
     m_Curve:
@@ -325,7 +326,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneEventChannel: {fileID: 11400000, guid: b669ca4d4851349d3aba76ba18b7321a, type: 2}
-  targetScene: {fileID: 11400000, guid: 444e152f634be4009a203703f1dbc077, type: 2}
+  targetSceneOne: {fileID: 11400000, guid: ee287ef3474ce4d00ab7b7ee78983206, type: 2}
+  targetSceneTwo: {fileID: 11400000, guid: 444e152f634be4009a203703f1dbc077, type: 2}
 --- !u!114 &1574437491
 MonoBehaviour:
   m_ObjectHideFlags: 0

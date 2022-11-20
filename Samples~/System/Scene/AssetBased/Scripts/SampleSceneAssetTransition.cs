@@ -6,10 +6,15 @@ using UnityEngine;
 public class SampleSceneAssetTransition : MonoBehaviour
 {
     [SerializeField] private SceneAssetEventChannel sceneEventChannel = null;
-    [SerializeField] private SceneAssetPreset targetScene = null;
+    [SerializeField] private SceneAssetPreset targetSceneOne = null;
+    [SerializeField] private SceneAssetPreset targetSceneTwo = null;
 
-    private void Start()
+    private IEnumerator Start()
     {
-        sceneEventChannel.RaiseSceneLoadEvent(targetScene, true);
+        sceneEventChannel.RaiseSceneLoadEvent(targetSceneOne, false);
+
+        yield return new WaitForSeconds(3f);
+
+        sceneEventChannel.RaiseSceneLoadEvent(targetSceneTwo, true);
     }
 }
