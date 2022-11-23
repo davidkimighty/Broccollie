@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CollieMollie.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,14 +11,18 @@ namespace CollieMollie.UI
     public class UIScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     {
         #region Variable Field
-        public List<UIScrollElement> _scrollElements = new List<UIScrollElement>();
-
+        [SerializeField] private List<UIScrollElement> _scrollElements = new List<UIScrollElement>();
         [SerializeField] private Scrollbar _scrollbar = null;
         [Range(1, 10)]
         [SerializeField] private int _transitionSpeed = 5;
         [Range(0.05f, 1)]
         [SerializeField] private float _scrollStopSpeed = 0.1f;
         [SerializeField] private bool _scrollWhenRelease = true;
+
+        [Header("Knob")]
+        [SerializeField] private bool _useKnob = true;
+        [SerializeField] private UIKnob _knobPrefab = null;
+        [SerializeField] private Transform _knobHolder = null;
 
         private float[] _anchorPoints = null;
         private float _anchorPoint = 0f;
@@ -27,17 +32,53 @@ namespace CollieMollie.UI
         private int _childCount = 0;
         private bool _dragging = false;
 
+        private UIKnob[] _knobs = null;
+        private bool _knobSelected = false;
+        private float _targetAnchorPoint = 0f;
+
         #endregion
 
-        private void Start()
+        private void Awake()
         {
             _childCount = _scrollElements.Count;
             _anchorPoints = new float[_childCount];
             _subdivisionDist = 1f / (_childCount - 1);
-            
+
             for (int i = 0; i < _childCount; i++)
                 _anchorPoints[i] = _subdivisionDist * i;
+
+            if (_useKnob)
+            {
+                List<UIKnob> knobsTemp = new List<UIKnob>();
+                for (int i = 0; i < _childCount; i++)
+                {
+                    UIKnob knob = Instantiate<UIKnob>(_knobPrefab, _knobHolder);
+                    knobsTemp.Add(knob);
+
+                    int index = i;
+                    knob.OnSelected += (eventArgs) => SelectKnob(index);
+                }
+                _knobs = knobsTemp.ToArray();
+            }
         }
+
+        private void Start()
+        {
+            _anchorPoint = _anchorPoints[0];
+            _scrollElements[0].Focus(false);
+
+            if (_useKnob)
+                _knobs[0].ChangeState(InteractionState.Selected);
+        }
+
+        #region Subscribers
+        private void SelectKnob(int index)
+        {
+            _targetAnchorPoint = _anchorPoints[index];
+            _knobSelected = true;
+        }
+
+        #endregion
 
         void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
         {
@@ -55,31 +96,44 @@ namespace CollieMollie.UI
 
         private void Update()
         {
-            if (_dragging || (_scrollWhenRelease && GetScrollSpeed() > _scrollStopSpeed))
+            if (_knobSelected)
             {
-                FireEvents();
+                if (!Snapping(_targetAnchorPoint))
+                    _knobSelected = false;
 
-                _scrollbarValue = _scrollbar.value;
+                UpdateUI();
+                NextAnchorPoint();
+                _scrollbar.value = Mathf.Lerp(_scrollbar.value, _targetAnchorPoint, _transitionSpeed * Time.deltaTime);
+            }
+            else if (_dragging || (_scrollWhenRelease && GetScrollSpeed() > _scrollStopSpeed))
+            {
+                UpdateUI();
                 NextAnchorPoint();
             }
-            else if (Snapping())
+            else if (Snapping(_anchorPoint))
             {
-                FireEvents();
-
+                UpdateUI();
                 _scrollbar.value = Mathf.Lerp(_scrollbar.value, _anchorPoint, _transitionSpeed * Time.deltaTime);
+            }
+            else
+            {
+                if (_knobSelected)
+                    _knobSelected = false;
             }
         }
 
         #region Private Functions
         private void NextAnchorPoint()
         {
+            _scrollbarValue = _scrollbar.value;
             if (_scrollbarValue < 0)
                 _anchorPoint = 0;
             else
             {
                 for (int i = 0; i < _childCount; i++)
                 {
-                    if (_scrollbarValue < _anchorPoints[i] + (_subdivisionDist / 2) && _scrollbarValue > _anchorPoints[i] - (_subdivisionDist / 2))
+                    if (_scrollbarValue < _anchorPoints[i] + (_subdivisionDist / 2) &&
+                        _scrollbarValue > _anchorPoints[i] - (_subdivisionDist / 2))
                     {
                         _anchorPoint = _anchorPoints[i];
                         break;
@@ -90,14 +144,20 @@ namespace CollieMollie.UI
             }
         }
 
-        private void FireEvents()
+        private void UpdateUI()
         {
             for (int i = 0; i < _anchorPoints.Length; i++)
             {
                 if (_anchorPoints[i] == _anchorPoint)
+                {
                     _scrollElements[i].Focus();
+                    _knobs[i].ChangeState(InteractionState.Selected, false, false, false);
+                }
                 else
+                {
                     _scrollElements[i].Unfocus();
+                    _knobs[i].ChangeState(InteractionState.Default, false, false, false);
+                }
             }
         }
 
@@ -106,9 +166,9 @@ namespace CollieMollie.UI
             return Mathf.Abs(_scrollbarValue - _scrollbar.value) / Time.deltaTime;
         }
 
-        private bool Snapping()
+        private bool Snapping(float anchorPoint)
         {
-            return Mathf.Abs(_scrollbar.value - _anchorPoint) > 0.01f;
+            return Mathf.Abs(_scrollbar.value - anchorPoint) > 0.01f;
         }
 
         #endregion

@@ -12,6 +12,7 @@ namespace CollieMollie.UI
         [Header("Button")]
         [SerializeField] private GameObject _buttonObject = null;
         [SerializeField] private ButtonType _type = ButtonType.Button;
+
         [SerializeField] private UIColorFeature _colorFeature = null;
         [SerializeField] private UIAudioFeature _audioFeature = null;
         [SerializeField] private UISpriteFeature _spriteFeature = null;

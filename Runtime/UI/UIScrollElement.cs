@@ -20,23 +20,25 @@ public class UIScrollElement : MonoBehaviour
     #endregion
 
     #region Public Functions
-    public void Focus()
+    public void Focus(bool fireEvent = true)
     {
         if (_isFocused) return;
         _isFocused = true;
 
-        OnFocus?.Invoke();
+        if (fireEvent)
+            OnFocus?.Invoke();
 
         if (_scaleFeature != null)
             _scaleFeature.Change(InteractionState.Selected);
     }
 
-    public void Unfocus()
+    public void Unfocus(bool fireEvent = true)
     {
         if (!_isFocused) return;
         _isFocused = false;
 
-        OnUnfocus?.Invoke();
+        if (fireEvent)
+            OnUnfocus?.Invoke();
 
         if (_scaleFeature != null)
             _scaleFeature.Change(InteractionState.Default);
