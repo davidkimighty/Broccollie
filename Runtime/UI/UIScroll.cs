@@ -40,26 +40,7 @@ namespace CollieMollie.UI
 
         private void Awake()
         {
-            _childCount = _scrollElements.Count;
-            _anchorPoints = new float[_childCount];
-            _subdivisionDist = 1f / (_childCount - 1);
-
-            for (int i = 0; i < _childCount; i++)
-                _anchorPoints[i] = _subdivisionDist * i;
-
-            if (_useKnob)
-            {
-                List<UIKnob> knobsTemp = new List<UIKnob>();
-                for (int i = 0; i < _childCount; i++)
-                {
-                    UIKnob knob = Instantiate<UIKnob>(_knobPrefab, _knobHolder);
-                    knobsTemp.Add(knob);
-
-                    int index = i;
-                    knob.OnSelected += (eventArgs) => SelectKnob(index);
-                }
-                _knobs = knobsTemp.ToArray();
-            }
+            Initialize();
         }
 
         private void Start()
@@ -91,7 +72,12 @@ namespace CollieMollie.UI
         }
 
         #region Public Functions
-        
+        public void AddScrollElement(UIScrollElement element)
+        {
+            _scrollElements.Add(element);
+            Initialize();
+        }
+
         #endregion
 
         private void Update()
@@ -123,6 +109,39 @@ namespace CollieMollie.UI
         }
 
         #region Private Functions
+        private void Initialize()
+        {
+            _childCount = _scrollElements.Count;
+            if (_childCount == 0) return;
+
+            _anchorPoints = new float[_childCount];
+            _subdivisionDist = 1f / (_childCount - 1);
+
+            for (int i = 0; i < _childCount; i++)
+                _anchorPoints[i] = _subdivisionDist * i;
+
+            if (_useKnob)
+            {
+                if (_knobHolder.childCount > 0)
+                {
+                    for (int i = _knobHolder.childCount - 1; i >= 0; i--)
+                        Destroy(_knobHolder.GetChild(i).gameObject);
+                    _knobs = null;
+                }
+
+                List<UIKnob> knobsTemp = new List<UIKnob>();
+                for (int i = 0; i < _childCount; i++)
+                {
+                    UIKnob knob = Instantiate<UIKnob>(_knobPrefab, _knobHolder);
+                    knobsTemp.Add(knob);
+
+                    int index = i;
+                    knob.OnSelected += (eventArgs) => SelectKnob(index);
+                }
+                _knobs = knobsTemp.ToArray();
+            }
+        }
+
         private void NextAnchorPoint()
         {
             _scrollbarValue = _scrollbar.value;
