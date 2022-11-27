@@ -7,24 +7,14 @@
   <!-- <img src="" alt="Logo" width="130" height="130"> -->
   <h1 align="center">Broccollie</h1>
   <p align="center">
-    Essential game features in Unity URP.
+    Essential game features in Unity.<br />
+    Detailed information can be found on the <a href="https://github.com/hyunwookimbob/Broccollie/wiki">Wiki</a>.
     <br />
     <a href="https://colliecollie.netlify.app"><strong>Find more about me »</strong></a>
     <br />
     <br />
   </p>
 </div>
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#baseline-ui">Baseline UI</a></li>
-    <li><a href="#render-pass">Render Pass</a></li>
-  </ol>
-</details>
-
-<br />
 
 # Baseline UI
 
@@ -47,8 +37,8 @@ Screen effect using Render Pipeline.
     <td><b style="font-size:30px">Blur</b></td>
  </tr>
  <tr>
-    <td><img src="https://user-images.githubusercontent.com/32338791/192141847-b21680f0-cca7-4135-8eb5-d000072974ae.gif" alt="Blur GIF" width="360"></td>
     <td><img src="https://user-images.githubusercontent.com/32338791/192141856-55930a84-a316-4df3-9167-98309c3ce402.gif" alt="Blur GIF" width="360"></td>
+    <td><img src="https://user-images.githubusercontent.com/32338791/192141847-b21680f0-cca7-4135-8eb5-d000072974ae.gif" alt="Blur GIF" width="360"></td>
  </tr>
 </table>
 
