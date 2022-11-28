@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CollieMollie.Audio
 {
-    [CreateAssetMenu(fileName = "EventChannel_Audio", menuName = "CollieMollie/Audio/AudioEventChannel")]
+    [CreateAssetMenu(fileName = "EventChannel_Audio", menuName = "CollieMollie/Event Channels/Audio")]
     public class AudioEventChannel : ScriptableObject
     {
         #region Events

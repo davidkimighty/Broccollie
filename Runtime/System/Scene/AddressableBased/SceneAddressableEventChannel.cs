@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CollieMollie.System
 {
-    [CreateAssetMenu(fileName = "EventChannel_SceneAddressable", menuName = "CollieMollie/System/SceneAddressableEventChannel")]
+    [CreateAssetMenu(fileName = "EventChannel_SceneAddressable", menuName = "CollieMollie/Event Channels/Scene Addressable")]
     public class SceneAddressableEventChannel : ScriptableObject
     {
         #region Events

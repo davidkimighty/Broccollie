@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class SampleParallaxController : MonoBehaviour
 {
-    [SerializeField] private ParallaxController _parallaxController = null;
+    [SerializeField] private ParallaxEffectController _parallaxController = null;
     [SerializeField] private Button _buttonLeft = null;
     [SerializeField] private Button _buttonRight = null;
     [SerializeField] private Button _buttonStart = null;
@@ -19,5 +19,6 @@ public class SampleParallaxController : MonoBehaviour
         _buttonRight.onClick.AddListener(() => _parallaxController.StartParallax(+1, _duration));
         _buttonStart.onClick.AddListener(() => _parallaxController.StartParallaxLoop(+1));
         _buttonStop.onClick.AddListener(() => _parallaxController.StopParallax());
+
     }
 }

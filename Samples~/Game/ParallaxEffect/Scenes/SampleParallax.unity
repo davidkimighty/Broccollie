@@ -1496,6 +1496,8 @@ GameObject:
   - component: {fileID: 1243110172}
   - component: {fileID: 1243110171}
   - component: {fileID: 1243110170}
+  - component: {fileID: 1243110174}
+  - component: {fileID: 1243110173}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1562,13 +1564,60 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1243110169}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 937, y: 525, z: -941}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1243110173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243110169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00156a1a99444595b449fee2f39676a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _eventChannel: {fileID: 11400000, guid: ba6a391e961044dcb9e63305511ee1d4, type: 2}
+  _mainCam: {fileID: 1243110171}
+--- !u!114 &1243110174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243110169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &1362263285
 GameObject:
   m_ObjectHideFlags: 0
@@ -1595,7 +1644,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1362263285}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 967.08484, y: 492.37054, z: -19.853445}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1682,7 +1731,9 @@ MonoBehaviour:
   _buttonRight: {fileID: 784184818}
   _buttonStart: {fileID: 1201482455}
   _buttonStop: {fileID: 557723183}
-  _duration: 2
+  _duration: 3
+  _eventChannel: {fileID: 11400000, guid: ba6a391e961044dcb9e63305511ee1d4, type: 2}
+  _shakeEffect: {fileID: 11400000, guid: da144e247e3424932b4d5ea4ed6b734b, type: 2}
 --- !u!1 &1365681969
 GameObject:
   m_ObjectHideFlags: 0
@@ -1996,9 +2047,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969980544}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 298903205}
@@ -2011,9 +2062,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 936, y: 526.5}
+  m_SizeDelta: {x: 1872, y: 1053}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1969980546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2053,7 +2104,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1969980548
 Canvas:
   m_ObjectHideFlags: 0
@@ -2063,7 +2114,7 @@ Canvas:
   m_GameObject: {fileID: 1969980544}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0

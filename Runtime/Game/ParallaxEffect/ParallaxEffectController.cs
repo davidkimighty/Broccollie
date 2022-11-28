@@ -6,9 +6,12 @@ using UnityEngine.UI;
 
 namespace CollieMollie.Game
 {
-    public class ParallaxController : MonoBehaviour
+    public class ParallaxEffectController : MonoBehaviour
     {
         #region Variable Field
+        public event Action OnBeginParallax = null;
+        public event Action OnEndParallax = null;
+
         [SerializeField] private float _fixedParallaxSpeed = 3f;
         [SerializeField] private float _minParallaxSpeed = 3f;
         [SerializeField] private float _maxParallaxSpeed = 8f;
@@ -28,12 +31,12 @@ namespace CollieMollie.Game
         }
 
         #region Public Functions
-        public void StartParallax(int dir, float duration, Action done = null)
+        public void StartParallax(int dir, float duration)
         {
             if (_parallaxAction != null)
                 StopCoroutine(_parallaxAction);
 
-            _parallaxAction = Parallax(dir, duration, _parallaxCurve, done);
+            _parallaxAction = Parallax(dir, duration, _parallaxCurve);
             StartCoroutine(_parallaxAction);
         }
 
@@ -55,10 +58,11 @@ namespace CollieMollie.Game
         #endregion
 
         #region Private Functions
-        private IEnumerator Parallax(int dir, float duration, AnimationCurve curve, Action done = null)
+        private IEnumerator Parallax(int dir, float duration, AnimationCurve curve)
         {
-            float elapsedTime = 0f;
+            OnBeginParallax?.Invoke();
 
+            float elapsedTime = 0f;
             while (elapsedTime < duration)
             {
                 float lerpSpeed = Mathf.Lerp(_minParallaxSpeed, _maxParallaxSpeed, curve.Evaluate(elapsedTime / duration));
@@ -71,7 +75,7 @@ namespace CollieMollie.Game
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-            done?.Invoke();
+            OnEndParallax?.Invoke();
         }
 
         private IEnumerator ParallaxLoop(int dir)
