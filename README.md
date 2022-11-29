@@ -40,7 +40,7 @@
 </tr>
 
 <tr>
-<td><a href="wiki/Baseline-UI">Baseline UI</a></td>
+<td><a href="https://github.com/hyunwookimbob/Broccollie/wiki/Baseline-UI">Baseline UI</a></td>
 <td><kbd>Released</kbd></td>
 <td><a href="https://github.com/users/hyunwookimbob/projects/2/views/1?filterQuery=repo%3A%22hyunwookimbob%2FBroccollie%22+-repo%3A%22hyunwookimbob%2FBroccollie-XR%22+label%3A%22Baseline+UI%22">Baseline UI Board</a></td>
 <td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av0.9+is%3Aclosed+label%3A%22Baseline+UI%22+">Baseline UI v0.9 Milestone</a></td>
