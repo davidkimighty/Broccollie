@@ -12,25 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e47d918e666154213b02782287dadb93, type: 3}
   m_Name: CameraEffect_Shake
   m_EditorClassIdentifier: 
-  _strength: 0.13
-  _duration: 1
+  _strength: 6.16
+  _duration: 3
   _curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
+      time: 0.4970732
+      value: 0.9985918
+      inSlope: -0.029830458
+      outSlope: -0.029830458
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.13894111
+    - serializedVersion: 3
+      time: 1.0039319
+      value: 0.003508985
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0

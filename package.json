@@ -1,6 +1,6 @@
 {
     "name": "com.colliemollie.broccollie",
-    "version": "0.8.16",
+    "version": "0.8.19",
     "displayName": "Broccollie",
     "description": "Essential game ready features in URP",
     "unity": "2021.3",
@@ -35,12 +35,12 @@
             "path": "Samples~/Audio"
         },
         {
-            "displayName": "Parallax Controller",
+            "displayName": "Parallax Effect",
             "description": "Parallax effect controller.",
             "path": "Samples~/Game/ParallaxEffect"
         },
         {
-            "displayName": "Camera Effect Controller",
+            "displayName": "Camera Effect",
             "description": "Camera effect controller.",
             "path": "Samples~/Game/CameraEffect"
         },

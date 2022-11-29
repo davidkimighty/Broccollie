@@ -17,6 +17,11 @@ public class SampleUITestBoard : MonoBehaviour
 
     [Header("Tab Menu")]
     [SerializeField] private UIButton _firstTab = null;
+
+    [Header("Panel")]
+    [SerializeField] private UIPanel _zoomPanel = null;
+    [SerializeField] private UIButton _zoomInButton = null;
+    [SerializeField] private UIButton _zoomOutButton = null;
     #endregion
 
     private void Awake()
@@ -25,6 +30,8 @@ public class SampleUITestBoard : MonoBehaviour
         _triggerButtonTwo.OnSelected += (eventArgs) => _popupButtonTwo.SetVisible(!_popupButtonTwo.IsVisible, 0.6f);
         _triggerButtonThree.OnSelected += (eventArgs) => _popupButtonThree.SetVisible(!_popupButtonThree.IsVisible, 0.6f);
 
+        _zoomInButton.OnSelected += (eventArgs) => _zoomPanel.ChangeState(InteractionState.Selected);
+        _zoomOutButton.OnSelected += (eventArgs) => _zoomPanel.ChangeState(InteractionState.Default);
     }
 
     private void Start()

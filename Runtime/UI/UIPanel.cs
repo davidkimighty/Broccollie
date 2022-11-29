@@ -12,7 +12,6 @@ namespace CollieMollie.UI
     {
         #region Variable Field
         [Header("Panel")]
-        // Nested Canvas method has lot of bugs in Unity 2021.3.
         // [SerializeField] private Canvas _canvas = null;
         [SerializeField] private GameObject _popupObject = null;
 
@@ -20,6 +19,7 @@ namespace CollieMollie.UI
         [SerializeField] private UIAudioFeature _audioFeature = null;
         [SerializeField] private UISpriteFeature _spriteFeature = null;
         [SerializeField] private UIAnimationFeature _animationFeature = null;
+        [SerializeField] private UIScaleFeature _scaleFeature = null;
 
         #endregion
 
@@ -85,6 +85,13 @@ namespace CollieMollie.UI
             if (_animationFeature == null) return;
 
             _animationFeature.Change(state);
+        }
+
+        protected override void ChangeScaleFeature(InteractionState state)
+        {
+            if (_scaleFeature == null) return;
+
+            _scaleFeature.Change(state);
         }
 
         #endregion

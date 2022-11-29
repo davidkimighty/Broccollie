@@ -453,7 +453,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -66, y: -66}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &298903206
 MonoBehaviour:
@@ -1564,7 +1564,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1243110169}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 937, y: 525, z: -941}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1629,6 +1629,8 @@ GameObject:
   - component: {fileID: 1362263286}
   - component: {fileID: 1362263288}
   - component: {fileID: 1362263287}
+  - component: {fileID: 1362263290}
+  - component: {fileID: 1362263289}
   m_Layer: 0
   m_Name: Parallax
   m_TagString: Untagged
@@ -1644,7 +1646,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1362263285}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -948, y: -506, z: 831}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1671,15 +1673,15 @@ MonoBehaviour:
   - Background: {fileID: 1796643030}
     ParallaxValue: 1
   - Background: {fileID: 1140347266}
-    ParallaxValue: 0.8
+    ParallaxValue: 0.7
   - Background: {fileID: 334607472}
-    ParallaxValue: 0.6
+    ParallaxValue: 0.5
   - Background: {fileID: 1365681971}
-    ParallaxValue: 0.4
+    ParallaxValue: 0.3
   - Background: {fileID: 250172915}
-    ParallaxValue: 0.2
-  - Background: {fileID: 261906943}
     ParallaxValue: 0.1
+  - Background: {fileID: 261906943}
+    ParallaxValue: 0.05
   _material: {fileID: 2100000, guid: fc248b5eb97fc4cb986044c0cd6c99c1, type: 2}
   _parallaxCurve:
     serializedVersion: 2
@@ -1732,8 +1734,50 @@ MonoBehaviour:
   _buttonStart: {fileID: 1201482455}
   _buttonStop: {fileID: 557723183}
   _duration: 3
-  _eventChannel: {fileID: 11400000, guid: ba6a391e961044dcb9e63305511ee1d4, type: 2}
+  _panel: {fileID: 1362263290}
   _shakeEffect: {fileID: 11400000, guid: da144e247e3424932b4d5ea4ed6b734b, type: 2}
+  _eventChannel: {fileID: 11400000, guid: ba6a391e961044dcb9e63305511ee1d4, type: 2}
+--- !u!114 &1362263289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362263285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3170b7041394c4f659f54af7e5be106e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isEnabled: 1
+  _elements:
+  - IsEnabled: 1
+    TargetObject: {fileID: 298903205}
+    Preset: {fileID: 11400000, guid: 44c3d47684f1d44349172c5fae45a28c, type: 2}
+--- !u!114 &1362263290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362263285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f10c493b8914093bfce1c728c9e013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _visible: 1
+  _interactable: 1
+  _hovering: 0
+  _pressed: 0
+  _selected: 0
+  _dragging: 0
+  _popupObject: {fileID: 298903204}
+  _colorFeature: {fileID: 0}
+  _audioFeature: {fileID: 0}
+  _spriteFeature: {fileID: 0}
+  _animationFeature: {fileID: 0}
+  _scaleFeature: {fileID: 1362263289}
 --- !u!1 &1365681969
 GameObject:
   m_ObjectHideFlags: 0
@@ -2062,8 +2106,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 936, y: 526.5}
-  m_SizeDelta: {x: 1872, y: 1053}
+  m_AnchoredPosition: {x: 946, y: 503}
+  m_SizeDelta: {x: 1722, y: 969}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1969980546
 MonoBehaviour:
