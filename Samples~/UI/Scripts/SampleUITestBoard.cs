@@ -18,10 +18,10 @@ public class SampleUITestBoard : MonoBehaviour
     [Header("Tab Menu")]
     [SerializeField] private UIButton _firstTab = null;
 
-    [Header("Panel")]
-    [SerializeField] private UIPanel _zoomPanel = null;
-    [SerializeField] private UIButton _zoomInButton = null;
-    [SerializeField] private UIButton _zoomOutButton = null;
+    [Header("Position")]
+    [SerializeField] private UIButton _clearButton = null;
+    [SerializeField] private UIButton _resetButton = null;
+    [SerializeField] private UIGroup[] _groups = null;
     #endregion
 
     private void Awake()
@@ -30,8 +30,12 @@ public class SampleUITestBoard : MonoBehaviour
         _triggerButtonTwo.OnSelected += (eventArgs) => _popupButtonTwo.SetVisible(!_popupButtonTwo.IsVisible, 0.6f);
         _triggerButtonThree.OnSelected += (eventArgs) => _popupButtonThree.SetVisible(!_popupButtonThree.IsVisible, 0.6f);
 
-        _zoomInButton.OnSelected += (eventArgs) => _zoomPanel.ChangeState(InteractionState.Selected);
-        _zoomOutButton.OnSelected += (eventArgs) => _zoomPanel.ChangeState(InteractionState.Default);
+        for (int i = 0; i < _groups.Length; i++)
+        {
+            int index = i;
+            _clearButton.OnSelected += (eventArgs) => _groups[index].ChangeState(UIState.Hide);
+            _resetButton.OnSelected += (eventArgs) => _groups[index].ChangeState(UIState.Show);
+        }
     }
 
     private void Start()

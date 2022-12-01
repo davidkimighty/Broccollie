@@ -4,9 +4,9 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace CollieMollie.Core
+namespace CollieMollie.UI
 {
-    public abstract class BasePointerInteractable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler,
+    public abstract class BasePointerInteractable : BaseUI, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler,
         IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         #region Variable Field
@@ -476,8 +476,6 @@ namespace CollieMollie.Core
         #endregion
 
         #region Features
-        protected abstract void SetActive(bool state);
-
         protected virtual void ChangeColorFeature(InteractionState state, bool instantChange = false) { }
 
         protected virtual void ChangeSpriteFeature(InteractionState state) { }
