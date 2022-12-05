@@ -11,83 +11,60 @@ namespace CollieMollie.UI
     public class UIGroup : BaseUI
     {
         #region Variable Field
-        public event Action<UIEventArgs> OnInteractive = null;
-        public event Action<UIEventArgs> OnNonInteractive = null;
-        public event Action<UIEventArgs> OnShow = null;
-        public event Action<UIEventArgs> OnHide = null;
-
+        [Header("Group")]
         [SerializeField] private GameObject _groupObject = null;
-        [SerializeField] private CanvasGroup _canvasGroup = null;
+
+        [Header("Group Features")]
         [SerializeField] private bool _useFade = true;
+        [SerializeField] private CanvasGroup _canvasGroup = null;
         [SerializeField] private float _fadeDuration = 0.6f;
         [SerializeField] private AnimationCurve _fadeCurve = null;
 
-        [SerializeField] private UIPositionFeature _positionFeature = null;
-        [SerializeField] private UIScaleFeature _scaleFeature = null;
+        [SerializeField] private UITransformFeature _transformFeature = null;
 
-        private UIState _currentState = UIState.None;
-        private Operation _stateChangeOperation = new Operation();
+        private Operation _featureOperation = new Operation();
+
         #endregion
 
-        #region Public Functions
-        public void ChangeState(UIState state)
+        #region Behaviors
+        protected override void DefaultBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            if (state == UIState.None) return;
-            _currentState = state;
+            _currentState = UIState.Default;
 
-            if (state == UIState.Show)
-            {
-                OnShow?.Invoke(new UIEventArgs(this));
+        }
 
-                SetActive(true);
-                UIBehaviors(state, () =>
-                {
-                    _currentState = UIState.Default;
-                    UIBehaviors(UIState.Default);
-                });
-            }
-            else if (state == UIState.Hide)
-            {
-                OnHide?.Invoke(new UIEventArgs(this));
+        protected override void ShowBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
+        {
+            _currentState = UIState.Show;
+            _transformFeature.Execute(UIState.Show.ToString());
 
-                UIBehaviors(state, () =>
-                {
-                    SetActive(false);
-                });
-            }
-            else
+            if (_useFade)
             {
-                UIBehaviors(state);
+                _featureOperation.Stop(this);
+                _featureOperation.Add(Fade(_canvasGroup, 1f, _fadeDuration, _fadeCurve));
+                _featureOperation.Start(this, _fadeDuration);
             }
         }
+
+        protected override void HideBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
+        {
+            _currentState = UIState.Hide;
+            _transformFeature.Execute(UIState.Hide.ToString());
+
+            if (_useFade)
+            {
+                _featureOperation.Stop(this);
+                _featureOperation.Add(Fade(_canvasGroup, 0, _fadeDuration, _fadeCurve));
+                _featureOperation.Start(this, _fadeDuration);
+            }
+        }
+
         #endregion
 
         #region Features
         protected override void SetActive(bool state)
         {
             _groupObject.SetActive(state);
-        }
-
-        #endregion
-
-        #region
-        private void UIBehaviors(UIState state, Action done = null)
-        {
-            _stateChangeOperation.Stop(this);
-
-            _positionFeature.SetFeature(state, out float positionFeatureDuration);
-            _stateChangeOperation.Add(_positionFeature.Execute(state));
-
-            if (_useFade && (state == UIState.Show || state == UIState.Hide))
-            {
-                float fadeValue = state == UIState.Show ? 1f : 0f;
-                _stateChangeOperation.Add(Fade(_canvasGroup, fadeValue, _fadeDuration, _fadeCurve));
-            }
-
-            List<float> featureDurations = new List<float>();
-            featureDurations.Add(positionFeatureDuration);
-
-            _stateChangeOperation.Start(this, featureDurations.Max(), done);
         }
 
         private IEnumerator Fade(CanvasGroup group, float targetValue, float duration, AnimationCurve curve)
@@ -103,6 +80,7 @@ namespace CollieMollie.UI
             }
             group.alpha = targetValue;
         }
+
         #endregion
     }
 }

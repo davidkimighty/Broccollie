@@ -25,7 +25,7 @@ namespace CollieMollie.Core
             _subOperations.Remove(subOperation);
         }
 
-        public void Start(MonoBehaviour mono, float duration, Action done = null)
+        public void Start(MonoBehaviour mono, float duration = 0, Action done = null)
         {
             if (_operation != null)
                 mono.StopCoroutine(_operation);
@@ -38,7 +38,8 @@ namespace CollieMollie.Core
                 foreach (IEnumerator so in _subOperations)
                     mono.StartCoroutine(so);
 
-                yield return new WaitForSeconds(duration);
+                if (duration > 0)
+                    yield return new WaitForSeconds(duration);
                 done?.Invoke();
             }
         }

@@ -9,6 +9,7 @@ namespace CollieMollie.UI
     {
         #region Variable Field
         [SerializeField] private List<UIButton> _buttons = null;
+
         #endregion
 
         private void OnEnable()
@@ -24,16 +25,17 @@ namespace CollieMollie.UI
         }
 
         #region Subscribers
-        private void ChangeOthersToDefault(InteractableEventArgs args)
+        private void ChangeOthersToDefault(UIEventArgs args)
         {
             if (!args.IsValid()) return;
 
             foreach (UIButton button in _buttons)
             {
                 if (button == args.Sender) continue;
-                button.ChangeState(InteractionState.Default, true, false, false);
+                button.ChangeState(UIState.Default, false, false);
             }
         }
+
         #endregion
 
         #region Public Functions
@@ -49,6 +51,7 @@ namespace CollieMollie.UI
             if (_buttons.Contains(button))
                 _buttons.Remove(button);
         }
+
         #endregion
     }
 }

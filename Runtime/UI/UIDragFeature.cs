@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.EventSystems;
 namespace CollieMollie.UI
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class UIDragFeature : MonoBehaviour
+    public class UIDragFeature : MonoBehaviour, IUIFeature
     {
         #region Variable Field
         [SerializeField] private Transform _dragTarget = null;
@@ -20,7 +21,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public void Drag(PointerEventData eventData)
+        public void Execute(string state, PointerEventData eventData = null, Action done = null)
         {
             switch (_dragArea.renderMode)
             {

@@ -1,42 +1,44 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CollieMollie.Core;
 using CollieMollie.Helper;
+using UnityEditor.Presets;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace CollieMollie.UI
 {
-    public class UIColorFeature : MonoBehaviour
+    public class UIColorFeature : MonoBehaviour, IUIFeature
     {
         #region Variable Field
         [SerializeField] private bool _isEnabled = true;
         [SerializeField] private List<Element> _elements = null;
+
+        private Operation _featureOperation = new Operation();
+
         #endregion
 
         #region Public Functions
-        public void ChangeGradually(InteractionState state)
+        public void Execute(string state, PointerEventData eventData = null, Action done = null)
         {
             if (!_isEnabled) return;
 
+            _featureOperation.Stop(this);
+
+            List<float> durations = new List<float>();
             foreach (Element element in _elements)
             {
                 if (!element.IsEnabled) continue;
-                element.ChangeColor(this, state);
+                _featureOperation.Add(element.ChangeColor(state));
+                durations.Add(element.Preset.GetDuration(state));
             }
+
+            _featureOperation.Start(this, durations.Count > 0 ? durations.Max() : 0, done);
         }
 
-        public void ChangeInstantly(InteractionState state)
-        {
-            if (!_isEnabled) return;
-
-            foreach (Element element in _elements)
-            {
-                if (!element.IsEnabled) continue;
-                element.ChangeColor(this, state, true);
-            }
-        }
         #endregion
 
         [Serializable]
@@ -46,29 +48,21 @@ namespace CollieMollie.UI
             public MaskableGraphic Graphic = null;
             public UIColorPreset Preset = null;
 
-            private IEnumerator _colorChangeAction = null;
-
-            public void ChangeColor(MonoBehaviour mono, InteractionState state, bool instantChange = false)
+            public IEnumerator ChangeColor(string state)
             {
-                if (_colorChangeAction != null)
-                    mono.StopCoroutine(_colorChangeAction);
-
-                UIColorPreset.ColorState colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == state);
-                if (!colorState.IsValid())
-                    colorState = Array.Find(Preset.ColorStates, x => x.ExecutionState == InteractionState.Default);
-
-                if (colorState.IsValid())
+                UIColorPreset.Setting setting = Array.Find(Preset.States, x => x.ExecutionState.ToString() == state);
+                if (Preset.IsValid(setting.ExecutionState) && setting.IsEnabled)
                 {
-                    if (!colorState.IsEnabled) return;
-                    if (!instantChange)
-                    {
-                        _colorChangeAction = Graphic.ChangeColorGradually(colorState.TargetColor, colorState.Duration, colorState.Curve);
-                        mono.StartCoroutine(_colorChangeAction);
-                    }
-                    else
-                    {
-                        Graphic.color = colorState.TargetColor;
-                    }
+                    yield return Graphic.ChangeColorGradually(setting.TargetColor, setting.Duration, setting.Curve);
+                }
+            }
+
+            public void ChangeColorInstant(string state)
+            {
+                UIColorPreset.Setting setting = Array.Find(Preset.States, x => x.ExecutionState.ToString() == state);
+                if (Preset.IsValid(setting.ExecutionState) && setting.IsEnabled)
+                {
+                    Graphic.color = setting.TargetColor;
                 }
             }
         }

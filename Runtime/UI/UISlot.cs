@@ -10,20 +10,20 @@ namespace CollieMollie.UI
     public class UISlot : MonoBehaviour, IDropHandler
     {
         #region Variable Field
-        public event Action<InteractableEventArgs> OnSlotEnter = null;
-        public event Action<InteractableEventArgs> OnSlotExit = null;
+        public event Action<UIEventArgs> OnSlotEnter = null;
+        public event Action<UIEventArgs> OnSlotExit = null;
 
-        private BasePointerInteractable _insertedInteractable = null;
+        private InteractableUI _insertedInteractable = null;
         #endregion
 
         public void OnDrop(PointerEventData eventData)
         {
             if (eventData.pointerDrag != null)
             {
-                BasePointerInteractable interactable = eventData.pointerDrag.GetComponent<BasePointerInteractable>();
+                InteractableUI interactable = eventData.pointerDrag.GetComponent<InteractableUI>();
                 if (interactable == null) return;
 
-                OnSlotEnter?.Invoke(new InteractableEventArgs(_insertedInteractable));
+                OnSlotEnter?.Invoke(new UIEventArgs(_insertedInteractable));
 
                 _insertedInteractable = interactable;
                 interactable.transform.position = transform.position;

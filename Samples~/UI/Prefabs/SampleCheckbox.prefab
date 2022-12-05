@@ -353,9 +353,11 @@ MonoBehaviour:
   _buttonObject: {fileID: 5835693001275424392}
   _type: 2
   _colorFeature: {fileID: 841566986641341814}
-  _audioFeature: {fileID: -6159424817350854860}
   _spriteFeature: {fileID: -4874131533187139284}
+  _transformFeature: {fileID: 0}
   _animationFeature: {fileID: -148029227143971325}
+  _audioFeature: {fileID: -6159424817350854860}
+  _dragFeature: {fileID: 0}
 --- !u!114 &841566986641341814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,9 +390,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43aae9abfc21f4e46b6d687174620f6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _eventChannel: {fileID: 0}
+  _eventChannel: {fileID: 11400000, guid: 658c01b23775d43cd8aec283dd0cb916, type: 2}
   _isEnabled: 1
-  _elements: []
+  _elements:
+  - IsEnabled: 1
+    Preset: {fileID: 11400000, guid: 899ebaf26d3814862a070bc30b5601fc, type: 2}
 --- !u!114 &-4874131533187139284
 MonoBehaviour:
   m_ObjectHideFlags: 0

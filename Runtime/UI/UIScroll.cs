@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace CollieMollie.UI
 {
-    public class UIScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
+    public class UIScroll : InteractableUI
     {
         #region Variable Field
         [SerializeField] private List<UIScrollElement> _scrollElements = new List<UIScrollElement>();
@@ -18,10 +18,12 @@ namespace CollieMollie.UI
         [Range(0.05f, 1)]
         [SerializeField] private float _scrollStopSpeed = 0.1f;
         [SerializeField] private bool _scrollWhenRelease = true;
+        [SerializeField] private UIInteractionState _focusState = UIInteractionState.Selected;
+        [SerializeField] private UIState _unfocusState = UIState.Default;
 
         [Header("Knob")]
         [SerializeField] private bool _useKnob = true;
-        [SerializeField] private UIKnob _knobPrefab = null;
+        [SerializeField] private UIButton _knobPrefab = null;
         [SerializeField] private Transform _knobHolder = null;
 
         private float[] _anchorPoints = null;
@@ -30,9 +32,8 @@ namespace CollieMollie.UI
 
         private float _scrollbarValue = 0f;
         private int _childCount = 0;
-        private bool _dragging = false;
 
-        private UIKnob[] _knobs = null;
+        private UIButton[] _knobs = null;
         private bool _knobSelected = false;
         private float _targetAnchorPoint = 0f;
 
@@ -46,10 +47,10 @@ namespace CollieMollie.UI
         private void Start()
         {
             _anchorPoint = _anchorPoints[0];
-            _scrollElements[0].Focus(false);
+            _scrollElements[0].Focus(_focusState.ToString(), false);
 
             if (_useKnob)
-                _knobs[0].ChangeState(InteractionState.Selected);
+                _knobs[0].ChangeInteractionState(_focusState);
         }
 
         #region Subscribers
@@ -61,12 +62,12 @@ namespace CollieMollie.UI
 
         #endregion
 
-        void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
+        protected override void InvokeBeginDragAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
             _dragging = true;
         }
 
-        void IEndDragHandler.OnEndDrag(PointerEventData eventData)
+        protected override void InvokeEndDragAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
             _dragging = false;
         }
@@ -92,10 +93,10 @@ namespace CollieMollie.UI
                     _knobs = null;
                 }
 
-                List<UIKnob> knobsTemp = new List<UIKnob>();
+                List<UIButton> knobsTemp = new List<UIButton>();
                 for (int i = 0; i < _childCount; i++)
                 {
-                    UIKnob knob = Instantiate<UIKnob>(_knobPrefab, _knobHolder);
+                    UIButton knob = Instantiate<UIButton>(_knobPrefab, _knobHolder);
                     knobsTemp.Add(knob);
 
                     int index = i;
@@ -170,13 +171,13 @@ namespace CollieMollie.UI
             {
                 if (_anchorPoints[i] == _anchorPoint)
                 {
-                    _scrollElements[i].Focus();
-                    _knobs[i].ChangeState(InteractionState.Selected, false, false, false);
+                    _scrollElements[i].Focus(_focusState.ToString());
+                    _knobs[i].ChangeInteractionState(UIInteractionState.Selected, false, false);
                 }
                 else
                 {
-                    _scrollElements[i].Unfocus();
-                    _knobs[i].ChangeState(InteractionState.Default, false, false, false);
+                    _scrollElements[i].Unfocus(_unfocusState.ToString(), false, true);
+                    _knobs[i].ChangeState(UIState.Default, false, false);
                 }
             }
         }

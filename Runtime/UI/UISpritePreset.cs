@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using CollieMollie.Core;
@@ -6,18 +7,30 @@ using UnityEngine;
 namespace CollieMollie.UI
 {
     [CreateAssetMenu(fileName = "UISpritePreset", menuName = "CollieMollie/UI/SpritePreset")]
-    public class UISpritePreset : ScriptableObject
+    public class UISpritePreset : ScriptableObject, IUIPreset
     {
-        public SpriteState[] SpriteStates = null;
+        public Setting[] States = null;
 
-        [System.Serializable]
-        public struct SpriteState
+        public float GetDuration(string state)
         {
-            public Sprite TargetSprite;
-            public InteractionState ExecutionState;
-            public bool IsEnabled;
+            Setting setting = Array.Find(States, x => x.ExecutionState.ToString() == state);
+            if (IsValid(setting.ExecutionState))
+                return setting.DelayTime;
+            return 0;
+        }
 
-            public bool IsValid() => ExecutionState != InteractionState.None;
+        public bool IsValid(UIAllState state)
+        {
+            return state != UIAllState.None;
+        }
+
+        [Serializable]
+        public struct Setting
+        {
+            public bool IsEnabled;
+            public Sprite TargetSprite;
+            public float DelayTime;
+            public UIAllState ExecutionState;
         }
     }
 }

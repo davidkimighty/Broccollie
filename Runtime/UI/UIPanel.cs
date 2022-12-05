@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace CollieMollie.UI
 {
-    public class UIPanel : BasePointerInteractable
+    public class UIPanel : InteractableUI
     {
         #region Variable Field
         [Header("Panel")]
@@ -16,38 +16,39 @@ namespace CollieMollie.UI
         [SerializeField] private GameObject _popupObject = null;
 
         [SerializeField] private UIColorFeature _colorFeature = null;
-        [SerializeField] private UIAudioFeature _audioFeature = null;
         [SerializeField] private UISpriteFeature _spriteFeature = null;
+        [SerializeField] private UITransformFeature _transformFeature = null;
         [SerializeField] private UIAnimationFeature _animationFeature = null;
-        [SerializeField] private UIScaleFeature _scaleFeature = null;
+        [SerializeField] private UIAudioFeature _audioFeature = null;
 
         #endregion
 
         #region Panel Interactions
-        protected override void InvokeEnterAction(PointerEventData eventData = null)
+        protected override void InvokeEnterAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
             base.InvokeEnterAction(eventData);
         }
 
-        protected override void InvokeExitAction(PointerEventData eventData = null)
+        protected override void InvokeExitAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
             base.InvokeExitAction(eventData);
         }
 
-        protected override void InvokeDownAction(PointerEventData eventData = null)
+        protected override void InvokeDownAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
             base.InvokeDownAction(eventData);
         }
 
-        protected override void InvokeUpAction(PointerEventData eventData = null)
+        protected override void InvokeUpAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
             base.InvokeUpAction(eventData);
         }
 
-        protected override void InvokeClickAction(PointerEventData eventData = null)
+        protected override void InvokeClickAction(PointerEventData eventData = null, UIEventArgs args = null)
         {
             base.InvokeClickAction(eventData);
         }
+
         #endregion
 
         #region Features
@@ -56,43 +57,40 @@ namespace CollieMollie.UI
             _popupObject.SetActive(state);
         }
 
-        protected override void ChangeColorFeature(InteractionState state, bool instantChange = false)
-        {
-            if (_colorFeature == null) return;
+        //private void ChangeColorFeature(State state)
+        //{
+        //    if (_colorFeature == null) return;
 
-            if (instantChange)
-                _colorFeature.ChangeInstantly(state);
-            else
-                _colorFeature.ChangeGradually(state);
-        }
+        //    _colorFeature.ChangeGradually(state);
+        //}
 
-        protected override void ChangeSpriteFeature(InteractionState state)
-        {
-            if (_spriteFeature == null) return;
+        //private void ChangeSpriteFeature(State state)
+        //{
+        //    if (_spriteFeature == null) return;
 
-            _spriteFeature.Change(state);
-        }
+        //    _spriteFeature.Change(state);
+        //}
 
-        protected override void PlayAudioFeature(InteractionState state)
-        {
-            if (_audioFeature == null) return;
+        //private void PlayAudioFeature(State state)
+        //{
+        //    if (_audioFeature == null) return;
 
-            _audioFeature.Play(state);
-        }
+        //    _audioFeature.Play(state);
+        //}
 
-        protected override void PlayAnimationFeature(InteractionState state)
-        {
-            if (_animationFeature == null) return;
+        //private void PlayAnimationFeature(State state)
+        //{
+        //    if (_animationFeature == null) return;
 
-            _animationFeature.Change(state);
-        }
+        //    _animationFeature.Change(state);
+        //}
 
-        protected override void ChangeScaleFeature(InteractionState state)
-        {
-            if (_scaleFeature == null) return;
+        //private void ChangeScaleFeature(State state)
+        //{
+        //    if (_scaleFeature == null) return;
 
-            _scaleFeature.Change(state);
-        }
+        //    _scaleFeature.Change(state);
+        //}
 
         #endregion
     }

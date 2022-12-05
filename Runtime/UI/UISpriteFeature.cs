@@ -1,29 +1,40 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CollieMollie.Core;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace CollieMollie.UI
 {
-    public class UISpriteFeature : MonoBehaviour
+    public class UISpriteFeature : MonoBehaviour, IUIFeature
     {
         #region Variable Field
         [SerializeField] private bool _isEnabled = true;
         [SerializeField] private List<Element> _elements = null;
+
+        private Operation _featureOperation = new Operation();
+
         #endregion
 
         #region Public Functions
-        public void Change(InteractionState state)
+        public void Execute(string state, PointerEventData eventData = null, Action done = null)
         {
             if (!_isEnabled) return;
 
+            _featureOperation.Stop(this);
+
+            List<float> durations = new List<float>();
             foreach (Element element in _elements)
             {
                 if (!element.IsEnabled) continue;
-                element.ChangeSprite(this, state);
+                _featureOperation.Add(element.ChangeSprite(state));
+                durations.Add(element.Preset.GetDuration(state));
             }
+
+            _featureOperation.Start(this, durations.Count > 0 ? durations.Max() : 0, done);
         }
 
         #endregion
@@ -35,28 +46,15 @@ namespace CollieMollie.UI
             public Image GraphicImage = null;
             public UISpritePreset Preset = null;
 
-            private IEnumerator _spriteChangeAction = null;
-
-            public void ChangeSprite(MonoBehaviour mono, InteractionState state)
+            public IEnumerator ChangeSprite(string state)
             {
-                if (_spriteChangeAction != null)
-                    mono.StopCoroutine(_spriteChangeAction);
-
-                UISpritePreset.SpriteState spriteState = Array.Find(Preset.SpriteStates, x => x.ExecutionState == state);
-                if (!spriteState.IsValid())
-                    spriteState = Array.Find(Preset.SpriteStates, x => x.ExecutionState == InteractionState.Default);
-
-                if (spriteState.IsValid())
+                UISpritePreset.Setting setting = Array.Find(Preset.States, x => x.ExecutionState.ToString() == state);
+                if (Preset.IsValid(setting.ExecutionState))
                 {
-                    if (!spriteState.IsEnabled) return;
-                    _spriteChangeAction = ApplySprite();
-                    mono.StartCoroutine(_spriteChangeAction);
-                }
+                    if (!setting.IsEnabled) yield break;
 
-                IEnumerator ApplySprite()
-                {
-                    GraphicImage.sprite = spriteState.TargetSprite;
-                    yield return null;
+                    yield return new WaitForSeconds(setting.DelayTime);
+                    GraphicImage.sprite = setting.TargetSprite;
                 }
             }
         }

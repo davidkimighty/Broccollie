@@ -12,38 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb5f5fb211fad4a82bb0db1593a3719e, type: 3}
   m_Name: SampleUIColorPreset_Button
   m_EditorClassIdentifier: 
-  ColorStates:
-  - TargetColor: {r: 0.16862746, g: 0.29411766, b: 0.4039216, a: 1}
-    ExecutionState: 1
-    IsEnabled: 1
-    Duration: 0.6
-    Curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-  - TargetColor: {r: 0.64705884, g: 0.3529412, b: 0.43529415, a: 1}
-    ExecutionState: 2
-    IsEnabled: 1
+  States:
+  - IsEnabled: 1
+    TargetColor: {r: 0.17254902, g: 0.3019608, b: 0.4117647, a: 1}
     Duration: 0.3
     Curve:
       serializedVersion: 2
@@ -51,8 +22,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 2
-        outSlope: 2
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -60,8 +31,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 0
-        outSlope: 0
+        inSlope: 2
+        outSlope: 2
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -69,10 +40,10 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-  - TargetColor: {r: 0.37254903, g: 0.2901961, b: 0.39607847, a: 1}
-    ExecutionState: 3
-    IsEnabled: 1
-    Duration: 0.3
+    ExecutionState: 0
+  - IsEnabled: 1
+    TargetColor: {r: 0.64705884, g: 0.35686275, b: 0.43529415, a: 1}
+    Duration: 0.2
     Curve:
       serializedVersion: 2
       m_Curve:
@@ -97,31 +68,32 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-  - TargetColor: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 1}
+    ExecutionState: 5
+  - IsEnabled: 1
+    TargetColor: {r: 0.37647063, g: 0.28627452, b: 0.39607847, a: 1}
+    Duration: 0.2
+    Curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
     ExecutionState: 6
-    IsEnabled: 1
-    Duration: 0.6
-    Curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0

@@ -35,7 +35,7 @@ public class SampleUIConsole : MonoBehaviour
         }
     }
 
-    private void PrintName(InteractableEventArgs args, string msg)
+    private void PrintName(UIEventArgs args, string msg)
     {
         _console.text += $"{args.Sender.name} {msg}\n";
     }

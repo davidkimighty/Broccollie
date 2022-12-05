@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2aeba627d01c47ac9faac084f4b61d3, type: 3}
   m_Name: SampleUIAudioPreset_Button
   m_EditorClassIdentifier: 
-  AudioStates:
-  - AudioPreset: {fileID: 11400000, guid: 6749566d393864acaa50d66ddfc18542, type: 2}
-    ExecutionState: 3
-    IsEnabled: 1
+  States:
+  - IsEnabled: 1
+    AudioPreset: {fileID: 11400000, guid: 6749566d393864acaa50d66ddfc18542, type: 2}
+    ExecutionState: 7

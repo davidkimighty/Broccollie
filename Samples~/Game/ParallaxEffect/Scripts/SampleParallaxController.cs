@@ -22,18 +22,18 @@ public class SampleParallaxController : MonoBehaviour
 
     private void Awake()
     {
-        _panel.ChangeState(InteractionState.Default);
+        //_panel.ChangeState(UIInteractionState.Default);
 
-        _buttonLeft.onClick.AddListener(() => _parallaxController.StartParallax(-1, _duration));
-        _buttonRight.onClick.AddListener(() => _parallaxController.StartParallax(+1, _duration));
-        _buttonStart.onClick.AddListener(() => _parallaxController.StartParallaxLoop(+1));
-        _buttonStop.onClick.AddListener(() => _parallaxController.StopParallax());
+        //_buttonLeft.onClick.AddListener(() => _parallaxController.StartParallax(-1, _duration));
+        //_buttonRight.onClick.AddListener(() => _parallaxController.StartParallax(+1, _duration));
+        //_buttonStart.onClick.AddListener(() => _parallaxController.StartParallaxLoop(+1));
+        //_buttonStop.onClick.AddListener(() => _parallaxController.StopParallax());
 
-        _buttonLeft.onClick.AddListener(() => _panel.ChangeState(InteractionState.Selected));
-        _buttonRight.onClick.AddListener(() => _panel.ChangeState(InteractionState.Selected));
-        _parallaxController.OnEndParallax += () => _panel.ChangeState(InteractionState.Default);
+        //_buttonLeft.onClick.AddListener(() => _panel.ChangeInteractionState(UIInteractionState.Selected));
+        //_buttonRight.onClick.AddListener(() => _panel.ChangeInteractionState(UIInteractionState.Selected));
+        //_parallaxController.OnEndParallax += () => _panel.ChangeState(UIInteractionState.None);
 
-        _buttonLeft.onClick.AddListener(() => _eventChannel.RaisePlayCameraEffectEvent(_shakeEffect));
-        _buttonRight.onClick.AddListener(() => _eventChannel.RaisePlayCameraEffectEvent(_shakeEffect));
+        //_buttonLeft.onClick.AddListener(() => _eventChannel.RaisePlayCameraEffectEvent(_shakeEffect));
+        //_buttonRight.onClick.AddListener(() => _eventChannel.RaisePlayCameraEffectEvent(_shakeEffect));
     }
 }

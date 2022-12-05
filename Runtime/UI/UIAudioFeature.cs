@@ -1,30 +1,41 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CollieMollie.Audio;
 using CollieMollie.Core;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace CollieMollie.UI
 {
-    public class UIAudioFeature : MonoBehaviour
+    public class UIAudioFeature : MonoBehaviour, IUIFeature
     {
         #region Variable Field
         [SerializeField] private AudioEventChannel _eventChannel = null;
         [SerializeField] private bool _isEnabled = true;
         [SerializeField] private List<Element> _elements = null;
+
+        private Operation _featureOperation = new Operation();
+
         #endregion
 
         #region Public Functions
-        public void Play(InteractionState state)
+        public void Execute(string state, PointerEventData eventData = null, Action done = null)
         {
             if (!_isEnabled) return;
 
+            _featureOperation.Stop(this);
+
+            List<float> durations = new List<float>();
             foreach (Element element in _elements)
             {
                 if (!element.IsEnabled) continue;
-                element.PlayAudio(this, state, _eventChannel);
+                _featureOperation.Add(element.PlayAudio(state, _eventChannel));
+                durations.Add(element.Preset.GetDuration(state));
             }
+
+            _featureOperation.Start(this, durations.Count > 0 ? durations.Max() : 0, done);
         }
 
         #endregion
@@ -35,21 +46,13 @@ namespace CollieMollie.UI
             public bool IsEnabled = true;
             public UIAudioPreset Preset = null;
 
-            private IEnumerator _audioPlayAction = null;
-
-            public void PlayAudio(MonoBehaviour mono, InteractionState state, AudioEventChannel eventChannel)
+            public IEnumerator PlayAudio(string state, AudioEventChannel eventChannel)
             {
-                if (_audioPlayAction != null)
-                    mono.StopCoroutine(_audioPlayAction);
-
-                UIAudioPreset.AudioState audioState = Array.Find(Preset.AudioStates, x => x.ExecutionState == state);
-                if (!audioState.IsValid())
-                    audioState = Array.Find(Preset.AudioStates, x => x.ExecutionState == InteractionState.Default);
-
-                if (audioState.IsValid())
+                UIAudioPreset.Setting setting = Array.Find(Preset.States, x => x.ExecutionState.ToString() == state);
+                if (Preset.IsValid(setting.ExecutionState))
                 {
-                    if (!audioState.IsEnabled) return;
-                    eventChannel.RaisePlayAudioEvent(audioState.AudioPreset);
+                    if (!setting.IsEnabled) yield break;
+                    eventChannel.RaisePlayAudioEvent(setting.AudioPreset);
                 }
             }
         }

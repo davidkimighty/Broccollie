@@ -26,9 +26,9 @@ public class SampleUITestBoard : MonoBehaviour
 
     private void Awake()
     {
-        _triggerButtonOne.OnSelected += (eventArgs) => _popupButtonOne.SetVisible(!_popupButtonOne.IsVisible, 0.6f);
-        _triggerButtonTwo.OnSelected += (eventArgs) => _popupButtonTwo.SetVisible(!_popupButtonTwo.IsVisible, 0.6f);
-        _triggerButtonThree.OnSelected += (eventArgs) => _popupButtonThree.SetVisible(!_popupButtonThree.IsVisible, 0.6f);
+        _triggerButtonOne.OnSelected += (eventArgs) => PopupButton(_popupButtonOne);
+        _triggerButtonTwo.OnSelected += (eventArgs) => PopupButton(_popupButtonTwo);
+        _triggerButtonThree.OnSelected += (eventArgs) => PopupButton(_popupButtonThree);
 
         for (int i = 0; i < _groups.Length; i++)
         {
@@ -40,6 +40,16 @@ public class SampleUITestBoard : MonoBehaviour
 
     private void Start()
     {
-        _firstTab.ChangeState(InteractionState.Selected, true, false);
+        _firstTab.ChangeInteractionState(UIInteractionState.Selected, false, false);
     }
+
+    #region Subscribers
+    private void PopupButton(UIButton targetButton)
+    {
+        if (targetButton.IsVisible)
+            targetButton.ChangeState(UIState.Hide);
+        else
+            targetButton.ChangeState(UIState.Show);
+    }
+    #endregion
 }

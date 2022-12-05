@@ -61,9 +61,10 @@ MonoBehaviour:
   _buttonObject: {fileID: 1604656052339449513}
   _type: 0
   _colorFeature: {fileID: 0}
-  _audioFeature: {fileID: 0}
   _spriteFeature: {fileID: 0}
+  _transformFeature: {fileID: 0}
   _animationFeature: {fileID: 0}
+  _audioFeature: {fileID: 0}
   _dragFeature: {fileID: 1604656052339449508}
 --- !u!114 &1604656052339449508
 MonoBehaviour:
@@ -80,6 +81,7 @@ MonoBehaviour:
   _dragTarget: {fileID: 1604656052339449512}
   _dragArea: {fileID: 0}
   _canvasGroup: {fileID: 1604656052339449509}
+  _preset: {fileID: 11400000, guid: b409f496423834514b94b4b4a3b7b3a6, type: 2}
 --- !u!225 &1604656052339449509
 CanvasGroup:
   m_ObjectHideFlags: 0
