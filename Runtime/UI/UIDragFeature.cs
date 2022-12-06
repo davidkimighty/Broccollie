@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 namespace CollieMollie.UI
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class UIDragFeature : MonoBehaviour, IUIFeature
+    public class UIDragFeature : BaseUIFeature
     {
         #region Variable Field
         [SerializeField] private Transform _dragTarget = null;
@@ -21,7 +21,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public void Execute(string state, PointerEventData eventData = null, Action done = null)
+        public override void Execute(PointerEventData eventData = null, Action done = null)
         {
             switch (_dragArea.renderMode)
             {

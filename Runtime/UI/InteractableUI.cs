@@ -50,6 +50,7 @@ namespace CollieMollie.UI
         public virtual void ChangeInteractionState(UIInteractionState state, bool playAudio = true, bool invokeEvent = true)
         {
             if (state == UIInteractionState.None || state == _currentInteractionState) return;
+            
             _currentInteractionState = state;
             _interactable = true;
 
@@ -90,40 +91,40 @@ namespace CollieMollie.UI
         #endregion
 
         #region Pointer Callbacks
-        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => InvokeEnterAction(eventData, new UIEventArgs());
+        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => InvokeEnterAction(eventData);
 
-        void IPointerExitHandler.OnPointerExit(PointerEventData eventData) => InvokeExitAction(eventData, new UIEventArgs());
+        void IPointerExitHandler.OnPointerExit(PointerEventData eventData) => InvokeExitAction(eventData);
 
-        void IPointerDownHandler.OnPointerDown(PointerEventData eventData) => InvokeDownAction(eventData, new UIEventArgs());
+        void IPointerDownHandler.OnPointerDown(PointerEventData eventData) => InvokeDownAction(eventData);
 
-        void IPointerUpHandler.OnPointerUp(PointerEventData eventData) => InvokeUpAction(eventData, new UIEventArgs());
+        void IPointerUpHandler.OnPointerUp(PointerEventData eventData) => InvokeUpAction(eventData);
 
-        void IPointerClickHandler.OnPointerClick(PointerEventData eventData) => InvokeClickAction(eventData, new UIEventArgs());
+        void IPointerClickHandler.OnPointerClick(PointerEventData eventData) => InvokeClickAction(eventData);
 
-        void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) => InvokeBeginDragAction(eventData, new UIEventArgs());
+        void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) => InvokeBeginDragAction(eventData);
 
-        void IDragHandler.OnDrag(PointerEventData eventData) => InvokeDragAction(eventData, new UIEventArgs());
+        void IDragHandler.OnDrag(PointerEventData eventData) => InvokeDragAction(eventData);
 
-        void IEndDragHandler.OnEndDrag(PointerEventData eventData) => InvokeEndDragAction(eventData, new UIEventArgs());
+        void IEndDragHandler.OnEndDrag(PointerEventData eventData) => InvokeEndDragAction(eventData);
 
         #endregion
 
         #region Pointer Subscribers
-        protected virtual void InvokeEnterAction(PointerEventData eventData = null, UIEventArgs args = null) { }
+        protected virtual void InvokeEnterAction(PointerEventData eventData = null) { }
 
-        protected virtual void InvokeExitAction(PointerEventData eventData = null, UIEventArgs args = null) { }
+        protected virtual void InvokeExitAction(PointerEventData eventData = null) { }
 
-        protected virtual void InvokeDownAction(PointerEventData eventData = null, UIEventArgs args = null) { }
+        protected virtual void InvokeDownAction(PointerEventData eventData = null) { }
 
-        protected virtual void InvokeUpAction(PointerEventData eventData = null, UIEventArgs args = null) { }
+        protected virtual void InvokeUpAction(PointerEventData eventData = null) { }
 
-        protected virtual void InvokeClickAction(PointerEventData eventData = null, UIEventArgs args = null) { }
+        protected virtual void InvokeClickAction(PointerEventData eventData = null) { }
 
-        protected virtual void InvokeBeginDragAction(PointerEventData eventData = null, UIEventArgs args = null) { }
+        protected virtual void InvokeBeginDragAction(PointerEventData eventData = null) { }
 
-        protected virtual void InvokeDragAction(PointerEventData eventData = null, UIEventArgs args = null) { }
+        protected virtual void InvokeDragAction(PointerEventData eventData = null) { }
 
-        protected virtual void InvokeEndDragAction(PointerEventData eventData = null, UIEventArgs args = null) { }
+        protected virtual void InvokeEndDragAction(PointerEventData eventData = null) { }
 
         #endregion
 

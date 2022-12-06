@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UITransformFeature : MonoBehaviour, IUIFeature
+public class UITransformFeature : BaseUIFeature
 {
     #region Variable Field
     [SerializeField] private bool _isEnabled = true;
@@ -20,12 +20,12 @@ public class UITransformFeature : MonoBehaviour, IUIFeature
     #endregion
 
     #region Public Functions
-    public void Execute(string state, PointerEventData eventData = null, Action done = null)
+    public override void Execute(string state, out float duration, Action done = null)
     {
+        duration = 0;
         if (!_isEnabled) return;
 
         _featureOperation.Stop(this);
-
         List<float> durations = new List<float>();
         foreach (Element element in _elements)
         {
@@ -33,8 +33,8 @@ public class UITransformFeature : MonoBehaviour, IUIFeature
             _featureOperation.Add(element.ChangeTransform(this, state));
             durations.Add(element.Preset.GetDuration(state));
         }
-
-        _featureOperation.Start(this, durations.Count > 0 ? durations.Max() : 0, done);
+        duration = durations.Count > 0 ? durations.Max() : 0;
+        _featureOperation.Start(this, duration, done);
     }
 
     #endregion

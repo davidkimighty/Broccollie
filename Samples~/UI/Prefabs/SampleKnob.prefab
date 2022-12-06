@@ -134,7 +134,7 @@ MonoBehaviour:
   _selected: 0
   _dragging: 0
   _buttonObject: {fileID: 5652769215594914967}
-  _type: 0
+  _type: 1
   _colorFeature: {fileID: 3319589051725537791}
   _spriteFeature: {fileID: 0}
   _transformFeature: {fileID: 0}

@@ -27,16 +27,11 @@ namespace CollieMollie.UI
         #endregion
 
         #region Behaviors
-        protected override void DefaultBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
-        {
-            _currentState = UIState.Default;
-
-        }
-
         protected override void ShowBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
             _currentState = UIState.Show;
-            _transformFeature.Execute(UIState.Show.ToString());
+            if (_transformFeature != null)
+                _transformFeature.Execute(UIState.Show.ToString(), out float duration, done);
 
             if (_useFade)
             {
@@ -49,7 +44,8 @@ namespace CollieMollie.UI
         protected override void HideBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
             _currentState = UIState.Hide;
-            _transformFeature.Execute(UIState.Hide.ToString());
+            if (_transformFeature != null)
+                _transformFeature.Execute(UIState.Hide.ToString(), out float duration, done);
 
             if (_useFade)
             {

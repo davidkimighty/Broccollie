@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using CollieMollie.Core;
 using UnityEngine;
@@ -21,32 +22,59 @@ namespace CollieMollie.UI
         [SerializeField] private UIAnimationFeature _animationFeature = null;
         [SerializeField] private UIAudioFeature _audioFeature = null;
 
+        private IEnumerator _behaviorAction = null;
+
         #endregion
 
-        #region Panel Interactions
-        protected override void InvokeEnterAction(PointerEventData eventData = null, UIEventArgs args = null)
+        #region Behaviors
+        protected override void DefaultBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            base.InvokeEnterAction(eventData);
+            _currentState = UIState.Default;
+
+            if (invokeEvent)
+                RaiseDefaultEvent(new UIEventArgs(this));
+
+            RunAction(ExecuteFeatures(UIState.Default.ToString(), playAudio, done));
         }
 
-        protected override void InvokeExitAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override void InteractiveBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            base.InvokeExitAction(eventData);
+            _currentState = UIState.Interactive;
+
+            if (invokeEvent)
+                RaiseInteractiveEvent(new UIEventArgs(this));
+
+            RunAction(ExecuteFeatures(UIState.Interactive.ToString(), playAudio, done));
         }
 
-        protected override void InvokeDownAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override void NonInteractiveBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            base.InvokeDownAction(eventData);
+            _currentState = UIState.NonInteractive;
+
+            if (invokeEvent)
+                RaiseNonInteractiveEvent(new UIEventArgs(this));
+
+            RunAction(ExecuteFeatures(UIState.NonInteractive.ToString(), playAudio, done));
         }
 
-        protected override void InvokeUpAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override void ShowBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            base.InvokeUpAction(eventData);
+            _currentState = UIState.Show;
+
+            if (invokeEvent)
+                RaiseShowEvent(new UIEventArgs(this));
+
+            RunAction(ExecuteFeatures(UIState.Show.ToString(), playAudio, done));
         }
 
-        protected override void InvokeClickAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override void HideBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            base.InvokeClickAction(eventData);
+            _currentState = UIState.Hide;
+
+            if (invokeEvent)
+                RaiseHideEvent(new UIEventArgs(this));
+
+            RunAction(ExecuteFeatures(UIState.Hide.ToString(), playAudio, done));
         }
 
         #endregion
@@ -57,40 +85,54 @@ namespace CollieMollie.UI
             _popupObject.SetActive(state);
         }
 
-        //private void ChangeColorFeature(State state)
-        //{
-        //    if (_colorFeature == null) return;
+        private void RunAction(IEnumerator action)
+        {
+            if (_behaviorAction != null)
+                StopCoroutine(_behaviorAction);
+            _behaviorAction = action;
+            StartCoroutine(_behaviorAction);
+        }
 
-        //    _colorFeature.ChangeGradually(state);
-        //}
+        private IEnumerator ExecuteFeatures(string state, bool playAudio, Action done = null)
+        {
+            List<float> durations = new List<float>();
 
-        //private void ChangeSpriteFeature(State state)
-        //{
-        //    if (_spriteFeature == null) return;
+            if (_colorFeature != null)
+            {
+                _colorFeature.Execute(state, out float duration);
+                durations.Add(duration);
+            }
 
-        //    _spriteFeature.Change(state);
-        //}
+            if (_spriteFeature != null)
+            {
+                _spriteFeature.Execute(state, out float duration);
+                durations.Add(duration);
+            }
 
-        //private void PlayAudioFeature(State state)
-        //{
-        //    if (_audioFeature == null) return;
+            if (_transformFeature != null)
+            {
+                _transformFeature.Execute(state, out float duration);
+                durations.Add(duration);
+            }
 
-        //    _audioFeature.Play(state);
-        //}
+            if (_animationFeature != null)
+            {
+                _animationFeature.Execute(state, out float duration);
+                durations.Add(duration);
+            }
 
-        //private void PlayAnimationFeature(State state)
-        //{
-        //    if (_animationFeature == null) return;
+            if (_audioFeature != null && playAudio)
+            {
+                _audioFeature.Execute(state, out float duration);
+                durations.Add(duration);
+            }
 
-        //    _animationFeature.Change(state);
-        //}
-
-        //private void ChangeScaleFeature(State state)
-        //{
-        //    if (_scaleFeature == null) return;
-
-        //    _scaleFeature.Change(state);
-        //}
+            if (done != null)
+            {
+                yield return new WaitForSeconds(durations.Count > 0 ? durations.Max() : 0);
+                done?.Invoke();
+            }
+        }
 
         #endregion
     }

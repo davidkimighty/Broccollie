@@ -7,13 +7,14 @@ using UnityEngine.EventSystems;
 
 namespace CollieMollie.UI
 {
-    public class UISlot : MonoBehaviour, IDropHandler
+    public class UISlot : BaseUI, IDropHandler
     {
         #region Variable Field
         public event Action<UIEventArgs> OnSlotEnter = null;
         public event Action<UIEventArgs> OnSlotExit = null;
 
         private InteractableUI _insertedInteractable = null;
+
         #endregion
 
         public void OnDrop(PointerEventData eventData)

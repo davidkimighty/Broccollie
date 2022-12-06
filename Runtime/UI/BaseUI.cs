@@ -27,25 +27,25 @@ namespace CollieMollie.UI
             get => _interactable;
         }
 
-        protected UIState _currentState = UIState.None;
+        protected UIState _currentState = UIState.Default;
         #endregion
 
         #region Public Functions
         public virtual void ChangeState(UIState state, bool playAudio = true, bool invokeEvent = true)
         {
-            if (state == UIState.None) return;
+            if (state == UIState.None || state == _currentState) return;
+            
             _currentState = state; _interactable = false;
+            SetActive(true);
 
             switch (state)
             {
                 case UIState.Default:
                     _interactable = true;
-                    SetActive(true);
                     DefaultBehavior(playAudio, invokeEvent);
                     break;
 
                 case UIState.Interactive:
-                    SetActive(true);
                     InteractiveBehavior(playAudio, invokeEvent, () =>
                     {
                         _interactable = true;
@@ -55,12 +55,11 @@ namespace CollieMollie.UI
                     break;
 
                 case UIState.NonInteractive:
-                    SetActive(true);
                     NonInteractiveBehavior(playAudio, invokeEvent);
                     break;
 
                 case UIState.Show:
-                    SetActive(true);
+                    _visible = true;
                     ShowBehavior(playAudio, invokeEvent, () =>
                     {
                         _interactable = true;
@@ -72,6 +71,7 @@ namespace CollieMollie.UI
                 case UIState.Hide:
                     HideBehavior(playAudio, invokeEvent, () =>
                     {
+                        _visible = false;
                         SetActive(false);
                     });
                     break;

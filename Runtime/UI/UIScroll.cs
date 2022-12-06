@@ -62,12 +62,12 @@ namespace CollieMollie.UI
 
         #endregion
 
-        protected override void InvokeBeginDragAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override void InvokeBeginDragAction(PointerEventData eventData = null)
         {
             _dragging = true;
         }
 
-        protected override void InvokeEndDragAction(PointerEventData eventData = null, UIEventArgs args = null)
+        protected override void InvokeEndDragAction(PointerEventData eventData = null)
         {
             _dragging = false;
         }
@@ -97,6 +97,7 @@ namespace CollieMollie.UI
                 for (int i = 0; i < _childCount; i++)
                 {
                     UIButton knob = Instantiate<UIButton>(_knobPrefab, _knobHolder);
+                    knob.gameObject.name += " " + i.ToString();
                     knobsTemp.Add(knob);
 
                     int index = i;

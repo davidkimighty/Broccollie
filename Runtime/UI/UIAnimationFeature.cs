@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 
 namespace CollieMollie.UI
 {
-    public class UIAnimationFeature : MonoBehaviour, IUIFeature
+    public class UIAnimationFeature : BaseUIFeature
     {
         #region Variable Field
         [SerializeField] private bool _isEnabled = true;
@@ -21,12 +21,12 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public void Execute(string state, PointerEventData eventData = null, Action done = null)
+        public override void Execute(string state, out float duration, Action done = null)
         {
+            duration = 0;
             if (!_isEnabled) return;
 
             _featureOperation.Stop(this);
-
             List<float> durations = new List<float>();
             foreach (Element element in _elements)
             {
@@ -34,8 +34,8 @@ namespace CollieMollie.UI
                 _featureOperation.Add(element.PlayAnimation(state));
                 durations.Add(element.Preset.GetDuration(state));
             }
-
-            _featureOperation.Start(this, durations.Count > 0 ? durations.Max() : 0, done);
+            duration = durations.Count > 0 ? durations.Max() : 0;
+            _featureOperation.Start(this, duration, done);
         }
 
         #endregion
