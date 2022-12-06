@@ -30,6 +30,7 @@ namespace CollieMollie.UI
         protected override void DefaultBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
             _currentState = UIState.Default;
+            _currentInteractionState = UIInteractionState.None;
 
             if (invokeEvent)
                 RaiseDefaultEvent(new UIEventArgs(this));
@@ -75,6 +76,17 @@ namespace CollieMollie.UI
                 RaiseHideEvent(new UIEventArgs(this));
 
             RunAction(ExecuteFeatures(UIState.Hide.ToString(), playAudio, done));
+        }
+
+        protected override void SelectedBehavior(bool playAudio = true, bool invokeEvent = true)
+        {
+            _currentState = UIState.None;
+            _currentInteractionState = UIInteractionState.Selected;
+
+            if (invokeEvent)
+                RaiseSelectedEvent(new UIEventArgs(this));
+
+            RunAction(ExecuteFeatures(UIInteractionState.Selected.ToString(), playAudio));
         }
 
         #endregion

@@ -1630,7 +1630,7 @@ GameObject:
   - component: {fileID: 1362263288}
   - component: {fileID: 1362263287}
   - component: {fileID: 1362263290}
-  - component: {fileID: 1362263289}
+  - component: {fileID: 1362263291}
   m_Layer: 0
   m_Name: Parallax
   m_TagString: Untagged
@@ -1737,23 +1737,6 @@ MonoBehaviour:
   _panel: {fileID: 1362263290}
   _shakeEffect: {fileID: 11400000, guid: da144e247e3424932b4d5ea4ed6b734b, type: 2}
   _eventChannel: {fileID: 11400000, guid: ba6a391e961044dcb9e63305511ee1d4, type: 2}
---- !u!114 &1362263289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1362263285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3170b7041394c4f659f54af7e5be106e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isEnabled: 1
-  _elements:
-  - IsEnabled: 1
-    TargetObject: {fileID: 298903205}
-    Preset: {fileID: 11400000, guid: 44c3d47684f1d44349172c5fae45a28c, type: 2}
 --- !u!114 &1362263290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1774,10 +1757,104 @@ MonoBehaviour:
   _dragging: 0
   _popupObject: {fileID: 298903204}
   _colorFeature: {fileID: 0}
-  _audioFeature: {fileID: 0}
   _spriteFeature: {fileID: 0}
+  _transformFeature: {fileID: 1362263291}
   _animationFeature: {fileID: 0}
-  _scaleFeature: {fileID: 1362263289}
+  _audioFeature: {fileID: 0}
+--- !u!114 &1362263291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362263285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad49f02e8fec84586ac35997e2b2be91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isEnabled: 1
+  _elements:
+  - IsEnabled: 1
+    TargetObject: {fileID: 1969980545}
+    Preset:
+      States:
+      - IsEnabled: 1
+        ExecutionState: 0
+        PositionSettingEnabled: 0
+        TargetPosition: {fileID: 0}
+        PositionSettingDuration: 0
+        PositionSettingCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        ScaleSettingEnabled: 1
+        TargetScale: 1.1
+        ScaleSettingDuration: 0.3
+        ScaleSettingCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 2
+            outSlope: 2
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
+      - IsEnabled: 1
+        ExecutionState: 7
+        PositionSettingEnabled: 0
+        TargetPosition: {fileID: 0}
+        PositionSettingDuration: 0
+        PositionSettingCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 0
+          m_PostInfinity: 0
+          m_RotationOrder: 0
+        ScaleSettingEnabled: 1
+        TargetScale: 1
+        ScaleSettingDuration: 0.2
+        ScaleSettingCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 2
+            outSlope: 2
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 0
 --- !u!1 &1365681969
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,7 +27,7 @@ namespace CollieMollie.UI
             get => _interactable;
         }
 
-        protected UIState _currentState = UIState.Default;
+        protected UIState _currentState = UIState.None;
         #endregion
 
         #region Public Functions
