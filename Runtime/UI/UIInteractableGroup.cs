@@ -52,6 +52,14 @@ namespace CollieMollie.UI
                 _interactables.Remove(interactable);
         }
 
+        public void ChangeToDefault(InteractableUI exception = null)
+        {
+            foreach (InteractableUI interactable in _interactables)
+            {
+                if (interactable == exception) continue;
+                interactable.ChangeState(UIState.Default, false, false);
+            }
+        }
         #endregion
     }
 }

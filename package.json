@@ -1,6 +1,6 @@
 {
     "name": "com.colliemollie.broccollie",
-    "version": "0.8.26",
+    "version": "0.8.27",
     "displayName": "Broccollie",
     "description": "Essential game ready features in URP",
     "unity": "2021.3",
