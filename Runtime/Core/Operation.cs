@@ -30,6 +30,8 @@ namespace CollieMollie.Core
             if (_operation != null)
                 mono.StopCoroutine(_operation);
 
+            if (!mono.gameObject.activeInHierarchy) return;
+
             _operation = StartSubOperations();
             mono.StartCoroutine(_operation);
 

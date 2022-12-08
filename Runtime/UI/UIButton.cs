@@ -23,7 +23,7 @@ namespace CollieMollie.UI
         [SerializeField] private UIAudioFeature _audioFeature = null;
         [SerializeField] private UIDragFeature _dragFeature = null;
 
-        private IEnumerator _behaviorAction = null;
+        private Operation _behaviorOperation = new Operation();
 
         #endregion
 
@@ -226,8 +226,7 @@ namespace CollieMollie.UI
             if (invokeEvent)
                 RaiseBeginDragEvent(new UIEventArgs(this));
 
-            if (_behaviorAction != null)
-                StopCoroutine(_behaviorAction);
+            _behaviorOperation.Stop(this);
         }
 
         protected override void DragBehavior(PointerEventData eventData, bool playAudio = true, bool invokeEvent = true)
@@ -256,10 +255,9 @@ namespace CollieMollie.UI
 
         private void RunAction(IEnumerator action)
         {
-            if (_behaviorAction != null)
-                StopCoroutine(_behaviorAction);
-            _behaviorAction = action;
-            StartCoroutine(_behaviorAction);
+            _behaviorOperation.Stop(this);
+            _behaviorOperation.Add(action);
+            _behaviorOperation.Start(this);
         }
 
         private IEnumerator ExecuteFeatures(string state, bool playAudio, Action done = null)
