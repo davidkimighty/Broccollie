@@ -13,6 +13,7 @@ namespace CollieMollie.Rendering
         private const float MINVALUE = 0f;
 
         [SerializeField] private UniversalRendererData _rendererData = null;
+        [SerializeField] private Renderer2DData _rendererData2D = null;
         [SerializeField] private AnimationCurve _blurCurve = null;
 
         private BlurFeature _blurFeature = null;
@@ -20,8 +21,10 @@ namespace CollieMollie.Rendering
 
         private void Awake()
         {
-            if (_rendererData == null) return;
-            _blurFeature = (BlurFeature)_rendererData.rendererFeatures.Find(feature => feature is BlurFeature);
+            if (_rendererData != null)
+                _blurFeature = (BlurFeature)_rendererData.rendererFeatures.Find(feature => feature is BlurFeature);
+            else if (_rendererData2D != null)
+                _blurFeature = (BlurFeature)_rendererData2D.rendererFeatures.Find(feature => feature is BlurFeature);
         }
 
         #region Public Functions
