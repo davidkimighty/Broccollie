@@ -8,20 +8,22 @@ namespace CollieMollie.UI
     public class UIInteractableGroup : MonoBehaviour
     {
         #region Variable Field
-        [SerializeField] private List<InteractableUI> _interactables = null;
+        [SerializeField] private UIState _defaultState = UIState.None;
+        [SerializeField] private UIAllState _selectedState = UIAllState.None;
+        [SerializeField] private List<InteractableUI> _interactables = new List<InteractableUI>();
 
         #endregion
 
         private void OnEnable()
         {
             foreach (InteractableUI interactable in _interactables)
-                interactable.OnSelected += ChangeOthersToDefault;
+                SubscribeEvent(interactable);
         }
 
         private void OnDisable()
         {
             foreach (InteractableUI interactable in _interactables)
-                interactable.OnSelected -= ChangeOthersToDefault;
+                UnsubscribeEvent(interactable);
         }
 
         #region Subscribers
@@ -32,7 +34,7 @@ namespace CollieMollie.UI
             foreach (InteractableUI interactable in _interactables)
             {
                 if (interactable == args.Sender) continue;
-                interactable.ChangeState(UIState.Default, false, false);
+                interactable.ChangeState(_defaultState, false, false);
             }
         }
 
@@ -41,13 +43,13 @@ namespace CollieMollie.UI
         #region Public Functions
         public void AddInteractable(InteractableUI interactable)
         {
-            interactable.OnSelected += ChangeOthersToDefault;
+            SubscribeEvent(interactable);
             _interactables.Add(interactable);
         }
 
         public void RemoveInteractable(InteractableUI interactable)
         {
-            interactable.OnSelected -= ChangeOthersToDefault;
+            UnsubscribeEvent(interactable);
             if (_interactables.Contains(interactable))
                 _interactables.Remove(interactable);
         }
@@ -57,9 +59,49 @@ namespace CollieMollie.UI
             foreach (InteractableUI interactable in _interactables)
             {
                 if (interactable == exception) continue;
-                interactable.ChangeState(UIState.Default, false, false);
+                interactable.ChangeState(_defaultState, false, false);
             }
         }
+
+        #endregion
+
+        #region Private Functions
+        private void SubscribeEvent(InteractableUI interactable)
+        {
+            switch (_selectedState)
+            {
+                case UIAllState.Interactive:
+                    interactable.OnInteractive += ChangeOthersToDefault;
+                    break;
+
+                case UIAllState.Show:
+                    interactable.OnShow += ChangeOthersToDefault;
+                    break;
+
+                case UIAllState.Selected:
+                    interactable.OnSelected += ChangeOthersToDefault;
+                    break;
+            }
+        }
+
+        private void UnsubscribeEvent(InteractableUI interactable)
+        {
+            switch (_selectedState)
+            {
+                case UIAllState.Interactive:
+                    interactable.OnInteractive -= ChangeOthersToDefault;
+                    break;
+
+                case UIAllState.Show:
+                    interactable.OnShow -= ChangeOthersToDefault;
+                    break;
+
+                case UIAllState.Selected:
+                    interactable.OnSelected -= ChangeOthersToDefault;
+                    break;
+            }
+        }
+
         #endregion
     }
 }
