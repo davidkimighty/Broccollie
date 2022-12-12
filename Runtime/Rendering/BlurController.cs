@@ -21,13 +21,18 @@ namespace CollieMollie.Rendering
 
         private void Awake()
         {
+            Initialize();
+        }
+
+        #region Public Functions
+        public void Initialize()
+        {
             if (_rendererData != null)
                 _blurFeature = (BlurFeature)_rendererData.rendererFeatures.Find(feature => feature is BlurFeature);
             else if (_rendererData2D != null)
                 _blurFeature = (BlurFeature)_rendererData2D.rendererFeatures.Find(feature => feature is BlurFeature);
         }
 
-        #region Public Functions
         public IEnumerator BlurIn(float duration = 1f, Action done = null)
         {
             yield return Blur(MAXVALUE, duration);
@@ -51,6 +56,7 @@ namespace CollieMollie.Rendering
         {
             _blurFeature.RenderPass.SetBlurStrength(blurAmout);
         }
+
         #endregion
 
         #region Blur Controls
@@ -68,6 +74,7 @@ namespace CollieMollie.Rendering
             }
             _blurFeature.RenderPass.SetBlurStrength(targetValue);
         }
+
         #endregion
     }
 }

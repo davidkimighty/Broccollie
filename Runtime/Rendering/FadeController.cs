@@ -21,13 +21,18 @@ namespace CollieMollie.Rendering
 
         private void Awake()
         {
+            Initialize();
+        }
+
+        #region Public Functions
+        public void Initialize()
+        {
             if (_rendererData != null)
                 _fadeFeature = (FadeFeature)_rendererData.rendererFeatures.Find(feature => feature is FadeFeature);
             else if (_rendererData2D != null)
                 _fadeFeature = (FadeFeature)_rendererData2D.rendererFeatures.Find(feature => feature is FadeFeature);
         }
 
-        #region Public Functions
         public void SetFadeColor(Color color)
         {
             _fadeFeature.RenderPass.SetFadeColor(color);
