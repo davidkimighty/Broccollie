@@ -48,6 +48,7 @@ namespace CollieMollie.System
             }
         }
 
+#if UNITY_EDITOR
         public void Initialize()
         {
             if (string.IsNullOrEmpty(gameObject.scene.path)) return; // Has been placed?
@@ -62,6 +63,7 @@ namespace CollieMollie.System
             }
             s_globalSaveables[property.stringValue] = this;
         }
+#endif
 
         [ContextMenu("Set New Guid")]
         public string GetNewGuid()
