@@ -44,15 +44,6 @@ namespace CollieMollie.UI
             Initialize();
         }
 
-        private void Start()
-        {
-            _anchorPoint = _anchorPoints[0];
-            _scrollElements[0].Focus(_focusState.ToString(), false);
-
-            if (_useKnob)
-                _knobs[0].ChangeInteractionState(_focusState);
-        }
-
         #region Subscribers
         private void SelectKnob(int index)
         {
@@ -112,6 +103,15 @@ namespace CollieMollie.UI
             if (_scrollElements == null)
                 _scrollElements = new List<UIScrollElement>();
             _scrollElements.Add(element);
+        }
+
+        public void SelectPageWithIndex(int index)
+        {
+            _anchorPoint = _anchorPoints[index];
+            _scrollElements[index].Focus(_focusState.ToString(), false);
+
+            if (_useKnob)
+                _knobs[index].ChangeInteractionState(_focusState);
         }
 
         #endregion
