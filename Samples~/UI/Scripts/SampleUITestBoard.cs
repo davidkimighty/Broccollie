@@ -22,6 +22,7 @@ public class SampleUITestBoard : MonoBehaviour
     [SerializeField] private UIButton _clearButton = null;
     [SerializeField] private UIButton _resetButton = null;
     [SerializeField] private UIGroup[] _groups = null;
+
     #endregion
 
     private void Awake()
@@ -33,23 +34,23 @@ public class SampleUITestBoard : MonoBehaviour
         for (int i = 0; i < _groups.Length; i++)
         {
             int index = i;
-            _clearButton.OnSelected += (eventArgs) => _groups[index].ChangeState(UIState.Hide);
-            _resetButton.OnSelected += (eventArgs) => _groups[index].ChangeState(UIState.Show);
+            _clearButton.OnSelected += (eventArgs) => _groups[index].ChangeState(BaseUI.State.Hide);
+            _resetButton.OnSelected += (eventArgs) => _groups[index].ChangeState(BaseUI.State.Show);
         }
     }
 
     private void Start()
     {
-        _firstTab.ChangeInteractionState(UIInteractionState.Selected, false, false);
+        _firstTab.ChangeState(BaseUI.State.Selected, false, false);
     }
 
     #region Subscribers
     private void PopupButton(UIButton targetButton)
     {
         if (targetButton.IsVisible)
-            targetButton.ChangeState(UIState.Hide);
+            targetButton.ChangeState(BaseUI.State.Hide);
         else
-            targetButton.ChangeState(UIState.Show);
+            targetButton.ChangeState(BaseUI.State.Show);
     }
     #endregion
 }

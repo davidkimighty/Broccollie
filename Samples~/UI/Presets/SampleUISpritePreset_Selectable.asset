@@ -20,4 +20,4 @@ MonoBehaviour:
   - IsEnabled: 1
     TargetSprite: {fileID: 21300000, guid: 89f0f6baf9acb42b688f9cdee754aadf, type: 3}
     DelayTime: 0.3
-    ExecutionState: 7
+    ExecutionState: 3

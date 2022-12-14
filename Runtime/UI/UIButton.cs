@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using CollieMollie.Core;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -23,7 +24,8 @@ namespace CollieMollie.UI
         [SerializeField] private UIAudioFeature _audioFeature = null;
         [SerializeField] private UIDragFeature _dragFeature = null;
 
-        private Operation _behaviorOperation = new Operation();
+        private Task _behaviorTask = null;
+        private readonly CancellationTokenSource _cancelSource = new CancellationTokenSource();
 
         #endregion
 
@@ -140,93 +142,89 @@ namespace CollieMollie.UI
         #region Behaviors
         protected override void DefaultBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            _currentState = UIState.Default;
-            _currentInteractionState = UIInteractionState.None;
+            _currentState = State.Default;
             _selected = false;
 
             if (invokeEvent)
                 RaiseDefaultEvent(new UIEventArgs(this));
 
-            RunAction(ExecuteFeatures(UIState.Default.ToString(), playAudio, done));
+            _behaviorTask = ExecuteFeaturesAsync(State.Default.ToString(), playAudio, done);
         }
 
         protected override void InteractiveBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            _currentState = UIState.Interactive;
+            _currentState = State.Interactive;
 
             if (invokeEvent)
                 RaiseInteractiveEvent(new UIEventArgs(this));
 
-            RunAction(ExecuteFeatures(UIState.Interactive.ToString(), playAudio, done));
+            _behaviorTask = ExecuteFeaturesAsync(State.Interactive.ToString(), playAudio, done);
         }
 
         protected override void NonInteractiveBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            _currentState = UIState.NonInteractive;
+            _currentState = State.NonInteractive;
 
             if (invokeEvent)
                 RaiseNonInteractiveEvent(new UIEventArgs(this));
 
-            RunAction(ExecuteFeatures(UIState.NonInteractive.ToString(), playAudio, done));
+            _behaviorTask = ExecuteFeaturesAsync(State.NonInteractive.ToString(), playAudio, done);
         }
 
         protected override void ShowBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            _currentState = UIState.Show;
+            _currentState = State.Show;
 
             if (invokeEvent)
                 RaiseShowEvent(new UIEventArgs(this));
 
-            RunAction(ExecuteFeatures(UIState.Show.ToString(), playAudio, done));
+            _behaviorTask = ExecuteFeaturesAsync(State.Show.ToString(), playAudio, done);
         }
 
         protected override void HideBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            _currentState = UIState.Hide;
+            _currentState = State.Hide;
 
             if (invokeEvent)
                 RaiseHideEvent(new UIEventArgs(this));
 
-            RunAction(ExecuteFeatures(UIState.Hide.ToString(), playAudio, done));
+            _behaviorTask = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, done);
         }
 
         protected override void HoveredBehavior(bool playAudio = true, bool invokeEvent = true)
         {
-            _currentInteractionState = UIInteractionState.Hovered;
+            _currentState = State.Hovered;
 
             if (invokeEvent)
                 RaiseHoveredEvent(new UIEventArgs(this));
 
-            RunAction(ExecuteFeatures(UIInteractionState.Hovered.ToString(), playAudio));
+            _behaviorTask = ExecuteFeaturesAsync(State.Hovered.ToString(), playAudio);
         }
 
         protected override void PressedBehavior(bool playAudio = true, bool invokeEvent = true)
         {
-            _currentInteractionState = UIInteractionState.Pressed;
+            _currentState = State.Pressed;
 
             if (invokeEvent)
                 RaisePressedEvent(new UIEventArgs(this));
 
-            RunAction(ExecuteFeatures(UIInteractionState.Pressed.ToString(), playAudio));
+            _behaviorTask = ExecuteFeaturesAsync(State.Pressed.ToString(), playAudio);
         }
 
         protected override void SelectedBehavior(bool playAudio = true, bool invokeEvent = true)
         {
-            _currentState = UIState.None;
-            _currentInteractionState = UIInteractionState.Selected;
+            _currentState = State.Selected;
 
             if (invokeEvent)
                 RaiseSelectedEvent(new UIEventArgs(this));
 
-            RunAction(ExecuteFeatures(UIInteractionState.Selected.ToString(), playAudio));
+            _behaviorTask = ExecuteFeaturesAsync(State.Selected.ToString(), playAudio);
         }
 
         protected override void BeginDragBehavior(PointerEventData eventData, bool invokeEvent = true)
         {
             if (invokeEvent)
                 RaiseBeginDragEvent(new UIEventArgs(this));
-
-            _behaviorOperation.Stop(this);
         }
 
         protected override void DragBehavior(PointerEventData eventData, bool playAudio = true, bool invokeEvent = true)
@@ -235,7 +233,7 @@ namespace CollieMollie.UI
                 RaiseDragEvent(new UIEventArgs(this));
 
             if (_dragFeature != null)
-                _dragFeature.Execute(eventData);
+                _behaviorTask = _dragFeature.ExecuteAsync(eventData);
         }
 
         protected override void EndDragBehavior(PointerEventData eventData, bool invokeEvent = true)
@@ -253,52 +251,26 @@ namespace CollieMollie.UI
                 _buttonObject.SetActive(state);
         }
 
-        private void RunAction(IEnumerator action)
+        private async Task ExecuteFeaturesAsync(string state, bool playAudio, Action done = null)
         {
-            _behaviorOperation.Stop(this);
-            _behaviorOperation.Add(action);
-            _behaviorOperation.Start(this);
-        }
-
-        private IEnumerator ExecuteFeatures(string state, bool playAudio, Action done = null)
-        {
-            List<float> durations = new List<float>();
-
+            List<Task> featureTasks = new List<Task>();
             if (_colorFeature != null)
-            {
-                _colorFeature.Execute(state, out float duration);
-                durations.Add(duration);
-            }
+                featureTasks.Add(_colorFeature.ExecuteAsync(state));
 
             if (_spriteFeature != null)
-            {
-                _spriteFeature.Execute(state, out float duration);
-                durations.Add(duration);
-            }
+                featureTasks.Add(_spriteFeature.ExecuteAsync(state));
 
             if (_transformFeature != null)
-            {
-                _transformFeature.Execute(state, out float duration);
-                durations.Add(duration);
-            }
+                featureTasks.Add(_transformFeature.ExecuteAsync(state));
 
             if (_animationFeature != null)
-            {
-                _animationFeature.Execute(state, out float duration);
-                durations.Add(duration);
-            }
+                featureTasks.Add(_animationFeature.ExecuteAsync(state));
 
             if (_audioFeature != null && playAudio)
-            {
-                _audioFeature.Execute(state, out float duration);
-                durations.Add(duration);
-            }
+                featureTasks.Add(_audioFeature.ExecuteAsync(state));
 
-            if (done != null)
-            {
-                yield return new WaitForSeconds(durations.Count > 0 ? durations.Max() : 0);
-                done?.Invoke();
-            }
+            await Task.WhenAll(featureTasks);
+            done?.Invoke();
         }
 
         #endregion

@@ -28,9 +28,9 @@ public class SampleParallaxController : MonoBehaviour
         _buttonStart.onClick.AddListener(() => _parallaxController.StartParallaxLoop(+1));
         _buttonStop.onClick.AddListener(() => _parallaxController.StopParallax());
 
-        _buttonLeft.onClick.AddListener(() => _panel.ChangeInteractionState(UIInteractionState.Selected));
-        _buttonRight.onClick.AddListener(() => _panel.ChangeInteractionState(UIInteractionState.Selected));
-        _parallaxController.OnEndParallax += () => _panel.ChangeState(UIState.Default);
+        _buttonLeft.onClick.AddListener(() => _panel.ChangeState(BaseUI.State.Selected));
+        _buttonRight.onClick.AddListener(() => _panel.ChangeState(BaseUI.State.Selected));
+        _parallaxController.OnEndParallax += () => _panel.ChangeState(BaseUI.State.Default);
 
         _buttonLeft.onClick.AddListener(() => _eventChannel.RaisePlayCameraEffectEvent(_shakeEffect));
         _buttonRight.onClick.AddListener(() => _eventChannel.RaisePlayCameraEffectEvent(_shakeEffect));
@@ -38,7 +38,7 @@ public class SampleParallaxController : MonoBehaviour
 
     private void Start()
     {
-        _panel.ChangeState(UIState.Default);
+        _panel.ChangeState(BaseUI.State.Default);
         
     }
 }

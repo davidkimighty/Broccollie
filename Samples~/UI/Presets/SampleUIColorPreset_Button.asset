@@ -68,7 +68,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    ExecutionState: 5
+    ExecutionState: 1
   - IsEnabled: 1
     TargetColor: {r: 0.37647063, g: 0.28627452, b: 0.39607847, a: 1}
     Duration: 0.2
@@ -96,4 +96,4 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    ExecutionState: 6
+    ExecutionState: 2

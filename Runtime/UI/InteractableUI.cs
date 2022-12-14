@@ -42,32 +42,29 @@ namespace CollieMollie.UI
             get => _dragging;
         }
 
-        protected UIInteractionState _currentInteractionState = UIInteractionState.None;
-
         #endregion
 
         #region Public Functions
-        public virtual void ChangeInteractionState(UIInteractionState state, bool playAudio = true, bool invokeEvent = true)
+        public override void ChangeState(State state, bool playAudio = true, bool invokeEvent = true)
         {
-            if (state == UIInteractionState.None || state == _currentInteractionState) return;
-            
-            _currentInteractionState = state;
-            _interactable = true;
+            base.ChangeState(state, playAudio, invokeEvent);
 
+            if (state == State.None || state == _currentState) return;
+            
             switch (state)
             {
-                case UIInteractionState.Hovered:
-                    _hovering = true; _pressed = false;
+                case State.Hovered:
+                    _interactable = true; _hovering = true; _pressed = false;
                     HoveredBehavior(playAudio, invokeEvent);
                     break;
 
-                case UIInteractionState.Pressed:
-                    _pressed = true;
+                case State.Pressed:
+                    _interactable = true; _pressed = true;
                     PressedBehavior(playAudio, invokeEvent);
                     break;
 
-                case UIInteractionState.Selected:
-                    _hovering = false; _pressed = false; _selected = true;
+                case State.Selected:
+                    _interactable = true; _hovering = false; _pressed = false; _selected = true;
                     SelectedBehavior(playAudio, invokeEvent);
                     break;
             }
@@ -143,6 +140,4 @@ namespace CollieMollie.UI
 
         #endregion
     }
-
-    public enum UIInteractionState { None = -1, Hovered, Pressed, Selected, Drag }
 }

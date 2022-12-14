@@ -18,8 +18,8 @@ namespace CollieMollie.UI
         [Range(0.05f, 1)]
         [SerializeField] private float _scrollStopSpeed = 0.1f;
         [SerializeField] private bool _scrollWhenRelease = true;
-        [SerializeField] private UIInteractionState _focusState = UIInteractionState.Selected;
-        [SerializeField] private UIState _unfocusState = UIState.Default;
+        [SerializeField] private BaseUI.State _focusState = BaseUI.State.Selected;
+        [SerializeField] private BaseUI.State _unfocusState = BaseUI.State.Default;
 
         [Header("Knob")]
         [SerializeField] private bool _useKnob = true;
@@ -111,7 +111,7 @@ namespace CollieMollie.UI
             _scrollElements[index].Focus(_focusState.ToString(), false);
 
             if (_useKnob)
-                _knobs[index].ChangeInteractionState(_focusState);
+                _knobs[index].ChangeState(_focusState);
         }
 
         #endregion
@@ -173,12 +173,12 @@ namespace CollieMollie.UI
                 if (_anchorPoints[i] == _anchorPoint)
                 {
                     _scrollElements[i].Focus(_focusState.ToString());
-                    _knobs[i].ChangeInteractionState(UIInteractionState.Selected, false, false);
+                    _knobs[i].ChangeState(BaseUI.State.Selected, false, false);
                 }
                 else
                 {
                     _scrollElements[i].Unfocus(_unfocusState.ToString(), false, true);
-                    _knobs[i].ChangeState(UIState.Default, false, false);
+                    _knobs[i].ChangeState(BaseUI.State.Default, false, false);
                 }
             }
         }

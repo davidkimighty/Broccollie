@@ -27,48 +27,45 @@ namespace CollieMollie.UI
             get => _interactable;
         }
 
-        protected UIState _currentState = UIState.None;
+        protected State _currentState = State.None;
         #endregion
 
         #region Public Functions
-        public virtual void ChangeState(UIState state, bool playAudio = true, bool invokeEvent = true)
+        public virtual void ChangeState(State state, bool playAudio = true, bool invokeEvent = true)
         {
-            if (state == UIState.None || state == _currentState) return;
-            
-            _currentState = state; _interactable = false;
-            SetActive(true);
+            if (state == State.None || state == _currentState) return;
 
             switch (state)
             {
-                case UIState.Default:
+                case State.Default:
                     _interactable = true;
                     DefaultBehavior(playAudio, invokeEvent);
                     break;
 
-                case UIState.Interactive:
+                case State.Interactive:
+                    _interactable = false;
                     InteractiveBehavior(playAudio, invokeEvent, () =>
                     {
                         _interactable = true;
-                        _currentState = UIState.Default;
                         DefaultBehavior(playAudio, invokeEvent);
                     });
                     break;
 
-                case UIState.NonInteractive:
+                case State.NonInteractive:
                     NonInteractiveBehavior(playAudio, invokeEvent);
                     break;
 
-                case UIState.Show:
-                    _visible = true;
+                case State.Show:
+                    _visible = true; _interactable = false;
+                    SetActive(true);
                     ShowBehavior(playAudio, invokeEvent, () =>
                     {
                         _interactable = true;
-                        _currentState = UIState.Default;
                         DefaultBehavior(playAudio, invokeEvent);
                     });
                     break;
 
-                case UIState.Hide:
+                case State.Hide:
                     HideBehavior(playAudio, invokeEvent, () =>
                     {
                         _visible = false;
@@ -110,6 +107,8 @@ namespace CollieMollie.UI
         protected virtual void SetActive(bool state) { }
 
         #endregion
+
+        public enum State { None = -1, Default, Hovered, Pressed, Selected, Interactive, NonInteractive, Show, Hide }
     }
 
     public class UIEventArgs
@@ -128,6 +127,4 @@ namespace CollieMollie.UI
             return Sender != null;
         }
     }
-
-    public enum UIState { None = -1, Default, Interactive, NonInteractive, Show, Hide }
 }

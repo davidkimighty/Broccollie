@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using CollieMollie.Core;
 using UnityEngine;
 
@@ -22,37 +24,29 @@ namespace CollieMollie.UI
 
         [SerializeField] private UITransformFeature _transformFeature = null;
 
-        private Operation _featureOperation = new Operation();
-
+        private Task _behaviorTask = null;
+        private readonly CancellationTokenSource _cancelSource = new CancellationTokenSource();
         #endregion
 
         #region Behaviors
         protected override void ShowBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            _currentState = UIState.Show;
-            if (_transformFeature != null)
-                _transformFeature.Execute(UIState.Show.ToString(), out float duration, done);
+            _currentState = BaseUI.State.Show;
 
-            if (_useFade)
-            {
-                _featureOperation.Stop(this);
-                _featureOperation.Add(Fade(_canvasGroup, 1f, _fadeDuration, _fadeCurve));
-                _featureOperation.Start(this, _fadeDuration);
-            }
+            if (invokeEvent)
+                RaiseShowEvent(new UIEventArgs(this));
+
+            _behaviorTask = ExecuteFeaturesAsync(State.Show.ToString(), playAudio, done);
         }
 
         protected override void HideBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
-            _currentState = UIState.Hide;
-            if (_transformFeature != null)
-                _transformFeature.Execute(UIState.Hide.ToString(), out float duration, done);
+            _currentState = BaseUI.State.Hide;
 
-            if (_useFade)
-            {
-                _featureOperation.Stop(this);
-                _featureOperation.Add(Fade(_canvasGroup, 0, _fadeDuration, _fadeCurve));
-                _featureOperation.Start(this, _fadeDuration);
-            }
+            if (invokeEvent)
+                RaiseHideEvent(new UIEventArgs(this));
+
+            _behaviorTask = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, done);
         }
 
         #endregion
@@ -63,7 +57,23 @@ namespace CollieMollie.UI
             _groupObject.SetActive(state);
         }
 
-        private IEnumerator Fade(CanvasGroup group, float targetValue, float duration, AnimationCurve curve)
+        private async Task ExecuteFeaturesAsync(string state, bool playAudio, Action done = null)
+        {
+            List<Task> featureTasks = new List<Task>();
+            if (_transformFeature != null)
+                featureTasks.Add(_transformFeature.ExecuteAsync(state));
+
+            if (_useFade)
+            {
+                float targetValue = state == State.Show.ToString() ? 1 : 0;
+                featureTasks.Add(Fade(_canvasGroup, targetValue, _fadeDuration, _fadeCurve));
+            }
+
+            await Task.WhenAll(featureTasks);
+            done?.Invoke();
+        }
+
+        private async Task Fade(CanvasGroup group, float targetValue, float duration, AnimationCurve curve)
         {
             float elapsedTime = 0f;
             float startValue = group.alpha;
@@ -72,7 +82,7 @@ namespace CollieMollie.UI
             {
                 group.alpha = Mathf.Lerp(startValue, targetValue, curve.Evaluate(elapsedTime / duration));
                 elapsedTime += Time.deltaTime;
-                yield return null;
+                await Task.Yield();
             }
             group.alpha = targetValue;
         }

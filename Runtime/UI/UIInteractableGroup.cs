@@ -8,8 +8,8 @@ namespace CollieMollie.UI
     public class UIInteractableGroup : MonoBehaviour
     {
         #region Variable Field
-        [SerializeField] private UIState _defaultState = UIState.None;
-        [SerializeField] private UIAllState _selectedState = UIAllState.None;
+        [SerializeField] private BaseUI.State _defaultState = BaseUI.State.None;
+        [SerializeField] private BaseUI.State _selectedState = BaseUI.State.None;
         [SerializeField] private List<InteractableUI> _interactables = new List<InteractableUI>();
 
         #endregion
@@ -70,15 +70,15 @@ namespace CollieMollie.UI
         {
             switch (_selectedState)
             {
-                case UIAllState.Interactive:
+                case BaseUI.State.Interactive:
                     interactable.OnInteractive += ChangeOthersToDefault;
                     break;
 
-                case UIAllState.Show:
+                case BaseUI.State.Show:
                     interactable.OnShow += ChangeOthersToDefault;
                     break;
 
-                case UIAllState.Selected:
+                case BaseUI.State.Selected:
                     interactable.OnSelected += ChangeOthersToDefault;
                     break;
             }
@@ -88,15 +88,15 @@ namespace CollieMollie.UI
         {
             switch (_selectedState)
             {
-                case UIAllState.Interactive:
+                case BaseUI.State.Interactive:
                     interactable.OnInteractive -= ChangeOthersToDefault;
                     break;
 
-                case UIAllState.Show:
+                case BaseUI.State.Show:
                     interactable.OnShow -= ChangeOthersToDefault;
                     break;
 
-                case UIAllState.Selected:
+                case BaseUI.State.Selected:
                     interactable.OnSelected -= ChangeOthersToDefault;
                     break;
             }

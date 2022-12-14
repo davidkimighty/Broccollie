@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using CollieMollie.Core;
+using System.Threading.Tasks;
 using CollieMollie.Helper;
 using CollieMollie.UI;
+using UnityEditor.Presets;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -15,26 +16,27 @@ public class UITransformFeature : BaseUIFeature
     [SerializeField] private bool _isEnabled = true;
     [SerializeField] private List<Element> _elements = null;
 
-    private Operation _featureOperation = new Operation();
-
     #endregion
 
     #region Public Functions
-    public override void Execute(string state, out float duration, Action done = null)
+    public override async Task ExecuteAsync(string state, Action done = null)
     {
-        duration = 0;
         if (!_isEnabled) return;
 
-        _featureOperation.Stop(this);
-        List<float> durations = new List<float>();
+        List<Task> executions = new List<Task>();
         foreach (Element element in _elements)
         {
             if (!element.IsEnabled) continue;
-            _featureOperation.Add(element.ChangeTransform(this, state));
-            durations.Add(element.Preset.GetDuration(state));
+
+            UITransformPreset.Setting setting = Array.Find(element.Preset.States, x => x.ExecutionState.ToString() == state);
+            if (IsValid(setting.ExecutionState) && setting.IsEnabled)
+            {
+                executions.Add(element.ChangePosition(state, setting));
+                executions.Add(element.ChangeScale(state, setting));
+            }
         }
-        duration = durations.Count > 0 ? durations.Max() : 0;
-        _featureOperation.Start(this, duration, done);
+        await Task.WhenAll(executions);
+        done?.Invoke();
     }
 
     #endregion
@@ -46,25 +48,16 @@ public class UITransformFeature : BaseUIFeature
         public Transform TargetObject = null;
         public UITransformPreset Preset = null;
 
-        private Operation _transformOperation = new Operation();
-
-        public IEnumerator ChangeTransform(MonoBehaviour mono, string state)
+        public async Task ChangePosition(string state, UITransformPreset.Setting setting)
         {
-            UITransformPreset.Setting setting = Array.Find(Preset.States, x => x.ExecutionState.ToString() == state);
-            if (Preset.IsValid(setting.ExecutionState) && setting.IsEnabled)
-            {
-                if (!setting.IsEnabled) yield break;
+            if (setting.PositionSettingEnabled)
+                await TargetObject.LerpPositionAsync(setting.TargetPosition.position, setting.PositionSettingDuration, setting.PositionSettingCurve);
+        }
 
-                _transformOperation.Stop(mono);
-
-                if (setting.PositionSettingEnabled)
-                    _transformOperation.Add(TargetObject.LerpPosition(setting.TargetPosition.position, setting.PositionSettingDuration, setting.PositionSettingCurve));
-
-                if (setting.ScaleSettingEnabled)
-                    _transformOperation.Add(TargetObject.LerpScale(Vector3.one * setting.TargetScale, setting.ScaleSettingDuration, setting.ScaleSettingCurve));
-
-                _transformOperation.Start(mono);
-            }
+        public async Task ChangeScale(string state, UITransformPreset.Setting setting)
+        {
+            if (setting.ScaleSettingEnabled)
+                await TargetObject.LerpScaleAsync(Vector3.one * setting.TargetScale, setting.ScaleSettingDuration, setting.ScaleSettingCurve);
         }
     }
 }

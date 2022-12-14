@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using CollieMollie.Core;
+using System.Threading.Tasks;
 using CollieMollie.Helper;
+using UnityEditor.Presets;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -16,26 +17,26 @@ namespace CollieMollie.UI
         [SerializeField] private bool _isEnabled = true;
         [SerializeField] private List<Element> _elements = null;
 
-        private Operation _featureOperation = new Operation();
-
         #endregion
 
         #region Public Functions
-        public override void Execute(string state, out float duration, Action done = null)
+        public override async Task ExecuteAsync(string state, Action done = null)
         {
-            duration = 0;
             if (!_isEnabled) return;
 
-            _featureOperation.Stop(this);
-            List<float> durations = new List<float>();
+            List<Task> executions = new List<Task>();
             foreach (Element element in _elements)
             {
                 if (!element.IsEnabled) continue;
-                _featureOperation.Add(element.ChangeColor(state));
-                durations.Add(element.Preset.GetDuration(state));
+
+                UIColorPreset.Setting setting = Array.Find(element.Preset.States, x => x.ExecutionState.ToString() == state);
+                if (IsValid(setting.ExecutionState) && setting.IsEnabled)
+                {
+                    executions.Add(element.ChangeColor(state, setting));
+                }
             }
-            duration = durations.Count > 0 ? durations.Max() : 0;
-            _featureOperation.Start(this, duration, done);
+            await Task.WhenAll(executions);
+            done?.Invoke();
         }
 
         #endregion
@@ -47,22 +48,14 @@ namespace CollieMollie.UI
             public MaskableGraphic Graphic = null;
             public UIColorPreset Preset = null;
 
-            public IEnumerator ChangeColor(string state)
+            public async Task ChangeColor(string state, UIColorPreset.Setting setting)
             {
-                UIColorPreset.Setting setting = Array.Find(Preset.States, x => x.ExecutionState.ToString() == state);
-                if (Preset.IsValid(setting.ExecutionState) && setting.IsEnabled)
-                {
-                    yield return Graphic.ChangeColorGradually(setting.TargetColor, setting.Duration, setting.Curve);
-                }
+                await Graphic.ChangeColorGraduallyAsync(setting.TargetColor, setting.Duration, setting.Curve);
             }
 
-            public void ChangeColorInstant(string state)
+            public void ChangeColorInstant(string state, UIColorPreset.Setting setting)
             {
-                UIColorPreset.Setting setting = Array.Find(Preset.States, x => x.ExecutionState.ToString() == state);
-                if (Preset.IsValid(setting.ExecutionState) && setting.IsEnabled)
-                {
-                    Graphic.color = setting.TargetColor;
-                }
+                Graphic.color = setting.TargetColor;
             }
         }
     }

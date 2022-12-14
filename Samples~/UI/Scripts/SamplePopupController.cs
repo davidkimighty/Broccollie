@@ -11,7 +11,7 @@ public class SamplePopupController : MonoBehaviour
 
     private void Awake()
     {
-        _triggerButton.OnSelected += (eventArgs) => _panel.ChangeState(UIState.Show);
-        _closeButton.OnSelected += (eventArgs) => _panel.ChangeState(UIState.Hide);
+        _triggerButton.OnSelected += (eventArgs) => _panel.ChangeState(BaseUI.State.Show);
+        _closeButton.OnSelected += (eventArgs) => _panel.ChangeState(BaseUI.State.Hide);
     }
 }

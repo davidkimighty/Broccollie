@@ -10,8 +10,8 @@ public class SampleTabController : MonoBehaviour
 
     private void Awake()
     {
-        _triggerButton.OnSelected += (eventArgs) => _panel.ChangeState(UIState.Show);
-        _triggerButton.OnDefault += (eventArgs) => _panel.ChangeState(UIState.Hide);
+        _triggerButton.OnSelected += (eventArgs) => _panel.ChangeState(BaseUI.State.Show);
+        _triggerButton.OnDefault += (eventArgs) => _panel.ChangeState(BaseUI.State.Hide);
     }
 
 }

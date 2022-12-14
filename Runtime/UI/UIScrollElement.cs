@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CollieMollie.Core;
 using CollieMollie.UI;
 using UnityEngine;
@@ -14,9 +15,11 @@ public class UIScrollElement : MonoBehaviour
     [SerializeField] private UIColorFeature _colorFeature = null;
     [SerializeField] private UISpriteFeature _spriteFeature = null;
     [SerializeField] private UITransformFeature _transformFeature = null;
+    [SerializeField] private UIAnimationFeature _animationFeature = null;
     [SerializeField] private UIAudioFeature _audioFeature = null;
 
     private bool _isFocused = false;
+    private Task _behaviorTask = null;
     #endregion
 
     #region Public Functions
@@ -28,7 +31,7 @@ public class UIScrollElement : MonoBehaviour
         if (fireEvent)
             OnFocus?.Invoke();
 
-        SetFeatures(focusState, playAudio);
+        _behaviorTask = ExecuteFeaturesAsync(focusState, playAudio);
     }
 
     public void Unfocus(string unfocusState, bool playAudio = true, bool fireEvent = true)
@@ -39,23 +42,30 @@ public class UIScrollElement : MonoBehaviour
         if (fireEvent)
             OnUnfocus?.Invoke();
 
-        SetFeatures(unfocusState, playAudio);
+        _behaviorTask = ExecuteFeaturesAsync(unfocusState, playAudio);
     }
 
     #endregion
 
-    private void SetFeatures(string state, bool playAudio)
+    private async Task ExecuteFeaturesAsync(string state, bool playAudio, Action done = null)
     {
+        List<Task> featureTasks = new List<Task>();
         if (_colorFeature != null)
-            _colorFeature.Execute(state);
+            featureTasks.Add(_colorFeature.ExecuteAsync(state));
 
         if (_spriteFeature != null)
-            _spriteFeature.Execute(state);
+            featureTasks.Add(_spriteFeature.ExecuteAsync(state));
 
         if (_transformFeature != null)
-            _transformFeature.Execute(state);
+            featureTasks.Add(_transformFeature.ExecuteAsync(state));
+
+        if (_animationFeature != null)
+            featureTasks.Add(_animationFeature.ExecuteAsync(state));
 
         if (_audioFeature != null && playAudio)
-            _audioFeature.Execute(state);
+            featureTasks.Add(_audioFeature.ExecuteAsync(state));
+
+        await Task.WhenAll(featureTasks);
+        done?.Invoke();
     }
 }

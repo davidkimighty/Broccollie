@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,10 +9,19 @@ namespace CollieMollie.UI
 {
     public abstract class BaseUIFeature : MonoBehaviour
     {
-        public virtual void Execute(string state, Action done = null) { }
+        public virtual async Task ExecuteAsync(string state, Action done = null)
+        {
+            await Task.Yield();
+        }
 
-        public virtual void Execute(string state, out float duration, Action done = null) { duration = 0; }
+        public virtual async Task ExecuteAsync(PointerEventData eventData = null, Action done = null)
+        {
+            await Task.Yield();
+        }
 
-        public virtual void Execute(PointerEventData eventData = null, Action done = null) { }
+        public bool IsValid(BaseUI.State state)
+        {
+            return state != BaseUI.State.None;
+        }
     }
 }

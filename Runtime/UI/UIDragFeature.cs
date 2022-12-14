@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,11 +18,11 @@ namespace CollieMollie.UI
 
         private bool _dragging = false;
         private Vector3 _lastPosition = Vector2.zero;
-        private IEnumerator _dragAction = null;
+        private Task _dragTask = null;
         #endregion
 
         #region Public Functions
-        public override void Execute(PointerEventData eventData = null, Action done = null)
+        public override async Task ExecuteAsync(PointerEventData eventData = null, Action done = null)
         {
             switch (_dragArea.renderMode)
             {
@@ -37,11 +38,10 @@ namespace CollieMollie.UI
                     break;
             }
 
-            if (_dragAction == null)
-            {
-                _dragAction = UpdateDraggablePosition();
-                StartCoroutine(_dragAction);
-            }
+            if (_dragTask == null)
+                _dragTask = UpdateDraggablePosition();
+
+            await Task.Yield();
         }
 
         public void SetBlocksRaycasts(bool state)
@@ -56,18 +56,18 @@ namespace CollieMollie.UI
         }
         #endregion
 
-        private IEnumerator UpdateDraggablePosition()
+        private async Task UpdateDraggablePosition()
         {
             while (true)
             {
-                if (!_dragging)
+                if (_dragging)
                 {
-                    yield return null;
+                    _dragTarget.position = Vector3.Lerp(_dragTarget.position, _lastPosition, _preset.DragSpeed);
+                    await Task.Yield();
                 }
                 else
                 {
-                    _dragTarget.position = Vector3.Lerp(_dragTarget.position, _lastPosition, _preset.DragSpeed);
-                    yield return null;
+                    await Task.Yield();
                 }
             }
         }

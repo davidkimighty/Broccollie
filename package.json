@@ -1,6 +1,6 @@
 {
     "name": "com.colliemollie.broccollie",
-    "version": "0.8.34",
+    "version": "0.8.35",
     "displayName": "Broccollie",
     "description": "Essential game ready features in URP",
     "unity": "2021.3",
@@ -43,11 +43,6 @@
             "displayName": "Camera Effect",
             "description": "Camera effect controller.",
             "path": "Samples~/Game/CameraEffect"
-        },
-        {
-            "displayName": "Render Pass",
-            "description": "Screen effects using SRP.",
-            "path": "Samples~/Rendering"
         }
     ],
     "keywords": [
@@ -57,8 +52,7 @@
         "Network Controller",
         "Audio Controller",
         "Parallax Effect Controller",
-        "Camera Effect Controller",
-        "Rendering Pass"
+        "Camera Effect Controller"
     ],
     "author": {
         "name": "Hyunwoo Kim",

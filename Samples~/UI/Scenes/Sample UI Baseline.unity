@@ -1306,6 +1306,7 @@ MonoBehaviour:
   _colorFeature: {fileID: 0}
   _spriteFeature: {fileID: 0}
   _transformFeature: {fileID: 159241055}
+  _animationFeature: {fileID: 0}
   _audioFeature: {fileID: 0}
 --- !u!114 &159241055
 MonoBehaviour:
@@ -1364,7 +1365,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 0
       - IsEnabled: 1
-        ExecutionState: 7
+        ExecutionState: 3
         PositionSettingEnabled: 0
         TargetPosition: {fileID: 0}
         PositionSettingDuration: 0
@@ -2704,10 +2705,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -3914,7 +3915,7 @@ MonoBehaviour:
     Preset:
       States:
       - IsEnabled: 1
-        ExecutionState: 3
+        ExecutionState: 6
         PositionSettingEnabled: 1
         TargetPosition: {fileID: 1251578841}
         PositionSettingDuration: 0.3
@@ -3952,7 +3953,7 @@ MonoBehaviour:
           m_PostInfinity: 0
           m_RotationOrder: 0
       - IsEnabled: 1
-        ExecutionState: 4
+        ExecutionState: 7
         PositionSettingEnabled: 1
         TargetPosition: {fileID: 635565181}
         PositionSettingDuration: 0.25
@@ -4520,6 +4521,7 @@ MonoBehaviour:
   _colorFeature: {fileID: 0}
   _spriteFeature: {fileID: 0}
   _transformFeature: {fileID: 699646604}
+  _animationFeature: {fileID: 0}
   _audioFeature: {fileID: 0}
 --- !u!114 &699646604
 MonoBehaviour:
@@ -4578,7 +4580,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 0
       - IsEnabled: 1
-        ExecutionState: 7
+        ExecutionState: 3
         PositionSettingEnabled: 0
         TargetPosition: {fileID: 0}
         PositionSettingDuration: 0
@@ -4998,6 +5000,7 @@ MonoBehaviour:
   _colorFeature: {fileID: 0}
   _spriteFeature: {fileID: 0}
   _transformFeature: {fileID: 771440844}
+  _animationFeature: {fileID: 0}
   _audioFeature: {fileID: 0}
 --- !u!114 &771440844
 MonoBehaviour:
@@ -5056,7 +5059,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 0
       - IsEnabled: 1
-        ExecutionState: 7
+        ExecutionState: 3
         PositionSettingEnabled: 0
         TargetPosition: {fileID: 0}
         PositionSettingDuration: 0
@@ -5340,6 +5343,7 @@ MonoBehaviour:
   _colorFeature: {fileID: 0}
   _spriteFeature: {fileID: 0}
   _transformFeature: {fileID: 813859867}
+  _animationFeature: {fileID: 0}
   _audioFeature: {fileID: 0}
 --- !u!114 &813859867
 MonoBehaviour:
@@ -5398,7 +5402,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 0
       - IsEnabled: 1
-        ExecutionState: 7
+        ExecutionState: 3
         PositionSettingEnabled: 0
         TargetPosition: {fileID: 0}
         PositionSettingDuration: 0
@@ -6028,7 +6032,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 183c106c0536c4f65ac0e00fa9dbc81f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttons:
+  _defaultState: 0
+  _selectedState: 3
+  _interactables:
   - {fileID: 1299798835}
   - {fileID: 1626493985}
   - {fileID: 1278322343}
@@ -6706,7 +6712,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1770884455}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.7928802
+  m_Size: 0.67152107
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9285,7 +9291,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 20.5, y: -2.500002}
+  m_AnchoredPosition: {x: 20.5, y: -2.5}
   m_SizeDelta: {x: -65, y: -95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1500852304
@@ -9961,6 +9967,7 @@ MonoBehaviour:
   _colorFeature: {fileID: 0}
   _spriteFeature: {fileID: 0}
   _transformFeature: {fileID: 1634075059}
+  _animationFeature: {fileID: 0}
   _audioFeature: {fileID: 0}
 --- !u!114 &1634075059
 MonoBehaviour:
@@ -10019,7 +10026,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 0
       - IsEnabled: 1
-        ExecutionState: 7
+        ExecutionState: 3
         PositionSettingEnabled: 0
         TargetPosition: {fileID: 0}
         PositionSettingDuration: 0
@@ -10262,7 +10269,7 @@ MonoBehaviour:
   _transitionSpeed: 6
   _scrollStopSpeed: 0.404
   _scrollWhenRelease: 1
-  _focusState: 2
+  _focusState: 3
   _unfocusState: 0
   _useKnob: 1
   _knobPrefab: {fileID: 6358741064150970024, guid: d503c2a2106ca4b4c85157270691a77b,
@@ -11307,7 +11314,7 @@ MonoBehaviour:
     Preset:
       States:
       - IsEnabled: 1
-        ExecutionState: 3
+        ExecutionState: 6
         PositionSettingEnabled: 1
         TargetPosition: {fileID: 133430}
         PositionSettingDuration: 0.3
@@ -11345,7 +11352,7 @@ MonoBehaviour:
           m_PostInfinity: 0
           m_RotationOrder: 0
       - IsEnabled: 1
-        ExecutionState: 4
+        ExecutionState: 7
         PositionSettingEnabled: 1
         TargetPosition: {fileID: 1440307002}
         PositionSettingDuration: 0.25
@@ -12440,7 +12447,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 183c106c0536c4f65ac0e00fa9dbc81f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttons:
+  _defaultState: 0
+  _selectedState: 3
+  _interactables:
   - {fileID: 5012093209148909479}
   - {fileID: 174850927}
   - {fileID: 501665155}
