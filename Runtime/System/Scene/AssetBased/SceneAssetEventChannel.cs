@@ -11,15 +11,18 @@ namespace CollieMollie.System
         #region Events
         public event Action<SceneAssetPreset, bool, float> OnSceneLoadRequest = null;
 
+        public float LoadingSceneDuration = 1f;
         #endregion
 
         #region Publishers
-        public void RaiseSceneLoadEvent(SceneAssetPreset targetScene, bool showLoadingScreen, float loadingDuration = 1f)
+        public void RaiseSceneLoadEvent(SceneAssetPreset targetScene, bool showLoadingScreen)
         {
             if (targetScene == null) return;
 
-            OnSceneLoadRequest?.Invoke(targetScene, showLoadingScreen, loadingDuration);
+            OnSceneLoadRequest?.Invoke(targetScene, showLoadingScreen, LoadingSceneDuration);
         }
+
         #endregion
+
     }
 }
