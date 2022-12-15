@@ -31,7 +31,7 @@ namespace CollieMollie.System
         }
 
         #region Subscribers
-        private void LoadNewScene(SceneAssetPreset scene, bool showLoadingScreen)
+        private void LoadNewScene(SceneAssetPreset scene, bool showLoadingScreen, float loadingDuration)
         {
             if (_loading) return;
             _loading = true;
@@ -39,12 +39,12 @@ namespace CollieMollie.System
             if (_sceneLoadAction != null)
                 StopCoroutine(_sceneLoadAction);
 
-            _sceneLoadAction = LoadScene(scene, showLoadingScreen);
+            _sceneLoadAction = LoadScene(scene, showLoadingScreen, loadingDuration);
             StartCoroutine(_sceneLoadAction);
         }
         #endregion
 
-        private IEnumerator LoadScene(SceneAssetPreset newScenePreset, bool showLoadingScreen)
+        private IEnumerator LoadScene(SceneAssetPreset newScenePreset, bool showLoadingScreen, float duration)
         {
             yield return _fadeController.FadeIn();
             yield return UnloadScene(_currentActiveScene);
@@ -54,7 +54,7 @@ namespace CollieMollie.System
                 yield return LoadScene(_loadingScene);
                 yield return _fadeController.FadeOut();
 
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(duration);
             }
 
             if (showLoadingScreen)
