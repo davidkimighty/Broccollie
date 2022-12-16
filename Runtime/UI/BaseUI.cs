@@ -52,6 +52,7 @@ namespace CollieMollie.UI
                     break;
 
                 case State.NonInteractive:
+                    _interactable = false;
                     NonInteractiveBehavior(playAudio, invokeEvent);
                     break;
 
