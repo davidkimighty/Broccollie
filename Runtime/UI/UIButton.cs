@@ -88,9 +88,9 @@ namespace CollieMollie.UI
                 RaiseSelectedEvent(new UIEventArgs(this));
 
                 if (_hovering)
-                    HoveredBehavior(false, false);
+                    HoveredBehavior(false, false, () => RaiseDefaultEvent(new UIEventArgs(this)));
                 else
-                    DefaultBehavior(true, false);
+                    DefaultBehavior(true, false, () => RaiseDefaultEvent(new UIEventArgs(this)));
             }
             else
             {
@@ -191,34 +191,34 @@ namespace CollieMollie.UI
             _behaviorTask = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, done);
         }
 
-        protected override void HoveredBehavior(bool playAudio = true, bool invokeEvent = true)
+        protected override void HoveredBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
             _currentState = State.Hovered;
 
             if (invokeEvent)
                 RaiseHoveredEvent(new UIEventArgs(this));
 
-            _behaviorTask = ExecuteFeaturesAsync(State.Hovered.ToString(), playAudio);
+            _behaviorTask = ExecuteFeaturesAsync(State.Hovered.ToString(), playAudio, done);
         }
 
-        protected override void PressedBehavior(bool playAudio = true, bool invokeEvent = true)
+        protected override void PressedBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
             _currentState = State.Pressed;
 
             if (invokeEvent)
                 RaisePressedEvent(new UIEventArgs(this));
 
-            _behaviorTask = ExecuteFeaturesAsync(State.Pressed.ToString(), playAudio);
+            _behaviorTask = ExecuteFeaturesAsync(State.Pressed.ToString(), playAudio, done);
         }
 
-        protected override void SelectedBehavior(bool playAudio = true, bool invokeEvent = true)
+        protected override void SelectedBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
             _currentState = State.Selected;
 
             if (invokeEvent)
                 RaiseSelectedEvent(new UIEventArgs(this));
 
-            _behaviorTask = ExecuteFeaturesAsync(State.Selected.ToString(), playAudio);
+            _behaviorTask = ExecuteFeaturesAsync(State.Selected.ToString(), playAudio, done);
         }
 
         protected override void BeginDragBehavior(PointerEventData eventData, bool invokeEvent = true)

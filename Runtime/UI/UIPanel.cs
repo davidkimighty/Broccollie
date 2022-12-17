@@ -78,7 +78,7 @@ namespace CollieMollie.UI
             _behaviorTask = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, done);
         }
 
-        protected override void SelectedBehavior(bool playAudio = true, bool invokeEvent = true)
+        protected override void SelectedBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
         {
             _currentState = State.Selected;
 

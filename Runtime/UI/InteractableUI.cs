@@ -126,11 +126,11 @@ namespace CollieMollie.UI
         #endregion
 
         #region Behaviors
-        protected virtual void HoveredBehavior(bool playAudio = true, bool invokeEvent = true) { }
+        protected virtual void HoveredBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null) { }
 
-        protected virtual void PressedBehavior(bool playAudio = true, bool invokeEvent = true) { }
+        protected virtual void PressedBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null) { }
 
-        protected virtual void SelectedBehavior(bool playAudio = true, bool invokeEvent = true) { }
+        protected virtual void SelectedBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null) { }
 
         protected virtual void BeginDragBehavior(PointerEventData eventData, bool invokeEvent = true) { }
 
