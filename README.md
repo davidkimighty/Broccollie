@@ -43,7 +43,7 @@
 <td><a href="https://github.com/hyunwookimbob/Broccollie/wiki/Baseline-UI">Baseline UI</a></td>
 <td><kbd>Released</kbd></td>
 <td><a href="https://github.com/users/hyunwookimbob/projects/2/views/1?filterQuery=repo%3A%22hyunwookimbob%2FBroccollie%22+-repo%3A%22hyunwookimbob%2FBroccollie-XR%22+label%3A%22Baseline+UI%22">Baseline UI Board</a></td>
-<td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av0.9+is%3Aclosed+label%3A%22Baseline+UI%22+">Baseline UI v0.9 Milestone</a></td>
+<td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av1.0+is%3Aclosed+label%3A%22Baseline+UI%22+">Baseline UI v1.0 Milestone</a></td>
 </tr>
 
 <tr>
@@ -64,14 +64,14 @@
 <td><a href="wiki/">Save Controller</a></td>
 <td><kbd>Released</kbd></td>
 <td><a href="https://github.com/users/hyunwookimbob/projects/2/views/1?filterQuery=repo%3A%22hyunwookimbob%2FBroccollie%22+-repo%3A%22hyunwookimbob%2FBroccollie-XR%22+label%3A%22Save+Controller%22">Save Controller Board</a></td>
-<td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av0.9+is%3Aclosed+label%3A%22Save+Controller%22+">Save Controller v0.9 Milestone</a></td>
+<td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av1.0+is%3Aclosed+label%3A%22Save+Controller%22+">Save Controller v1.0 Milestone</a></td>
 </tr>
 
 </table>
 
 ## Changelog
-- [v1.0 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/4?closed=1)
-- [v0.9 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/2?closed=1)
+- [v2.0 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/4?closed=1)
+- [v1.0 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/2?closed=1)
 - [v0.8 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/3?closed=1)
 
 <br />
