@@ -71,7 +71,7 @@ namespace CollieMollie.UI
             if (!_selected && !_hovering)
             {
                 _selected = _pressed = _hovering = false;
-                DefaultBehavior(false, false);
+                DefaultBehavior(false);
             }
             else if (_selected && !_hovering)
             {
