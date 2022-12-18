@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace CollieMollie.UI
 {
+    [DefaultExecutionOrder(-100)]
     public abstract class InteractableUI : BaseUI, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler,
         IBeginDragHandler, IDragHandler, IEndDragHandler
     {
@@ -43,6 +44,13 @@ namespace CollieMollie.UI
         }
 
         #endregion
+
+        protected override void Awake()
+        {
+            if (_selected)
+                ChangeState(State.Selected);
+            base.Awake();
+        }
 
         #region Public Functions
         public override void ChangeState(State state, bool playAudio = true, bool invokeEvent = true)

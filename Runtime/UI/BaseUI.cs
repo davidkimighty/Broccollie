@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace CollieMollie.UI
 {
+    [DefaultExecutionOrder(-100)]
     public abstract class BaseUI : MonoBehaviour
     {
         #region Variable Field
@@ -29,6 +30,14 @@ namespace CollieMollie.UI
 
         protected State _currentState = State.None;
         #endregion
+
+        protected virtual void Awake()
+        {
+            if (!_visible)
+                ChangeState(State.Hide);
+            else if (!_interactable)
+                ChangeState(State.NonInteractive);
+        }
 
         #region Public Functions
         public virtual void ChangeState(State state, bool playAudio = true, bool invokeEvent = true)

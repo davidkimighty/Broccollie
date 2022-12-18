@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace CollieMollie.UI
 {
+    [DefaultExecutionOrder(-100)]
     [RequireComponent(typeof(CanvasGroup))]
     public class UIGroup : BaseUI
     {

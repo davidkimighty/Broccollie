@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 
 namespace CollieMollie.UI
 {
+    [DefaultExecutionOrder(-100)]
     public class UIButton : InteractableUI
     {
         #region Variable Field
