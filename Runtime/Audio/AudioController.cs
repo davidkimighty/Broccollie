@@ -22,6 +22,8 @@ namespace CollieMollie.Audio
         [SerializeField] private AudioPlayer _audioPlayerRef = null;
         [SerializeField] private Transform _poolHolder = null;
         [SerializeField] private IObjectPool<AudioPlayer> _pool = null;
+        [SerializeField] private List<AudioPlayer> _activeAudio = new List<AudioPlayer>();
+
         #endregion
 
         private void Awake()
@@ -32,17 +34,20 @@ namespace CollieMollie.Audio
         private void OnEnable()
         {
             _audioEventChannel.OnPlayAudioRequest += PlayAudio;
+            _audioEventChannel.OnStopAudioRequest += StopAudio;
         }
 
         private void OnDisable()
         {
             _audioEventChannel.OnPlayAudioRequest -= PlayAudio;
+            _audioEventChannel.OnStopAudioRequest -= StopAudio;
         }
 
         #region Subscribers
         private void PlayAudio(AudioPreset preset)
         {
             AudioPlayer audioPlayer = _pool.Get();
+            audioPlayer.Init(_pool, preset);
             AudioPlayer.AudioData audioPlayerData = new AudioPlayer.AudioData
             {
                 Clip = preset.GetAudioClip(),
@@ -52,24 +57,36 @@ namespace CollieMollie.Audio
             };
             audioPlayer.Play(audioPlayerData);
         }
+
+        private void StopAudio(AudioPreset preset)
+        {
+            AudioPlayer audio = _activeAudio.Find(a => a.InjectedPreset == preset);
+            if (audio == null) return;
+
+            audio.Stop();
+        }
+
         #endregion
 
         #region Pool
         private AudioPlayer CreatePooledItem()
         {
             AudioPlayer audioPlayer = Instantiate(_audioPlayerRef, _poolHolder);
-            audioPlayer.Pool = _pool;
             return audioPlayer;
         }
 
         private void OnTakeFromPool(AudioPlayer audioPlayer)
         {
             audioPlayer.gameObject.SetActive(true);
+            if (!_activeAudio.Contains(audioPlayer))
+                _activeAudio.Add(audioPlayer);
         }
 
         private void OnReturnedToPool(AudioPlayer audioPlayer)
         {
             audioPlayer.gameObject.SetActive(false);
+            if (_activeAudio.Contains(audioPlayer))
+                _activeAudio.Remove(audioPlayer);
         }
 
         private void OnDestroyPoolObject(AudioPlayer audioPlayer)
@@ -77,6 +94,7 @@ namespace CollieMollie.Audio
             Addressables.Release(audioPlayer);
             Destroy(audioPlayer.gameObject);
         }
+
         #endregion
     }
 }

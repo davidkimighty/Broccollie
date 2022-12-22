@@ -16,17 +16,22 @@ public class SamplePlayAudio : MonoBehaviour
     [SerializeField] private Slider _ambientSlider = null;
 
     [SerializeField] private AudioEventChannel _eventChannel = null;
-    [SerializeField] private AudioPreset _backgroundAudioPreset = null;
+    [SerializeField] private AudioPreset _loopAudioPreset = null;
     [SerializeField] private AudioPreset _buttonAudioPreset = null;
 
     private void Start()
     {
-        _eventChannel.RaisePlayAudioEvent(_backgroundAudioPreset);
+        _eventChannel.RaisePlayAudioEvent(_loopAudioPreset);
     }
 
     public void PlayButtonAudio()
     {
         _eventChannel.RaisePlayAudioEvent(_buttonAudioPreset);
+    }
+
+    public void StopLoopAudio()
+    {
+        _eventChannel.RaiseStopAudioEvent(_loopAudioPreset);
     }
 
     public void ChangeVolume(float value)

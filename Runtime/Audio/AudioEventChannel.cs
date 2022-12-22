@@ -10,6 +10,7 @@ namespace CollieMollie.Audio
     {
         #region Events
         public event Action<AudioPreset> OnPlayAudioRequest = null;
+        public event Action<AudioPreset> OnStopAudioRequest = null;
 
         #endregion
 
@@ -20,6 +21,14 @@ namespace CollieMollie.Audio
 
             OnPlayAudioRequest?.Invoke(audio);
         }
+
+        public void RaiseStopAudioEvent(AudioPreset audio)
+        {
+            if (audio == null) return;
+
+            OnStopAudioRequest?.Invoke(audio);
+        }
+
         #endregion
     }
 }
