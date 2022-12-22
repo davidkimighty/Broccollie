@@ -29,6 +29,16 @@ public class SamplePlayAudio : MonoBehaviour
         _eventChannel.RaisePlayAudioEvent(_buttonAudioPreset);
     }
 
+    public void PlayLoopAudio()
+    {
+        _eventChannel.RaisePlayAudioEvent(_loopAudioPreset);
+    }
+
+    public void PauseLoopAudio()
+    {
+        _eventChannel.RaisePauseAudioEvent(_loopAudioPreset);
+    }
+
     public void StopLoopAudio()
     {
         _eventChannel.RaiseStopAudioEvent(_loopAudioPreset);

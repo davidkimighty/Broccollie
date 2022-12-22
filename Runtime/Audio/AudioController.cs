@@ -34,28 +34,46 @@ namespace CollieMollie.Audio
         private void OnEnable()
         {
             _audioEventChannel.OnPlayAudioRequest += PlayAudio;
+            _audioEventChannel.OnPauseAudioRequest += PauseAudio;
             _audioEventChannel.OnStopAudioRequest += StopAudio;
         }
 
         private void OnDisable()
         {
             _audioEventChannel.OnPlayAudioRequest -= PlayAudio;
+            _audioEventChannel.OnPauseAudioRequest -= PauseAudio;
             _audioEventChannel.OnStopAudioRequest -= StopAudio;
         }
 
         #region Subscribers
         private void PlayAudio(AudioPreset preset)
         {
-            AudioPlayer audioPlayer = _pool.Get();
-            audioPlayer.Init(_pool, preset);
-            AudioPlayer.AudioData audioPlayerData = new AudioPlayer.AudioData
+            AudioPlayer audioPlayer = _activeAudio.Find(a => a.InjectedPreset == preset);
+            if (audioPlayer == null)
             {
-                Clip = preset.GetAudioClip(),
-                Group = preset.MixerGroup,
-                Volume = preset.Volume,
-                Loop = preset.Loop
-            };
-            audioPlayer.Play(audioPlayerData);
+                audioPlayer = _pool.Get();
+                audioPlayer.Init(_pool, preset);
+                AudioPlayer.AudioData audioPlayerData = new AudioPlayer.AudioData
+                {
+                    Clip = preset.GetAudioClip(),
+                    Group = preset.MixerGroup,
+                    Volume = preset.Volume,
+                    Loop = preset.Loop
+                };
+                audioPlayer.Play(audioPlayerData);
+            }
+            else
+            {
+                audioPlayer.Play();
+            }
+        }
+
+        private void PauseAudio(AudioPreset preset)
+        {
+            AudioPlayer audio = _activeAudio.Find(a => a.InjectedPreset == preset);
+            if (audio == null) return;
+
+            audio.Pause();
         }
 
         private void StopAudio(AudioPreset preset)

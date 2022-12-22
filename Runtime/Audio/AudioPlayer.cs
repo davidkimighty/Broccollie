@@ -22,6 +22,7 @@ namespace CollieMollie.Audio
 
         private IObjectPool<AudioPlayer> _pool = null;
         private CancellationTokenSource _cts = new CancellationTokenSource();
+        private bool _paused = false;
 
         #endregion
 
@@ -34,18 +35,36 @@ namespace CollieMollie.Audio
 
         public void Play(AudioData data)
         {
-            _source.clip = data.Clip;
-            _source.outputAudioMixerGroup = data.Group;
-            _source.volume = data.Volume;
-            _source.loop = data.Loop;
-
-            if (_cts != null)
+            if (!_paused)
             {
-                _cts.Cancel();
-                _cts = new CancellationTokenSource();
-            }
+                _source.clip = data.Clip;
+                _source.outputAudioMixerGroup = data.Group;
+                _source.volume = data.Volume;
+                _source.loop = data.Loop;
 
+                if (_cts != null)
+                {
+                    _cts.Cancel();
+                    _cts = new CancellationTokenSource();
+                }
+            }
+            _paused = false;
             Task audioPlay = PlayAudioSourceAsync(data.Loop);
+        }
+
+        public void Play()
+        {
+            if (_injectedPreset == null) return;
+            _paused = false;
+            Task audioPlay = PlayAudioSourceAsync(_injectedPreset.Loop);
+        }
+
+        public void Pause()
+        {
+            if (_cts != null)
+                _cts.Cancel();
+            _paused = true;
+            _source.Pause();
         }
 
         public void Stop()
