@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18018606, g: 0.22559257, b: 0.30678663, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1479,7 +1479,7 @@ GameObject:
   - component: {fileID: 164556193}
   - component: {fileID: 164556194}
   m_Layer: 5
-  m_Name: Group_
+  m_Name: Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3642,8 +3642,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2516535319062752878, guid: 9aa3c779f34b442a094bf746472b19e1,
         type: 3}
+      propertyPath: _visible
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2516535319062752878, guid: 9aa3c779f34b442a094bf746472b19e1,
+        type: 3}
       propertyPath: _interactable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4457399831778725272, guid: 9aa3c779f34b442a094bf746472b19e1,
         type: 3}
@@ -6712,7 +6717,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1770884455}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.67152107
+  m_Size: 0.67152095
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7688,7 +7693,7 @@ PrefabInstance:
     - target: {fileID: -1543573768093949115, guid: ee7c78c48639c4d24a72eb4ac6fbbc42,
         type: 3}
       propertyPath: _interactable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1543573768093949115, guid: ee7c78c48639c4d24a72eb4ac6fbbc42,
         type: 3}
@@ -7843,6 +7848,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 293713100}
     m_Modifications:
+    - target: {fileID: 5749920042183171454, guid: 7d881b04dd6f844ceb06b468ac3a060b,
+        type: 3}
+      propertyPath: _visible
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749920042183171454, guid: 7d881b04dd6f844ceb06b468ac3a060b,
         type: 3}
       propertyPath: _interactable
@@ -10286,7 +10296,7 @@ GameObject:
   - component: {fileID: 1697444113}
   - component: {fileID: 2832344526768425351}
   m_Layer: 5
-  m_Name: Group_Menus
+  m_Name: Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

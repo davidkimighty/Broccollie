@@ -42,6 +42,7 @@ public class SampleUITestBoard : MonoBehaviour
     private void Start()
     {
         _firstTab.ChangeState(BaseUI.State.Selected, false, false);
+
     }
 
     #region Subscribers
