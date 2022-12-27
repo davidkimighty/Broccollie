@@ -37,7 +37,6 @@ namespace CollieMollie.UI
                 RaiseShowEvent(new UIEventArgs(this));
 
             _cancelSource.Cancel();
-            _cancelSource.Dispose();
             _cancelSource = new CancellationTokenSource();
             Task task = ExecuteFeaturesAsync(State.Show.ToString(), playAudio, _cancelSource.Token, done);
         }
@@ -50,7 +49,6 @@ namespace CollieMollie.UI
                 RaiseHideEvent(new UIEventArgs(this));
 
             _cancelSource.Cancel();
-            _cancelSource.Dispose();
             _cancelSource = new CancellationTokenSource();
             Task task = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, _cancelSource.Token, done);
         }
