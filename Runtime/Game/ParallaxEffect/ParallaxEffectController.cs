@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +21,8 @@ namespace CollieMollie.Game
         [SerializeField] private Material _material = null;
         [SerializeField] private AnimationCurve _parallaxCurve = null;
 
-        private IEnumerator _parallaxAction = null;
+        private Task _parallaxTask = null;
+        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
         #endregion
 
@@ -33,38 +36,34 @@ namespace CollieMollie.Game
         #region Public Functions
         public void StartParallax(int dir, float duration)
         {
-            if (_parallaxAction != null)
-                StopCoroutine(_parallaxAction);
-
-            _parallaxAction = Parallax(dir, duration, _parallaxCurve);
-            StartCoroutine(_parallaxAction);
+            StopParallax();
+            _tokenSource = new CancellationTokenSource();
+            _parallaxTask = Parallax(dir, duration, _parallaxCurve);
         }
 
         public void StartParallaxLoop(int dir)
         {
-            if (_parallaxAction != null)
-                StopCoroutine(_parallaxAction);
-
-            _parallaxAction = ParallaxLoop(dir);
-            StartCoroutine(_parallaxAction);
+            StopParallax();
+            _tokenSource = new CancellationTokenSource();
+            _parallaxTask = ParallaxLoop(dir);
         }
 
         public void StopParallax()
         {
-            if (_parallaxAction != null)
-                StopCoroutine(_parallaxAction);
+            _tokenSource.Cancel();
         }
 
         #endregion
 
         #region Private Functions
-        private IEnumerator Parallax(int dir, float duration, AnimationCurve curve)
+        private async Task Parallax(int dir, float duration, AnimationCurve curve)
         {
             OnBeginParallax?.Invoke();
 
             float elapsedTime = 0f;
             while (elapsedTime < duration)
             {
+                _tokenSource.Token.ThrowIfCancellationRequested();
                 float lerpSpeed = Mathf.Lerp(_minParallaxSpeed, _maxParallaxSpeed, curve.Evaluate(elapsedTime / duration));
                 for (int i = 0; i < _layers.Length; i++)
                 {
@@ -73,22 +72,24 @@ namespace CollieMollie.Game
                     _layers[i].Background.materialForRendering.mainTextureOffset = offset;
                 }
                 elapsedTime += Time.deltaTime;
-                yield return null;
+                await Task.Yield();
             }
             OnEndParallax?.Invoke();
         }
 
-        private IEnumerator ParallaxLoop(int dir)
+        private async Task ParallaxLoop(int dir)
         {
             while (true)
             {
+                _tokenSource.Token.ThrowIfCancellationRequested();
                 for (int i = 0; i < _layers.Length; i++)
                 {
+
                     Vector2 offset = _layers[i].Background.materialForRendering.mainTextureOffset;
                     offset.x += dir * (_fixedParallaxSpeed * Time.deltaTime) * _layers[i].ParallaxValue;
                     _layers[i].Background.materialForRendering.mainTextureOffset = offset;
                 }
-                yield return null;
+                await Task.Yield();
             }
         }
         #endregion

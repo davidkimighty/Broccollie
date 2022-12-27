@@ -10,15 +10,14 @@ namespace CollieMollie.Helper
     public static partial class Helper
     {
         #region Vector3
-        public static async Task LerpPositionAsync(this Transform transform, Vector3 targetPosition, float duration, AnimationCurve curve = null, CancellationTokenSource tokenSource = null, Action done = null)
+        public static async Task LerpPositionAsync(this Transform transform, Vector3 targetPosition, float duration, CancellationToken cancellationToken, AnimationCurve curve = null, Action done = null)
         {
             float elapsedTime = 0f;
             Vector3 startingPosition = transform.position;
 
             while (elapsedTime < duration)
             {
-                if (tokenSource != null)
-                    tokenSource.Token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 if (transform.position == targetPosition) break;
 
                 if (curve == null)
@@ -33,15 +32,14 @@ namespace CollieMollie.Helper
             done?.Invoke();
         }
 
-        public static async Task LerpLocalPositionAsync(this Transform transform, Vector3 targetPosition, float duration, AnimationCurve curve = null, CancellationTokenSource tokenSource = null, Action done = null)
+        public static async Task LerpLocalPositionAsync(this Transform transform, Vector3 targetPosition, float duration, CancellationToken cancellationToken, AnimationCurve curve = null, Action done = null)
         {
             float elapsedTime = 0f;
             Vector3 startingPosition = transform.localPosition;
 
             while (elapsedTime < duration)
             {
-                if (tokenSource != null)
-                    tokenSource.Token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 if (transform.localPosition == targetPosition) break;
 
                 if (curve == null)
@@ -56,15 +54,14 @@ namespace CollieMollie.Helper
             done?.Invoke();
         }
 
-        public static async Task LerpScaleAsync(this Transform transform, Vector3 targetScale, float duration, AnimationCurve curve = null, CancellationTokenSource tokenSource = null, Action done = null)
+        public static async Task LerpScaleAsync(this Transform transform, Vector3 targetScale, float duration, CancellationToken cancellationToken, AnimationCurve curve = null, Action done = null)
         {
             float elapsedTime = 0f;
             Vector3 startingScale = transform.localScale;
 
             while (elapsedTime < duration)
             {
-                if (tokenSource != null)
-                    tokenSource.Token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 if (transform.localScale == targetScale) break;
 
                 if (curve == null)
@@ -82,15 +79,14 @@ namespace CollieMollie.Helper
         #endregion
 
         #region Quaternion
-        public static async Task LerpRotationAsync(this Transform transform, Quaternion targetRotation, float duration, AnimationCurve curve = null, CancellationTokenSource tokenSource = null, Action done = null)
+        public static async Task LerpRotationAsync(this Transform transform, Quaternion targetRotation, float duration, CancellationToken cancellationToken, AnimationCurve curve = null, Action done = null)
         {
             float elapsedTime = 0f;
             Quaternion startingRotation = transform.rotation;
 
             while (elapsedTime < duration)
             {
-                if (tokenSource != null)
-                    tokenSource.Token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 if (transform.rotation == targetRotation) break;
 
                 if (curve == null)
@@ -105,15 +101,14 @@ namespace CollieMollie.Helper
             done?.Invoke();
         }
 
-        public static async Task LerpLocalRotationAsync(this Transform transform, Quaternion targetRotation, float duration, AnimationCurve curve = null, CancellationTokenSource tokenSource = null, Action done = null)
+        public static async Task LerpLocalRotationAsync(this Transform transform, Quaternion targetRotation, float duration, CancellationToken cancellationToken, AnimationCurve curve = null, Action done = null)
         {
             float elapsedTime = 0f;
             Quaternion startingRotation = transform.localRotation;
 
             while (elapsedTime < duration)
             {
-                if (tokenSource != null)
-                    tokenSource.Token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 if (transform.localRotation == targetRotation) break;
 
                 if (curve == null)

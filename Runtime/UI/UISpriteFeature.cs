@@ -19,7 +19,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public override async Task ExecuteAsync(string state, CancellationTokenSource tokenSource, Action done = null)
+        public override async Task ExecuteAsync(string state, CancellationToken cancellationToken, Action done = null)
         {
             if (!_isEnabled) return;
 
@@ -31,7 +31,7 @@ namespace CollieMollie.UI
                 UISpritePreset.Setting setting = Array.Find(element.Preset.States, x => x.ExecutionState.ToString() == state);
                 if (IsValid(setting.ExecutionState) && setting.IsEnabled)
                 {
-                    executions.Add(element.ChangeSprite(state, setting, tokenSource));
+                    executions.Add(element.ChangeSprite(state, setting, cancellationToken));
                 }
             }
             await Task.WhenAll(executions);
@@ -47,9 +47,9 @@ namespace CollieMollie.UI
             public Image GraphicImage = null;
             public UISpritePreset Preset = null;
 
-            public async Task ChangeSprite(string state, UISpritePreset.Setting setting, CancellationTokenSource tokenSource)
+            public async Task ChangeSprite(string state, UISpritePreset.Setting setting, CancellationToken cancellationToken)
             {
-                tokenSource.Token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 await Task.Delay((int)setting.DelayTime);
                 GraphicImage.sprite = setting.TargetSprite;
             }

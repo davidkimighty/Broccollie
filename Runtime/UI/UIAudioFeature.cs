@@ -21,7 +21,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public override async Task ExecuteAsync(string state, CancellationTokenSource tokenSource, Action done = null)
+        public override async Task ExecuteAsync(string state, CancellationToken cancellationToken, Action done = null)
         {
             if (!_isEnabled) return;
 

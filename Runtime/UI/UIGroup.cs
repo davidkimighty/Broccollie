@@ -39,7 +39,7 @@ namespace CollieMollie.UI
 
             _cancelSource.Cancel();
             _cancelSource = new CancellationTokenSource();
-            _behaviorTask = ExecuteFeaturesAsync(State.Show.ToString(), playAudio, done);
+            _behaviorTask = ExecuteFeaturesAsync(State.Show.ToString(), playAudio, _cancelSource.Token, done);
         }
 
         protected override void HideBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
@@ -51,7 +51,7 @@ namespace CollieMollie.UI
 
             _cancelSource.Cancel();
             _cancelSource = new CancellationTokenSource();
-            _behaviorTask = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, done);
+            _behaviorTask = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, _cancelSource.Token, done);
         }
 
         #endregion
@@ -62,23 +62,23 @@ namespace CollieMollie.UI
             _groupObject.SetActive(state);
         }
 
-        private async Task ExecuteFeaturesAsync(string state, bool playAudio, Action done = null)
+        private async Task ExecuteFeaturesAsync(string state, bool playAudio, CancellationToken token, Action done = null)
         {
             List<Task> featureTasks = new List<Task>();
             if (_transformFeature != null)
-                featureTasks.Add(_transformFeature.ExecuteAsync(state, _cancelSource));
+                featureTasks.Add(_transformFeature.ExecuteAsync(state, token));
 
             if (_useFade)
             {
                 float targetValue = state == State.Show.ToString() ? 1 : 0;
-                featureTasks.Add(Fade(_canvasGroup, targetValue, _fadeDuration, _fadeCurve));
+                featureTasks.Add(Fade(_canvasGroup, targetValue, _fadeDuration, _fadeCurve, token));
             }
 
             await Task.WhenAll(featureTasks);
             done?.Invoke();
         }
 
-        private async Task Fade(CanvasGroup group, float targetValue, float duration, AnimationCurve curve)
+        private async Task Fade(CanvasGroup group, float targetValue, float duration, AnimationCurve curve, CancellationToken token)
         {
             float elapsedTime = 0f;
             float startValue = group.alpha;
@@ -88,7 +88,7 @@ namespace CollieMollie.UI
                 group.alpha = Mathf.Lerp(startValue, targetValue, curve.Evaluate(elapsedTime / duration));
                 elapsedTime += Time.deltaTime;
 
-                _cancelSource.Token.ThrowIfCancellationRequested();
+                token.ThrowIfCancellationRequested();
                 await Task.Yield();
             }
             group.alpha = targetValue;

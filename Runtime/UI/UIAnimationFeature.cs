@@ -20,7 +20,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public override async Task ExecuteAsync(string state, CancellationTokenSource tokenSource, Action done = null)
+        public override async Task ExecuteAsync(string state, CancellationToken cancellationToken, Action done = null)
         {
             if (!_isEnabled) return;
 
@@ -32,7 +32,7 @@ namespace CollieMollie.UI
                 UIAnimationPreset.Setting setting = Array.Find(element.Preset.States, x => x.ExecutionState.ToString() == state);
                 if (IsValid(setting.ExecutionState) && setting.IsEnabled)
                 {
-                    executions.Add(element.PlayAnimation(state, setting, tokenSource));
+                    executions.Add(element.PlayAnimation(state, setting, cancellationToken));
                 }
             }
             await Task.WhenAll(executions);
@@ -50,9 +50,9 @@ namespace CollieMollie.UI
 
             private AnimatorOverrideController _overrideController = null;
 
-            public async Task PlayAnimation(string executionState, UIAnimationPreset.Setting setting, CancellationTokenSource tokenSource)
+            public async Task PlayAnimation(string executionState, UIAnimationPreset.Setting setting, CancellationToken cancellationToken)
             {
-                tokenSource.Token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
 
                 if (_overrideController == null)
                 {

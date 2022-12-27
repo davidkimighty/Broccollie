@@ -20,7 +20,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public override async Task ExecuteAsync(string state, CancellationTokenSource tokenSource, Action done = null)
+        public override async Task ExecuteAsync(string state, CancellationToken cancellationToken, Action done = null)
         {
             if (!_isEnabled) return;
 
@@ -32,7 +32,7 @@ namespace CollieMollie.UI
                 UIColorPreset.Setting setting = Array.Find(element.Preset.States, x => x.ExecutionState.ToString() == state);
                 if (IsValid(setting.ExecutionState) && setting.IsEnabled)
                 {
-                    executions.Add(element.ChangeColor(state, setting, tokenSource));
+                    executions.Add(element.ChangeColor(state, setting, cancellationToken));
                 }
             }
             await Task.WhenAll(executions);
@@ -48,9 +48,9 @@ namespace CollieMollie.UI
             public MaskableGraphic Graphic = null;
             public UIColorPreset Preset = null;
 
-            public async Task ChangeColor(string state, UIColorPreset.Setting setting, CancellationTokenSource tokenSource)
+            public async Task ChangeColor(string state, UIColorPreset.Setting setting, CancellationToken cancellationToken)
             {
-                await Graphic.ChangeColorGraduallyAsync(setting.TargetColor, setting.Duration, setting.Curve, tokenSource);
+                await Graphic.ChangeColorGraduallyAsync(setting.TargetColor, setting.Duration, cancellationToken, setting.Curve);
             }
 
             public void ChangeColorInstant(string state, UIColorPreset.Setting setting)

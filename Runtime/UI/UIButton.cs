@@ -151,7 +151,7 @@ namespace CollieMollie.UI
 
             _cancelSource.Cancel();
             _cancelSource = new CancellationTokenSource();
-            _behaviorTask = ExecuteFeaturesAsync(State.Default.ToString(), playAudio, done);
+            _behaviorTask = ExecuteFeaturesAsync(State.Default.ToString(), playAudio, _cancelSource.Token, done);
         }
 
         protected override void InteractiveBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
@@ -163,7 +163,7 @@ namespace CollieMollie.UI
 
             _cancelSource.Cancel();
             _cancelSource = new CancellationTokenSource();
-            _behaviorTask = ExecuteFeaturesAsync(State.Interactive.ToString(), playAudio, done);
+            _behaviorTask = ExecuteFeaturesAsync(State.Interactive.ToString(), playAudio, _cancelSource.Token, done);
         }
 
         protected override void NonInteractiveBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
@@ -175,7 +175,7 @@ namespace CollieMollie.UI
 
             _cancelSource.Cancel();
             _cancelSource = new CancellationTokenSource();
-            _behaviorTask = ExecuteFeaturesAsync(State.NonInteractive.ToString(), playAudio, done);
+            _behaviorTask = ExecuteFeaturesAsync(State.NonInteractive.ToString(), playAudio, _cancelSource.Token, done);
         }
 
         protected override void ShowBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
@@ -187,7 +187,7 @@ namespace CollieMollie.UI
 
             _cancelSource.Cancel();
             _cancelSource = new CancellationTokenSource();
-            _behaviorTask = ExecuteFeaturesAsync(State.Show.ToString(), playAudio, done);
+            _behaviorTask = ExecuteFeaturesAsync(State.Show.ToString(), playAudio, _cancelSource.Token, done);
         }
 
         protected override void HideBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
@@ -199,7 +199,7 @@ namespace CollieMollie.UI
 
             _cancelSource.Cancel();
             _cancelSource = new CancellationTokenSource();
-            _behaviorTask = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, done);
+            _behaviorTask = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, _cancelSource.Token, done);
         }
 
         protected override void HoveredBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
@@ -211,7 +211,7 @@ namespace CollieMollie.UI
 
             _cancelSource.Cancel();
             _cancelSource = new CancellationTokenSource();
-            _behaviorTask = ExecuteFeaturesAsync(State.Hovered.ToString(), playAudio, done);
+            _behaviorTask = ExecuteFeaturesAsync(State.Hovered.ToString(), playAudio, _cancelSource.Token, done);
         }
 
         protected override void PressedBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
@@ -223,7 +223,7 @@ namespace CollieMollie.UI
 
             _cancelSource.Cancel();
             _cancelSource = new CancellationTokenSource();
-            _behaviorTask = ExecuteFeaturesAsync(State.Pressed.ToString(), playAudio, done);
+            _behaviorTask = ExecuteFeaturesAsync(State.Pressed.ToString(), playAudio, _cancelSource.Token, done);
         }
 
         protected override void SelectedBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
@@ -235,7 +235,7 @@ namespace CollieMollie.UI
 
             _cancelSource.Cancel();
             _cancelSource = new CancellationTokenSource();
-            _behaviorTask = ExecuteFeaturesAsync(State.Selected.ToString(), playAudio, done);
+            _behaviorTask = ExecuteFeaturesAsync(State.Selected.ToString(), playAudio, _cancelSource.Token, done);
         }
 
         protected override void BeginDragBehavior(PointerEventData eventData, bool invokeEvent = true)
@@ -270,23 +270,23 @@ namespace CollieMollie.UI
                 _buttonObject.SetActive(state);
         }
 
-        private async Task ExecuteFeaturesAsync(string state, bool playAudio, Action done = null)
+        private async Task ExecuteFeaturesAsync(string state, bool playAudio, CancellationToken cancellationToken, Action done = null)
         {
             List<Task> featureTasks = new List<Task>();
             if (_colorFeature != null)
-                featureTasks.Add(_colorFeature.ExecuteAsync(state, _cancelSource));
+                featureTasks.Add(_colorFeature.ExecuteAsync(state, cancellationToken));
 
             if (_spriteFeature != null)
-                featureTasks.Add(_spriteFeature.ExecuteAsync(state, _cancelSource));
+                featureTasks.Add(_spriteFeature.ExecuteAsync(state, cancellationToken));
 
             if (_transformFeature != null)
-                featureTasks.Add(_transformFeature.ExecuteAsync(state, _cancelSource));
+                featureTasks.Add(_transformFeature.ExecuteAsync(state, cancellationToken));
 
             if (_animationFeature != null)
-                featureTasks.Add(_animationFeature.ExecuteAsync(state, _cancelSource));
+                featureTasks.Add(_animationFeature.ExecuteAsync(state, cancellationToken));
 
             if (_audioFeature != null && playAudio)
-                featureTasks.Add(_audioFeature.ExecuteAsync(state, _cancelSource));
+                featureTasks.Add(_audioFeature.ExecuteAsync(state, cancellationToken));
 
             await Task.WhenAll(featureTasks);
             done?.Invoke();

@@ -10,7 +10,7 @@ namespace CollieMollie.UI
 {
     public abstract class BaseUIFeature : MonoBehaviour
     {
-        public virtual async Task ExecuteAsync(string state, CancellationTokenSource token, Action done = null)
+        public virtual async Task ExecuteAsync(string state, CancellationToken token, Action done = null)
         {
             await Task.Yield();
         }

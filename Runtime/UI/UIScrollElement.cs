@@ -35,7 +35,7 @@ public class UIScrollElement : MonoBehaviour
 
         _cancelSource.Cancel();
         _cancelSource = new CancellationTokenSource();
-        _behaviorTask = ExecuteFeaturesAsync(focusState, playAudio);
+        _behaviorTask = ExecuteFeaturesAsync(focusState, playAudio, _cancelSource.Token);
     }
 
     public void Unfocus(string unfocusState, bool playAudio = true, bool fireEvent = true)
@@ -48,28 +48,28 @@ public class UIScrollElement : MonoBehaviour
 
         _cancelSource.Cancel();
         _cancelSource = new CancellationTokenSource();
-        _behaviorTask = ExecuteFeaturesAsync(unfocusState, playAudio);
+        _behaviorTask = ExecuteFeaturesAsync(unfocusState, playAudio, _cancelSource.Token);
     }
 
     #endregion
 
-    private async Task ExecuteFeaturesAsync(string state, bool playAudio, Action done = null)
+    private async Task ExecuteFeaturesAsync(string state, bool playAudio, CancellationToken cancellationToken, Action done = null)
     {
         List<Task> featureTasks = new List<Task>();
         if (_colorFeature != null)
-            featureTasks.Add(_colorFeature.ExecuteAsync(state, _cancelSource));
+            featureTasks.Add(_colorFeature.ExecuteAsync(state, cancellationToken));
 
         if (_spriteFeature != null)
-            featureTasks.Add(_spriteFeature.ExecuteAsync(state, _cancelSource));
+            featureTasks.Add(_spriteFeature.ExecuteAsync(state, cancellationToken));
 
         if (_transformFeature != null)
-            featureTasks.Add(_transformFeature.ExecuteAsync(state, _cancelSource));
+            featureTasks.Add(_transformFeature.ExecuteAsync(state, cancellationToken));
 
         if (_animationFeature != null)
-            featureTasks.Add(_animationFeature.ExecuteAsync(state, _cancelSource));
+            featureTasks.Add(_animationFeature.ExecuteAsync(state, cancellationToken));
 
         if (_audioFeature != null && playAudio)
-            featureTasks.Add(_audioFeature.ExecuteAsync(state, _cancelSource));
+            featureTasks.Add(_audioFeature.ExecuteAsync(state, cancellationToken));
 
         await Task.WhenAll(featureTasks);
         done?.Invoke();
