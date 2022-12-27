@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,7 +19,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public override async Task ExecuteAsync(string state, Action done = null)
+        public override async Task ExecuteAsync(string state, CancellationTokenSource tokenSource, Action done = null)
         {
             if (!_isEnabled) return;
 
@@ -30,7 +31,7 @@ namespace CollieMollie.UI
                 UISpritePreset.Setting setting = Array.Find(element.Preset.States, x => x.ExecutionState.ToString() == state);
                 if (IsValid(setting.ExecutionState) && setting.IsEnabled)
                 {
-                    executions.Add(element.ChangeSprite(state, setting));
+                    executions.Add(element.ChangeSprite(state, setting, tokenSource));
                 }
             }
             await Task.WhenAll(executions);
@@ -46,8 +47,9 @@ namespace CollieMollie.UI
             public Image GraphicImage = null;
             public UISpritePreset Preset = null;
 
-            public async Task ChangeSprite(string state, UISpritePreset.Setting setting)
+            public async Task ChangeSprite(string state, UISpritePreset.Setting setting, CancellationTokenSource tokenSource)
             {
+                tokenSource.Token.ThrowIfCancellationRequested();
                 await Task.Delay((int)setting.DelayTime);
                 GraphicImage.sprite = setting.TargetSprite;
             }

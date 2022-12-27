@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using CollieMollie.Core;
 using UnityEngine;
@@ -25,7 +26,7 @@ namespace CollieMollie.UI
         [SerializeField] private UIAudioFeature _audioFeature = null;
 
         private Task _behaviorTask = null;
-
+        private CancellationTokenSource _cancelSource = new CancellationTokenSource();
         #endregion
 
         #region Behaviors
@@ -36,6 +37,8 @@ namespace CollieMollie.UI
             if (invokeEvent)
                 RaiseDefaultEvent(new UIEventArgs(this));
 
+            _cancelSource.Cancel();
+            _cancelSource = new CancellationTokenSource();
             _behaviorTask = ExecuteFeaturesAsync(State.Default.ToString(), playAudio, done);
         }
 
@@ -46,6 +49,8 @@ namespace CollieMollie.UI
             if (invokeEvent)
                 RaiseInteractiveEvent(new UIEventArgs(this));
 
+            _cancelSource.Cancel();
+            _cancelSource = new CancellationTokenSource();
             _behaviorTask = ExecuteFeaturesAsync(State.Interactive.ToString(), playAudio, done);
         }
 
@@ -56,6 +61,8 @@ namespace CollieMollie.UI
             if (invokeEvent)
                 RaiseNonInteractiveEvent(new UIEventArgs(this));
 
+            _cancelSource.Cancel();
+            _cancelSource = new CancellationTokenSource();
             _behaviorTask = ExecuteFeaturesAsync(State.NonInteractive.ToString(), playAudio, done);
         }
 
@@ -66,6 +73,8 @@ namespace CollieMollie.UI
             if (invokeEvent)
                 RaiseShowEvent(new UIEventArgs(this));
 
+            _cancelSource.Cancel();
+            _cancelSource = new CancellationTokenSource();
             _behaviorTask = ExecuteFeaturesAsync(State.Show.ToString(), playAudio, done);
         }
 
@@ -76,6 +85,8 @@ namespace CollieMollie.UI
             if (invokeEvent)
                 RaiseHideEvent(new UIEventArgs(this));
 
+            _cancelSource.Cancel();
+            _cancelSource = new CancellationTokenSource();
             _behaviorTask = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, done);
         }
 
@@ -86,6 +97,8 @@ namespace CollieMollie.UI
             if (invokeEvent)
                 RaiseSelectedEvent(new UIEventArgs(this));
 
+            _cancelSource.Cancel();
+            _cancelSource = new CancellationTokenSource();
             _behaviorTask = ExecuteFeaturesAsync(State.Selected.ToString(), playAudio);
         }
 
@@ -101,19 +114,19 @@ namespace CollieMollie.UI
         {
             List<Task> featureTasks = new List<Task>();
             if (_colorFeature != null)
-                featureTasks.Add(_colorFeature.ExecuteAsync(state));
+                featureTasks.Add(_colorFeature.ExecuteAsync(state, _cancelSource));
 
             if (_spriteFeature != null)
-                featureTasks.Add(_spriteFeature.ExecuteAsync(state));
+                featureTasks.Add(_spriteFeature.ExecuteAsync(state, _cancelSource));
 
             if (_transformFeature != null)
-                featureTasks.Add(_transformFeature.ExecuteAsync(state));
+                featureTasks.Add(_transformFeature.ExecuteAsync(state, _cancelSource));
 
             if (_animationFeature != null)
-                featureTasks.Add(_animationFeature.ExecuteAsync(state));
+                featureTasks.Add(_animationFeature.ExecuteAsync(state, _cancelSource));
 
             if (_audioFeature != null && playAudio)
-                featureTasks.Add(_audioFeature.ExecuteAsync(state));
+                featureTasks.Add(_audioFeature.ExecuteAsync(state, _cancelSource));
 
             await Task.WhenAll(featureTasks);
             done?.Invoke();

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CollieMollie.Audio;
 using CollieMollie.Helper;
@@ -19,7 +20,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public override async Task ExecuteAsync(string state, Action done = null)
+        public override async Task ExecuteAsync(string state, CancellationTokenSource tokenSource, Action done = null)
         {
             if (!_isEnabled) return;
 
@@ -31,7 +32,7 @@ namespace CollieMollie.UI
                 UIAnimationPreset.Setting setting = Array.Find(element.Preset.States, x => x.ExecutionState.ToString() == state);
                 if (IsValid(setting.ExecutionState) && setting.IsEnabled)
                 {
-                    executions.Add(element.PlayAnimation(state, setting));
+                    executions.Add(element.PlayAnimation(state, setting, tokenSource));
                 }
             }
             await Task.WhenAll(executions);
@@ -49,8 +50,10 @@ namespace CollieMollie.UI
 
             private AnimatorOverrideController _overrideController = null;
 
-            public async Task PlayAnimation(string executionState, UIAnimationPreset.Setting setting)
+            public async Task PlayAnimation(string executionState, UIAnimationPreset.Setting setting, CancellationTokenSource tokenSource)
             {
+                tokenSource.Token.ThrowIfCancellationRequested();
+
                 if (_overrideController == null)
                 {
                     _overrideController = new AnimatorOverrideController(Preset.OverrideAnimator);

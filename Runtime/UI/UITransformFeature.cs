@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CollieMollie.Helper;
 using CollieMollie.UI;
@@ -18,7 +19,7 @@ public class UITransformFeature : BaseUIFeature
     #endregion
 
     #region Public Functions
-    public override async Task ExecuteAsync(string state, Action done = null)
+    public override async Task ExecuteAsync(string state, CancellationTokenSource tokenSource, Action done = null)
     {
         if (!_isEnabled) return;
 
@@ -30,8 +31,8 @@ public class UITransformFeature : BaseUIFeature
             UITransformPreset.Setting setting = Array.Find(element.Preset.States, x => x.ExecutionState.ToString() == state);
             if (IsValid(setting.ExecutionState) && setting.IsEnabled)
             {
-                executions.Add(element.ChangePosition(state, setting));
-                executions.Add(element.ChangeScale(state, setting));
+                executions.Add(element.ChangePosition(state, setting, tokenSource));
+                executions.Add(element.ChangeScale(state, setting, tokenSource));
             }
         }
         await Task.WhenAll(executions);
@@ -47,16 +48,16 @@ public class UITransformFeature : BaseUIFeature
         public Transform TargetObject = null;
         public UITransformPreset Preset = null;
 
-        public async Task ChangePosition(string state, UITransformPreset.Setting setting)
+        public async Task ChangePosition(string state, UITransformPreset.Setting setting, CancellationTokenSource tokenSource)
         {
             if (setting.PositionSettingEnabled)
-                await TargetObject.LerpPositionAsync(setting.TargetPosition.position, setting.PositionSettingDuration, setting.PositionSettingCurve);
+                await TargetObject.LerpPositionAsync(setting.TargetPosition.position, setting.PositionSettingDuration, setting.PositionSettingCurve, tokenSource);
         }
 
-        public async Task ChangeScale(string state, UITransformPreset.Setting setting)
+        public async Task ChangeScale(string state, UITransformPreset.Setting setting, CancellationTokenSource tokenSource)
         {
             if (setting.ScaleSettingEnabled)
-                await TargetObject.LerpScaleAsync(Vector3.one * setting.TargetScale, setting.ScaleSettingDuration, setting.ScaleSettingCurve);
+                await TargetObject.LerpScaleAsync(Vector3.one * setting.TargetScale, setting.ScaleSettingDuration, setting.ScaleSettingCurve, tokenSource);
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CollieMollie.Audio;
 using CollieMollie.Core;
@@ -20,7 +21,7 @@ namespace CollieMollie.UI
         #endregion
 
         #region Public Functions
-        public override async Task ExecuteAsync(string state, Action done = null)
+        public override async Task ExecuteAsync(string state, CancellationTokenSource tokenSource, Action done = null)
         {
             if (!_isEnabled) return;
 

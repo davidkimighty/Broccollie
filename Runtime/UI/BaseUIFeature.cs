@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,7 +10,7 @@ namespace CollieMollie.UI
 {
     public abstract class BaseUIFeature : MonoBehaviour
     {
-        public virtual async Task ExecuteAsync(string state, Action done = null)
+        public virtual async Task ExecuteAsync(string state, CancellationTokenSource token, Action done = null)
         {
             await Task.Yield();
         }

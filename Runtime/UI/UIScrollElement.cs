@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using CollieMollie.Core;
 using CollieMollie.UI;
@@ -20,6 +21,7 @@ public class UIScrollElement : MonoBehaviour
 
     private bool _isFocused = false;
     private Task _behaviorTask = null;
+    private CancellationTokenSource _cancelSource = new CancellationTokenSource();
     #endregion
 
     #region Public Functions
@@ -31,6 +33,8 @@ public class UIScrollElement : MonoBehaviour
         if (fireEvent)
             OnFocus?.Invoke();
 
+        _cancelSource.Cancel();
+        _cancelSource = new CancellationTokenSource();
         _behaviorTask = ExecuteFeaturesAsync(focusState, playAudio);
     }
 
@@ -42,6 +46,8 @@ public class UIScrollElement : MonoBehaviour
         if (fireEvent)
             OnUnfocus?.Invoke();
 
+        _cancelSource.Cancel();
+        _cancelSource = new CancellationTokenSource();
         _behaviorTask = ExecuteFeaturesAsync(unfocusState, playAudio);
     }
 
@@ -51,19 +57,19 @@ public class UIScrollElement : MonoBehaviour
     {
         List<Task> featureTasks = new List<Task>();
         if (_colorFeature != null)
-            featureTasks.Add(_colorFeature.ExecuteAsync(state));
+            featureTasks.Add(_colorFeature.ExecuteAsync(state, _cancelSource));
 
         if (_spriteFeature != null)
-            featureTasks.Add(_spriteFeature.ExecuteAsync(state));
+            featureTasks.Add(_spriteFeature.ExecuteAsync(state, _cancelSource));
 
         if (_transformFeature != null)
-            featureTasks.Add(_transformFeature.ExecuteAsync(state));
+            featureTasks.Add(_transformFeature.ExecuteAsync(state, _cancelSource));
 
         if (_animationFeature != null)
-            featureTasks.Add(_animationFeature.ExecuteAsync(state));
+            featureTasks.Add(_animationFeature.ExecuteAsync(state, _cancelSource));
 
         if (_audioFeature != null && playAudio)
-            featureTasks.Add(_audioFeature.ExecuteAsync(state));
+            featureTasks.Add(_audioFeature.ExecuteAsync(state, _cancelSource));
 
         await Task.WhenAll(featureTasks);
         done?.Invoke();

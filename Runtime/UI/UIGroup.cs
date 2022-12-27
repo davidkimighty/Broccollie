@@ -26,7 +26,7 @@ namespace CollieMollie.UI
         [SerializeField] private UITransformFeature _transformFeature = null;
 
         private Task _behaviorTask = null;
-        private readonly CancellationTokenSource _cancelSource = new CancellationTokenSource();
+        private CancellationTokenSource _cancelSource = new CancellationTokenSource();
         #endregion
 
         #region Behaviors
@@ -37,6 +37,8 @@ namespace CollieMollie.UI
             if (invokeEvent)
                 RaiseShowEvent(new UIEventArgs(this));
 
+            _cancelSource.Cancel();
+            _cancelSource = new CancellationTokenSource();
             _behaviorTask = ExecuteFeaturesAsync(State.Show.ToString(), playAudio, done);
         }
 
@@ -47,6 +49,8 @@ namespace CollieMollie.UI
             if (invokeEvent)
                 RaiseHideEvent(new UIEventArgs(this));
 
+            _cancelSource.Cancel();
+            _cancelSource = new CancellationTokenSource();
             _behaviorTask = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, done);
         }
 
@@ -62,7 +66,7 @@ namespace CollieMollie.UI
         {
             List<Task> featureTasks = new List<Task>();
             if (_transformFeature != null)
-                featureTasks.Add(_transformFeature.ExecuteAsync(state));
+                featureTasks.Add(_transformFeature.ExecuteAsync(state, _cancelSource));
 
             if (_useFade)
             {
@@ -83,6 +87,8 @@ namespace CollieMollie.UI
             {
                 group.alpha = Mathf.Lerp(startValue, targetValue, curve.Evaluate(elapsedTime / duration));
                 elapsedTime += Time.deltaTime;
+
+                _cancelSource.Token.ThrowIfCancellationRequested();
                 await Task.Yield();
             }
             group.alpha = targetValue;
