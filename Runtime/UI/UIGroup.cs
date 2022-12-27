@@ -25,7 +25,6 @@ namespace CollieMollie.UI
 
         [SerializeField] private UITransformFeature _transformFeature = null;
 
-        private Task _behaviorTask = null;
         private CancellationTokenSource _cancelSource = new CancellationTokenSource();
         #endregion
 
@@ -38,8 +37,9 @@ namespace CollieMollie.UI
                 RaiseShowEvent(new UIEventArgs(this));
 
             _cancelSource.Cancel();
+            _cancelSource.Dispose();
             _cancelSource = new CancellationTokenSource();
-            _behaviorTask = ExecuteFeaturesAsync(State.Show.ToString(), playAudio, _cancelSource.Token, done);
+            Task task = ExecuteFeaturesAsync(State.Show.ToString(), playAudio, _cancelSource.Token, done);
         }
 
         protected override void HideBehavior(bool playAudio = true, bool invokeEvent = true, Action done = null)
@@ -50,8 +50,9 @@ namespace CollieMollie.UI
                 RaiseHideEvent(new UIEventArgs(this));
 
             _cancelSource.Cancel();
+            _cancelSource.Dispose();
             _cancelSource = new CancellationTokenSource();
-            _behaviorTask = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, _cancelSource.Token, done);
+            Task task = ExecuteFeaturesAsync(State.Hide.ToString(), playAudio, _cancelSource.Token, done);
         }
 
         #endregion
