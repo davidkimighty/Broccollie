@@ -18,12 +18,12 @@ MonoBehaviour:
     - dc0fe13b-bb96-4e57-a6ce-b4b66cb8df8b
     - afdd3138-d6b7-4cf9-86d8-70ad25c23994
     _values:
-    - {x: -0.17, y: -2.69, z: 0}
-    - {x: -0.26, y: 3.62, z: 0}
+    - {x: 5.36, y: 2.45, z: 0}
+    - {x: -1.2, y: 4.48, z: 0}
   CubesColor:
     _keys:
     - dc0fe13b-bb96-4e57-a6ce-b4b66cb8df8b
     - afdd3138-d6b7-4cf9-86d8-70ad25c23994
     _values:
-    - {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}

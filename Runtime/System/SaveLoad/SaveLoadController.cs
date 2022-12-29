@@ -5,28 +5,102 @@ using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace CollieMollie.System
 {
+    [DefaultExecutionOrder(-100)]
     public class SaveLoadController : MonoBehaviour
     {
         #region Variable Field
+        [SerializeField] private SaveLoadEventChannel _eventChannel = null;
+
+        [SerializeField] private bool _useSaveables = true;
         [SerializeField] private bool _useCryptoStream = true;
         [SerializeField] private bool _dataEncryption = true;
 
+        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+
         #endregion
 
-        #region Public Functions
-        public IEnumerator LoadData(string saveFolderPath, string fileName, object data, string aesKey = "", Action done = null)
+        private void OnEnable()
         {
-            CheckPath(saveFolderPath);
-            string savePath = Path.Combine(saveFolderPath, fileName);
+            _eventChannel.OnSaveRequest += Save;
+            _eventChannel.OnLoadRequest += Load;
+        }
 
-            if (!File.Exists(savePath) || !PlayerPrefs.HasKey(aesKey))
+        private void OnDisable()
+        {
+            _eventChannel.OnSaveRequest -= Save;
+            _eventChannel.OnLoadRequest -= Load;
+        }
+
+        #region Subscribers
+        private void Save(object data, SaveOptions options, Action afterComplete)
+        {
+            _tokenSource.Cancel();
+            _tokenSource = new CancellationTokenSource();
+
+            Task saveTask = SaveProccess(_tokenSource.Token);
+
+            async Task SaveProccess(CancellationToken token)
             {
-                Debug.Log("[SaveLoadController] Couldn't find any saved player data.");
-                yield break;
+                if (_useSaveables)
+                    await SaveSaveablesAsync(token);
+                await SaveDataAsync(data, options, token, afterComplete);
+            }
+        }
+
+        private void Load(object data, SaveOptions options, Action afterComplete)
+        {
+            _tokenSource.Cancel();
+            _tokenSource = new CancellationTokenSource();
+
+            Task loadTask = LoadProccess(_tokenSource.Token);
+
+            async Task LoadProccess(CancellationToken token)
+            {
+                await LoadDataAsync(data, options, token, afterComplete);
+                if (_useSaveables)
+                    await LoadSaveablesAsync(token);
+            }
+        }
+
+        #endregion
+
+        #region Private Functions
+        private async Task SaveSaveablesAsync(CancellationToken token)
+        {
+            SaveableEntity[] saveables = FindObjectsOfType<SaveableEntity>();
+            foreach (SaveableEntity saveable in saveables)
+            {
+                token.ThrowIfCancellationRequested();
+                saveable.SaveStates();
+                await Task.Yield();
+            }
+        }
+
+        private async Task LoadSaveablesAsync(CancellationToken token)
+        {
+            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
+            {
+                token.ThrowIfCancellationRequested();
+                saveable.LoadStates();
+                await Task.Yield();
+            }
+        }
+
+        private async Task LoadDataAsync(object data, SaveOptions options, CancellationToken token, Action done = null)
+        {
+            CheckPath(options.SaveDirectory);
+            string savePath = Path.Combine(options.SaveDirectory, options.SaveFileName);
+
+            if (!File.Exists(savePath) || !PlayerPrefs.HasKey(options.AesKey))
+            {
+                Debug.Log("[Brocollie] Couldn't find any saved player data.");
+                return;
             }
 
             try
@@ -39,93 +113,98 @@ namespace CollieMollie.System
                         byte[] outputIV = new byte[aes.IV.Length];
                         fileStream.Read(outputIV, 0, outputIV.Length);
 
-                        byte[] savedKey = Convert.FromBase64String(PlayerPrefs.GetString(aesKey));
+                        byte[] savedKey = Convert.FromBase64String(PlayerPrefs.GetString(options.AesKey));
                         using (CryptoStream cryptoStream = new CryptoStream(fileStream, aes.CreateDecryptor(savedKey, outputIV), CryptoStreamMode.Read))
                         {
-                            StreamRead(cryptoStream, data, () => done?.Invoke());
+                            await StreamReadAsync(cryptoStream, data, () => done?.Invoke());
                         }
                     }
                     else
                     {
-                        StreamRead(fileStream, data, () => done?.Invoke());
+                        await StreamReadAsync(fileStream, data, () => done?.Invoke());
                     }
                 }
             }
             catch (Exception e)
             {
-                Debug.LogError($"[SaveLoadController] {e}");
+                Debug.LogError($"[Brocollie] {e}");
             }
         }
 
-        public IEnumerator SaveData(string saveFolderPath, string fileName, object data, string aesKey = "", Action done = null)
+        private async Task SaveDataAsync(object data, SaveOptions options, CancellationToken token, Action done = null)
         {
-            CheckPath(saveFolderPath);
-            string savePath = Path.Combine(saveFolderPath, fileName);
+            CheckPath(options.SaveDirectory);
+            string savePath = Path.Combine(options.SaveDirectory, options.SaveFileName);
 
             try
             {
                 Aes aes = Aes.Create();
                 byte[] savedKey = aes.Key;
-                PlayerPrefs.SetString(aesKey, Convert.ToBase64String(savedKey));
+                PlayerPrefs.SetString(options.AesKey, Convert.ToBase64String(savedKey));
 
                 using (FileStream fileStream = new FileStream(savePath, FileMode.Create))
                 {
                     if (_useCryptoStream)
                     {
                         byte[] inputIV = aes.IV;
-                        fileStream.Write(inputIV, 0, inputIV.Length);
+                        await fileStream.WriteAsync(inputIV, 0, inputIV.Length);
 
                         using (CryptoStream cryptoStream = new CryptoStream(fileStream, aes.CreateEncryptor(aes.Key, aes.IV), CryptoStreamMode.Write))
                         {
-                            StreamWriter(cryptoStream, data, () => done?.Invoke());
+                            await StreamWriterAsync(cryptoStream, data, () => done?.Invoke());
                         }
                     }
                     else
                     {
-                        StreamWriter(fileStream, data, () => done?.Invoke());
+                        await StreamWriterAsync(fileStream, data, () => done?.Invoke());
                     }
                 }
             }
             catch (Exception e)
             {
-                Debug.LogError($"[SaveLoadController] {e}");
+                Debug.LogError($"[Brocollie] {e}");
             }
-            yield return null;
         }
 
-        #endregion
-
-        #region Private Functions
         private void CheckPath(string path)
         {
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
-                Debug.Log("[SaveLoadController] Save folder was created successfully.");
+                Debug.Log("[Brocollie] Save folder was created successfully.");
             }
         }
 
-        private void StreamRead(Stream stream, object data, Action done = null)
+        private async Task StreamReadAsync(Stream stream, object data, Action done = null)
         {
             using (StreamReader streamReader = new StreamReader(stream))
             {
-                string dataText = streamReader.ReadToEnd();
+                string dataText = await streamReader.ReadToEndAsync();
                 JsonUtility.FromJsonOverwrite(dataText, data);
                 done?.Invoke();
-                Debug.Log($"[SaveLoadController] Data loaded.");
+                Debug.Log($"[Brocollie] Data loaded.");
             }
         }
 
-        private void StreamWriter(Stream stream, object data, Action done = null)
+        private async Task StreamWriterAsync(Stream stream, object data, Action done = null)
         {
             using (StreamWriter streamWriter = new StreamWriter(stream))
             {
                 string jsonString = JsonUtility.ToJson(data);
-                streamWriter.Write(jsonString);
+                await streamWriter.WriteAsync(jsonString);
                 done?.Invoke();
-                Debug.Log($"[SaveLoadController] Data saved.");
+                Debug.Log($"[Brocollie] Data saved.");
             }
         }
+
         #endregion
+    }
+
+    [Serializable]
+    public struct SaveOptions
+    {
+        public string SaveDirectory;
+        public string SaveFileName;
+        public string AesKey;
     }
 }

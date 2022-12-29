@@ -1,56 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using CollieMollie.System;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class SampleSaveManager : MonoBehaviour
 {
-    private const string AESKEY = "SAMPLEKEY";
-    private const string SAVEFOLDER = "Saved";
-    private const string SAVEFILENAME = "TestData.json";
+    private const string Aeskey = "SAMPLEKEY";
+    private const string SaveFolder = "Saved";
+    private const string SaveFileName = "TestData.json";
     private static string s_savePath = null;
 
-    [SerializeField] private SaveLoadController _saveController = null;
+    [SerializeField] private SaveLoadEventChannel _saveEventChannel = null;
     [SerializeField] private SampleGameData _playerData = null;
 
-    private IEnumerator _saveAction = null;
-
+    private SaveOptions _saveOptions;
+    
     private void Awake()
     {
-        s_savePath = Path.Combine(Application.persistentDataPath, SAVEFOLDER);
+        s_savePath = Path.Combine(Application.persistentDataPath, SaveFolder);
+        _saveOptions = new SaveOptions()
+        {
+            SaveDirectory = s_savePath,
+            SaveFileName = SaveFileName,
+            AesKey = Aeskey
+        };
     }
 
     [ContextMenu("Execute Save")]
     public void Save()
     {
-        if (_saveAction != null)
-            StopCoroutine(_saveAction);
-
-        foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
+        _saveEventChannel.RaiseSaveEvent(_playerData, _saveOptions, () =>
         {
-            saveable.SaveStates();
-        }
-
-        _saveAction = _saveController.SaveData(s_savePath, SAVEFILENAME, _playerData, AESKEY);
-        StartCoroutine(_saveAction);
-        Debug.Log($"[SampleSaveManager] Saved path: {s_savePath}");
+            Debug.Log($"[SampleSaveManager] Saved path: {s_savePath}");
+        });
     }
 
     [ContextMenu("Execute Load")]
     public void Load()
     {
-        if (_saveAction != null)
-            StopCoroutine(_saveAction);
-
-        _saveAction = _saveController.LoadData(s_savePath, SAVEFILENAME, _playerData, AESKEY, () =>
+        _saveEventChannel.RaiseLoadEvent(_playerData, _saveOptions, () =>
         {
-            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
-            {
-                saveable.LoadStates();
-            }
+            Debug.Log($"[SampleSaveManager] Data loaded.");
         });
-        StartCoroutine(_saveAction);
     }
 }
