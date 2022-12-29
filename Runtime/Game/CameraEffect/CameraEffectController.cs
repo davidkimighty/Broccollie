@@ -12,9 +12,14 @@ namespace CollieMollie.Game
 
         #endregion
 
-        private void Awake()
+        private void OnEnable()
         {
             _eventChannel.OnPlayCameraEffectRequest += PlayCameraEffect;
+        }
+
+        private void OnDisable()
+        {
+            _eventChannel.OnPlayCameraEffectRequest -= PlayCameraEffect;
         }
 
         #region Subscribers
