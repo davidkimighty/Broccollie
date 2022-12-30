@@ -67,6 +67,13 @@
 <td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av1.0+is%3Aclosed+label%3A%22Save+Controller%22+">Save Controller v1.0 Milestone</a></td>
 </tr>
 
+<tr>
+<td><a href="wiki/">Player Controller</a></td>
+<td><kbd>In Progress</kbd></td>
+<td><a href="">-</a></td>
+<td><a href="">-</a></td>
+</tr>
+
 </table>
 
 ## Changelog
