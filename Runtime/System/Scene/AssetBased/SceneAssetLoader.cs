@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using CollieMollie.Rendering;
+using CollieMollie.Shaders;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,6 +15,7 @@ namespace CollieMollie.System
         [SerializeField] private SceneAssetPreset _loadingScene = null;
 
         [SerializeField] private FadeController _fadeController = null;
+        [SerializeField] private float _fadeDuration = 1f;
 
         private bool _loading = false;
         private SceneAssetPreset _currentActiveScene = null;
@@ -47,27 +48,27 @@ namespace CollieMollie.System
 
         private IEnumerator LoadScene(SceneAssetPreset newScenePreset, bool showLoadingScreen, float duration)
         {
-            yield return _fadeController.FadeIn();
+            yield return _fadeController.FadeAmount(1, _fadeDuration);
             yield return UnloadScene(_currentActiveScene);
 
             if (showLoadingScreen)
             {
                 yield return LoadScene(_loadingScene);
-                yield return _fadeController.FadeOut();
+                yield return _fadeController.FadeAmount(0, _fadeDuration);
 
                 yield return new WaitForSeconds(duration);
             }
 
             if (showLoadingScreen)
             {
-                yield return _fadeController.FadeIn();
+                yield return _fadeController.FadeAmount(1, _fadeDuration);
                 yield return UnloadScene(_loadingScene);
             }
 
             yield return LoadScene(newScenePreset);
             _currentActiveScene = newScenePreset;
 
-            yield return _fadeController.FadeOut();
+            yield return _fadeController.FadeAmount(0, _fadeDuration);
             _loading = false;
 
             IEnumerator UnloadScene(SceneAssetPreset preset)
