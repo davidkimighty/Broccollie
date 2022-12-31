@@ -1,12 +1,13 @@
 {
     "name": "com.colliemollie.broccollie",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "displayName": "Broccollie",
     "description": "Essential game ready features in URP",
-    "unity": "2021.3",
+    "unity": "2022.2",
     "dependencies": {
         "com.unity.addressables": "1.19.19",
-        "com.unity.inputsystem": "1.4.4"
+        "com.unity.inputsystem": "1.4.4",
+        "com.colliemollie.shadermagic": "0.1.1"
     },
     "samples": [
         {
