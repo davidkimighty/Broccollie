@@ -69,6 +69,13 @@
 </tr>
 
 <tr>
+<td><a href="wiki/">Input Controller</a></td>
+<td><kbd>In Progress</kbd></td>
+<td><a href="">-</a></td>
+<td><a href="">-</a></td>
+</tr>
+
+<tr>
 <td><a href="wiki/">Player Controller</a></td>
 <td><kbd>In Progress</kbd></td>
 <td><a href="">-</a></td>
