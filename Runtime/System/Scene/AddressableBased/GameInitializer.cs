@@ -12,6 +12,7 @@ namespace CollieMollie.System
         #region Variable Field
         [Header("Initializer")]
         [SerializeField] private SceneAddressablePreset _persistentScene = null;
+
         #endregion
 
         private void Start()

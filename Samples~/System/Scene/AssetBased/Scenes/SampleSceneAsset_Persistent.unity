@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311915, g: 0.3807396, b: 0.35872662, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731689, g: 0.13414702, b: 0.1210784, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -315,6 +315,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneEventChannel: {fileID: 11400000, guid: b669ca4d4851349d3aba76ba18b7321a, type: 2}
   _loadingScene: {fileID: 11400000, guid: 82421f71063d64e6c83fcc0e7f4926c4, type: 2}
+  _loadingSceneDuration: 1
   _fadeController: {fileID: 1574437492}
   _fadeDuration: 1
 --- !u!114 &1574437492
@@ -329,9 +330,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cae12dbaf6684b498e1ea333f449985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fadeFeature: {fileID: -1085048555929452228, guid: c40be3174f62c4acf8c1216858c64956,
+  _fadeFeature: {fileID: -5011049344775800557, guid: c40be3174f62c4acf8c1216858c64956,
     type: 2}
-  _fadeEventChannel: {fileID: 0}
+  _fadeEventChannel: {fileID: 11400000, guid: 135d817feb9ba4914a154befa2071864, type: 2}
   _maxValue: 10
   _minValue: 0
   _defaultFadeValue: 3

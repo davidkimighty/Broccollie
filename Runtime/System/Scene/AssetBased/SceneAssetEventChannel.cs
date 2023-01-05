@@ -9,9 +9,8 @@ namespace CollieMollie.System
     public class SceneAssetEventChannel : ScriptableObject
     {
         #region Events
-        public event Action<SceneAssetPreset, bool, float> OnSceneLoadRequest = null;
+        public event Action<SceneAssetPreset, bool> OnSceneLoadRequest = null;
 
-        public float LoadingSceneDuration = 1f;
         #endregion
 
         #region Publishers
@@ -19,7 +18,7 @@ namespace CollieMollie.System
         {
             if (targetScene == null) return;
 
-            OnSceneLoadRequest?.Invoke(targetScene, showLoadingScreen, LoadingSceneDuration);
+            OnSceneLoadRequest?.Invoke(targetScene, showLoadingScreen);
         }
 
         #endregion

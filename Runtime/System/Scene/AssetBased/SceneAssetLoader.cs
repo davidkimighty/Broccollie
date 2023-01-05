@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using CollieMollie.Shaders;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,13 +15,15 @@ namespace CollieMollie.System
         [Header("Scene Loader")]
         [SerializeField] private SceneAssetEventChannel _sceneEventChannel = null;
         [SerializeField] private SceneAssetPreset _loadingScene = null;
+        [SerializeField] private float _loadingSceneDuration = 1f;
 
         [SerializeField] private FadeController _fadeController = null;
         [SerializeField] private float _fadeDuration = 1f;
 
         private bool _loading = false;
         private SceneAssetPreset _currentActiveScene = null;
-        private IEnumerator _sceneLoadAction = null;
+        private CancellationTokenSource _cts = new CancellationTokenSource();
+
         #endregion
 
         private void OnEnable()
@@ -33,80 +37,89 @@ namespace CollieMollie.System
         }
 
         #region Subscribers
-        private void LoadNewScene(SceneAssetPreset scene, bool showLoadingScreen, float loadingDuration)
+        private void LoadNewScene(SceneAssetPreset scene, bool showLoadingScreen)
         {
             if (_loading) return;
             _loading = true;
 
-            if (_sceneLoadAction != null)
-                StopCoroutine(_sceneLoadAction);
+            _cts.Cancel();
+            _cts = new CancellationTokenSource();
 
-            _sceneLoadAction = LoadScene(scene, showLoadingScreen, loadingDuration);
-            StartCoroutine(_sceneLoadAction);
+            Task sceneLoadTask = LoadSceneAsync(scene, showLoadingScreen, _cts.Token);
         }
         #endregion
 
-        private IEnumerator LoadScene(SceneAssetPreset newScenePreset, bool showLoadingScreen, float duration)
+        private async Task LoadSceneAsync(SceneAssetPreset newScenePreset, bool showLoadingScreen, CancellationToken token)
         {
-            yield return _fadeController.FadeAmount(1, _fadeDuration);
-            yield return UnloadScene(_currentActiveScene);
+            if (_fadeController != null)
+                await _fadeController.ChangeFadeAmountAsync(1, _fadeDuration);
+
+            if (_currentActiveScene != null)
+                await UnloadSceneAsync(_currentActiveScene);
 
             if (showLoadingScreen)
             {
-                yield return LoadScene(_loadingScene);
-                yield return _fadeController.FadeAmount(0, _fadeDuration);
+                await LoadSceneAsync(_loadingScene);
+                if (_fadeController != null)
+                    await _fadeController.ChangeFadeAmountAsync(0, _fadeDuration);
 
-                yield return new WaitForSeconds(duration);
+                await Task.Delay((int)_loadingSceneDuration * 1000, token);
             }
 
             if (showLoadingScreen)
             {
-                yield return _fadeController.FadeAmount(1, _fadeDuration);
-                yield return UnloadScene(_loadingScene);
+                if (_fadeController != null)
+                    await _fadeController.ChangeFadeAmountAsync(1, _fadeDuration);
+                await UnloadSceneAsync(_loadingScene);
             }
 
-            yield return LoadScene(newScenePreset);
+            await LoadSceneAsync(newScenePreset);
             _currentActiveScene = newScenePreset;
 
-            yield return _fadeController.FadeAmount(0, _fadeDuration);
+            if (_fadeController != null)
+                await _fadeController.ChangeFadeAmountAsync(0, _fadeDuration);
             _loading = false;
 
-            IEnumerator UnloadScene(SceneAssetPreset preset)
+            async Task UnloadSceneAsync(SceneAssetPreset preset)
             {
                 string sceneName = null;
                 if (preset == null)
                 {
                     Scene scene = SceneManager.GetActiveScene();
-                    if (!scene.IsValid() || scene.buildIndex == 0) yield break;
+                    if (!scene.IsValid() || scene.buildIndex == 0) return;
                     sceneName = scene.name;
                 }
                 else
                 {
-                    if (preset.SceneType == SceneType.Persistent) yield break;
+                    if (preset.SceneType == SceneType.Persistent) return;
                     sceneName = preset.SceneName;
                 }
 
                 AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(sceneName);
-                if (unloadOperation == null) yield break;
+                if (unloadOperation == null) return;
 
                 while (!unloadOperation.isDone)
                 {
+                    token.ThrowIfCancellationRequested();
+
                     float progress = Mathf.Clamp01(unloadOperation.progress / 0.9f);
                     //Debug.Log($"[GameSceneManager] Unload {progress}");
-                    yield return null;
+                    await Task.Yield();
                 }
             }
 
-            IEnumerator LoadScene(SceneAssetPreset preset)
+            async Task LoadSceneAsync(SceneAssetPreset preset)
             {
                 AsyncOperation loadOperation = SceneManager.LoadSceneAsync(preset.SceneName, LoadSceneMode.Additive);
-                if (loadOperation == null) yield break;
+                if (loadOperation == null) return;
 
                 while (!loadOperation.isDone)
                 {
+                    token.ThrowIfCancellationRequested();
+
                     float progress = Mathf.Clamp01(loadOperation.progress / 0.9f);
                     //Debug.Log($"[GameSceneManager] Load {progress}");
-                    yield return null;
+                    await Task.Yield();
                 }
             }
         }
