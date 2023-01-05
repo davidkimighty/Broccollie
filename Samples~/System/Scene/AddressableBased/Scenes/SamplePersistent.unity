@@ -104,7 +104,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 2
+    serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,7 +117,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -172,6 +172,9 @@ MonoBehaviour:
   m_Dithering: 0
   m_ClearDepth: 1
   m_AllowXRRendering: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
@@ -197,9 +200,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -250,9 +261,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1574437486}
+  - component: {fileID: 1574437488}
   - component: {fileID: 1574437487}
   - component: {fileID: 1574437489}
-  - component: {fileID: 1574437488}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -289,7 +300,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneEventChannel: {fileID: 11400000, guid: 1060f2332f8e24839a9e2ba7c2211431, type: 2}
   _loadingScene: {fileID: 11400000, guid: da38af80ac85246849341d4040b03938, type: 2}
+  _loadingSceneDuration: 1
   _fadeController: {fileID: 1574437489}
+  _fadeDuration: 1
 --- !u!114 &1574437488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,10 +326,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1574437485}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9898f240a0e764a63b312d37c6dbfbb2, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cae12dbaf6684b498e1ea333f449985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rendererData: {fileID: 11400000, guid: c40be3174f62c4acf8c1216858c64956, type: 2}
+  _fadeFeature: {fileID: -5011049344775800557, guid: c40be3174f62c4acf8c1216858c64956,
+    type: 2}
+  _fadeEventChannel: {fileID: 11400000, guid: 135d817feb9ba4914a154befa2071864, type: 2}
+  _maxValue: 10
+  _minValue: 0
+  _defaultFadeValue: 3
+  _defaultDuration: 1
   _fadeCurve:
     serializedVersion: 2
     m_Curve:

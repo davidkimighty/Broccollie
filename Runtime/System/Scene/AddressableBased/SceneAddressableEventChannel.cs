@@ -20,6 +20,7 @@ namespace CollieMollie.System
 
             OnSceneLoadRequest?.Invoke(targetScene, showLoadingScreen);
         }
+
         #endregion
     }
 }

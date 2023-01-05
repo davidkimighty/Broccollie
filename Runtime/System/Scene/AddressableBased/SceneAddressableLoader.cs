@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using CollieMollie.Shaders;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -16,13 +18,15 @@ namespace CollieMollie.System
         [Header("Scene Loader")]
         [SerializeField] private SceneAddressableEventChannel _sceneEventChannel = null;
         [SerializeField] private SceneAddressablePreset _loadingScene = null;
+        [SerializeField] private float _loadingSceneDuration = 1f;
 
         [SerializeField] private FadeController _fadeController = null;
         [SerializeField] private float _fadeDuration = 1f;
 
         private bool _loading = false;
         private SceneAddressablePreset _currentlyLoadedScene = null;
-        private IEnumerator _sceneLoadAction = null;
+        private CancellationTokenSource _cts = new CancellationTokenSource();
+
         #endregion
 
         private void OnEnable()
@@ -41,40 +45,44 @@ namespace CollieMollie.System
             if (_loading) return;
             _loading = true;
 
-            if (_sceneLoadAction != null)
-                StopCoroutine(_sceneLoadAction);
+            _cts.Cancel();
+            _cts = new CancellationTokenSource();
 
-            _sceneLoadAction = SceneLoadProcess(scene, showLoadingScreen);
-            StartCoroutine(_sceneLoadAction);
+            Task sceneLoadTask = LoadSceneAsync(scene, showLoadingScreen, _cts.Token);
         }
+
         #endregion
 
         #region Scene Load Features
-        private IEnumerator SceneLoadProcess(SceneAddressablePreset targetScene, bool showLoadingScreen)
+        private async Task LoadSceneAsync(SceneAddressablePreset targetScene, bool showLoading, CancellationToken token)
         {
-            yield return _fadeController.FadeAmount(1, _fadeDuration);
+            if (_fadeController != null)
+                await _fadeController.ChangeFadeAmountAsync(1, _fadeDuration);
 
             if (_currentlyLoadedScene != null)
                 SceneUnload(_currentlyLoadedScene);
 
-            if (showLoadingScreen)
+            if (showLoading)
             {
-                yield return SceneLoad(_loadingScene, true);
-                yield return _fadeController.FadeAmount(0, _fadeDuration);
+                await SceneLoadAsync(_loadingScene, true, token);
+                if (_fadeController != null)
+                    await _fadeController.ChangeFadeAmountAsync(0, _fadeDuration);
 
-                yield return new WaitForSeconds(2f);
+                await Task.Delay((int)_loadingSceneDuration * 1000, token);
             }
 
-            if (showLoadingScreen)
+            if (showLoading)
             {
-                yield return _fadeController.FadeAmount(1, _fadeDuration);
+                if (_fadeController != null)
+                    await _fadeController.ChangeFadeAmountAsync(1, _fadeDuration);
                 SceneUnload(_loadingScene);
             }
 
-            yield return SceneLoad(targetScene, true);
+            await SceneLoadAsync(targetScene, true, token);
             _currentlyLoadedScene = targetScene;
 
-            yield return _fadeController.FadeAmount(0, _fadeDuration);
+            if (_fadeController != null)
+                await _fadeController.ChangeFadeAmountAsync(0, _fadeDuration);
             _loading = false;
         }
 
@@ -83,16 +91,18 @@ namespace CollieMollie.System
             scene.SceneReference.UnLoadScene();
         }
 
-        private IEnumerator SceneLoad(SceneAddressablePreset scene, bool activate)
+        private async Task SceneLoadAsync(SceneAddressablePreset scene, bool activate, CancellationToken token)
         {
             AsyncOperationHandle loadOperation = scene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, activate);
-            if (!loadOperation.IsValid()) yield break;
+            if (!loadOperation.IsValid()) return;
             
             while (!loadOperation.IsDone)
             {
+                token.ThrowIfCancellationRequested();
+
                 float progress = loadOperation.PercentComplete;
                 //Debug.Log($"[SceneLoader] Load {progress}");
-                yield return null;
+                await Task.Yield();
             }
         }
         #endregion
