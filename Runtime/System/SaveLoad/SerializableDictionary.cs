@@ -29,7 +29,7 @@ namespace CollieMollie.System
 
             if (_keys.Count != _values.Count)
             {
-                Debug.LogError($"[SerializableDictionary] Key count and value count doesn't match.");
+                Helper.Helper.LogError("Key count and value count doesn't match.", Helper.Helper.Broccollie);
                 return;
             }
 

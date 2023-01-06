@@ -25,7 +25,11 @@ namespace CollieMollie.Game
         #region Subscribers
         private void PlayCameraEffect(CameraEffect effect)
         {
-            if (effect == null) return;
+            if (effect == null)
+            {
+                Helper.Helper.Log("Camera effect is null.", Helper.Helper.Broccollie, this);
+                return;
+            }
 
             effect.Play(this, _mainCam.transform);
         }
