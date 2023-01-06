@@ -1,6 +1,6 @@
 {
     "name": "com.colliemollie.broccollie",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "displayName": "Broccollie",
     "description": "Essential game ready features in URP",
     "unity": "2022.2",
@@ -18,7 +18,7 @@
         {
             "displayName": "Scene Controller",
             "description": "Preset based scenes controller.",
-            "path": "Samples~/System/Scene"
+            "path": "Samples~/System/SceneLoad"
         },
         {
             "displayName": "Save Controller",
