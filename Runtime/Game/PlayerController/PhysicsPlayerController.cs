@@ -10,11 +10,13 @@ namespace CollieMollie.Game
     {
         #region Variable Field
         [SerializeField] private Rigidbody _targetBody = null;
+        [SerializeField] private LayerMask _playerLayer;
 
         [Header("Float")]
         [SerializeField] private Vector3 _rayDir = Vector3.down;
         [SerializeField] private float _floatHeight = 0.6f;
         [SerializeField] private float _rayLength = 1f;
+        [SerializeField] private float _rayStartPointOffset = 0.5f;
         [SerializeField] private float _springStrength = 30f;
         [SerializeField] private float _springDamper = 10f;
         [SerializeField] private LayerMask _platformLayer;
@@ -30,13 +32,16 @@ namespace CollieMollie.Game
         [SerializeField] private float _maxAcceleration = 200f;
         [SerializeField] private AnimationCurve _maxAccelerationFactorFromDot = null;
 
+        [Header("Jump")]
+        [SerializeField] private float _jumpForce = 10f;
+        [SerializeField] private float _fallMultiplier = 3f;
+
         private PlayerInputActions _inputActions = null;
         private Vector3 _moveInput = Vector3.zero;
-        private float _jumpInput = 0;
+        private bool _jumpInput = false;
 
         private Vector3 _targetVel = Vector3.zero;
         private bool _grounded = true;
-
         #endregion
 
         private void Awake()
@@ -70,7 +75,7 @@ namespace CollieMollie.Game
 
         private void ReadJumpInput(InputAction.CallbackContext context)
         {
-            _jumpInput = context.ReadValue<float>();
+            _jumpInput = context.ReadValueAsButton();
         }
 
         #endregion
@@ -87,8 +92,10 @@ namespace CollieMollie.Game
         #region Private Functions
         private (bool, RaycastHit) CastRay()
         {
-            Ray ray = new Ray(_targetBody.position, Vector3.down);
-            bool isHit = Physics.Raycast(ray, out RaycastHit rayHit, _rayLength);
+            Vector3 startPoint = _targetBody.position;
+            startPoint.y += _rayStartPointOffset;
+            Ray ray = new Ray(startPoint, Vector3.down);
+            bool isHit = Physics.Raycast(ray, out RaycastHit rayHit, _rayLength + _rayStartPointOffset, ~_playerLayer);
             return (isHit, rayHit);
         }
 
@@ -100,7 +107,7 @@ namespace CollieMollie.Game
                 if ((layerMask & _platformLayer.value) != 0)
                     _targetBody.transform.SetParent(rayHit.transform);
 
-                _grounded = rayHit.distance <= _floatHeight * 1.3f;
+                _grounded = rayHit.distance <= _floatHeight + _rayStartPointOffset;
                 if (_grounded)
                 {
                     Vector3 vel = _targetBody.velocity;
@@ -109,7 +116,7 @@ namespace CollieMollie.Game
                     float rayDirVel = Vector3.Dot(_rayDir, vel);
                     float hitRayDirVel = Vector3.Dot(_rayDir, hitVel);
                     float relVel = rayDirVel - hitRayDirVel;
-                    float offset = rayHit.distance - _floatHeight;
+                    float offset = rayHit.distance - _floatHeight - _rayStartPointOffset;
                     float springForce = (offset * _springStrength) - (relVel * _springDamper);
                     _targetBody.AddForce(_rayDir * springForce);
 
@@ -155,7 +162,19 @@ namespace CollieMollie.Game
 
         private void Jump()
         {
+            if (!_grounded)
+            {
+                if (_targetBody.velocity.y < 0)
+                    _targetBody.velocity += Vector3.up * Physics.gravity.y * (_fallMultiplier - 1) * Time.fixedDeltaTime;
+                return;
+            }
 
+            if (_jumpInput)
+            {
+                Vector3 vel = new Vector3(_targetBody.velocity.x, 0, _targetBody.velocity.z);
+                _targetBody.velocity = vel;
+                _targetBody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+            }
         }
 
         #endregion

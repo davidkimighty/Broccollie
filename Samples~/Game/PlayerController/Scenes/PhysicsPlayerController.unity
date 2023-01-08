@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 528309647}
   - component: {fileID: 528309644}
   - component: {fileID: 528309643}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PhysicsPlayerController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 528309642}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 65
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -311,16 +311,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetBody: {fileID: 528309644}
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
   _rayDir: {x: 0, y: -1, z: 0}
   _floatHeight: 0.6
   _rayLength: 1
-  _springStrength: 30
-  _springDamper: 10
+  _rayStartPointOffset: 0.5
+  _springStrength: 1600
+  _springDamper: 300
   _platformLayer:
     serializedVersion: 2
-    m_Bits: 0
-  _upStraightStrength: 40
-  _upStraightDamper: 5
+    m_Bits: 1024
+  _upStraightStrength: 1600
+  _upStraightDamper: 300
   _maxSpeed: 10
   _acceleration: 400
   _accelerationFactorFromDot:
@@ -390,6 +394,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _jumpForce: 400
+  _fallMultiplier: 3
 --- !u!4 &528309646
 Transform:
   m_ObjectHideFlags: 0
@@ -671,7 +677,7 @@ GameObject:
   - component: {fileID: 848732569}
   - component: {fileID: 848732568}
   - component: {fileID: 848732567}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -775,7 +781,7 @@ GameObject:
   - component: {fileID: 1133889841}
   - component: {fileID: 1133889843}
   - component: {fileID: 1133889842}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -858,7 +864,7 @@ GameObject:
   - component: {fileID: 1336914783}
   - component: {fileID: 1336914785}
   - component: {fileID: 1336914784}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1059,7 +1065,7 @@ GameObject:
   - component: {fileID: 1659542210}
   - component: {fileID: 1659542209}
   - component: {fileID: 1659542208}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
