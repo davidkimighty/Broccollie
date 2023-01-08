@@ -9,7 +9,7 @@ namespace CollieMollie.Helper
 {
     public static partial class Helper
     {
-        #region Vector3
+        #region Transform
         public static async Task LerpPositionAsync(this Transform transform, Vector3 targetPosition, float duration, CancellationToken cancellationToken, AnimationCurve curve = null, Action done = null)
         {
             float elapsedTime = 0f;
@@ -76,9 +76,6 @@ namespace CollieMollie.Helper
             done?.Invoke();
         }
 
-        #endregion
-
-        #region Quaternion
         public static async Task LerpRotationAsync(this Transform transform, Quaternion targetRotation, float duration, CancellationToken cancellationToken, AnimationCurve curve = null, Action done = null)
         {
             float elapsedTime = 0f;
@@ -121,6 +118,21 @@ namespace CollieMollie.Helper
             }
             transform.localRotation = targetRotation;
             done?.Invoke();
+        }
+
+        #endregion
+
+        #region Quaternion
+        public static Quaternion ShortestRotation(Quaternion a, Quaternion b)
+        {
+            if (Quaternion.Dot(a, b) < 0)
+                return a * Quaternion.Inverse(Multiply(b, -1f));
+            return a * Quaternion.Inverse(b);
+        }
+
+        public static Quaternion Multiply(Quaternion q, float scalar)
+        {
+            return new Quaternion(q.x * scalar, q.y * scalar, q.z * scalar, q.w * scalar);
         }
 
         #endregion
