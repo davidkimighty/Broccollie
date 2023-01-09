@@ -323,8 +323,8 @@ MonoBehaviour:
   _platformLayer:
     serializedVersion: 2
     m_Bits: 1024
-  _upStraightStrength: 1600
-  _upStraightDamper: 300
+  _rotationStrength: 1600
+  _rotationDamper: 300
   _maxSpeed: 10
   _acceleration: 400
   _accelerationFactorFromDot:
@@ -395,7 +395,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _jumpForce: 400
-  _fallMultiplier: 3
+  _fallMultiplier: 6
 --- !u!4 &528309646
 Transform:
   m_ObjectHideFlags: 0

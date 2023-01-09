@@ -9,6 +9,7 @@ namespace CollieMollie.Game
     public class PhysicsPlayerController : MonoBehaviour
     {
         #region Variable Field
+        [Header("Body")]
         [SerializeField] private Rigidbody _targetBody = null;
         [SerializeField] private LayerMask _playerLayer;
 
@@ -21,9 +22,9 @@ namespace CollieMollie.Game
         [SerializeField] private float _springDamper = 10f;
         [SerializeField] private LayerMask _platformLayer;
 
-        [Header("Up Straight")]
-        [SerializeField] private float _upStraightStrength = 40f;
-        [SerializeField] private float _upStraightDamper = 5f;
+        [Header("Rotation")]
+        [SerializeField] private float _rotationStrength = 40f;
+        [SerializeField] private float _rotationDamper = 6f;
 
         [Header("Move")]
         [SerializeField] private float _maxSpeed = 6f;
@@ -37,11 +38,13 @@ namespace CollieMollie.Game
         [SerializeField] private float _fallMultiplier = 3f;
 
         private PlayerInputActions _inputActions = null;
-        private Vector3 _moveInput = Vector3.zero;
+        private Vector3 _moveDirection = Vector3.zero;
+        private Quaternion _lookRotation = Quaternion.identity;
         private bool _jumpInput = false;
 
         private Vector3 _targetVel = Vector3.zero;
         private bool _grounded = true;
+
         #endregion
 
         private void Awake()
@@ -70,7 +73,10 @@ namespace CollieMollie.Game
         #region Subscribers
         public void ReadMoveInput(InputAction.CallbackContext context)
         {
-            _moveInput = context.ReadValue<Vector2>();
+            Vector3 moveInput = context.ReadValue<Vector2>();
+            _moveDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * new Vector3(moveInput.x, 0, moveInput.y);
+            if (_moveDirection.magnitude > 0)
+                _lookRotation = Quaternion.LookRotation(_moveDirection);
         }
 
         private void ReadJumpInput(InputAction.CallbackContext context)
@@ -84,9 +90,9 @@ namespace CollieMollie.Game
         {
             (bool isHit, RaycastHit rayHit) = CastRay();
             Floating(isHit, rayHit);
-            UpStraight();
-            Movement();
-            Jump();
+            Rotation();
+            Movement(isHit, rayHit);
+            Jump(isHit, rayHit);
         }
 
         #region Private Functions
@@ -131,25 +137,21 @@ namespace CollieMollie.Game
             }
         }
 
-        private void UpStraight()
+        private void Rotation()
         {
             Quaternion currentRotation = transform.rotation;
-            Quaternion targetRotation = Helper.Helper.ShortestRotation(Quaternion.identity, currentRotation);
+            Quaternion targetRotation = Helper.Helper.ShortestRotation(_lookRotation, currentRotation);
 
             targetRotation.ToAngleAxis(out float angle, out Vector3 axis);
-            axis.Normalize();
-
             float rotationRadians = angle * Mathf.Deg2Rad;
-            _targetBody.AddTorque((axis * (rotationRadians * _upStraightStrength)) - (_targetBody.angularVelocity * _upStraightDamper));
+            _targetBody.AddTorque((axis.normalized * (rotationRadians * _rotationStrength)) - (_targetBody.angularVelocity * _rotationDamper));
         }
 
-        private void Movement()
+        private void Movement(bool isHit, RaycastHit rayHit)
         {
-            Vector3 moveDir = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * new Vector3(_moveInput.x, 0, _moveInput.y);
-            float velDot = Vector3.Dot(moveDir, _targetVel.normalized);
-
+            float velDot = Vector3.Dot(_moveDirection, _targetVel.normalized);
             float accel = _acceleration * _accelerationFactorFromDot.Evaluate(velDot);
-            Vector3 targetVel = moveDir * _maxSpeed;
+            Vector3 targetVel = _moveDirection * _maxSpeed;
             _targetVel = Vector3.MoveTowards(_targetVel, targetVel, accel * Time.fixedDeltaTime);
 
             Vector3 targetAccel = (_targetVel - _targetBody.velocity) / Time.fixedDeltaTime;
@@ -157,10 +159,11 @@ namespace CollieMollie.Game
             targetAccel = Vector3.ClampMagnitude(targetAccel, maxAccel);
 
             Vector3 force = Vector3.Scale(targetAccel * _targetBody.mass, new Vector3(1, 0, 1));
-            _targetBody.AddForceAtPosition(force, _targetBody.centerOfMass);
+            //_targetBody.AddForceAtPosition(force, _targetBody.position);
+            _targetBody.AddForce(force);
         }
 
-        private void Jump()
+        private void Jump(bool isHit, RaycastHit rayHit)
         {
             if (!_grounded)
             {
