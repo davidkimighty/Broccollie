@@ -38,18 +38,19 @@ namespace CollieMollie.Game
         [SerializeField] private float _fallMultiplier = 3f;
 
         private PlayerInputActions _inputActions = null;
-        private Vector3 _moveDirection = Vector3.zero;
-        private Quaternion _lookRotation = Quaternion.identity;
+        private Vector3 _moveInput = Vector3.zero;
         private bool _jumpInput = false;
 
+        private Vector3 _moveDirection = Vector3.zero;
+        private Quaternion _lookRotation = Quaternion.identity;
         private Vector3 _targetVel = Vector3.zero;
         private bool _grounded = true;
-
         #endregion
 
         private void Awake()
         {
             _inputActions = new PlayerInputActions();
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void OnEnable()
@@ -73,10 +74,8 @@ namespace CollieMollie.Game
         #region Subscribers
         public void ReadMoveInput(InputAction.CallbackContext context)
         {
-            Vector3 moveInput = context.ReadValue<Vector2>();
-            _moveDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * new Vector3(moveInput.x, 0, moveInput.y);
-            if (_moveDirection.magnitude > 0)
-                _lookRotation = Quaternion.LookRotation(_moveDirection);
+            Vector3 rawInput = context.ReadValue<Vector2>();
+            _moveInput = Vector3.right * rawInput.x + Vector3.forward * rawInput.y;
         }
 
         private void ReadJumpInput(InputAction.CallbackContext context)
@@ -109,10 +108,6 @@ namespace CollieMollie.Game
         {
             if (isHit)
             {
-                int layerMask = 1 << rayHit.transform.gameObject.layer;
-                if ((layerMask & _platformLayer.value) != 0)
-                    _targetBody.transform.SetParent(rayHit.transform);
-
                 _grounded = rayHit.distance <= _floatHeight + _rayStartPointOffset;
                 if (_grounded)
                 {
@@ -132,14 +127,18 @@ namespace CollieMollie.Game
             }
             else
             {
-                if (_targetBody.transform.parent != null)
-                    _targetBody.transform.SetParent(null);
+                if (_grounded)
+                    _grounded = false;
             }
         }
 
         private void Rotation()
         {
-            Quaternion currentRotation = transform.rotation;
+            _moveDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * _moveInput;
+            if (_moveDirection.magnitude > 0)
+                _lookRotation = Quaternion.LookRotation(_moveDirection);
+
+            Quaternion currentRotation = _targetBody.rotation;
             Quaternion targetRotation = Helper.Helper.ShortestRotation(_lookRotation, currentRotation);
 
             targetRotation.ToAngleAxis(out float angle, out Vector3 axis);
@@ -174,12 +173,51 @@ namespace CollieMollie.Game
 
             if (_jumpInput)
             {
-                Vector3 vel = new Vector3(_targetBody.velocity.x, 0, _targetBody.velocity.z);
-                _targetBody.velocity = vel;
+                _targetBody.velocity = new Vector3(_targetBody.velocity.x, 0, _targetBody.velocity.z);
                 _targetBody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
             }
         }
 
+        //private void PlatformInteraction(bool isHit, RaycastHit rayHit)
+        //{
+        //    void GetOnPlatform()
+        //    {
+        //        int layerMask = 1 << rayHit.transform.gameObject.layer;
+        //        if ((layerMask & _platformLayer.value) != 0)
+        //            _targetBody.transform.SetParent(rayHit.transform);
+        //    }
+
+        //    void GetOffPlatform()
+        //    {
+        //        if (_targetBody.transform.parent != null)
+        //            _targetBody.transform.SetParent(null);
+        //    }
+        //}
+
         #endregion
+
+#if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            DrawMoveDirectionRay();
+            DrawFloatingRay();
+
+            void DrawMoveDirectionRay()
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawRay(_targetBody.position, _moveDirection);
+            }
+
+            void DrawFloatingRay()
+            {
+                Gizmos.color = Color.white;
+                Gizmos.DrawRay(_targetBody.position, (_rayLength + _rayStartPointOffset) * _rayDir);
+
+                Gizmos.color = Color.red;
+                Gizmos.DrawRay(_targetBody.position, (_floatHeight + _rayStartPointOffset) * _rayDir);
+            }
+
+        }
+#endif
     }
 }
