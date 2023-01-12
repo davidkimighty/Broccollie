@@ -1,3 +1,19 @@
 {
-	"name": "CollieMollie.Game"
+    "name": "CollieMollie.Game",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b7cef62209d65481ab0c769cff124f47",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:a0a80c0a0651e4bc58e74f6961f73c6b",
+        "GUID:4307f53044263cf4b835bd812fc161a4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

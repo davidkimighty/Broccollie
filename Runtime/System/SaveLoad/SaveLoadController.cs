@@ -99,7 +99,7 @@ namespace CollieMollie.System
 
             if (!File.Exists(savePath) || !PlayerPrefs.HasKey(options.AesKey))
             {
-                Debug.Log("[Brocollie] Couldn't find any saved player data.");
+                Helper.Helper.Log("Couldn't find any saved data.", Helper.Helper.Broccollie, this);
                 return;
             }
 
@@ -127,7 +127,7 @@ namespace CollieMollie.System
             }
             catch (Exception e)
             {
-                Debug.LogError($"[Brocollie] {e}");
+                Helper.Helper.LogError(e.Message, Helper.Helper.Broccollie, this);
             }
         }
 
@@ -162,7 +162,7 @@ namespace CollieMollie.System
             }
             catch (Exception e)
             {
-                Debug.LogError($"[Brocollie] {e}");
+                Helper.Helper.LogError(e.Message, Helper.Helper.Broccollie, this);
             }
         }
 
@@ -171,7 +171,7 @@ namespace CollieMollie.System
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
-                Debug.Log("[Brocollie] Save folder was created successfully.");
+                Helper.Helper.Log("Save folder was created.", Helper.Helper.Broccollie, this);
             }
         }
 
@@ -182,7 +182,7 @@ namespace CollieMollie.System
                 string dataText = await streamReader.ReadToEndAsync();
                 JsonUtility.FromJsonOverwrite(dataText, data);
                 done?.Invoke();
-                Debug.Log($"[Brocollie] Data loaded.");
+                Helper.Helper.Log("Data loaded.", Helper.Helper.Broccollie, this);
             }
         }
 
@@ -193,7 +193,7 @@ namespace CollieMollie.System
                 string jsonString = JsonUtility.ToJson(data);
                 await streamWriter.WriteAsync(jsonString);
                 done?.Invoke();
-                Debug.Log($"[Brocollie] Data saved.");
+                Helper.Helper.Log("Data saved", Helper.Helper.Broccollie, this);
             }
         }
 

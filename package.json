@@ -1,12 +1,13 @@
 {
     "name": "com.colliemollie.broccollie",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "displayName": "Broccollie",
     "description": "Essential game ready features in URP",
     "unity": "2022.2",
     "dependencies": {
         "com.unity.addressables": "1.19.19",
         "com.unity.inputsystem": "1.4.4",
+        "com.unity.cinemachine": "2.9.4",
         "com.colliemollie.shadermagic": "0.1.1"
     },
     "samples": [
@@ -18,7 +19,7 @@
         {
             "displayName": "Scene Controller",
             "description": "Preset based scenes controller.",
-            "path": "Samples~/System/Scene"
+            "path": "Samples~/System/SceneLoad"
         },
         {
             "displayName": "Save Controller",
@@ -44,6 +45,11 @@
             "displayName": "Camera Effect",
             "description": "Camera effect controller.",
             "path": "Samples~/Game/CameraEffect"
+        },
+        {
+            "displayName": "Character Controller",
+            "description": "Camera effect controller.",
+            "path": "Samples~/Game/CharacterController"
         }
     ],
     "keywords": [
