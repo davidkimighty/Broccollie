@@ -22,13 +22,13 @@ namespace CollieMollie.Game
 
         [Header("First Person View")]
         [SerializeField] private CinemachineVirtualCamera _firstPersonVirtualCam = null;
-        [SerializeField] private float _firstPersonCameraSpeedX = 120f;
-        [SerializeField] private float _firstPersonCameraSpeedY = 60f;
+        [SerializeField] private float _fpcSpeedX = 120f;
+        [SerializeField] private float _fpcSpeedY = 60f;
 
         [Header("Third Person View")]
         [SerializeField] private CinemachineFreeLook _thirdPersonVirtualCam = null;
-        [SerializeField] private float _thirdPersonCameraSpeedX = 360f;
-        [SerializeField] private float _thirdPersonCameraSpeedY = 6f;
+        [SerializeField] private float _tpcSpeedX = 360f;
+        [SerializeField] private float _tpcSpeedY = 6f;
 
         [Header("Float")]
         [SerializeField] private Vector3 _rayDir = Vector3.down;
@@ -75,8 +75,8 @@ namespace CollieMollie.Game
 
             _thirdPersonVirtualCam.Follow = _cameraLookTarget;
             _thirdPersonVirtualCam.LookAt = _cameraLookTarget;
-            _thirdPersonVirtualCam.m_XAxis.m_MaxSpeed = _thirdPersonCameraSpeedX;
-            _thirdPersonVirtualCam.m_YAxis.m_MaxSpeed = _thirdPersonCameraSpeedY;
+            _thirdPersonVirtualCam.m_XAxis.m_MaxSpeed = _tpcSpeedX;
+            _thirdPersonVirtualCam.m_YAxis.m_MaxSpeed = _tpcSpeedY;
 
             _firstPersonVirtualCam.Follow = _cameraLookTarget;
         }
@@ -164,8 +164,8 @@ namespace CollieMollie.Game
                     }
                     else
                     {
-                        _thirdPersonVirtualCam.m_XAxis.m_MaxSpeed = _thirdPersonCameraSpeedX;
-                        _thirdPersonVirtualCam.m_YAxis.m_MaxSpeed = _thirdPersonCameraSpeedY;
+                        _thirdPersonVirtualCam.m_XAxis.m_MaxSpeed = _tpcSpeedX;
+                        _thirdPersonVirtualCam.m_YAxis.m_MaxSpeed = _tpcSpeedY;
                     }
                     break;
             }
@@ -291,8 +291,8 @@ namespace CollieMollie.Game
         {
             if (_cameraViewType != CameraViewType.FirstPersonView) return;
 
-            float yawVelocity = _lookInput.x * _firstPersonCameraSpeedX * Time.deltaTime;
-            float pitchVelocity = _lookInput.y * _firstPersonCameraSpeedY * Time.deltaTime;
+            float yawVelocity = _lookInput.x * _fpcSpeedX * Time.deltaTime;
+            float pitchVelocity = _lookInput.y * _fpcSpeedY * Time.deltaTime;
 
             _pitchAngle -= pitchVelocity;
             _pitchAngle = Mathf.Clamp(_pitchAngle, -90f, 90f);
