@@ -33,55 +33,40 @@
 
 ## Available Features
 <table>
-<tr>
-<th>Features</th>
+<tr><th>Features</th>
 <th>Status</th>
 <th>GitHub Project Board</th>
-<th>Latest GitHub Milestone</th>
-</tr>
+<th>Latest GitHub Milestone</th></tr>
 
-<tr>
-<td><a href="https://github.com/hyunwookimbob/Broccollie/wiki/Baseline-UI">Baseline UI</a></td>
+<tr><td><a href="https://github.com/hyunwookimbob/Broccollie/wiki/Baseline-UI">Baseline UI</a></td>
 <td><kbd>Released</kbd></td>
 <td><a href="https://github.com/users/hyunwookimbob/projects/2/views/1?filterQuery=repo%3A%22hyunwookimbob%2FBroccollie%22+-repo%3A%22hyunwookimbob%2FBroccollie-XR%22+label%3A%22Baseline+UI%22">Baseline UI Board</a></td>
-<td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av1.0+is%3Aclosed+label%3A%22Baseline+UI%22+">Baseline UI v1.0 Milestone</a></td>
-</tr>
+<td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av1.0+is%3Aclosed+label%3A%22Baseline+UI%22+">Baseline UI v1.0 Milestone</a></td></tr>
 
-<tr>
-<td><a href="wiki/">Scene Loader</a></td>
+<tr><td><a href="wiki/">Scene Loader</a></td>
 <td><kbd>Released</kbd></td>
 <td><a href="https://github.com/users/hyunwookimbob/projects/2/views/1?filterQuery=repo%3A%22hyunwookimbob%2FBroccollie%22+-repo%3A%22hyunwookimbob%2FBroccollie-XR%22+label%3A%22Scene+Loader%22">Scene Loader Board</a></td>
-<td>-</td>
-</tr>
+<td>-</td></tr>
 
-<tr>
-<td><a href="wiki/">Audio Controller</a></td>
+<tr><td><a href="wiki/">Audio Controller</a></td>
 <td><kbd>Released</kbd></td>
 <td><a href="https://github.com/users/hyunwookimbob/projects/2/views/1?filterQuery=repo%3A%22hyunwookimbob%2FBroccollie%22+-repo%3A%22hyunwookimbob%2FBroccollie-XR%22+label%3A%22Audio+Controller%22">Audio Controller Board</a></td>
-<td>-</td>
-</tr>
+<td>-</td></tr>
 
-<tr>
-<td><a href="wiki/">Save Controller</a></td>
+<tr><td><a href="wiki/">Save Controller</a></td>
 <td><kbd>Released</kbd></td>
 <td><a href="https://github.com/users/hyunwookimbob/projects/2/views/1?filterQuery=repo%3A%22hyunwookimbob%2FBroccollie%22+-repo%3A%22hyunwookimbob%2FBroccollie-XR%22+label%3A%22Save+Controller%22">Save Controller Board</a></td>
-<td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av1.0+is%3Aclosed+label%3A%22Save+Controller%22+">Save Controller v1.0 Milestone</a></td>
-</tr>
+<td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av1.0+is%3Aclosed+label%3A%22Save+Controller%22+">Save Controller v1.0 Milestone</a></td></tr>
 
-<tr>
-<td><a href="wiki/">Input Controller</a></td>
+<tr><td><a href="wiki/">Input Controller</a></td>
 <td><kbd>In Progress</kbd></td>
 <td><a href="https://github.com/users/hyunwookimbob/projects/2/views/1?filterQuery=repo%3A%22hyunwookimbob%2FBroccollie%22+-repo%3A%22hyunwookimbob%2FBroccollie-XR%22+label%3A%22Input+Controller%22+">Input Controller Board</a></td>
-<td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av1.0+is%3Aclosed+label%3A%22Input+Controller%22+">Input Controller v1.0 Milestone</a></td>
-</tr>
+<td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av1.0+is%3Aclosed+label%3A%22Input+Controller%22+">Input Controller v1.0 Milestone</a></td></tr>
 
-<tr>
-<td><a href="wiki/">Player Controller</a></td>
+<tr><td><a href="wiki/">Player Controller</a></td>
 <td><kbd>Released</kbd></td>
 <td><a href="https://github.com/users/hyunwookimbob/projects/2/views/1?filterQuery=repo%3A%22hyunwookimbob%2FBroccollie%22+-repo%3A%22hyunwookimbob%2FBroccollie-XR%22+label%3A%22Player+Controller%22">Player Controller Board</a></td>
-<td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av1.0+is%3Aclosed+label%3A%22Player+Controller%22+">Player Controller v1.0 Milestone</a></td>
-</tr>
-
+<td><a href="https://github.com/hyunwookimbob/Broccollie/issues?q=milestone%3Av1.0+is%3Aclosed+label%3A%22Player+Controller%22+">Player Controller v1.0 Milestone</a></td></tr>
 </table>
 
 ## Changelog
@@ -96,49 +81,54 @@ Baseline UI is a preset-based and event-driven UI component. Using presets will 
 
 <!-- Button Features -->
 <table>
-<tr>
-<th>Color Feature</th>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123371-c25fe62d-87f4-496c-acd5-534c0857039e.gif" alt="button_color"></td>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123370-71b1cb3f-837c-48b4-b69f-bc2050cb2747.gif" alt="radiobutton_color"></td>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123369-198dcf98-ed13-4434-a72d-0a9e93aa9a35.gif" alt="checkbox_color"></td>
-</tr>
+<tr><th>Color Feature</th>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123371-c25fe62d-87f4-496c-acd5-534c0857039e.gif" alt="button_color"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123370-71b1cb3f-837c-48b4-b69f-bc2050cb2747.gif" alt="radiobutton_color"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123369-198dcf98-ed13-4434-a72d-0a9e93aa9a35.gif" alt="checkbox_color"></td></tr>
 
-<tr>
-<th>Sprite Swap Feature</th>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123367-0bdc51a7-885e-4265-a917-8e38f94f3ca0.gif" alt="button_spriteswap"></td>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123366-bf5a3656-fb80-4ce9-b7b7-073770451527.gif" alt="radiobutton_spriteswap"></td>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123365-5b199770-d2e1-4e7f-8735-79b8f372c29f.gif" alt="checkbox_spriteswap"></td>
-</tr>
+<tr><th>Sprite Swap Feature</th>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123367-0bdc51a7-885e-4265-a917-8e38f94f3ca0.gif" alt="button_spriteswap"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123366-bf5a3656-fb80-4ce9-b7b7-073770451527.gif" alt="radiobutton_spriteswap"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123365-5b199770-d2e1-4e7f-8735-79b8f372c29f.gif" alt="checkbox_spriteswap"></td></tr>
 
-<tr>
-<th>Animation Feature</th>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123364-05c58ac1-957d-4b67-bea9-ef843d4f26d0.gif" alt="button_animation"></td>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123363-19117d4c-5507-47bd-8660-3e798ef76f93.gif" alt="radiobutton_animation"></td>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123362-82f5e427-cca5-420e-bcb3-6223d9120c0e.gif" alt="checkbox_animation"></td>
-</tr>
+<tr><th>Animation Feature</th>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123364-05c58ac1-957d-4b67-bea9-ef843d4f26d0.gif" alt="button_animation"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123363-19117d4c-5507-47bd-8660-3e798ef76f93.gif" alt="radiobutton_animation"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123362-82f5e427-cca5-420e-bcb3-6223d9120c0e.gif" alt="checkbox_animation"></td></tr>
 </table>
 
 <!-- Other Features -->
 <table>
-<tr>
-<th>Popup</th>
+<tr><th>Popup</th>
 <th>Drag</th>
 <th>Scroll</th>
-<th>Group</th>
-</tr>
+<th>Group</th></tr>
 
-<tr>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123361-b0f47453-594a-4b95-a8a5-9a673c7bf106.gif" alt="popup"></td>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123359-869ad7fa-a6fe-4772-9845-0ce9831923f2.gif" alt="drag"></td>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123360-3a12ab02-3604-4a14-9960-35f65b305f5f.gif" alt="scroll"></td>
-<td><img src="https://user-images.githubusercontent.com/32338791/210123358-a12ef187-6226-4699-94ad-0b76b5678a16.gif" alt="group"></td>
-</tr>
+<tr><td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123361-b0f47453-594a-4b95-a8a5-9a673c7bf106.gif" alt="popup"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123359-869ad7fa-a6fe-4772-9845-0ce9831923f2.gif" alt="drag"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123360-3a12ab02-3604-4a14-9960-35f65b305f5f.gif" alt="scroll"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/210123358-a12ef187-6226-4699-94ad-0b76b5678a16.gif" alt="group"></td></tr>
 </table>
 
-# Physics based Player Controller
-Based on player controller from [ToyfulGames](https://www.youtube.com/watch?v=qdskE8PJy6Q&t=249s)
+# Player Controller
 
-![PhysicsCharacter](https://user-images.githubusercontent.com/32338791/211956176-a5a396af-62c4-42ce-8543-1a322d0c1df9.gif)
+## Physics Based
+<table>
+<tr><th>Third-Person Player Controller</th>
+<th>First-Person Player Controller</th>
+
+<tr><td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/212265122-d9c1df6d-fc26-4472-a8f4-cc4441c42e96.gif" alt="popup"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/212261902-681a2956-90dd-4c30-8c94-8c029e6e758f.gif" alt="drag"></td>
+</table>
+
+## Character Controller Based
+<table>
+<tr><th>Third-Person Player Controller</th>
+<th>First-Person Player Controller</th>
+
+<tr><td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/212261819-0aca9bc0-36b8-46a1-bae1-0e559f70d938.gif" alt="popup"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/212261915-030f98ba-fdf3-4aac-a282-20c9be54f888.gif" alt="drag"></td>
+</table>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <br />
