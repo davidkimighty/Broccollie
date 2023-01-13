@@ -28,8 +28,8 @@
 #### [ Dependencies ]
 - com.unity.addressables: 1.19.19
 - com.unity.inputsystem: 1.4.4
+- com.unity.cinemachine: 2.9.4
 - com.colliemollie.shadermagic: 0.1.0 (https://github.com/hyunwookimbob/ShaderMagic.git)
-
 
 ## Available Features
 <table>
