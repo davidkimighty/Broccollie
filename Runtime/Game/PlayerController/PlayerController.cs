@@ -53,6 +53,8 @@ namespace CollieMollie.Game
 
             _thirdPersonVirtualCam.m_XAxis.m_MaxSpeed = _tpcRotateSpeedX;
             _thirdPersonVirtualCam.m_YAxis.m_MaxSpeed = _tpcRotateSpeedY;
+
+            ChangeCameraView(_cameraViewType);
         }
 
         private void OnEnable()

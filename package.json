@@ -1,6 +1,6 @@
 {
     "name": "com.colliemollie.broccollie",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "displayName": "Broccollie",
     "description": "Essential game ready features in URP",
     "unity": "2022.2",
@@ -49,7 +49,7 @@
         {
             "displayName": "Character Controller",
             "description": "Camera effect controller.",
-            "path": "Samples~/Game/CharacterController"
+            "path": "Samples~/Game/PlayerController"
         }
     ],
     "keywords": [
@@ -59,7 +59,8 @@
         "Network Controller",
         "Audio Controller",
         "Parallax Effect Controller",
-        "Camera Effect Controller"
+        "Camera Effect Controller",
+        "Player Controller"
     ],
     "author": {
         "name": "Hyunwoo Kim",
