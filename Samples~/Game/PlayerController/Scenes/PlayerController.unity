@@ -1602,6 +1602,16 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 5.5352395e-10
       objectReference: {fileID: 0}
+    - target: {fileID: 4004813070992804065, guid: 8f86ea547caf44d00a2143c110fe9dc9,
+        type: 3}
+      propertyPath: _cameraViewType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4004813070992804065, guid: 8f86ea547caf44d00a2143c110fe9dc9,
+        type: 3}
+      propertyPath: _fpcRotateSpeedX
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 4004813070992804078, guid: 8f86ea547caf44d00a2143c110fe9dc9,
         type: 3}
       propertyPath: m_Name
