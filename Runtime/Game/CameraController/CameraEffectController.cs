@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace CollieMollie.Game
 {
@@ -9,8 +11,16 @@ namespace CollieMollie.Game
         #region Variable Field
         [SerializeField] private CameraEffectEventChannel _eventChannel = null;
         [SerializeField] private Camera _mainCam = null;
+        [SerializeField] private Volume _volume = null;
+
+        private DepthOfField _dof = null;
 
         #endregion
+
+        private void Awake()
+        {
+            _ = _volume.profile.TryGet(out _dof);
+        }
 
         private void OnEnable()
         {

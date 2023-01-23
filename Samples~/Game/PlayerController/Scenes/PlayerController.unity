@@ -1595,17 +1595,17 @@ PrefabInstance:
     - target: {fileID: 4004813070941202099, guid: 8f86ea547caf44d00a2143c110fe9dc9,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000008585366
+      value: 0.000000008585366
       objectReference: {fileID: 0}
     - target: {fileID: 4004813070941202099, guid: 8f86ea547caf44d00a2143c110fe9dc9,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 5.5352395e-10
+      value: -5.5352395e-10
       objectReference: {fileID: 0}
     - target: {fileID: 4004813070992804065, guid: 8f86ea547caf44d00a2143c110fe9dc9,
         type: 3}
       propertyPath: _cameraViewType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4004813070992804065, guid: 8f86ea547caf44d00a2143c110fe9dc9,
         type: 3}
@@ -1675,12 +1675,17 @@ PrefabInstance:
     - target: {fileID: 4004813071955474777, guid: 8f86ea547caf44d00a2143c110fe9dc9,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000004292683
+      value: 0.0000000042926827
       objectReference: {fileID: 0}
     - target: {fileID: 4004813071955474777, guid: 8f86ea547caf44d00a2143c110fe9dc9,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 2.76762e-10
+      value: -2.7676197e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7028635930132890204, guid: 8f86ea547caf44d00a2143c110fe9dc9,
+        type: 3}
+      propertyPath: _cameraViewType
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
