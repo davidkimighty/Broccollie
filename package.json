@@ -1,6 +1,6 @@
 {
     "name": "com.colliemollie.broccollie",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "displayName": "Broccollie",
     "description": "Essential game ready features in URP",
     "unity": "2022.2",
@@ -42,13 +42,13 @@
             "path": "Samples~/Game/ParallaxEffect"
         },
         {
-            "displayName": "Camera Effect",
-            "description": "Camera effect controller.",
-            "path": "Samples~/Game/CameraEffect"
+            "displayName": "Camera Controller",
+            "description": "Camera controller providing both third-person view and first-person view.",
+            "path": "Samples~/Game/CameraController"
         },
         {
-            "displayName": "Character Controller",
-            "description": "Camera effect controller.",
+            "displayName": "Player Controller",
+            "description": "Physics and non-physics based player controller.",
             "path": "Samples~/Game/PlayerController"
         }
     ],

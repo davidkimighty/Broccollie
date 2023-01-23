@@ -7,28 +7,15 @@ using UnityEngine.InputSystem;
 
 namespace CollieMollie.Game
 {
+    [DefaultExecutionOrder(-100)]
     [DisallowMultipleComponent]
     public class PhysicsPlayerController : MonoBehaviour
     {
         #region Variable Field
-        [Header("Physics")]
+        [Header("Player")]
         [SerializeField] private Rigidbody _targetBody = null;
         [SerializeField] private LayerMask _playerLayer;
-
-        [Header("Camera")]
-        [SerializeField] private CameraViewType _cameraViewType = CameraViewType.ThirdPersonView;
-        [SerializeField] private Transform _cameraLookTarget = null;
-        [SerializeField] private bool _lockCameraMovement = false;
-
-        [Header("First Person View")]
-        [SerializeField] private CinemachineVirtualCamera _firstPersonVirtualCam = null;
-        [SerializeField] private float _fpcSpeedX = 120f;
-        [SerializeField] private float _fpcSpeedY = 60f;
-
-        [Header("Third Person View")]
-        [SerializeField] private CinemachineFreeLook _thirdPersonVirtualCam = null;
-        [SerializeField] private float _tpcSpeedX = 360f;
-        [SerializeField] private float _tpcSpeedY = 6f;
+        [SerializeField] private CameraController _cameraController = null;
 
         [Header("Float")]
         [SerializeField] private Vector3 _rayDir = Vector3.down;
@@ -39,16 +26,16 @@ namespace CollieMollie.Game
         [SerializeField] private float _springDamper = 10f;
         [SerializeField] private LayerMask _platformLayer;
 
-        [Header("Rotation")]
-        [SerializeField] private float _rotationStrength = 40f;
-        [SerializeField] private float _rotationDamper = 6f;
-
         [Header("Move")]
         [SerializeField] private float _maxSpeed = 6f;
         [SerializeField] private float _acceleration = 150f;
         [SerializeField] private AnimationCurve _accelerationFactorFromDot = null;
         [SerializeField] private float _maxAcceleration = 200f;
         [SerializeField] private AnimationCurve _maxAccelerationFactorFromDot = null;
+
+        [Header("Rotate")]
+        [SerializeField] private float _rotationStrength = 40f;
+        [SerializeField] private float _rotationDamper = 6f;
 
         [Header("Jump")]
         [SerializeField] private float _jumpForce = 10f;
@@ -57,8 +44,7 @@ namespace CollieMollie.Game
         private PlayerInputActions _inputActions = null;
         private Vector3 _moveInput = Vector3.zero;
         private bool _jumpInput = false;
-        private Vector2 _lookInput = Vector2.zero;
-
+        
         private Vector3 _moveDirection = Vector3.zero;
         private Quaternion _lookRotation = Quaternion.identity;
         private Vector3 _targetVel = Vector3.zero;
@@ -71,30 +57,15 @@ namespace CollieMollie.Game
         private void Awake()
         {
             _inputActions = new PlayerInputActions();
-            Cursor.lockState = CursorLockMode.Locked;
-
-            _thirdPersonVirtualCam.Follow = _cameraLookTarget;
-            _thirdPersonVirtualCam.LookAt = _cameraLookTarget;
-            _thirdPersonVirtualCam.m_XAxis.m_MaxSpeed = _tpcSpeedX;
-            _thirdPersonVirtualCam.m_YAxis.m_MaxSpeed = _tpcSpeedY;
-
-            _firstPersonVirtualCam.Follow = _cameraLookTarget;
+            
         }
-
-        private void Start()
-        {
-            LockCameraMovement(_lockCameraMovement);
-            ChangeCameraView(_cameraViewType);
-        }
-
+        
         private void OnEnable()
         {
             _inputActions.Player.Move.performed += ReadMoveInput;
             _inputActions.Player.Move.canceled += ReadMoveInput;
             _inputActions.Player.Jump.performed += ReadJumpInput;
             _inputActions.Player.Jump.canceled += ReadJumpInput;
-            _inputActions.Player.Look.performed += ReadLookInput;
-            _inputActions.Player.Look.canceled += ReadLookInput;
             _inputActions.Enable();
         }
 
@@ -104,8 +75,6 @@ namespace CollieMollie.Game
             _inputActions.Player.Move.canceled -= ReadMoveInput;
             _inputActions.Player.Jump.performed -= ReadJumpInput;
             _inputActions.Player.Jump.canceled -= ReadJumpInput;
-            _inputActions.Player.Look.performed -= ReadLookInput;
-            _inputActions.Player.Look.canceled -= ReadLookInput;
             _inputActions.Disable();
         }
 
@@ -121,56 +90,6 @@ namespace CollieMollie.Game
             _jumpInput = context.ReadValueAsButton();
         }
 
-        private void ReadLookInput(InputAction.CallbackContext context)
-        {
-            _lookInput = context.ReadValue<Vector2>();
-        }
-
-        #endregion
-
-        #region Public Functions
-        public void ChangeCameraView(CameraViewType type)
-        {
-            _cameraViewType = type;
-            switch (type)
-            {
-                case CameraViewType.FirstPersonView:
-                    _firstPersonVirtualCam.gameObject.SetActive(true);
-                    _thirdPersonVirtualCam.gameObject.SetActive(false);
-                    break;
-
-                case CameraViewType.ThirdPersonView:
-                    _thirdPersonVirtualCam.gameObject.SetActive(true);
-                    _firstPersonVirtualCam.gameObject.SetActive(false);
-                    break;
-            }
-        }
-
-        public void LockCameraMovement(bool state)
-        {
-            _lockCameraMovement = state;
-            switch (_cameraViewType)
-            {
-                case CameraViewType.FirstPersonView:
-                    _firstPersonVirtualCam.gameObject.SetActive(true);
-                    _thirdPersonVirtualCam.gameObject.SetActive(false);
-                    break;
-
-                case CameraViewType.ThirdPersonView:
-                    if (state)
-                    {
-                        _thirdPersonVirtualCam.m_XAxis.m_MaxSpeed = 0;
-                        _thirdPersonVirtualCam.m_YAxis.m_MaxSpeed = 0;
-                    }
-                    else
-                    {
-                        _thirdPersonVirtualCam.m_XAxis.m_MaxSpeed = _tpcSpeedX;
-                        _thirdPersonVirtualCam.m_YAxis.m_MaxSpeed = _tpcSpeedY;
-                    }
-                    break;
-            }
-        }
-
         #endregion
 
         private void FixedUpdate()
@@ -180,11 +99,6 @@ namespace CollieMollie.Game
             Rotation();
             Movement(isHit, rayHit);
             Jump(isHit, rayHit);
-        }
-
-        private void LateUpdate()
-        {
-            FirstPersonCameraMovement();
         }
 
         #region Private Functions
@@ -228,8 +142,16 @@ namespace CollieMollie.Game
         private void Rotation()
         {
             _moveDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * _moveInput;
-            if (_moveDirection.magnitude > 0 && _cameraViewType == CameraViewType.ThirdPersonView)
+            if (_moveDirection.magnitude > 0 && _cameraController.ViewType == CameraViewType.ThirdPersonView)
+            {
                 _lookRotation = Quaternion.LookRotation(_moveDirection);
+            }
+            else if (_cameraController.ViewType == CameraViewType.FirstPersonView)
+            {
+                _yawAngle += _cameraController.LookVelocity.x;
+                _lookRotation = Quaternion.Euler(_yawAngle * Vector3.up);
+                _targetBody.transform.Rotate(_cameraController.LookVelocity.x * Vector3.up);
+            }
 
             Quaternion currentRotation = _targetBody.rotation;
             Quaternion targetRotation = Helper.Helper.ShortestRotation(_lookRotation, currentRotation);
@@ -271,38 +193,6 @@ namespace CollieMollie.Game
             }
         }
 
-        //private void PlatformInteraction(bool isHit, RaycastHit rayHit)
-        //{
-        //    void GetOnPlatform()
-        //    {
-        //        int layerMask = 1 << rayHit.transform.gameObject.layer;
-        //        if ((layerMask & _platformLayer.value) != 0)
-        //            _targetBody.transform.SetParent(rayHit.transform);
-        //    }
-
-        //    void GetOffPlatform()
-        //    {
-        //        if (_targetBody.transform.parent != null)
-        //            _targetBody.transform.SetParent(null);
-        //    }
-        //}
-
-        private void FirstPersonCameraMovement()
-        {
-            if (_cameraViewType != CameraViewType.FirstPersonView) return;
-
-            float yawVelocity = _lookInput.x * _fpcSpeedX * Time.deltaTime;
-            float pitchVelocity = _lookInput.y * _fpcSpeedY * Time.deltaTime;
-
-            _pitchAngle -= pitchVelocity;
-            _pitchAngle = Mathf.Clamp(_pitchAngle, -90f, 90f);
-            _cameraLookTarget.localRotation = Quaternion.Euler(_pitchAngle, 0f, 0f);
-
-            _yawAngle += yawVelocity;
-            _lookRotation = Quaternion.Euler(_yawAngle * Vector3.up);
-            _targetBody.transform.Rotate(yawVelocity * Vector3.up);
-        }
-
         #endregion
 
 #if UNITY_EDITOR
@@ -330,5 +220,5 @@ namespace CollieMollie.Game
 #endif
     }
 
-    public enum CameraViewType { ThirdPersonView, FirstPersonView }
+    
 }
