@@ -9,16 +9,29 @@ namespace CollieMollie.System
     public class SceneAddressableEventChannel : ScriptableObject
     {
         #region Events
-        public event Action<SceneAddressablePreset, bool> OnSceneLoadRequest = null;
+        public event Action OnBeforeSceneUnload = null;
+        public event Action OnAfterSceneLoad = null;
+
+        public event Action<SceneAddressablePreset, bool, float> OnSceneLoadRequest = null;
 
         #endregion
 
         #region Publishers
-        public void RaiseSceneLoadEvent(SceneAddressablePreset targetScene, bool showLoadingScreen)
+        public void InvokeBeforeSceneUnload()
+        {
+            OnBeforeSceneUnload?.Invoke();
+        }
+
+        public void InvokeAfterSceneLoad()
+        {
+            OnAfterSceneLoad?.Invoke();
+        }
+
+        public void RaiseSceneLoadEvent(SceneAddressablePreset targetScene, bool showLoadingScreen, float loadingScreenDuration = 1f)
         {
             if (targetScene == null) return;
 
-            OnSceneLoadRequest?.Invoke(targetScene, showLoadingScreen);
+            OnSceneLoadRequest?.Invoke(targetScene, showLoadingScreen, loadingScreenDuration);
         }
 
         #endregion
