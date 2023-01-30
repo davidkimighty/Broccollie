@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using Cinemachine;
-using Codice.CM.Common;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.FilePathAttribute;
 
 namespace CollieMollie.Game
 {

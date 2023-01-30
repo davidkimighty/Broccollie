@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -23,8 +22,6 @@ namespace CollieMollie.Game
         #region Public Functions
         public async Task Focus(Transform cam, DepthOfField dof)
         {
-            
-
             Ray ray = new Ray(cam.position, cam.forward);
             if (Physics.SphereCast(ray, _focusRayRadius, out RaycastHit rayHit, _focusRayLength))
             {
