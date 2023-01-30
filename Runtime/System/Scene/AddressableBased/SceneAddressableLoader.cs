@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using CollieMollie.Shaders;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
@@ -18,12 +17,7 @@ namespace CollieMollie.System
         [Header("Scene Loader")]
         [SerializeField] private SceneAddressableEventChannel _sceneEventChannel = null;
         [SerializeField] private SceneAddressablePreset _loadingScene = null;
-        [SerializeField] private float _loadingSceneDuration = 1f;
 
-        [SerializeField] private FadeController _fadeController = null;
-        [SerializeField] private float _fadeDuration = 1f;
-
-        private bool _loading = false;
         private SceneAddressablePreset _currentlyLoadedScene = null;
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
@@ -40,24 +34,20 @@ namespace CollieMollie.System
         }
 
         #region Subscribers
-        private void LoadNewScene(SceneAddressablePreset scene, bool showLoadingScreen)
+        private void LoadNewScene(SceneAddressablePreset scene, bool showLoadingScreen, float loadingScreenDuration)
         {
-            if (_loading) return;
-            _loading = true;
-
             _cts.Cancel();
             _cts = new CancellationTokenSource();
 
-            Task sceneLoadTask = LoadSceneAsync(scene, showLoadingScreen, _cts.Token);
+            Task sceneLoadTask = LoadSceneAsync(scene, showLoadingScreen, loadingScreenDuration, _cts.Token);
         }
 
         #endregion
 
         #region Scene Load Features
-        private async Task LoadSceneAsync(SceneAddressablePreset targetScene, bool showLoading, CancellationToken token)
+        private async Task LoadSceneAsync(SceneAddressablePreset targetScene, bool showLoading, float loadingScreenDuration, CancellationToken token)
         {
-            if (_fadeController != null)
-                await _fadeController.ChangeFadeAmountAsync(1, _fadeDuration);
+            _sceneEventChannel.InvokeBeforeSceneUnload();
 
             if (_currentlyLoadedScene != null)
                 SceneUnload(_currentlyLoadedScene);
@@ -65,25 +55,21 @@ namespace CollieMollie.System
             if (showLoading)
             {
                 await SceneLoadAsync(_loadingScene, true, token);
-                if (_fadeController != null)
-                    await _fadeController.ChangeFadeAmountAsync(0, _fadeDuration);
+                _sceneEventChannel.InvokeAfterSceneLoad();
 
-                await Task.Delay((int)_loadingSceneDuration * 1000, token);
+                await Task.Delay((int)loadingScreenDuration * 1000, token);
             }
 
             if (showLoading)
             {
-                if (_fadeController != null)
-                    await _fadeController.ChangeFadeAmountAsync(1, _fadeDuration);
+                _sceneEventChannel.InvokeBeforeSceneUnload();
                 SceneUnload(_loadingScene);
             }
 
             await SceneLoadAsync(targetScene, true, token);
             _currentlyLoadedScene = targetScene;
 
-            if (_fadeController != null)
-                await _fadeController.ChangeFadeAmountAsync(0, _fadeDuration);
-            _loading = false;
+            _sceneEventChannel.InvokeAfterSceneLoad();
         }
 
         private void SceneUnload(SceneAddressablePreset scene)
