@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -6,82 +7,75 @@ using UnityEngine.SceneManagement;
 
 namespace CollieMollie.System
 {
-    [DefaultExecutionOrder(-100)]
     public class SceneAddressableLoader : MonoBehaviour
     {
         #region Variable Field
-        [Header("Scene Loader")]
-        [SerializeField] private SceneAddressableEventChannel _sceneEventChannel = null;
+        public event Action OnBeforeSceneUnload = null;
+        public event Action OnAfterSceneLoad = null;
+
         [SerializeField] private SceneAddressablePreset _loadingScene = null;
 
         private SceneAddressablePreset _currentlyLoadedScene = null;
-        private CancellationTokenSource _cts = new CancellationTokenSource();
+        private bool _sceneUnloading = false;
+        private bool _sceneLoading = false;
+        private bool _loadingSceneLoaded = false;
 
         #endregion
 
-        private void OnEnable()
+        #region Public Functions
+        public async Task UnloadActiveScene(bool showLoading)
         {
-            _sceneEventChannel.OnSceneLoadRequest += LoadNewScene;
-        }
+            if (_sceneUnloading) return;
+            _sceneUnloading = true;
 
-        private void OnDisable()
-        {
-            _sceneEventChannel.OnSceneLoadRequest -= LoadNewScene;
-        }
-
-        #region Subscribers
-        private void LoadNewScene(SceneAddressablePreset scene, bool showLoadingScreen, float loadingScreenDuration)
-        {
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
-
-            Task sceneLoadTask = LoadSceneAsync(scene, showLoadingScreen, loadingScreenDuration, _cts.Token);
-        }
-
-        #endregion
-
-        #region Scene Load Features
-        private async Task LoadSceneAsync(SceneAddressablePreset targetScene, bool showLoading, float loadingScreenDuration, CancellationToken token)
-        {
-            _sceneEventChannel.InvokeBeforeSceneUnload();
+            OnBeforeSceneUnload?.Invoke();
 
             if (_currentlyLoadedScene != null)
                 SceneUnload(_currentlyLoadedScene);
 
             if (showLoading)
             {
-                await SceneLoadAsync(_loadingScene, true, token);
-                _sceneEventChannel.InvokeAfterSceneLoad();
-
-                await Task.Delay((int)loadingScreenDuration * 1000, token);
+                await SceneLoadAsync(_loadingScene, true);
+                _loadingSceneLoaded = true;
+                OnAfterSceneLoad?.Invoke();
             }
-
-            if (showLoading)
-            {
-                _sceneEventChannel.InvokeBeforeSceneUnload();
-                SceneUnload(_loadingScene);
-            }
-
-            await SceneLoadAsync(targetScene, true, token);
-            _currentlyLoadedScene = targetScene;
-
-            _sceneEventChannel.InvokeAfterSceneLoad();
+            _sceneUnloading = false;
         }
 
+        public async Task LoadNewScene(SceneAddressablePreset newScene)
+        {
+            if (_sceneLoading) return;
+            _sceneLoading = true;
+
+            if (_loadingSceneLoaded)
+            {
+                OnBeforeSceneUnload?.Invoke();
+                SceneUnload(_loadingScene);
+                _loadingSceneLoaded = false;
+            }
+
+            await SceneLoadAsync(newScene, true);
+            _currentlyLoadedScene = newScene;
+
+            OnAfterSceneLoad?.Invoke();
+            _sceneLoading = false;
+        }
+
+        #endregion
+
+        #region Private Functions
         private void SceneUnload(SceneAddressablePreset scene)
         {
             scene.SceneReference.UnLoadScene();
         }
 
-        private async Task SceneLoadAsync(SceneAddressablePreset scene, bool activate, CancellationToken token)
+        private async Task SceneLoadAsync(SceneAddressablePreset scene, bool activate)
         {
             AsyncOperationHandle loadOperation = scene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, activate);
             if (!loadOperation.IsValid()) return;
             
             while (!loadOperation.IsDone)
             {
-                token.ThrowIfCancellationRequested();
-
                 float progress = loadOperation.PercentComplete;
                 //Debug.Log($"[SceneLoader] Load {progress}");
                 await Task.Yield();

@@ -1,75 +1,66 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace CollieMollie.System
 {
-    [DefaultExecutionOrder(-100)]
     public class SceneAssetLoader : MonoBehaviour
     {
         #region Variable Field
-        [Header("Scene Loader")]
-        [SerializeField] private SceneAssetEventChannel _sceneEventChannel = null;
+        public event Action OnBeforeSceneUnload = null;
+        public event Action OnAfterSceneLoad = null;
+
         [SerializeField] private SceneAssetPreset _loadingScene = null;
 
         private SceneAssetPreset _currentActiveScene = null;
-        private CancellationTokenSource _cts = new CancellationTokenSource();
+        private bool _sceneUnloading = false;
+        private bool _sceneLoading = false;
 
         #endregion
 
-        private void OnEnable()
+        #region Public Functions
+        public async Task UnloadActiveScene(bool showLoading)
         {
-            _sceneEventChannel.OnSceneLoadRequest += LoadNewScene;
+            if (_sceneUnloading) return;
+            _sceneUnloading = true;
+
+            OnBeforeSceneUnload?.Invoke();
+
+            if (_currentActiveScene != null)
+                await UnloadSceneAsync(_currentActiveScene);
+
+            if (showLoading)
+            {
+                await LoadSceneAsync(_loadingScene);
+                OnAfterSceneLoad?.Invoke();
+            }
+            _sceneUnloading = false;
         }
 
-        private void OnDisable()
+        public async Task LoadNewScene(SceneAssetPreset newScene)
         {
-            _sceneEventChannel.OnSceneLoadRequest -= LoadNewScene;
-        }
+            if (_sceneLoading) return;
+            _sceneLoading = true;
 
-        #region Subscribers
-        private void LoadNewScene(SceneAssetPreset scene, bool showLoadingScreen, float loadingScreenDuration)
-        {
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
+            Scene activeScene = SceneManager.GetActiveScene();
+            if (activeScene.name == _loadingScene.SceneName)
+            {
+                OnBeforeSceneUnload?.Invoke();
+                await UnloadSceneAsync(_loadingScene);
+            }
 
-            Task sceneLoadTask = LoadSceneProcessAsync(scene, showLoadingScreen, loadingScreenDuration, _cts.Token);
+            await LoadSceneAsync(newScene);
+            _currentActiveScene = newScene;
+
+            OnAfterSceneLoad?.Invoke();
+            _sceneLoading = false;
         }
 
         #endregion
 
         #region Private Functions
-        private async Task LoadSceneProcessAsync(SceneAssetPreset newScenePreset, bool showLoadingScreen, float loadingScreenDuration, CancellationToken token)
-        {
-            _sceneEventChannel.InvokeBeforeSceneUnload();
-
-            if (_currentActiveScene != null)
-                await UnloadSceneAsync(_currentActiveScene, token);
-
-            if (showLoadingScreen)
-            {
-                await LoadSceneAsync(_loadingScene, token);
-                _sceneEventChannel.InvokeAfterSceneLoad();
-
-                await Task.Delay((int)loadingScreenDuration * 1000, token);
-            }
-
-            if (showLoadingScreen)
-            {
-                _sceneEventChannel.InvokeBeforeSceneUnload();
-                await UnloadSceneAsync(_loadingScene, token);
-            }
-
-            await LoadSceneAsync(newScenePreset, token);
-            _currentActiveScene = newScenePreset;
-
-            _sceneEventChannel.InvokeAfterSceneLoad();
-        }
-
-        private async Task UnloadSceneAsync(SceneAssetPreset preset, CancellationToken token)
+        private async Task UnloadSceneAsync(SceneAssetPreset preset)
         {
             string sceneName = null;
             if (preset == null)
@@ -89,23 +80,19 @@ namespace CollieMollie.System
 
             while (!unloadOperation.isDone)
             {
-                token.ThrowIfCancellationRequested();
-
                 float progress = Mathf.Clamp01(unloadOperation.progress / 0.9f);
                 //Debug.Log($"[GameSceneManager] Unload {progress}");
                 await Task.Yield();
             }
         }
 
-        private async Task LoadSceneAsync(SceneAssetPreset preset, CancellationToken token)
+        private async Task LoadSceneAsync(SceneAssetPreset preset)
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(preset.SceneName, LoadSceneMode.Additive);
             if (loadOperation == null) return;
 
             while (!loadOperation.isDone)
             {
-                token.ThrowIfCancellationRequested();
-
                 float progress = Mathf.Clamp01(loadOperation.progress / 0.9f);
                 //Debug.Log($"[GameSceneManager] Load {progress}");
                 await Task.Yield();

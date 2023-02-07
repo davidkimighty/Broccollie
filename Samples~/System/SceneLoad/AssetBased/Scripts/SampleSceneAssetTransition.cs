@@ -1,20 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CollieMollie.System;
 using UnityEngine;
 
 public class SampleSceneAssetTransition : MonoBehaviour
 {
-    [SerializeField] private SceneAssetEventChannel sceneEventChannel = null;
+    [SerializeField] private SceneAssetLoader _sceneAssetLoader = null;
     [SerializeField] private SceneAssetPreset targetSceneOne = null;
     [SerializeField] private SceneAssetPreset targetSceneTwo = null;
 
-    private IEnumerator Start()
+    private async void Start()
     {
-        sceneEventChannel.RaiseSceneLoadEvent(targetSceneOne, false);
+        await _sceneAssetLoader.LoadNewScene(targetSceneOne);
 
-        yield return new WaitForSeconds(3f);
+        await Task.Delay(3 * 1000);
 
-        sceneEventChannel.RaiseSceneLoadEvent(targetSceneTwo, true);
+        await _sceneAssetLoader.UnloadActiveScene(true);
+
+        await Task.Delay(3 * 1000);
+
+        await _sceneAssetLoader.LoadNewScene(targetSceneTwo);
     }
 }
