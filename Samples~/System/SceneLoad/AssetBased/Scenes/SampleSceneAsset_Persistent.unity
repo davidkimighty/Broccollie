@@ -268,8 +268,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1574437486}
-  - component: {fileID: 1574437491}
   - component: {fileID: 1574437490}
+  - component: {fileID: 1574437491}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcab407dcb1c4f0bb31ec3b90c8d008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneEventChannel: {fileID: 11400000, guid: b669ca4d4851349d3aba76ba18b7321a, type: 2}
+  _sceneAssetLoader: {fileID: 1574437491}
   targetSceneOne: {fileID: 11400000, guid: ee287ef3474ce4d00ab7b7ee78983206, type: 2}
   targetSceneTwo: {fileID: 11400000, guid: 444e152f634be4009a203703f1dbc077, type: 2}
 --- !u!114 &1574437491
@@ -319,5 +319,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42c03cd569b94ab49e6ea4c8ffc2d72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneEventChannel: {fileID: 11400000, guid: b669ca4d4851349d3aba76ba18b7321a, type: 2}
   _loadingScene: {fileID: 11400000, guid: 82421f71063d64e6c83fcc0e7f4926c4, type: 2}
