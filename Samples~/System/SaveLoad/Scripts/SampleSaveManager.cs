@@ -1,11 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using CollieMollie.System;
-using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class SampleSaveManager : MonoBehaviour
@@ -15,7 +9,7 @@ public class SampleSaveManager : MonoBehaviour
     private const string SaveFileName = "TestData.json";
     private static string s_savePath = null;
 
-    [SerializeField] private SaveLoadEventChannel _saveEventChannel = null;
+    [SerializeField] private SaveLoadController _saveLoadController = null;
     [SerializeField] private SampleGameData _playerData = null;
 
     private SaveOptions _saveOptions;
@@ -34,7 +28,7 @@ public class SampleSaveManager : MonoBehaviour
     [ContextMenu("Execute Save")]
     public void Save()
     {
-        _saveEventChannel.RaiseSaveEvent(_playerData, _saveOptions, () =>
+        _saveLoadController.Save(_playerData, _saveOptions, () =>
         {
             Debug.Log($"[SampleSaveManager] Saved path: {s_savePath}");
         });
@@ -43,7 +37,7 @@ public class SampleSaveManager : MonoBehaviour
     [ContextMenu("Execute Load")]
     public void Load()
     {
-        _saveEventChannel.RaiseLoadEvent(_playerData, _saveOptions, () =>
+        _saveLoadController.Load(_playerData, _saveOptions, () =>
         {
             Debug.Log($"[SampleSaveManager] Data loaded.");
         });

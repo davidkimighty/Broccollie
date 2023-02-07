@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.IO.Pipes;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,8 +11,6 @@ namespace CollieMollie.System
     public class SaveLoadController : MonoBehaviour
     {
         #region Variable Field
-        [SerializeField] private SaveLoadEventChannel _eventChannel = null;
-
         [SerializeField] private bool _useSaveables = true;
         [SerializeField] private bool _useCryptoStream = true;
         [SerializeField] private bool _dataEncryption = true;
@@ -25,20 +19,8 @@ namespace CollieMollie.System
 
         #endregion
 
-        private void OnEnable()
-        {
-            _eventChannel.OnSaveRequest += Save;
-            _eventChannel.OnLoadRequest += Load;
-        }
-
-        private void OnDisable()
-        {
-            _eventChannel.OnSaveRequest -= Save;
-            _eventChannel.OnLoadRequest -= Load;
-        }
-
-        #region Subscribers
-        private void Save(object data, SaveOptions options, Action afterComplete)
+        #region Public Functions
+        public void Save(object data, SaveOptions options, Action afterComplete)
         {
             _tokenSource.Cancel();
             _tokenSource = new CancellationTokenSource();
@@ -53,7 +35,7 @@ namespace CollieMollie.System
             }
         }
 
-        private void Load(object data, SaveOptions options, Action afterComplete)
+        public void Load(object data, SaveOptions options, Action afterComplete)
         {
             _tokenSource.Cancel();
             _tokenSource = new CancellationTokenSource();
