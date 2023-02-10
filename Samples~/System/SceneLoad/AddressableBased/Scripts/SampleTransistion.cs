@@ -24,23 +24,23 @@ public class SampleTransistion : MonoBehaviour
 
     private async void Start()
     {
-        await _sceneAddressableLoader.LoadNewScene(_sceneOne);
+        await _sceneAddressableLoader.LoadNewSceneAsync(_sceneOne);
 
         await Task.Delay(3 * 1000);
 
-        await _sceneAddressableLoader.UnloadActiveScene(true);
+        await _sceneAddressableLoader.UnloadActiveSceneAsync(true);
 
         await Task.Delay(3 * 1000);
 
-        await _sceneAddressableLoader.LoadNewScene(_sceneTwo);
+        await _sceneAddressableLoader.LoadNewSceneAsync(_sceneTwo);
     }
 
-    private void FadeIn()
+    private async Task FadeIn()
     {
         // Screen fade in
     }
 
-    private void FadeOut()
+    private async Task FadeOut()
     {
         // Screen fade out
     }
