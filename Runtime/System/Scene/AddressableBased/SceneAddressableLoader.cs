@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -10,8 +9,8 @@ namespace CollieMollie.System
     public class SceneAddressableLoader : MonoBehaviour
     {
         #region Variable Field
-        public event Action OnBeforeSceneUnload = null;
-        public event Action OnAfterSceneLoad = null;
+        public event Func<Task> OnBeforeSceneUnload = null;
+        public event Func<Task> OnAfterSceneLoad = null;
 
         [SerializeField] private SceneAddressablePreset _loadingScene = null;
 
@@ -23,13 +22,12 @@ namespace CollieMollie.System
         #endregion
 
         #region Public Functions
-        public async Task UnloadActiveScene(bool showLoading)
+        public async Task UnloadActiveSceneAsync(bool showLoading)
         {
             if (_sceneUnloading) return;
             _sceneUnloading = true;
 
-            OnBeforeSceneUnload?.Invoke();
-
+            await OnBeforeSceneUnload?.Invoke();
             if (_currentlyLoadedScene != null)
                 SceneUnload(_currentlyLoadedScene);
 
@@ -37,19 +35,19 @@ namespace CollieMollie.System
             {
                 await SceneLoadAsync(_loadingScene, true);
                 _loadingSceneLoaded = true;
-                OnAfterSceneLoad?.Invoke();
+                await OnAfterSceneLoad?.Invoke();
             }
             _sceneUnloading = false;
         }
 
-        public async Task LoadNewScene(SceneAddressablePreset newScene)
+        public async Task LoadNewSceneAsync(SceneAddressablePreset newScene)
         {
             if (_sceneLoading) return;
             _sceneLoading = true;
 
             if (_loadingSceneLoaded)
             {
-                OnBeforeSceneUnload?.Invoke();
+                await OnBeforeSceneUnload?.Invoke();
                 SceneUnload(_loadingScene);
                 _loadingSceneLoaded = false;
             }
@@ -57,7 +55,7 @@ namespace CollieMollie.System
             await SceneLoadAsync(newScene, true);
             _currentlyLoadedScene = newScene;
 
-            OnAfterSceneLoad?.Invoke();
+            await OnAfterSceneLoad?.Invoke();
             _sceneLoading = false;
         }
 

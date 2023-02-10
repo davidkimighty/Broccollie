@@ -8,8 +8,8 @@ namespace CollieMollie.System
     public class SceneAssetLoader : MonoBehaviour
     {
         #region Variable Field
-        public event Action OnBeforeSceneUnload = null;
-        public event Action OnAfterSceneLoad = null;
+        public event Func<Task> OnBeforeSceneUnload = null;
+        public event Func<Task> OnAfterSceneLoad = null;
 
         [SerializeField] private SceneAssetPreset _loadingScene = null;
 
@@ -25,15 +25,14 @@ namespace CollieMollie.System
             if (_sceneUnloading) return;
             _sceneUnloading = true;
 
-            OnBeforeSceneUnload?.Invoke();
-
+            await OnBeforeSceneUnload?.Invoke();
             if (_currentActiveScene != null)
                 await UnloadSceneAsync(_currentActiveScene);
 
             if (showLoading)
             {
                 await LoadSceneAsync(_loadingScene);
-                OnAfterSceneLoad?.Invoke();
+                await OnAfterSceneLoad?.Invoke();
             }
             _sceneUnloading = false;
         }
@@ -46,14 +45,14 @@ namespace CollieMollie.System
             Scene activeScene = SceneManager.GetActiveScene();
             if (activeScene.name == _loadingScene.SceneName)
             {
-                OnBeforeSceneUnload?.Invoke();
+                await OnBeforeSceneUnload?.Invoke();
                 await UnloadSceneAsync(_loadingScene);
             }
 
             await LoadSceneAsync(newScene);
             _currentActiveScene = newScene;
 
-            OnAfterSceneLoad?.Invoke();
+            await OnAfterSceneLoad?.Invoke();
             _sceneLoading = false;
         }
 
