@@ -1,4 +1,6 @@
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using CollieMollie.System;
 using UnityEngine;
 
@@ -13,7 +15,8 @@ public class SampleSaveManager : MonoBehaviour
     [SerializeField] private SampleGameData _playerData = null;
 
     private SaveOptions _saveOptions;
-    
+    private CancellationTokenSource _cts = null;
+
     private void Awake()
     {
         s_savePath = Path.Combine(Application.persistentDataPath, SaveFolder);
@@ -23,12 +26,16 @@ public class SampleSaveManager : MonoBehaviour
             SaveFileName = SaveFileName,
             AesKey = Aeskey
         };
+        _cts = new CancellationTokenSource();
     }
 
     [ContextMenu("Execute Save")]
     public void Save()
     {
-        _saveLoadController.Save(_playerData, _saveOptions, () =>
+        _cts.Cancel();
+        _cts = new CancellationTokenSource();
+
+        Task save = _saveLoadController.SaveAsync(_playerData, _saveOptions, _cts.Token, () =>
         {
             Debug.Log($"[SampleSaveManager] Saved path: {s_savePath}");
         });
@@ -37,7 +44,10 @@ public class SampleSaveManager : MonoBehaviour
     [ContextMenu("Execute Load")]
     public void Load()
     {
-        _saveLoadController.Load(_playerData, _saveOptions, () =>
+        _cts.Cancel();
+        _cts = new CancellationTokenSource();
+
+        Task load = _saveLoadController.LoadAsync(_playerData, _saveOptions, _cts.Token, () =>
         {
             Debug.Log($"[SampleSaveManager] Data loaded.");
         });

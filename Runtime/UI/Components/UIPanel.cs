@@ -11,7 +11,6 @@ using UnityEngine.EventSystems;
 
 namespace CollieMollie.UI
 {
-    [DefaultExecutionOrder(-100)]
     public class UIPanel : InteractableUI
     {
         #region Variable Field

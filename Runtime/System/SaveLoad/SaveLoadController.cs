@@ -7,7 +7,6 @@ using UnityEngine;
 
 namespace CollieMollie.System
 {
-    [DefaultExecutionOrder(-100)]
     public class SaveLoadController : MonoBehaviour
     {
         #region Variable Field
@@ -20,34 +19,18 @@ namespace CollieMollie.System
         #endregion
 
         #region Public Functions
-        public void Save(object data, SaveOptions options, Action afterComplete)
+        public async Task SaveAsync(object data, SaveOptions options, CancellationToken token, Action done = null)
         {
-            _tokenSource.Cancel();
-            _tokenSource = new CancellationTokenSource();
-
-            Task saveTask = SaveProccess(_tokenSource.Token);
-
-            async Task SaveProccess(CancellationToken token)
-            {
-                if (_useSaveables)
-                    await SaveSaveablesAsync(token);
-                await SaveDataAsync(data, options, token, afterComplete);
-            }
+            if (_useSaveables)
+                await SaveSaveablesAsync(token);
+            await SaveDataAsync(data, options, token, done);
         }
 
-        public void Load(object data, SaveOptions options, Action afterComplete)
+        public async Task LoadAsync(object data, SaveOptions options, CancellationToken token, Action done = null)
         {
-            _tokenSource.Cancel();
-            _tokenSource = new CancellationTokenSource();
-
-            Task loadTask = LoadProccess(_tokenSource.Token);
-
-            async Task LoadProccess(CancellationToken token)
-            {
-                await LoadDataAsync(data, options, token, afterComplete);
-                if (_useSaveables)
-                    await LoadSaveablesAsync(token);
-            }
+            await LoadDataAsync(data, options, token, done);
+            if (_useSaveables)
+                await LoadSaveablesAsync(token);
         }
 
         #endregion
