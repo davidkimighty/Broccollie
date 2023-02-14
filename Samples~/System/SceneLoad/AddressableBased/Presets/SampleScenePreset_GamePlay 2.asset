@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SampleScenePreset_GamePlay 2
   m_EditorClassIdentifier: 
   SceneType: 3
+  SceneId: 1
   SceneReference:
     m_AssetGUID: 7b6d583f4309b467b8352c7c2edac672
     m_SubObjectName: 

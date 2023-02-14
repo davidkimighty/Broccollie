@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba92080e47c04cc3bd5e5b7d0d6495c, type: 3}
   m_Name: SampleScenePreset_Loading
   m_EditorClassIdentifier: 
-  SceneType: 2
+  SceneType: 1
+  SceneId: 0
   SceneReference:
     m_AssetGUID: fa3973b3853e94738a095627d5b2a114
     m_SubObjectName: 
