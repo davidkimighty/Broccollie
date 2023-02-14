@@ -7,15 +7,15 @@ namespace CollieMollie.System
     public class SceneAddressableEventChannel : ScriptableObject
     {
         #region Events
-        public event Action<SceneAddressablePreset> OnSceneLoadRequest = null;
+        public event Action<SceneAddressablePreset, bool> OnSceneLoadRequest = null;
 
         #endregion
 
         #region Publishers
-        public void RaiseSceneLoadEvent(SceneAddressablePreset scene)
+        public void RaiseSceneLoadEvent(SceneAddressablePreset scene, bool showLoadingScene)
         {
             if (scene == null) return;
-            OnSceneLoadRequest?.Invoke(scene);
+            OnSceneLoadRequest?.Invoke(scene, showLoadingScene);
         }
 
         #endregion
