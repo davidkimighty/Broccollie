@@ -6,15 +6,16 @@ namespace CollieMollie.System
     [CreateAssetMenu(fileName = "SceneAddressablePreset", menuName = "CollieMollie/System/SceneAddressablePreset")]
     public class SceneAddressablePreset : ScriptableObject
     {
-        public SceneType SceneType;
+        public SceneType SceneType = SceneType.Persistent;
+        public int SceneId = 0;
         public AssetReference SceneReference = null;
     }
 
     public enum SceneType
     {
         Persistent,
-        Title,
         Loading,
-        Gameplay
+        Entrance,
+        InGame
     }
 }
