@@ -7,7 +7,6 @@ using UnityEngine.EventSystems;
 
 namespace CollieMollie.UI
 {
-    [DefaultExecutionOrder(-100)]
     public class UISlot : BaseUI, IDropHandler
     {
         #region Variable Field

@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 namespace CollieMollie.UI
 {
-    [DefaultExecutionOrder(-100)]
     public class UIScroll : InteractableUI
     {
         #region Variable Field
@@ -40,7 +39,7 @@ namespace CollieMollie.UI
 
         #endregion
 
-        private void Awake()
+        protected override void Awake()
         {
             Initialize();
         }
