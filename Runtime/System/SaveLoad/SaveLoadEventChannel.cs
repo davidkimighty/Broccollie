@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace CollieMollie.System
 {
-    [CreateAssetMenu(fileName = "EventChannel_SaveLoad", menuName = "CollieMollie/EventChannels/SaveLoad")]
+    [CreateAssetMenu(fileName = "EventChannel_SaveLoad", menuName = "CollieMollie/Event Channels/SaveLoad")]
     public class SaveLoadEventChannel : ScriptableObject
     {
         #region Events
-        public Func<Task> OnSaveRequestAsync = null;
-        public Func<Task> OnLoadRequestAsync = null;
+        public event Func<Task> OnSaveRequestAsync = null;
+        public event Func<Task> OnLoadRequestAsync = null;
 
-        public Action OnSaveRequest = null;
-        public Action OnLoadRequest = null;
+        public event Action OnSaveRequest = null;
+        public event Action OnLoadRequest = null;
 
         #endregion
 
