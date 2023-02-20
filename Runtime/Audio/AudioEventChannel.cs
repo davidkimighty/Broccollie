@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace CollieMollie.Audio
 {
-    [CreateAssetMenu(fileName = "EventChannel_Audio", menuName = "CollieMollie/Event Channels/Audio")]
+    [CreateAssetMenu(fileName = "EventChannel_Audio", menuName = "CollieMollie/EventChannels/Audio")]
     public class AudioEventChannel : ScriptableObject
     {
         #region Events
