@@ -223,7 +223,6 @@ GameObject:
   - component: {fileID: 403615620}
   - component: {fileID: 403615622}
   - component: {fileID: 403615621}
-  - component: {fileID: 403615623}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -297,18 +296,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!225 &403615623
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 403615619}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &890425610
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,8 +537,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a42c431cec1441bc87ed2a10b48f703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvasGroup: {fileID: 403615623}
   _fadeImage: {fileID: 890425611}
+  _fadeDuration: 1
   _fadeCurve:
     serializedVersion: 2
     m_Curve:
@@ -654,4 +641,3 @@ MonoBehaviour:
   _sceneOne: {fileID: 11400000, guid: 23c25355c5db8409f996517f4d7bf767, type: 2}
   _sceneTwo: {fileID: 11400000, guid: 0c009327a0d724636885a749969af2e4, type: 2}
   _screenFader: {fileID: 1241445766}
-  _fadeDuration: 1
