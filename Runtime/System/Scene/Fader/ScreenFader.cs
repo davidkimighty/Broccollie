@@ -21,6 +21,13 @@ namespace CollieMollie.System
             _fadeImage.color = targetColor;
         }
 
+        public void SetAlpha(float alpha)
+        {
+            Color startColor = _fadeImage.color;
+            startColor.a = alpha;
+            _fadeImage.color = startColor;
+        }
+
         public IEnumerator Fade(float alpha, Action done = null)
         {
             Color startColor = _fadeImage.color;
