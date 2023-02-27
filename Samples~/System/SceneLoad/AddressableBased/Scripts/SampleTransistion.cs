@@ -9,7 +9,6 @@ public class SampleTransistion : MonoBehaviour
     [SerializeField] private SceneAddressablePreset _sceneTwo = null;
 
     [SerializeField] private ScreenFader _screenFader = null;
-    [SerializeField] private int _fadeDuration = 1;
 
     private void OnEnable()
     {
@@ -38,13 +37,11 @@ public class SampleTransistion : MonoBehaviour
 
     private async Task FadeIn()
     {
-        StartCoroutine(_screenFader.Fade(1, _fadeDuration));
-        await Task.Delay(_fadeDuration * 1000);
+        await _screenFader.FadeAsync(1);
     }
 
     private async Task FadeOut()
     {
-        StartCoroutine(_screenFader.Fade(0, _fadeDuration));
-        await Task.Delay(_fadeDuration * 1000);
+        await _screenFader.FadeAsync(0);
     }
 }
