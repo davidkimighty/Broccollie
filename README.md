@@ -59,7 +59,8 @@
 </table>
 
 ## Changelog
-- [v2.0 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/4?closed=1)
+- [v2.0 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/5?closed=1)
+- [v1.3 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/4?closed=1)
 - [v1.0 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/2?closed=1)
 - [v0.9 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/3?closed=1)
 
