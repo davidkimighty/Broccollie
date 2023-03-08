@@ -1,54 +1,34 @@
 {
     "name": "com.colliemollie.broccollie",
-    "version": "1.3.13",
+    "version": "2.0.0",
     "displayName": "Broccollie",
     "description": "Essential game ready features in URP",
     "unity": "2022.2",
     "dependencies": {
-        "com.unity.addressables": "1.19.19",
-        "com.unity.inputsystem": "1.4.4",
-        "com.unity.cinemachine": "2.9.4"
+        "com.unity.addressables": "1.21.8",
+        "com.unity.inputsystem": "1.5.0",
+        "com.unity.cinemachine": "2.9.5"
     },
     "samples": [
         {
-            "displayName": "Baseline UI",
+            "displayName": "UI",
             "description": "Preset based UI components",
             "path": "Samples~/UI"
         },
         {
-            "displayName": "Scene Controller",
-            "description": "Preset based scenes controller.",
-            "path": "Samples~/System/SceneLoad"
+            "displayName": "Systems",
+            "description": "System feature samples.",
+            "path": "Samples~/System"
         },
         {
-            "displayName": "Save Controller",
-            "description": "Save / Load controller.",
-            "path": "Samples~/System/SaveLoad"
-        },
-        {
-            "displayName": "Network Controller",
-            "description": "Basic network request controller.",
-            "path": "Samples~/System/Network"
-        },
-        {
-            "displayName": "Audio Controller",
+            "displayName": "Audio",
             "description": "Preset based audio manager.",
             "path": "Samples~/Audio"
         },
         {
-            "displayName": "Parallax Effect",
-            "description": "Parallax effect controller.",
-            "path": "Samples~/Game/ParallaxEffect"
-        },
-        {
-            "displayName": "Camera Controller",
-            "description": "Camera controller providing both third-person view and first-person view.",
-            "path": "Samples~/Game/CameraController"
-        },
-        {
-            "displayName": "Player Controller",
-            "description": "Physics and non-physics based player controller.",
-            "path": "Samples~/Game/PlayerController"
+            "displayName": "Game",
+            "description": "Game feature samples.",
+            "path": "Samples~/Game"
         }
     ],
     "keywords": [
