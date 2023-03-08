@@ -21,15 +21,6 @@
 # About
 **Broccollie** is a Untiy package for game development. It is a package filled with essential game features.
 
-#### [ Development Environment ]
-- **Unity 2022.2.1f1** URP
-- macOS
-
-#### [ Dependencies ]
-- com.unity.addressables: 1.19.19
-- com.unity.inputsystem: 1.4.4
-- com.unity.cinemachine: 2.9.4
-
 ## Available Features
 <table>
 <tr><th>Features</th>
