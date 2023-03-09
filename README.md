@@ -21,15 +21,6 @@
 # About
 **Broccollie** is a Untiy package for game development. It is a package filled with essential game features.
 
-#### [ Development Environment ]
-- **Unity 2022.2.1f1** URP
-- macOS
-
-#### [ Dependencies ]
-- com.unity.addressables: 1.19.19
-- com.unity.inputsystem: 1.4.4
-- com.unity.cinemachine: 2.9.4
-
 ## Available Features
 <table>
 <tr><th>Features</th>
@@ -68,7 +59,8 @@
 </table>
 
 ## Changelog
-- [v2.0 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/4?closed=1)
+- [v2.0 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/5?closed=1)
+- [v1.3 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/4?closed=1)
 - [v1.0 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/2?closed=1)
 - [v0.9 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/3?closed=1)
 
