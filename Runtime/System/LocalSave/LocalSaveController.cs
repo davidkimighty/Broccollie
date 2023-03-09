@@ -10,18 +10,23 @@ namespace CollieMollie.System
 {
     public class LocalSaveController : MonoBehaviour
     {
+        #region Variable Field
+        [SerializeField] private LocalSaveOptionsPreset _preset = null;
+
+        #endregion
+
         #region Public Functions
-        public async Task SaveAsync(LocalSaveOptionsPreset preset, Action done = null)
+        public async Task SaveAsync(Action done = null)
         {
-            if (preset.Options.UseSaveables)
+            if (_preset.Options.UseSaveables)
                 await SaveSaveablesAsync();
-            await SaveDataAsync(preset, done);
+            await SaveDataAsync(_preset, done);
         }
 
-        public async Task LoadAsync(LocalSaveOptionsPreset preset, Action done = null)
+        public async Task LoadAsync(Action done = null)
         {
-            await LoadDataAsync(preset, done);
-            if (preset.Options.UseSaveables)
+            await LoadDataAsync(_preset, done);
+            if (_preset.Options.UseSaveables)
                 await LoadSaveablesAsync();
         }
 
