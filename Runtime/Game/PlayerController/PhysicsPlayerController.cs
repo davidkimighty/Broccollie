@@ -153,7 +153,7 @@ namespace CollieMollie.Game
             }
 
             Quaternion currentRotation = _targetBody.rotation;
-            Quaternion targetRotation = Helper.Helper.ShortestRotation(_lookRotation, currentRotation);
+            Quaternion targetRotation = Core.Helper.ShortestRotation(_lookRotation, currentRotation);
 
             targetRotation.ToAngleAxis(out float angle, out Vector3 axis);
             float rotationRadians = angle * Mathf.Deg2Rad;

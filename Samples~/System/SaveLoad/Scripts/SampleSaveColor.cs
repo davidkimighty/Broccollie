@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SampleSaveColor : MonoBehaviour, ISaveable
 {
-    [SerializeField] private SaveableEntity _saveableEntity = null;
+    [SerializeField] private LocalSaveableEntity _saveableEntity = null;
     [SerializeField] private Renderer _renderer = null;
 
     public void LoadState(object state)

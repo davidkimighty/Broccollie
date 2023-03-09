@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CollieMollie.Helper;
+using CollieMollie.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

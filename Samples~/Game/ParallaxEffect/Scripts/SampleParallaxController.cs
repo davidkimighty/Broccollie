@@ -17,7 +17,7 @@ public class SampleParallaxController : MonoBehaviour
 
     [SerializeField] private UIPanel _panel = null;
 
-    [SerializeField] private CameraEffect _shakeEffect = null;
+    [SerializeField] private CameraEffectPreset _shakeEffect = null;
     [SerializeField] private CameraEffectEventChannel _eventChannel = null;
 
     private void Awake()
