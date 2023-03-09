@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using CollieMollie.Helper;
+using CollieMollie.Core;
 using UnityEngine;
 
 public class SampleLogger : MonoBehaviour

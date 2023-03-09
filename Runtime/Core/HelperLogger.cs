@@ -1,7 +1,7 @@
 using System.Text;
 using UnityEngine;
 
-namespace CollieMollie.Helper
+namespace CollieMollie.Core
 {
     public static partial class Helper
     {
@@ -26,7 +26,7 @@ namespace CollieMollie.Helper
         {
             StringBuilder builder = new StringBuilder();
             if (prefix != null)
-                builder.Append($"[{prefix}] ");
+                builder.Append($"[ {prefix} ] ");
             builder.Append(msg);
             return builder.ToString();
         }

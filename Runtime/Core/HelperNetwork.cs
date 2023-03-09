@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace CollieMollie.Helper
+namespace CollieMollie.Core
 {
     public static partial class Helper
     {

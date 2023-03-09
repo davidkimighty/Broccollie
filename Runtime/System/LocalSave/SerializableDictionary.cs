@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CollieMollie.Core;
 using UnityEngine;
 
 namespace CollieMollie.System
@@ -29,7 +30,7 @@ namespace CollieMollie.System
 
             if (_keys.Count != _values.Count)
             {
-                Helper.Helper.LogError("Key count and value count doesn't match.", Helper.Helper.Broccollie);
+                Helper.LogError("Key count and value count doesn't match.", Helper.Broccollie);
                 return;
             }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CollieMollie.Helper
+namespace CollieMollie.Core
 {
     public static partial class Helper
     {
