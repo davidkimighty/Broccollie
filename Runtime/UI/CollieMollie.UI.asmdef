@@ -2,7 +2,6 @@
     "name": "CollieMollie.UI",
     "rootNamespace": "",
     "references": [
-        "GUID:b7cef62209d65481ab0c769cff124f47",
         "GUID:7c692a4545e684ca0bd2114c0fd01b3c",
         "GUID:9acd3ce9b8a5c4adb99f9f9c62d9e334"
     ],

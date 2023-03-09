@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace CollieMollie.Game
 {
-    [CreateAssetMenu(fileName = "CameraEffect_Shake", menuName = "CollieMollie/Camera Effect/Shake")]
-    public class ShakeCameraEffect : CameraEffect
+    [CreateAssetMenu(fileName = "CameraEffect_Shake", menuName = "CollieMollie/Game/Camera/Shake")]
+    public class ShakeCameraEffectPreset : CameraEffectPreset
     {
         #region Variable Field
         [SerializeField] private float _strength = 2f;

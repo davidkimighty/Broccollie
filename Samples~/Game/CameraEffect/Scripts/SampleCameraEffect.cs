@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SampleCameraEffect : MonoBehaviour
 {
     [SerializeField] private CameraEffectEventChannel _eventChannel = null;
-    [SerializeReference] private CameraEffect _shakeEffect = null;
+    [SerializeReference] private CameraEffectPreset _shakeEffect = null;
 
     [SerializeField] private Button _shakeButton = null;
 

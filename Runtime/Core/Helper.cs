@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-namespace CollieMollie.Helper
+namespace CollieMollie.Core
 {
     public static partial class Helper
     {

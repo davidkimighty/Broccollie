@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace CollieMollie.System
 {
-    public class SaveableEntity : MonoBehaviour
+    public class LocalSaveableEntity : MonoBehaviour
     {
         #region Variable Field
-        private static Dictionary<string, SaveableEntity> s_globalSaveables = new Dictionary<string, SaveableEntity>();
+        private static Dictionary<string, LocalSaveableEntity> s_globalSaveables = new Dictionary<string, LocalSaveableEntity>();
 
         [SerializeField] private ScriptableObject _saveObject = null;
         [SerializeField] private string _uniqueId = null;

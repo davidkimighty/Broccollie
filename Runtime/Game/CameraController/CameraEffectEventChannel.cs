@@ -7,12 +7,12 @@ namespace CollieMollie.Game
     public class CameraEffectEventChannel : ScriptableObject
     {
         #region Events
-        public event Action<CameraEffect> OnPlayCameraEffectRequest = null;
+        public event Action<CameraEffectPreset> OnPlayCameraEffectRequest = null;
 
         #endregion
 
         #region Publishers
-        public void RaisePlayCameraEffectEvent(CameraEffect effect)
+        public void RaisePlayCameraEffectEvent(CameraEffectPreset effect)
         {
             if (effect == null) return;
 

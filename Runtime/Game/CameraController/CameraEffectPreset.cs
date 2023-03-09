@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CollieMollie.Game
 {
-    public abstract class CameraEffect : ScriptableObject
+    public abstract class CameraEffectPreset : ScriptableObject
     {
         public virtual void Play(MonoBehaviour mono, Transform camera) { }
     }

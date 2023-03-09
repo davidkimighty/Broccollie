@@ -1,4 +1,5 @@
 
+using CollieMollie.Core;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -32,11 +33,11 @@ namespace CollieMollie.Game
         }
 
         #region Subscribers
-        private void PlayCameraEffect(CameraEffect effect)
+        private void PlayCameraEffect(CameraEffectPreset effect)
         {
             if (effect == null)
             {
-                Helper.Helper.Log("Camera effect is null.", Helper.Helper.Broccollie, this);
+                Helper.Log("Camera effect is null.", Helper.Broccollie, this);
                 return;
             }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SampleSavePosition : MonoBehaviour, ISaveable
 {
-    [SerializeField] private SaveableEntity _saveableEntity = null;
+    [SerializeField] private LocalSaveableEntity _saveableEntity = null;
 
     public void LoadState(object state)
     {
