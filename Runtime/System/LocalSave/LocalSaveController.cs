@@ -54,7 +54,7 @@ namespace CollieMollie.System
 
         private async Task LoadDataAsync(LocalSaveOptionsPreset preset, Action done = null)
         {
-            CheckPath(preset.Options.SaveDirectory);
+            CheckPath(Path.Combine(Application.persistentDataPath, preset.Options.SaveDirectory));
             string savePath = Path.Combine(Application.persistentDataPath, preset.Options.SaveDirectory,
                 $"{preset.Options.SaveFileName}.{preset.Options.FileExtension.ToString()}");
 
@@ -94,7 +94,7 @@ namespace CollieMollie.System
 
         private async Task SaveDataAsync(LocalSaveOptionsPreset preset, Action done = null)
         {
-            CheckPath(preset.Options.SaveDirectory);
+            CheckPath(Path.Combine(Application.persistentDataPath, preset.Options.SaveDirectory));
             string savePath = Path.Combine(Application.persistentDataPath, preset.Options.SaveDirectory,
                 $"{preset.Options.SaveFileName}.{preset.Options.FileExtension.ToString()}");
 
