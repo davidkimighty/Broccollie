@@ -22,7 +22,7 @@ public class SampleSaveManager : MonoBehaviour
     [ContextMenu("Execute Save")]
     public void Save()
     {
-        Task save = _saveLoadController.SaveAsync(_saveOptions, () =>
+        Task save = _saveLoadController.SaveAsync(() =>
         {
             Debug.Log($"[SampleSaveManager] Saved path: {s_savePath}");
         });
@@ -31,7 +31,7 @@ public class SampleSaveManager : MonoBehaviour
     [ContextMenu("Execute Load")]
     public void Load()
     {
-        Task load = _saveLoadController.LoadAsync(_saveOptions, () =>
+        Task load = _saveLoadController.LoadAsync(() =>
         {
             Debug.Log($"[SampleSaveManager] Data loaded.");
         });

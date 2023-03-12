@@ -50,14 +50,14 @@ public class UITransformFeature : BaseUIFeature
 
         public async Task ChangePosition(string state, UITransformPreset.Setting setting, CancellationToken cancellationToken)
         {
-            if (setting.PositionSettingEnabled)
-                await TargetObject.LerpPositionAsync(setting.TargetPosition.position, setting.PositionSettingDuration, cancellationToken, setting.PositionSettingCurve);
+            //if (setting.PositionSettingEnabled)
+                //await TargetObject.LerpPositionAsync(setting.TargetPosition.position, setting.PositionSettingDuration, cancellationToken, setting.PositionSettingCurve);
         }
 
         public async Task ChangeScale(string state, UITransformPreset.Setting setting, CancellationToken cancellationToken)
         {
-            if (setting.ScaleSettingEnabled)
-                await TargetObject.LerpScaleAsync(Vector3.one * setting.TargetScale, setting.ScaleSettingDuration, cancellationToken, setting.ScaleSettingCurve);
+            //if (setting.ScaleSettingEnabled)
+                //await TargetObject.LerpScaleAsync(Vector3.one * setting.TargetScale, setting.ScaleSettingDuration, cancellationToken, setting.ScaleSettingCurve);
         }
     }
 }

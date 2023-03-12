@@ -8,12 +8,12 @@ public class SampleUITestBoard : MonoBehaviour
 {
     #region Variable Field
     [Header("Button Popup")]
-    [SerializeField] private UIButton _triggerButtonOne = null;
-    [SerializeField] private UIButton _triggerButtonTwo = null;
-    [SerializeField] private UIButton _triggerButtonThree = null;
-    [SerializeField] private UIButton _popupButtonOne = null;
-    [SerializeField] private UIButton _popupButtonTwo = null;
-    [SerializeField] private UIButton _popupButtonThree = null;
+    [SerializeField] private ButtonUI _triggerButtonOne = null;
+    [SerializeField] private ButtonUI _triggerButtonTwo = null;
+    [SerializeField] private ButtonUI _triggerButtonThree = null;
+    [SerializeField] private ButtonUI _popupButtonOne = null;
+    [SerializeField] private ButtonUI _popupButtonTwo = null;
+    [SerializeField] private ButtonUI _popupButtonThree = null;
 
     [Header("Tab Menu")]
     [SerializeField] private UIButton _firstTab = null;
@@ -27,9 +27,9 @@ public class SampleUITestBoard : MonoBehaviour
 
     private void Awake()
     {
-        _triggerButtonOne.OnSelected += (eventArgs) => PopupButton(_popupButtonOne);
-        _triggerButtonTwo.OnSelected += (eventArgs) => PopupButton(_popupButtonTwo);
-        _triggerButtonThree.OnSelected += (eventArgs) => PopupButton(_popupButtonThree);
+        _triggerButtonOne.OnSelect += () => PopupButton(_popupButtonOne);
+        _triggerButtonTwo.OnSelect += () => PopupButton(_popupButtonTwo);
+        _triggerButtonThree.OnSelect += () => PopupButton(_popupButtonThree);
 
         for (int i = 0; i < _groups.Length; i++)
         {
@@ -46,12 +46,9 @@ public class SampleUITestBoard : MonoBehaviour
     }
 
     #region Subscribers
-    private void PopupButton(UIButton targetButton)
+    private void PopupButton(ButtonUI targetButton)
     {
-        if (targetButton.IsVisible)
-            targetButton.ChangeState(BaseUI.State.Hide);
-        else
-            targetButton.ChangeState(BaseUI.State.Show);
+        targetButton.SetActive(!targetButton.gameObject.activeSelf);
     }
     #endregion
 }

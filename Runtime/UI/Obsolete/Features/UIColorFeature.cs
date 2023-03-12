@@ -50,7 +50,7 @@ namespace CollieMollie.UI
 
             public async Task ChangeColor(string state, UIColorPreset.Setting setting, CancellationToken cancellationToken)
             {
-                await Graphic.ChangeColorGraduallyAsync(setting.TargetColor, setting.Duration, cancellationToken, setting.Curve);
+                //await Graphic.ChangeColorGraduallyAsync(setting.TargetColor, setting.Duration, cancellationToken, setting.Curve);
             }
 
             public void ChangeColorInstant(string state, UIColorPreset.Setting setting)
