@@ -5,8 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace CollieMollie.UI
 {
-    public abstract class BaselineUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler,
-        IBeginDragHandler, IDragHandler, IEndDragHandler
+    public abstract class BaselineUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
     {
         #region Variable Field
         public event Action OnDefault = null;
@@ -37,7 +36,6 @@ namespace CollieMollie.UI
         protected bool _isHovered = false;
         protected bool _isPressed = false;
         protected bool _isSelected = false;
-        protected bool _isDragged = false;
 
         #endregion
 
@@ -86,12 +84,6 @@ namespace CollieMollie.UI
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData) => InvokePointerClick(eventData, null);
 
-        void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) => InvokePointerBeginDrag(eventData, null);
-
-        void IDragHandler.OnDrag(PointerEventData eventData) => InvokePointerDrag(eventData, null);
-
-        void IEndDragHandler.OnEndDrag(PointerEventData eventData) => InvokePointerEndDrag(eventData, null);
-
         #endregion
 
         #region Pointer Callback Subscribers
@@ -120,23 +112,8 @@ namespace CollieMollie.UI
             if (baselineUI == null) return;
         }
 
-        protected virtual void InvokePointerBeginDrag(PointerEventData eventData, BaselineUI baselineUI)
-        {
-            if (baselineUI == null) return;
-        }
-
-        protected virtual void InvokePointerDrag(PointerEventData eventData, BaselineUI baselineUI)
-        {
-            if (baselineUI == null) return;
-        }
-
-        protected virtual void InvokePointerEndDrag(PointerEventData eventData, BaselineUI baselineUI)
-        {
-            if (baselineUI == null) return;
-        }
-
         #endregion
     }
 
-    public enum UIStates { Default, Show, Hide, Interactive, NonInteractive, Hover, Press, Select, Drag }
+    public enum UIStates { Default, Show, Hide, Interactive, NonInteractive, Hover, Press, Select }
 }
