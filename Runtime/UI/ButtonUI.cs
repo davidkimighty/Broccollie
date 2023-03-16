@@ -11,7 +11,6 @@ namespace CollieMollie.UI
     {
         #region Variable Field
         [Header("Button")]
-        [SerializeField] private GameObject _button = null;
         [SerializeField] private ButtonType _buttonType = ButtonType.Button;
 
         [Header("Features")]
@@ -26,7 +25,7 @@ namespace CollieMollie.UI
         {
             if (state)
             {
-                _button.SetActive(true);
+                gameObject.SetActive(true);
                 RaiseOnShow();
                 Task.Run(() => RaiseOnShowAsync());
 
@@ -44,7 +43,7 @@ namespace CollieMollie.UI
 
                 _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, true, () =>
                 {
-                    _button.SetActive(false);
+                    gameObject.SetActive(false);
                 });
             }
         }
@@ -53,8 +52,8 @@ namespace CollieMollie.UI
         {
             if (state)
             {
-                if (!_button.activeSelf)
-                    _button.SetActive(true);
+                if (!gameObject.activeSelf)
+                    gameObject.SetActive(true);
 
                 RaiseOnInteractive();
                 Task.Run(() => RaiseOnInteractiveAsync());
@@ -66,8 +65,8 @@ namespace CollieMollie.UI
             }
             else
             {
-                if (!_button.activeSelf)
-                    _button.SetActive(true);
+                if (!gameObject.activeSelf)
+                    gameObject.SetActive(true);
 
                 _isInteractive = false;
                 RaiseOnInteractive();
