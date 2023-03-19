@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Pool;
 
-namespace CollieMollie.Audio
+namespace Broccollie.Audio
 {
     public class AudioPlayer : MonoBehaviour
     {

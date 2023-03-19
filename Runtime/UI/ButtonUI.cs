@@ -1,21 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CollieMollie.Core;
+using Broccollie.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace CollieMollie.UI
+namespace Broccollie.UI
 {
     public class ButtonUI : BaselineUI, IHoverUI, IPressUI, ISelectUI, ICancelUI
     {
         #region Variable Field
         [Header("Button")]
         [SerializeField] private GameObject _button = null;
-        [SerializeField] private ButtonType _buttonType = ButtonType.Button;
+        [SerializeField] private ButtonTypes _buttonType = ButtonTypes.Button;
 
         [Header("Features")]
-        [SerializeField] private ColorFeature _colorFeature = null;
+        [SerializeField] private UIColorFeature _colorFeature = null;
+        [SerializeField] private UISpriteFeature _spriteFeature = null;
+        [SerializeField] private UITransformFeature _transformFeature = null;
+        [SerializeField] private UIAudioFeature _audioFeature = null;
 
         private Task _featureTasks = null;
 
@@ -105,12 +108,12 @@ namespace CollieMollie.UI
 
             switch (_buttonType)
             {
-                case ButtonType.Button:
+                case ButtonTypes.Button:
                     RaiseOnSelect();
                     Task.Run(() => RaiseOnSelectAsync());
                     break;
 
-                case ButtonType.Checkbox:
+                case ButtonTypes.Checkbox:
                     _isSelected = !_isSelected;
                     if (_isSelected)
                     {
@@ -128,7 +131,7 @@ namespace CollieMollie.UI
                     }
                     break;
 
-                case ButtonType.Radio:
+                case ButtonTypes.Radio:
                     _isSelected = true;
                     RaiseOnSelect();
                     Task.Run(() => RaiseOnSelectAsync());
@@ -182,7 +185,16 @@ namespace CollieMollie.UI
         {
             List<Task> featureTasks = new List<Task>();
             if (_colorFeature != null)
-                featureTasks.Add(_colorFeature.ChangeColorAsync(state));
+                featureTasks.Add(_colorFeature.ExecuteFeaturesAsync(state));
+
+            if (_spriteFeature != null)
+                featureTasks.Add(_spriteFeature.ExecuteFeaturesAsync(state));
+
+            if (_transformFeature != null)
+                featureTasks.Add(_transformFeature.ExecuteFeaturesAsync(state));
+
+            if (_audioFeature != null)
+                featureTasks.Add(_audioFeature.ExecuteFeaturesAsync(state));
 
             await Task.WhenAll(featureTasks);
             done?.Invoke();

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace CollieMollie.UI
+namespace Broccollie.UI
 {
     public class PanelUI : BaselineUI
     {
@@ -13,7 +13,10 @@ namespace CollieMollie.UI
         [SerializeField] private GameObject _panel = null;
 
         [Header("Features")]
-        [SerializeField] private ColorFeature _colorFeature = null;
+        [SerializeField] private UIColorFeature _colorFeature = null;
+        [SerializeField] private UISpriteFeature _spriteFeature = null;
+        [SerializeField] private UITransformFeature _transformFeature = null;
+        [SerializeField] private UIAudioFeature _audioFeature = null;
 
         private Task _featureTasks = null;
 
@@ -82,7 +85,16 @@ namespace CollieMollie.UI
         {
             List<Task> featureTasks = new List<Task>();
             if (_colorFeature != null)
-                featureTasks.Add(_colorFeature.ChangeColorAsync(state));
+                featureTasks.Add(_colorFeature.ExecuteFeaturesAsync(state));
+
+            if (_spriteFeature != null)
+                featureTasks.Add(_spriteFeature.ExecuteFeaturesAsync(state));
+
+            if (_transformFeature != null)
+                featureTasks.Add(_transformFeature.ExecuteFeaturesAsync(state));
+
+            if (_audioFeature != null)
+                featureTasks.Add(_audioFeature.ExecuteFeaturesAsync(state));
 
             await Task.WhenAll(featureTasks);
             done?.Invoke();

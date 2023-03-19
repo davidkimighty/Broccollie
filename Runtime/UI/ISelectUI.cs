@@ -1,4 +1,7 @@
-public interface ISelectUI
+namespace Broccollie.UI
 {
-    void Select();
+    public interface ISelectUI
+    {
+        void Select();
+    }
 }

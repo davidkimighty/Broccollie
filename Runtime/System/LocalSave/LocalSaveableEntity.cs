@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace CollieMollie.System
+namespace Broccollie.System
 {
     public class LocalSaveableEntity : MonoBehaviour
     {

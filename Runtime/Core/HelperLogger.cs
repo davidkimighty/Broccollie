@@ -1,7 +1,7 @@
 using System.Text;
 using UnityEngine;
 
-namespace CollieMollie.Core
+namespace Broccollie.Core
 {
     public static partial class Helper
     {

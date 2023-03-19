@@ -1,4 +1,7 @@
-public interface IPressUI
+namespace Broccollie.UI
 {
-    void Press();
+    public interface IPressUI
+    {
+        void Press();
+    }
 }
