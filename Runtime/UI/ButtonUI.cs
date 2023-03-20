@@ -11,7 +11,7 @@ namespace Broccollie.UI
     {
         #region Variable Field
         [Header("Button")]
-        [SerializeField] private ButtonType _buttonType = ButtonType.Button;
+        [SerializeField] private ButtonTypes _buttonType = ButtonTypes.Button;
 
         [Header("Features")]
         [SerializeField] private UIColorFeature _colorFeature = null;
