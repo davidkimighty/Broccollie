@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-namespace CollieMollie.Audio
+namespace Broccollie.Audio
 {
-    [CreateAssetMenu(fileName = "EventChannel_Audio", menuName = "CollieMollie/Event Channels/Audio")]
+    [CreateAssetMenu(fileName = "EventChannel_Audio", menuName = "Broccollie/Event Channels/Audio")]
     public class AudioEventChannel : ScriptableObject
     {
         #region Events

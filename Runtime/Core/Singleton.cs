@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CollieMollie.Core
+namespace Broccollie.Core
 {
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {

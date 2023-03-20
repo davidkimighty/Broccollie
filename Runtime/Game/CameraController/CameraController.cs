@@ -3,7 +3,7 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace CollieMollie.Game
+namespace Broccollie.Game
 {
     [DefaultExecutionOrder(-100)]
     [DisallowMultipleComponent]

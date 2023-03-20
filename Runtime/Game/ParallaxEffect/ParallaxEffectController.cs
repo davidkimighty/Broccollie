@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CollieMollie.Game
+namespace Broccollie.Game
 {
     public class ParallaxEffectController : MonoBehaviour
     {

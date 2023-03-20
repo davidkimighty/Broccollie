@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CollieMollie.System
+namespace Broccollie.System
 {
     public class ScreenFader : MonoBehaviour
     {

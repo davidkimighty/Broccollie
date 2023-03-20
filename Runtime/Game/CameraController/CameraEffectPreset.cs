@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CollieMollie.Game
+namespace Broccollie.Game
 {
     public abstract class CameraEffectPreset : ScriptableObject
     {

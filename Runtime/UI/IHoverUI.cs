@@ -1,4 +1,7 @@
-public interface IHoverUI
+namespace Broccollie.UI
 {
-    void Hover();
+    public interface IHoverUI
+    {
+        void Hover();
+    }
 }

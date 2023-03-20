@@ -6,7 +6,7 @@ using UnityEngine.Audio;
 using UnityEngine.Pool;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace CollieMollie.Audio
+namespace Broccollie.Audio
 {
     [DefaultExecutionOrder(-100)]
     public class AudioController : MonoBehaviour

@@ -2,9 +2,9 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace CollieMollie.System
+namespace Broccollie.System
 {
-    [CreateAssetMenu(fileName = "EventChannel_LocalSave", menuName = "CollieMollie/Event Channels/Local Save")]
+    [CreateAssetMenu(fileName = "EventChannel_LocalSave", menuName = "Broccollie/Event Channels/Local Save")]
     public class LocalSaveEventChannel : ScriptableObject
     {
         #region Events

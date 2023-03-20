@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CollieMollie.Core
+namespace Broccollie.Core
 {
     public static partial class Helper
     {

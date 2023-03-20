@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using CollieMollie.Core;
+using Broccollie.Core;
 using UnityEngine;
 
-namespace CollieMollie.System
+namespace Broccollie.System
 {
     [Serializable]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver

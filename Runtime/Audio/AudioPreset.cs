@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace CollieMollie.Audio
+namespace Broccollie.Audio
 {
-    [CreateAssetMenu(fileName = "AudioPreset", menuName = "CollieMollie/Audio/AudioPreset")]
+    [CreateAssetMenu(fileName = "AudioPreset", menuName = "Broccollie/Audio/AudioPreset")]
     public class AudioPreset : ScriptableObject
     {
         #region Variable Field
