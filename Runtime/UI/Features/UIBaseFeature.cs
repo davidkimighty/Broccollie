@@ -30,8 +30,11 @@ namespace Broccollie.UI
 
             _featureCoroutines.AddRange(GetFeatures(state));
 
-            foreach (IEnumerator coroutine in _featureCoroutines)
-                StartCoroutine(coroutine);
+            if (gameObject.activeInHierarchy)
+            {
+                foreach (IEnumerator coroutine in _featureCoroutines)
+                    StartCoroutine(coroutine);
+            }
             await Task.Yield();
         }
 
