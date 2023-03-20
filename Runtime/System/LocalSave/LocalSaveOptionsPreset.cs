@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-namespace CollieMollie.System
+namespace Broccollie.System
 {
-    [CreateAssetMenu(fileName = "LocalSaveOptions", menuName = "CollieMollie/System/Local Save Options")]
+    [CreateAssetMenu(fileName = "LocalSaveOptions", menuName = "Broccollie/System/Local Save Options")]
     public class LocalSaveOptionsPreset : ScriptableObject
     {
         public LocalSaveOptions Options;

@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using CollieMollie.Game;
+using Broccollie.Game;
 using UnityEngine;
 using UnityEngine.UI;
 

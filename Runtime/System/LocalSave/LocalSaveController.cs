@@ -3,10 +3,10 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using CollieMollie.Core;
+using Broccollie.Core;
 using UnityEngine;
 
-namespace CollieMollie.System
+namespace Broccollie.System
 {
     public class LocalSaveController : MonoBehaviour
     {

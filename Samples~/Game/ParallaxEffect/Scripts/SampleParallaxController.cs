@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using CollieMollie.Core;
-using CollieMollie.Game;
-using CollieMollie.UI;
+using Broccollie.Game;
+using Broccollie.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +14,7 @@ public class SampleParallaxController : MonoBehaviour
     [SerializeField] private Button _buttonStop = null;
     [SerializeField] private float _duration = 3f;
 
-    [SerializeField] private UIPanel _panel = null;
+    [SerializeField] private PanelUI _panel = null;
 
     [SerializeField] private CameraEffectPreset _shakeEffect = null;
     [SerializeField] private CameraEffectEventChannel _eventChannel = null;
@@ -28,9 +27,9 @@ public class SampleParallaxController : MonoBehaviour
         _buttonStart.onClick.AddListener(() => _parallaxController.StartParallaxLoop(+1));
         _buttonStop.onClick.AddListener(() => _parallaxController.StopParallax());
 
-        _buttonLeft.onClick.AddListener(() => _panel.ChangeState(BaseUI.State.Selected));
-        _buttonRight.onClick.AddListener(() => _panel.ChangeState(BaseUI.State.Selected));
-        _parallaxController.OnEndParallax += () => _panel.ChangeState(BaseUI.State.Default);
+        //_buttonLeft.onClick.AddListener(() => _panel.ChangeState(BaseUI.State.Selected));
+        //_buttonRight.onClick.AddListener(() => _panel.ChangeState(BaseUI.State.Selected));
+        //_parallaxController.OnEndParallax += () => _panel.ChangeState(BaseUI.State.Default);
 
         _buttonLeft.onClick.AddListener(() => _eventChannel.RaisePlayCameraEffectEvent(_shakeEffect));
         _buttonRight.onClick.AddListener(() => _eventChannel.RaisePlayCameraEffectEvent(_shakeEffect));
@@ -38,7 +37,7 @@ public class SampleParallaxController : MonoBehaviour
 
     private void Start()
     {
-        _panel.ChangeState(BaseUI.State.Default);
+        //_panel.ChangeState(BaseUI.State.Default);
         
     }
 }

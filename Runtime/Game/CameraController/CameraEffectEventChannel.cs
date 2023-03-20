@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace CollieMollie.Game
+namespace Broccollie.Game
 {
     [CreateAssetMenu(fileName = "EventChannel_CameraEffect", menuName = "CollieMollie/Event Channels/Camera Effect")]
     public class CameraEffectEventChannel : ScriptableObject

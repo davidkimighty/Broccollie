@@ -1,10 +1,10 @@
 
-using CollieMollie.Core;
+using Broccollie.Core;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace CollieMollie.Game
+namespace Broccollie.Game
 {
     public class CameraEffectController : MonoBehaviour
     {

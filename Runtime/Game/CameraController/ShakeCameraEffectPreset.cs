@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace CollieMollie.Game
+namespace Broccollie.Game
 {
     [CreateAssetMenu(fileName = "CameraEffect_Shake", menuName = "CollieMollie/Game/Camera/Shake")]
     public class ShakeCameraEffectPreset : CameraEffectPreset

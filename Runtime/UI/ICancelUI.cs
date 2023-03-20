@@ -1,4 +1,7 @@
-public interface ICancelUI
+namespace Broccollie.UI
 {
-    void Cancel();
+    public interface ICancelUI
+    {
+        void Cancel();
+    }
 }
