@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace Broccollie.UI
 {
-    public class ButtonUI : BaselineUI, IHoverUI, IPressUI, ISelectUI, ICancelUI
+    public class ButtonUI : BaselineUI, IDefaultUI, IHoverUI, IPressUI, ISelectUI
     {
         #region Variable Field
         [Header("Button")]
@@ -77,6 +77,17 @@ namespace Broccollie.UI
 
                 _featureTasks = ExecuteFeaturesAsync(UIStates.NonInteractive);
             }
+        }
+
+        public void Default()
+        {
+            if (!_isInteractive) return;
+
+            _isHovered = _isPressed = _isSelected = false;
+            RaiseOnDefault();
+            Task.Run(() => RaiseOnDefaultAsync());
+
+            _featureTasks = ExecuteFeaturesAsync(UIStates.Default);
         }
 
         public void Hover()
