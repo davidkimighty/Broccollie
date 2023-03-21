@@ -187,9 +187,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c160623d1d3c449d49e2d462c6b61116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _button: {fileID: 1053824437304188150}
   _buttonType: 0
   _colorFeature: {fileID: 3115927212623185583}
+  _spriteFeature: {fileID: 0}
+  _transformFeature: {fileID: 0}
+  _audioFeature: {fileID: 0}
 --- !u!114 &3115927212623185583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,7 +268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.86274517, g: 0.77647066, b: 0.7254902, a: 1}
+  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

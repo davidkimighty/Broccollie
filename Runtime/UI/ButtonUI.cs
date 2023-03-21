@@ -259,7 +259,18 @@ namespace Broccollie.UI
         protected override void InvokePointerExit(PointerEventData eventData, BaselineUI baselineUI)
         {
             _isHovered = false;
-            Cancel();
+            if (_isPressed) return;
+
+            if (_isSelected)
+            {
+                _currentState = UIStates.Select;
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Select, false);
+            }
+            else
+            {
+                _currentState = UIStates.Default;
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Default, false);
+            }
         }
 
         protected override void InvokePointerDown(PointerEventData eventData, BaselineUI baselineUI) => Press();
@@ -267,8 +278,18 @@ namespace Broccollie.UI
         protected override void InvokePointerUp(PointerEventData eventData, BaselineUI baselineUI)
         {
             _isPressed = false;
-            if (_isHovered)
-                Cancel();
+            if (_isHovered) return;
+
+            if (_isSelected)
+            {
+                _currentState = UIStates.Select;
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Select, false);
+            }
+            else
+            {
+                _currentState = UIStates.Default;
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Default, false);
+            }
         }
 
         protected override void InvokePointerClick(PointerEventData eventData, BaselineUI baselineUI) => Select();
