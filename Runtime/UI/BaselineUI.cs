@@ -32,6 +32,9 @@ namespace Broccollie.UI
         public event Action OnSelect = null;
         public event Func<Task> OnSelectAsync = null;
 
+        [Header("Baseline")]
+        [SerializeField] protected UIStates _currentState = UIStates.Default;
+
         protected bool _isInteractive = true;
         protected bool _isHovered = false;
         protected bool _isPressed = false;
@@ -40,9 +43,9 @@ namespace Broccollie.UI
         #endregion
 
         #region Public Functions
-        public virtual void SetActive(bool state) { }
+        public virtual void SetActive(bool state, bool playAudio = false, bool invokeEvent = true) { }
 
-        public virtual void SetInteractive(bool state) { }
+        public virtual void SetInteractive(bool state, bool playAudio = false, bool invokeEvent = true) { }
 
         #endregion
 

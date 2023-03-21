@@ -2,6 +2,6 @@ namespace Broccollie.UI
 {
     public interface IHoverUI
     {
-        void Hover();
+        void Hover(bool playAudio = false, bool invokeEvent = true);
     }
 }

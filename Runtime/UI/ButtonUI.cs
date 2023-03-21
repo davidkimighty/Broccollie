@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace Broccollie.UI
 {
+    [DefaultExecutionOrder(-100)]
     public class ButtonUI : BaselineUI, IDefaultUI, IHoverUI, IPressUI, ISelectUI
     {
         #region Variable Field
@@ -24,15 +25,21 @@ namespace Broccollie.UI
         #endregion
 
         #region Public Functions
-        public override void SetActive(bool state)
+        public override void SetActive(bool state, bool playAudio = false, bool invokeEvent = true)
         {
             if (state)
             {
-                gameObject.SetActive(true);
-                RaiseOnShow();
-                Task.Run(() => RaiseOnShowAsync());
+                if (_currentState == UIStates.Show) return;
+                _currentState = UIStates.Show;
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Show, true, () =>
+                gameObject.SetActive(true);
+                if (invokeEvent)
+                {
+                    RaiseOnShow();
+                    Task.Run(() => RaiseOnShowAsync());
+                }
+
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Show, playAudio, () =>
                 {
                     _isInteractive = true;
                     _featureTasks = ExecuteFeaturesAsync(UIStates.Default);
@@ -40,113 +47,153 @@ namespace Broccollie.UI
             }
             else
             {
-                _isInteractive = false;
-                RaiseOnHide();
-                Task.Run(() => RaiseOnHideAsync());
+                if (_currentState == UIStates.Hide) return;
+                _currentState = UIStates.Hide;
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, true, () =>
+                _isInteractive = false;
+                if (invokeEvent)
+                {
+                    RaiseOnHide();
+                    Task.Run(() => RaiseOnHideAsync());
+                }
+
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, playAudio, () =>
                 {
                     gameObject.SetActive(false);
                 });
             }
         }
 
-        public override void SetInteractive(bool state)
+        public override void SetInteractive(bool state, bool playAudio = false, bool invokeEvent = true)
         {
             if (state)
             {
+                if (_currentState == UIStates.Interactive) return;
+                _currentState = UIStates.Interactive;
+
                 if (!gameObject.activeSelf)
                     gameObject.SetActive(true);
 
-                RaiseOnInteractive();
-                Task.Run(() => RaiseOnInteractiveAsync());
+                if (invokeEvent)
+                {
+                    RaiseOnInteractive();
+                    Task.Run(() => RaiseOnInteractiveAsync());
+                }
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Interactive, true, () =>
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Interactive, playAudio, () =>
                 {
                     _isInteractive = true;
                 });
             }
             else
             {
+                if (_currentState == UIStates.NonInteractive) return;
+                _currentState = UIStates.NonInteractive;
+
                 if (!gameObject.activeSelf)
                     gameObject.SetActive(true);
 
                 _isInteractive = false;
-                RaiseOnInteractive();
-                Task.Run(() => RaiseOnInteractiveAsync());
-
-                _featureTasks = ExecuteFeaturesAsync(UIStates.NonInteractive);
+                if (invokeEvent)
+                {
+                    RaiseOnInteractive();
+                    Task.Run(() => RaiseOnInteractiveAsync());
+                }
+                _featureTasks = ExecuteFeaturesAsync(UIStates.NonInteractive, playAudio);
             }
         }
 
-        public void Default()
+        public void Default(bool playAudio = false, bool invokeEvent = true)
         {
-            if (!_isInteractive) return;
+            if (!_isInteractive || _currentState == UIStates.Default) return;
+            _currentState = UIStates.Default;
 
             _isHovered = _isPressed = _isSelected = false;
-            RaiseOnDefault();
-            Task.Run(() => RaiseOnDefaultAsync());
-
-            _featureTasks = ExecuteFeaturesAsync(UIStates.Default);
+            if (invokeEvent)
+            {
+                RaiseOnDefault();
+                Task.Run(() => RaiseOnDefaultAsync());
+            }
+            _featureTasks = ExecuteFeaturesAsync(UIStates.Default, playAudio);
         }
 
-        public void Hover()
+        public void Hover(bool playAudio = false, bool invokeEvent = true)
         {
-            if (!_isInteractive) return;
+            if (!_isInteractive || _currentState == UIStates.Hover) return;
+            _currentState = UIStates.Hover;
 
             _isHovered = true;
-            RaiseOnHover();
-            Task.Run(() => RaiseOnHoverAsync());
-
-            _featureTasks = ExecuteFeaturesAsync(UIStates.Hover);
+            if (invokeEvent)
+            {
+                RaiseOnHover();
+                Task.Run(() => RaiseOnHoverAsync());
+            }
+            _featureTasks = ExecuteFeaturesAsync(UIStates.Hover, playAudio);
         }
 
-        public void Press()
+        public void Press(bool playAudio = false, bool invokeEvent = true)
         {
-            if (!_isInteractive) return;
+            if (!_isInteractive || _currentState == UIStates.Press) return;
+            _currentState = UIStates.Press;
 
             _isPressed = true;
-            RaiseOnPress();
-            Task.Run(() => RaiseOnPressAsync());
-
-            _featureTasks = ExecuteFeaturesAsync(UIStates.Press);
+            if (invokeEvent)
+            {
+                RaiseOnPress();
+                Task.Run(() => RaiseOnPressAsync());
+            }
+            _featureTasks = ExecuteFeaturesAsync(UIStates.Press, playAudio);
         }
 
-        public void Select()
+        public void Select(bool playAudio = false, bool invokeEvent = true)
         {
             if (!_isInteractive) return;
-
+           
             switch (_buttonType)
             {
                 case ButtonTypes.Button:
-                    RaiseOnSelect();
-                    Task.Run(() => RaiseOnSelectAsync());
+                    if (invokeEvent)
+                    {
+                        RaiseOnSelect();
+                        Task.Run(() => RaiseOnSelectAsync());
+                    }
                     break;
 
                 case ButtonTypes.Checkbox:
                     _isSelected = !_isSelected;
                     if (_isSelected)
                     {
-                        RaiseOnSelect();
-                        Task.Run(() => RaiseOnSelectAsync());
-
-                        _featureTasks = ExecuteFeaturesAsync(UIStates.Select);
+                        _currentState = UIStates.Select;
+                        if (invokeEvent)
+                        {
+                            RaiseOnSelect();
+                            Task.Run(() => RaiseOnSelectAsync());
+                        }
+                        _featureTasks = ExecuteFeaturesAsync(UIStates.Select, playAudio);
                     }
                     else
                     {
-                        RaiseOnDefault();
-                        Task.Run(() => RaiseOnDefaultAsync());
-
-                        _featureTasks = ExecuteFeaturesAsync(UIStates.Default);
+                        _currentState = UIStates.Default;
+                        if (invokeEvent)
+                        {
+                            RaiseOnDefault();
+                            Task.Run(() => RaiseOnDefaultAsync());
+                        }
+                        _featureTasks = ExecuteFeaturesAsync(UIStates.Default, playAudio);
                     }
                     break;
 
                 case ButtonTypes.Radio:
-                    _isSelected = true;
-                    RaiseOnSelect();
-                    Task.Run(() => RaiseOnSelectAsync());
+                    if (_currentState == UIStates.Select) break;
+                    _currentState = UIStates.Select;
 
-                    _featureTasks = ExecuteFeaturesAsync(UIStates.Select);
+                    _isSelected = true;
+                    if (invokeEvent)
+                    {
+                        RaiseOnSelect();
+                        Task.Run(() => RaiseOnSelectAsync());
+                    }
+                    _featureTasks = ExecuteFeaturesAsync(UIStates.Select, playAudio);
                     break;
             }
         }
@@ -155,18 +202,56 @@ namespace Broccollie.UI
         {
             if (_isSelected)
             {
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Select, false);
+                Select(false);
             }
             else
             {
                 if (_isHovered)
-                    _featureTasks = ExecuteFeaturesAsync(UIStates.Hover, false);
+                    Hover(false);
                 else
-                    _featureTasks = ExecuteFeaturesAsync(UIStates.Default, false);
+                    Default(false);
             }
         }
 
         #endregion
+
+        private void Awake()
+        {
+            switch (_currentState)
+            {
+                case UIStates.Show:
+                    SetActive(true, false, false);
+                    break;
+
+                case UIStates.Hide:
+                    SetActive(false, false, false);
+                    break;
+
+                case UIStates.Interactive:
+                    SetInteractive(true, false, false);
+                    break;
+
+                case UIStates.NonInteractive:
+                    SetInteractive(false, false, false);
+                    break;
+
+                case UIStates.Default:
+                    Default(false, false);
+                    break;
+
+                case UIStates.Hover:
+                    Hover(false, false);
+                    break;
+
+                case UIStates.Press:
+                    Press(false, false);
+                    break;
+
+                case UIStates.Select:
+                    Select(false, false);
+                    break;
+            }
+        }
 
         #region Pointer Callback Subscribers
         protected override void InvokePointerEnter(PointerEventData eventData, BaselineUI baselineUI) => Hover();
@@ -203,7 +288,7 @@ namespace Broccollie.UI
             if (_transformFeature != null)
                 featureTasks.Add(_transformFeature.ExecuteFeaturesAsync(state));
 
-            if (_audioFeature != null)
+            if (_audioFeature != null && playAudio)
                 featureTasks.Add(_audioFeature.ExecuteFeaturesAsync(state));
 
             await Task.WhenAll(featureTasks);

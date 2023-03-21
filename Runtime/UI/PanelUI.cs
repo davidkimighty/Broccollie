@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace Broccollie.UI
 {
+    [DefaultExecutionOrder(-100)]
     public class PanelUI : BaselineUI
     {
         #region Variable Field
@@ -23,15 +24,21 @@ namespace Broccollie.UI
         #endregion
 
         #region Public Functions
-        public override void SetActive(bool state)
+        public override void SetActive(bool state, bool playAudio = false, bool invokeEvent = true)
         {
             if (state)
             {
-                _panel.SetActive(true);
-                RaiseOnShow();
-                Task.Run(() => RaiseOnShowAsync());
+                if (_currentState == UIStates.Show) return;
+                _currentState = UIStates.Show;
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Show, true, () =>
+                _panel.SetActive(true);
+                if (invokeEvent)
+                {
+                    RaiseOnShow();
+                    Task.Run(() => RaiseOnShowAsync());
+                }
+
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Show, playAudio, () =>
                 {
                     _isInteractive = true;
                     _featureTasks = ExecuteFeaturesAsync(UIStates.Default);
@@ -39,46 +46,85 @@ namespace Broccollie.UI
             }
             else
             {
-                _isInteractive = false;
-                RaiseOnHide();
-                Task.Run(() => RaiseOnHideAsync());
+                if (_currentState == UIStates.Hide) return;
+                _currentState = UIStates.Hide;
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, true, () =>
+                _isInteractive = false;
+                if (invokeEvent)
+                {
+                    RaiseOnHide();
+                    Task.Run(() => RaiseOnHideAsync());
+                }
+
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, playAudio, () =>
                 {
                     _panel.SetActive(false);
                 });
             }
         }
 
-        public override void SetInteractive(bool state)
+        public override void SetInteractive(bool state, bool playAudio = false, bool invokeEvent = true)
         {
             if (state)
             {
+                if (_currentState == UIStates.Interactive) return;
+                _currentState = UIStates.Interactive;
+
                 if (!_panel.activeSelf)
                     _panel.SetActive(true);
 
-                RaiseOnInteractive();
-                Task.Run(() => RaiseOnInteractiveAsync());
+                if (invokeEvent)
+                {
+                    RaiseOnInteractive();
+                    Task.Run(() => RaiseOnInteractiveAsync());
+                }
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Interactive, true, () =>
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Interactive, playAudio, () =>
                 {
                     _isInteractive = true;
                 });
             }
             else
             {
+                if (_currentState == UIStates.NonInteractive) return;
+                _currentState = UIStates.NonInteractive;
+
                 if (!_panel.activeSelf)
                     _panel.SetActive(true);
 
                 _isInteractive = false;
-                RaiseOnInteractive();
-                Task.Run(() => RaiseOnInteractiveAsync());
-
-                _featureTasks = ExecuteFeaturesAsync(UIStates.NonInteractive);
+                if (invokeEvent)
+                {
+                    RaiseOnInteractive();
+                    Task.Run(() => RaiseOnInteractiveAsync());
+                }
+                _featureTasks = ExecuteFeaturesAsync(UIStates.NonInteractive, playAudio);
             }
         }
 
         #endregion
+
+        private void Awake()
+        {
+            switch (_currentState)
+            {
+                case UIStates.Show:
+                    SetActive(true, false, false);
+                    break;
+
+                case UIStates.Hide:
+                    SetActive(false, false, false);
+                    break;
+
+                case UIStates.Interactive:
+                    SetInteractive(true, false, false);
+                    break;
+
+                case UIStates.NonInteractive:
+                    SetInteractive(false, false, false);
+                    break;
+            }
+        }
 
         #region Private Functions
         private async Task ExecuteFeaturesAsync(UIStates state, bool playAudio = true, Action done = null)
@@ -93,7 +139,7 @@ namespace Broccollie.UI
             if (_transformFeature != null)
                 featureTasks.Add(_transformFeature.ExecuteFeaturesAsync(state));
 
-            if (_audioFeature != null)
+            if (_audioFeature != null && playAudio)
                 featureTasks.Add(_audioFeature.ExecuteFeaturesAsync(state));
 
             await Task.WhenAll(featureTasks);
