@@ -187,6 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c160623d1d3c449d49e2d462c6b61116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentState: 0
   _buttonType: 0
   _colorFeature: {fileID: 3115927212623185583}
   _spriteFeature: {fileID: 0}
@@ -208,7 +209,7 @@ MonoBehaviour:
   _elements:
   - IsEnabled: 1
     Graphic: {fileID: 3360202099982683039}
-    Preset: {fileID: 11400000, guid: bb5990104d584461ba48c19fd762acfa, type: 2}
+    Preset: {fileID: 11400000, guid: d4580c14a8f304eaf9b0e3ba9c5dce22, type: 2}
 --- !u!1 &1955250425479407472
 GameObject:
   m_ObjectHideFlags: 0

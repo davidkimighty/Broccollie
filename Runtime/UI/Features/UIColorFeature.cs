@@ -32,6 +32,21 @@ namespace Broccollie.UI
             return features;
         }
 
+        public override void ExecuteFeatureInstant(UIStates state)
+        {
+            base.ExecuteFeatureInstant(state);
+
+            for (int i = 0; i < _elements.Length; i++)
+            {
+                if (!_elements[i].IsEnabled) continue;
+
+                UIColorPreset.ColorSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
+                if (!setting.IsEnabled) continue;
+
+                ChangeColorInstant(_elements[i].Graphic, setting);
+            }
+        }
+
         #endregion
 
         #region Private Functions

@@ -8,37 +8,53 @@ namespace Broccollie.UI
     public abstract class BaselineUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
     {
         #region Variable Field
-        public event Action OnDefault = null;
-        public event Func<Task> OnDefaultAsync = null;
+        public event Action<BaselineUI> OnDefault = null;
+        public event Func<BaselineUI, Task> OnDefaultAsync = null;
 
-        public event Action OnShow = null;
-        public event Func<Task> OnShowAsync = null;
+        public event Action<BaselineUI> OnShow = null;
+        public event Func<BaselineUI, Task> OnShowAsync = null;
 
-        public event Action OnHide = null;
-        public event Func<Task> OnHideAsync = null;
+        public event Action<BaselineUI> OnHide = null;
+        public event Func<BaselineUI, Task> OnHideAsync = null;
 
-        public event Action OnInteractive = null;
-        public event Func<Task> OnInteractiveAsync = null;
+        public event Action<BaselineUI> OnInteractive = null;
+        public event Func<BaselineUI, Task> OnInteractiveAsync = null;
 
-        public event Action OnNonInteractive = null;
-        public event Func<Task> OnNonInteractiveAsync = null;
+        public event Action<BaselineUI> OnNonInteractive = null;
+        public event Func<BaselineUI, Task> OnNonInteractiveAsync = null;
 
-        public event Action OnHover = null;
-        public event Func<Task> OnHoverAsync = null;
+        public event Action<BaselineUI> OnHover = null;
+        public event Func<BaselineUI, Task> OnHoverAsync = null;
 
-        public event Action OnPress = null;
-        public event Func<Task> OnPressAsync = null;
+        public event Action<BaselineUI> OnPress = null;
+        public event Func<BaselineUI, Task> OnPressAsync = null;
 
-        public event Action OnSelect = null;
-        public event Func<Task> OnSelectAsync = null;
+        public event Action<BaselineUI> OnSelect = null;
+        public event Func<BaselineUI, Task> OnSelectAsync = null;
 
         [Header("Baseline")]
         [SerializeField] protected UIStates _currentState = UIStates.Default;
 
         protected bool _isInteractive = true;
+        public bool IsInteractive
+        {
+            get => _isInteractive;
+        }
         protected bool _isHovered = false;
+        public bool IsHovered
+        {
+            get => _isHovered;
+        }
         protected bool _isPressed = false;
+        public bool IsPressed
+        {
+            get => _isPressed;
+        }
         protected bool _isSelected = false;
+        public bool IsSelected
+        {
+            get => _isSelected;
+        }
 
         #endregion
 
@@ -50,29 +66,29 @@ namespace Broccollie.UI
         #endregion
 
         #region Publishers
-        protected void RaiseOnDefault() => OnDefault?.Invoke();
-        protected void RaiseOnDefaultAsync() => OnDefaultAsync?.Invoke();
+        protected void RaiseOnDefault() => OnDefault?.Invoke(this);
+        protected void RaiseOnDefaultAsync() => OnDefaultAsync?.Invoke(this);
 
-        protected void RaiseOnShow() => OnShow?.Invoke();
-        protected void RaiseOnShowAsync() => OnShowAsync?.Invoke();
+        protected void RaiseOnShow() => OnShow?.Invoke(this);
+        protected void RaiseOnShowAsync() => OnShowAsync?.Invoke(this);
 
-        protected void RaiseOnHide() => OnHide?.Invoke();
-        protected void RaiseOnHideAsync() => OnHideAsync?.Invoke();
+        protected void RaiseOnHide() => OnHide?.Invoke(this);
+        protected void RaiseOnHideAsync() => OnHideAsync?.Invoke(this);
 
-        protected void RaiseOnInteractive() => OnInteractive?.Invoke();
-        protected void RaiseOnInteractiveAsync() => OnInteractiveAsync?.Invoke();
+        protected void RaiseOnInteractive() => OnInteractive?.Invoke(this);
+        protected void RaiseOnInteractiveAsync() => OnInteractiveAsync?.Invoke(this);
 
-        protected void RaiseOnNonInteractive() => OnNonInteractive?.Invoke();
-        protected void RaiseOnNonInteractiveAsync() => OnNonInteractiveAsync?.Invoke();
+        protected void RaiseOnNonInteractive() => OnNonInteractive?.Invoke(this);
+        protected void RaiseOnNonInteractiveAsync() => OnNonInteractiveAsync?.Invoke(this);
 
-        protected void RaiseOnHover() => OnHover?.Invoke();
-        protected void RaiseOnHoverAsync() => OnHoverAsync?.Invoke();
+        protected void RaiseOnHover() => OnHover?.Invoke(this);
+        protected void RaiseOnHoverAsync() => OnHoverAsync?.Invoke(this);
 
-        protected void RaiseOnPress() => OnPress?.Invoke();
-        protected void RaiseOnPressAsync() => OnPressAsync?.Invoke();
+        protected void RaiseOnPress() => OnPress?.Invoke(this);
+        protected void RaiseOnPressAsync() => OnPressAsync?.Invoke(this);
 
-        protected void RaiseOnSelect() => OnSelect?.Invoke();
-        protected void RaiseOnSelectAsync() => OnSelectAsync?.Invoke();
+        protected void RaiseOnSelect() => OnSelect?.Invoke(this);
+        protected void RaiseOnSelectAsync() => OnSelectAsync?.Invoke(this);
 
         #endregion
 

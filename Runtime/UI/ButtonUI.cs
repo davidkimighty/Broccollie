@@ -29,9 +29,7 @@ namespace Broccollie.UI
         {
             if (state)
             {
-                if (_currentState == UIStates.Show) return;
                 _currentState = UIStates.Show;
-
                 gameObject.SetActive(true);
                 if (invokeEvent)
                 {
@@ -47,9 +45,7 @@ namespace Broccollie.UI
             }
             else
             {
-                if (_currentState == UIStates.Hide) return;
                 _currentState = UIStates.Hide;
-
                 _isInteractive = false;
                 if (invokeEvent)
                 {
@@ -68,9 +64,7 @@ namespace Broccollie.UI
         {
             if (state)
             {
-                if (_currentState == UIStates.Interactive) return;
                 _currentState = UIStates.Interactive;
-
                 if (!gameObject.activeSelf)
                     gameObject.SetActive(true);
 
@@ -87,9 +81,7 @@ namespace Broccollie.UI
             }
             else
             {
-                if (_currentState == UIStates.NonInteractive) return;
                 _currentState = UIStates.NonInteractive;
-
                 if (!gameObject.activeSelf)
                     gameObject.SetActive(true);
 
@@ -105,9 +97,9 @@ namespace Broccollie.UI
 
         public void Default(bool playAudio = false, bool invokeEvent = true)
         {
-            if (!_isInteractive || _currentState == UIStates.Default) return;
-            _currentState = UIStates.Default;
+            if (!_isInteractive) return;
 
+            _currentState = UIStates.Default;
             _isHovered = _isPressed = _isSelected = false;
             if (invokeEvent)
             {
@@ -119,9 +111,9 @@ namespace Broccollie.UI
 
         public void Hover(bool playAudio = false, bool invokeEvent = true)
         {
-            if (!_isInteractive || _currentState == UIStates.Hover) return;
-            _currentState = UIStates.Hover;
+            if (!_isInteractive) return;
 
+            _currentState = UIStates.Hover;
             _isHovered = true;
             if (invokeEvent)
             {
@@ -133,9 +125,9 @@ namespace Broccollie.UI
 
         public void Press(bool playAudio = false, bool invokeEvent = true)
         {
-            if (!_isInteractive || _currentState == UIStates.Press) return;
-            _currentState = UIStates.Press;
+            if (!_isInteractive) return;
 
+            _currentState = UIStates.Press;
             _isPressed = true;
             if (invokeEvent)
             {
@@ -184,9 +176,7 @@ namespace Broccollie.UI
                     break;
 
                 case ButtonTypes.Radio:
-                    if (_currentState == UIStates.Select) break;
                     _currentState = UIStates.Select;
-
                     _isSelected = true;
                     if (invokeEvent)
                     {
@@ -198,21 +188,6 @@ namespace Broccollie.UI
             }
         }
 
-        public void Cancel()
-        {
-            if (_isSelected)
-            {
-                Select(false);
-            }
-            else
-            {
-                if (_isHovered)
-                    Hover(false);
-                else
-                    Default(false);
-            }
-        }
-
         #endregion
 
         private void Awake()
@@ -220,35 +195,40 @@ namespace Broccollie.UI
             switch (_currentState)
             {
                 case UIStates.Show:
-                    SetActive(true, false, false);
+                    gameObject.SetActive(true);
                     break;
 
                 case UIStates.Hide:
-                    SetActive(false, false, false);
+                    gameObject.SetActive(false);
                     break;
 
                 case UIStates.Interactive:
-                    SetInteractive(true, false, false);
+                    _isInteractive = true;
+                    ExecuteFeatureInstant(UIStates.Interactive, false);
                     break;
 
                 case UIStates.NonInteractive:
-                    SetInteractive(false, false, false);
+                    _isInteractive = false;
+                    ExecuteFeatureInstant(UIStates.NonInteractive, false);
                     break;
 
                 case UIStates.Default:
-                    Default(false, false);
+                    ExecuteFeatureInstant(UIStates.Default, false);
                     break;
 
                 case UIStates.Hover:
-                    Hover(false, false);
+                    _isHovered = true;
+                    ExecuteFeatureInstant(UIStates.Hover, false);
                     break;
 
                 case UIStates.Press:
-                    Press(false, false);
+                    _isPressed = true;
+                    ExecuteFeatureInstant(UIStates.Press, false);
                     break;
 
                 case UIStates.Select:
-                    Select(false, false);
+                    _isSelected = true;
+                    ExecuteFeatureInstant(UIStates.Select, false);
                     break;
             }
         }
@@ -258,6 +238,8 @@ namespace Broccollie.UI
 
         protected override void InvokePointerExit(PointerEventData eventData, BaselineUI baselineUI)
         {
+            if (!_isInteractive) return;
+
             _isHovered = false;
             if (_isPressed) return;
 
@@ -277,8 +259,15 @@ namespace Broccollie.UI
 
         protected override void InvokePointerUp(PointerEventData eventData, BaselineUI baselineUI)
         {
+            if (!_isInteractive) return;
+
             _isPressed = false;
-            if (_isHovered) return;
+            if (_isHovered)
+            {
+                _currentState = UIStates.Hover;
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Hover, false);
+                return;
+            }
 
             if (_isSelected)
             {
@@ -314,6 +303,21 @@ namespace Broccollie.UI
 
             await Task.WhenAll(featureTasks);
             done?.Invoke();
+        }
+
+        private void ExecuteFeatureInstant(UIStates state, bool playAudio = true, Action done = null)
+        {
+            if (_colorFeature != null)
+                _colorFeature.ExecuteFeatureInstant(state);
+
+            if (_spriteFeature != null)
+                _spriteFeature.ExecuteFeatureInstant(state);
+
+            if (_transformFeature != null)
+                _transformFeature.ExecuteFeatureInstant(state);
+
+            if (_audioFeature != null && playAudio)
+                _audioFeature.ExecuteFeatureInstant(state);
         }
 
         #endregion
