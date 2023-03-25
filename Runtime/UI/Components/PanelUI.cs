@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 namespace Broccollie.UI
 {
     [DefaultExecutionOrder(-100)]
-    public class PanelUI : BaselineUI
+    public class PanelUI : BaselineUI, IDefaultUI
     {
         #region Variable Field
         [Header("Button")]
@@ -33,15 +33,12 @@ namespace Broccollie.UI
 
                 _panel.SetActive(true);
                 if (invokeEvent)
-                {
                     RaiseOnShow();
-                    Task.Run(() => RaiseOnShowAsync());
-                }
 
                 _featureTasks = ExecuteFeaturesAsync(UIStates.Show, playAudio, () =>
                 {
                     _isInteractive = true;
-                    _featureTasks = ExecuteFeaturesAsync(UIStates.Default);
+                    Default(playAudio, invokeEvent);
                 });
             }
             else
@@ -51,10 +48,7 @@ namespace Broccollie.UI
 
                 _isInteractive = false;
                 if (invokeEvent)
-                {
                     RaiseOnHide();
-                    Task.Run(() => RaiseOnHideAsync());
-                }
 
                 _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, playAudio, () =>
                 {
@@ -74,10 +68,7 @@ namespace Broccollie.UI
                     _panel.SetActive(true);
 
                 if (invokeEvent)
-                {
                     RaiseOnInteractive();
-                    Task.Run(() => RaiseOnInteractiveAsync());
-                }
 
                 _featureTasks = ExecuteFeaturesAsync(UIStates.Interactive, playAudio, () =>
                 {
@@ -94,12 +85,22 @@ namespace Broccollie.UI
 
                 _isInteractive = false;
                 if (invokeEvent)
-                {
                     RaiseOnInteractive();
-                    Task.Run(() => RaiseOnInteractiveAsync());
-                }
+
                 _featureTasks = ExecuteFeaturesAsync(UIStates.NonInteractive, playAudio);
             }
+        }
+
+        public void Default(bool playAudio = false, bool invokeEvent = true)
+        {
+            if (!_isInteractive) return;
+
+            _currentState = UIStates.Default;
+            _isHovered = _isPressed = _isSelected = false;
+            if (invokeEvent)
+                RaiseOnDefault();
+
+            _featureTasks = ExecuteFeaturesAsync(UIStates.Default, playAudio);
         }
 
         #endregion
@@ -123,6 +124,10 @@ namespace Broccollie.UI
                 case UIStates.NonInteractive:
                     SetInteractive(false, false, false);
                     break;
+
+                case UIStates.Default:
+                    ExecuteFeatureInstant(UIStates.Default, false);
+                    break;
             }
         }
 
@@ -144,6 +149,21 @@ namespace Broccollie.UI
 
             await Task.WhenAll(featureTasks);
             done?.Invoke();
+        }
+
+        private void ExecuteFeatureInstant(UIStates state, bool playAudio = true, Action done = null)
+        {
+            if (_colorFeature != null)
+                _colorFeature.ExecuteFeatureInstant(state);
+
+            if (_spriteFeature != null)
+                _spriteFeature.ExecuteFeatureInstant(state);
+
+            if (_transformFeature != null)
+                _transformFeature.ExecuteFeatureInstant(state);
+
+            if (_audioFeature != null && playAudio)
+                _audioFeature.ExecuteFeatureInstant(state);
         }
 
         #endregion

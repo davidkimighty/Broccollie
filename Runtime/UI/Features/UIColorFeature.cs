@@ -22,10 +22,10 @@ namespace Broccollie.UI
             List<IEnumerator> features = new List<IEnumerator>();
             for (int i = 0; i < _elements.Length; i++)
             {
-                if (!_elements[i].IsEnabled) continue;
+                if (!_elements[i].IsEnabled || _elements[i].Preset == null) continue;
 
                 UIColorPreset.ColorSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
-                if (!setting.IsEnabled) continue;
+                if (setting == null || !setting.IsEnabled) continue;
 
                 features.Add(ChangeColor(_elements[i].Graphic, setting));
             }
@@ -38,10 +38,10 @@ namespace Broccollie.UI
 
             for (int i = 0; i < _elements.Length; i++)
             {
-                if (!_elements[i].IsEnabled) continue;
+                if (!_elements[i].IsEnabled || _elements[i].Preset == null) continue;
 
                 UIColorPreset.ColorSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
-                if (!setting.IsEnabled) continue;
+                if (setting == null || !setting.IsEnabled) continue;
 
                 ChangeColorInstant(_elements[i].Graphic, setting);
             }

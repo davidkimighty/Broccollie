@@ -24,7 +24,7 @@ namespace Broccollie.UI
                 if (!_elements[i].IsEnabled) continue;
 
                 UITransformPreset.TransformSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
-                if (!setting.IsEnabled) continue;
+                if (setting == null || !setting.IsEnabled) continue;
 
                 features.Add(TransformScale(_elements[i].TargetTransform, setting));
             }
@@ -40,7 +40,7 @@ namespace Broccollie.UI
                 if (!_elements[i].IsEnabled) continue;
 
                 UITransformPreset.TransformSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
-                if (!setting.IsEnabled) continue;
+                if (setting == null || !setting.IsEnabled) continue;
 
                 TransformScaleInstant(_elements[i].TargetTransform, setting);
             }

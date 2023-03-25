@@ -24,7 +24,7 @@ namespace Broccollie.UI
                 if (!_elements[i].IsEnabled) continue;
 
                 UISpritePreset.SpriteSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
-                if (!setting.IsEnabled) continue;
+                if (setting == null || !setting.IsEnabled) continue;
 
                 features.Add(SpriteSwap(_elements[i].Graphic, setting));
             }
@@ -40,7 +40,7 @@ namespace Broccollie.UI
                 if (!_elements[i].IsEnabled) continue;
 
                 UISpritePreset.SpriteSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
-                if (!setting.IsEnabled) continue;
+                if (setting == null || !setting.IsEnabled) continue;
 
                 SpriteSwapInstant(_elements[i].Graphic, setting);
             }
