@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Broccollie.Game
 {
-    [CreateAssetMenu(fileName = "CameraEffect_Shake", menuName = "CollieMollie/Game/Camera/Shake")]
+    [CreateAssetMenu(fileName = "CameraEffect_Shake", menuName = "Broccollie/Game/Camera/Shake")]
     public class ShakeCameraEffectPreset : CameraEffectPreset
     {
         #region Variable Field

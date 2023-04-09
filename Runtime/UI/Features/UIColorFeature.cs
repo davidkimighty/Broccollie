@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 namespace Broccollie.UI
 {
+    [DisallowMultipleComponent]
     public class UIColorFeature : UIBaseFeature
     {
         #region Variable Field

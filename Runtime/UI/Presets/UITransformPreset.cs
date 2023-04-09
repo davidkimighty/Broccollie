@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Broccollie.UI
 {
-    [Serializable]
+    [CreateAssetMenu(fileName = "TransformPreset", menuName = "Broccollie/UI/Preset/Transform")]
     public class UITransformPreset : UIBasePreset
     {
         public TransformSetting[] Settings = null;
@@ -11,6 +11,12 @@ namespace Broccollie.UI
         [Serializable]
         public class TransformSetting : Setting
         {
+            [Header("Position")]
+            public bool IsPositionEnabled;
+            public float TargetPosition;
+            public float PositionDuration;
+            public AnimationCurve PositionCurve;
+
             [Header("Scale")]
             public bool IsScaleEnabled;
             public float TargetScale;

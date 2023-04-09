@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2800198190328269245}
-  - component: {fileID: 2828069962937198814}
+  - component: {fileID: 8755022771931886132}
   - component: {fileID: 9379083996666658}
   m_Layer: 0
   m_Name: AudioPlayer
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2828069962937198814
+--- !u!114 &8755022771931886132
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 523663628215242796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e675523a8924360962a283f58de58b, type: 3}
+  m_Script: {fileID: 11500000, guid: fc4f12028c6e04d1e9c3eb12f1285a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _source: {fileID: 9379083996666658}
@@ -55,7 +55,8 @@ AudioSource:
   m_GameObject: {fileID: 523663628215242796}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 82bc663cb80ce4c5b90a6432d996e499,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

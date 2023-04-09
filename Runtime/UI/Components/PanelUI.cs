@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace Broccollie.UI
 {
-    [DefaultExecutionOrder(-100)]
+    [DefaultExecutionOrder(-120)]
     public class PanelUI : BaselineUI, IDefaultUI
     {
         #region Variable Field

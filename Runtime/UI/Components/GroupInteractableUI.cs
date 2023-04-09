@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Broccollie.UI
 {
+    [DefaultExecutionOrder(-110)]
     public class GroupInteractableUI : MonoBehaviour
     {
         #region Variable Field

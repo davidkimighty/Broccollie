@@ -109,6 +109,35 @@ namespace Broccollie.UI
         }
 
         #endregion
+
+#if UNITY_EDITOR
+        public void HideFeatureComponents()
+        {
+            Component[] featureComponents = GetComponents(typeof(UIBaseFeature));
+            for (int i = 0; i < featureComponents.Length; i++)
+            {
+                if (featureComponents[i].hideFlags != HideFlags.HideInInspector)
+                    featureComponents[i].hideFlags = HideFlags.HideInInspector;
+            }
+        }
+
+        public void AddFeatureComponent<T>() where T : UIBaseFeature
+        {
+            if (TryGetComponent<T>(out T component)) return;
+            gameObject.AddComponent<T>();
+        }
+
+        public void RemoveFeatureComponent<T>() where T : UIBaseFeature
+        {
+            if (!TryGetComponent<T>(out T component)) return;
+            Destroy(component);
+        }
+
+        public bool CheckComponent<T>() where T : UIBaseFeature
+        {
+            return TryGetComponent<T>(out T component);
+        }
+#endif
     }
 
     public enum UIStates { Default, Show, Hide, Interactive, NonInteractive, Hover, Press, Select }
