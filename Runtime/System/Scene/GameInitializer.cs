@@ -1,8 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 namespace Broccollie.System
@@ -17,10 +13,7 @@ namespace Broccollie.System
 
         private void Start()
         {
-            if (_persistentScene.SceneType == SceneType.Persistent)
-            {
-                _persistentScene.SceneReference.LoadSceneAsync(LoadSceneMode.Single, true);
-            }
+            _persistentScene.SceneReference.LoadSceneAsync(LoadSceneMode.Single, true);
         }
     }
 }

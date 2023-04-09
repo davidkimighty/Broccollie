@@ -2,8 +2,8 @@
     "name": "Broccollie.UI",
     "rootNamespace": "",
     "references": [
-        "GUID:7c692a4545e684ca0bd2114c0fd01b3c",
-        "GUID:9acd3ce9b8a5c4adb99f9f9c62d9e334"
+        "GUID:9018b00fefbd64782bb938c28a0195c6",
+        "GUID:442a631929dbf4e1292c21ea70c57733"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

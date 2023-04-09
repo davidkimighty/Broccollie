@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Broccollie.Game
 {
-    [CreateAssetMenu(fileName = "EventChannel_CameraEffect", menuName = "CollieMollie/Event Channels/Camera Effect")]
+    [CreateAssetMenu(fileName = "EventChannel_CameraEffect", menuName = "Broccollie/Event Channels/Camera Effect")]
     public class CameraEffectEventChannel : ScriptableObject
     {
         #region Events

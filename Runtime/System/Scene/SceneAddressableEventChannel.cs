@@ -8,9 +8,7 @@ namespace Broccollie.System
     public class SceneAddressableEventChannel : ScriptableObject
     {
         #region Events
-        public event Func<SceneAddressablePreset, bool, Task> OnSceneLoadRequestAsync = null;
-
-        public event Action<SceneAddressablePreset, bool> OnSceneLoadRequest = null;
+        public event Func<SceneAddressablePreset, bool, Task> OnRequestLoadSceneAsync = null;
 
         #endregion
 
@@ -18,13 +16,7 @@ namespace Broccollie.System
         public async Task RaiseSceneLoadEventAsync(SceneAddressablePreset scene, bool showLoadingScene)
         {
             if (scene == null) return;
-            await OnSceneLoadRequestAsync?.Invoke(scene, showLoadingScene);
-        }
-
-        public void RaiseSceneLoadEvent(SceneAddressablePreset scene, bool showLoadingScene)
-        {
-            if (scene == null) return;
-            OnSceneLoadRequest?.Invoke(scene, showLoadingScene);
+            await OnRequestLoadSceneAsync?.Invoke(scene, showLoadingScene);
         }
 
         #endregion

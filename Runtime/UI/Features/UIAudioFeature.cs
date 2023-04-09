@@ -24,7 +24,7 @@ namespace Broccollie.UI
                 if (!_elements[i].IsEnabled) continue;
 
                 UIAudioPreset.AudioSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
-                if (!setting.IsEnabled) continue;
+                if (setting == null || !setting.IsEnabled) continue;
 
                 features.Add(PlayAudio(setting));
             }

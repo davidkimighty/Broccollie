@@ -6,12 +6,14 @@ using UnityEngine.SceneManagement;
 
 namespace Broccollie.System
 {
+    [DefaultExecutionOrder(-100)]
     public class SceneAddressableLoader : MonoBehaviour
     {
         #region Variable Field
-        public event Func<Task> OnBeforeSceneUnload = null;
-        public event Func<Task> OnAfterSceneLoad = null;
+        public event Func<Task> OnBeforeSceneUnloadAsync = null;
+        public event Func<Task> OnAfterSceneLoadAsync = null;
 
+        [SerializeField] private SceneAddressableEventChannel _sceneEventChannel = null;
         [SerializeField] private SceneAddressablePreset _loadingScene = null;
 
         private SceneAddressablePreset _currentlyLoadedScene = null;
@@ -21,13 +23,35 @@ namespace Broccollie.System
 
         #endregion
 
+        private void OnEnable()
+        {
+            if (_sceneEventChannel != null)
+                _sceneEventChannel.OnRequestLoadSceneAsync += SceneLoad;
+        }
+
+        private void OnDisable()
+        {
+            if (_sceneEventChannel != null)
+                _sceneEventChannel.OnRequestLoadSceneAsync -= SceneLoad;
+        }
+
+        #region Subscribers
+        private async Task SceneLoad(SceneAddressablePreset scene, bool showLoading)
+        {
+            await UnloadActiveSceneAsync(showLoading);
+
+            await LoadNewSceneAsync(scene);
+        }
+
+        #endregion
+
         #region Public Functions
         public async Task UnloadActiveSceneAsync(bool showLoading)
         {
             if (_sceneUnloading) return;
             _sceneUnloading = true;
 
-            await OnBeforeSceneUnload?.Invoke();
+            await OnBeforeSceneUnloadAsync?.Invoke();
             if (_currentlyLoadedScene != null)
                 SceneUnload(_currentlyLoadedScene);
 
@@ -35,7 +59,7 @@ namespace Broccollie.System
             {
                 await SceneLoadAsync(_loadingScene, true);
                 _loadingSceneLoaded = true;
-                await OnAfterSceneLoad?.Invoke();
+                await OnAfterSceneLoadAsync?.Invoke();
             }
             _sceneUnloading = false;
         }
@@ -47,7 +71,7 @@ namespace Broccollie.System
 
             if (_loadingSceneLoaded)
             {
-                await OnBeforeSceneUnload?.Invoke();
+                await OnBeforeSceneUnloadAsync?.Invoke();
                 SceneUnload(_loadingScene);
                 _loadingSceneLoaded = false;
             }
@@ -55,7 +79,7 @@ namespace Broccollie.System
             await SceneLoadAsync(newScene, true);
             _currentlyLoadedScene = newScene;
 
-            await OnAfterSceneLoad?.Invoke();
+            await OnAfterSceneLoadAsync?.Invoke();
             _sceneLoading = false;
         }
 

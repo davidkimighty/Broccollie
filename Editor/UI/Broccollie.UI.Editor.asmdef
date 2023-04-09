@@ -1,0 +1,16 @@
+{
+    "name": "Broccollie.UI.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8a13289c86ab4444db1b832cbc8b8740"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

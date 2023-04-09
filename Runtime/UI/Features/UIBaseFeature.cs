@@ -38,6 +38,18 @@ namespace Broccollie.UI
             await Task.Yield();
         }
 
+        public virtual void ExecuteFeatureInstant(UIStates state)
+        {
+            if (!_isEnabled) return;
+
+            if (_featureCoroutines.Count > 0)
+            {
+                foreach (IEnumerator coroutine in _featureCoroutines)
+                    StopCoroutine(coroutine);
+                _featureCoroutines.Clear();
+            }
+        }
+
         #endregion
 
         #region Protected Functions
