@@ -16,18 +16,20 @@ namespace Broccollie.Game
         [SerializeField] private CameraController _cameraController = null;
 
         [Header("Move")]
+        [SerializeField] private InputActionProperty _moveAction;
         [SerializeField] private float _gravity = -9.81f;
         [SerializeField] private float _walkSpeed = 3f;
         [SerializeField] private float _accelerate = 3f;
 
         [Header("Rotate")]
+        [SerializeField] private InputActionProperty _lookAction;
         [SerializeField] private float _rotateSmoothDamp = 0.3f;
 
         [Header("Jump")]
+        [SerializeField] private InputActionProperty _jumpAction;
         [SerializeField] private float _jumpHeight = 2f;
         [SerializeField] private float _fallMultiplier = 3f;
 
-        private PlayerInputActions _inputActions = null;
         private Vector3 _moveInput = Vector3.zero;
         private bool _jumpInput = false;
         private Vector2 _lookInput = Vector2.zero;
@@ -41,31 +43,24 @@ namespace Broccollie.Game
 
         #endregion
 
-        private void Awake()
-        {
-            _inputActions = new PlayerInputActions();
-        }
-
         private void OnEnable()
         {
-            _inputActions.Player.Move.performed += ReadMoveInput;
-            _inputActions.Player.Move.canceled += ReadMoveInput;
-            _inputActions.Player.Jump.performed += ReadJumpInput;
-            _inputActions.Player.Jump.canceled += ReadJumpInput;
-            _inputActions.Player.Look.performed += ReadLookInput;
-            _inputActions.Player.Look.canceled += ReadLookInput;
-            _inputActions.Enable();
+            _moveAction.action.performed += ReadMoveInput;
+            _moveAction.action.canceled += ReadMoveInput;
+            _jumpAction.action.performed += ReadJumpInput;
+            _jumpAction.action.canceled += ReadJumpInput;
+            _lookAction.action.performed += ReadLookInput;
+            _lookAction.action.canceled += ReadLookInput;
         }
 
         private void OnDisable()
         {
-            _inputActions.Player.Move.performed -= ReadMoveInput;
-            _inputActions.Player.Move.canceled -= ReadMoveInput;
-            _inputActions.Player.Jump.performed -= ReadJumpInput;
-            _inputActions.Player.Jump.canceled -= ReadJumpInput;
-            _inputActions.Player.Look.performed -= ReadLookInput;
-            _inputActions.Player.Look.canceled -= ReadLookInput;
-            _inputActions.Disable();
+            _moveAction.action.performed -= ReadMoveInput;
+            _moveAction.action.canceled -= ReadMoveInput;
+            _jumpAction.action.performed -= ReadJumpInput;
+            _jumpAction.action.canceled -= ReadJumpInput;
+            _lookAction.action.performed -= ReadLookInput;
+            _lookAction.action.canceled -= ReadLookInput;
         }
 
         #region Subscribers

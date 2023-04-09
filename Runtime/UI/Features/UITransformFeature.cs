@@ -24,11 +24,26 @@ namespace Broccollie.UI
                 if (!_elements[i].IsEnabled) continue;
 
                 UITransformPreset.TransformSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
-                if (!setting.IsEnabled) continue;
+                if (setting == null || !setting.IsEnabled) continue;
 
                 features.Add(TransformScale(_elements[i].TargetTransform, setting));
             }
             return features;
+        }
+
+        public override void ExecuteFeatureInstant(UIStates state)
+        {
+            base.ExecuteFeatureInstant(state);
+
+            for (int i = 0; i < _elements.Length; i++)
+            {
+                if (!_elements[i].IsEnabled) continue;
+
+                UITransformPreset.TransformSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
+                if (setting == null || !setting.IsEnabled) continue;
+
+                TransformScaleInstant(_elements[i].TargetTransform, setting);
+            }
         }
 
         #endregion
@@ -37,6 +52,11 @@ namespace Broccollie.UI
         private IEnumerator TransformScale(Transform target, UITransformPreset.TransformSetting setting)
         {
             yield return target.LerpScale(Vector3.one * setting.TargetScale, setting.ScaleDuration, setting.ScaleCurve);
+        }
+
+        private void TransformScaleInstant(Transform target, UITransformPreset.TransformSetting setting)
+        {
+            target.localScale = Vector3.one * setting.TargetScale;
         }
 
         #endregion

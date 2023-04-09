@@ -11,6 +11,7 @@ namespace Broccollie.Game
     {
         #region Variable Field
         [Header("Camera")]
+        [SerializeField] private InputActionProperty _lookAction;
         [SerializeField] private CameraViewType _cameraViewType = CameraViewType.ThirdPersonView;
         public CameraViewType ViewType
         {
@@ -29,7 +30,6 @@ namespace Broccollie.Game
         [SerializeField] private float _tpcSpeedX = 360f;
         [SerializeField] private float _tpcSpeedY = 6f;
 
-        private PlayerInputActions _inputActions = null;
         private Vector2 _lookInput = Vector2.zero;
         private Vector2 _lookVelocity = Vector2.zero;
         public Vector2 LookVelocity
@@ -42,7 +42,6 @@ namespace Broccollie.Game
 
         private void Awake()
         {
-            _inputActions = new PlayerInputActions();
             Cursor.lockState = CursorLockMode.Locked;
 
             _thirdPersonVirtualCam.Follow = _cameraLookTarget;
@@ -55,16 +54,14 @@ namespace Broccollie.Game
 
         private void OnEnable()
         {
-            _inputActions.Player.Look.performed += ReadLookInput;
-            _inputActions.Player.Look.canceled += ReadLookInput;
-            _inputActions.Enable();
+            _lookAction.action.performed += ReadLookInput;
+            _lookAction.action.canceled += ReadLookInput;
         }
 
         private void OnDisable()
         {
-            _inputActions.Player.Look.performed -= ReadLookInput;
-            _inputActions.Player.Look.canceled -= ReadLookInput;
-            _inputActions.Disable();
+            _lookAction.action.performed -= ReadLookInput;
+            _lookAction.action.canceled -= ReadLookInput;
         }
 
         private void Start()

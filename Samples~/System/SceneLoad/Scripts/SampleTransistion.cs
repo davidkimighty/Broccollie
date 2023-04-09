@@ -12,14 +12,14 @@ public class SampleTransistion : MonoBehaviour
 
     private void OnEnable()
     {
-        _sceneAddressableLoader.OnBeforeSceneUnload += FadeIn;
-        _sceneAddressableLoader.OnAfterSceneLoad += FadeOut;
+        _sceneAddressableLoader.OnBeforeSceneUnloadAsync += FadeIn;
+        _sceneAddressableLoader.OnAfterSceneLoadAsync += FadeOut;
     }
 
     private void OnDisable()
     {
-        _sceneAddressableLoader.OnBeforeSceneUnload -= FadeIn;
-        _sceneAddressableLoader.OnAfterSceneLoad -= FadeOut;
+        _sceneAddressableLoader.OnBeforeSceneUnloadAsync -= FadeIn;
+        _sceneAddressableLoader.OnAfterSceneLoadAsync -= FadeOut;
     }
 
     private async void Start()
