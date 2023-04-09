@@ -26,6 +26,7 @@ namespace Broccollie.Game
         [SerializeField] private LayerMask _platformLayer;
 
         [Header("Move")]
+        [SerializeField] private InputActionProperty _moveAction;
         [SerializeField] private float _maxSpeed = 6f;
         [SerializeField] private float _acceleration = 150f;
         [SerializeField] private AnimationCurve _accelerationFactorFromDot = null;
@@ -37,10 +38,10 @@ namespace Broccollie.Game
         [SerializeField] private float _rotationDamper = 6f;
 
         [Header("Jump")]
+        [SerializeField] private InputActionProperty _jumpAction;
         [SerializeField] private float _jumpForce = 10f;
         [SerializeField] private float _fallMultiplier = 3f;
 
-        private PlayerInputActions _inputActions = null;
         private Vector3 _moveInput = Vector3.zero;
         private bool _jumpInput = false;
         
@@ -53,28 +54,20 @@ namespace Broccollie.Game
 
         #endregion
 
-        private void Awake()
-        {
-            _inputActions = new PlayerInputActions();
-            
-        }
-        
         private void OnEnable()
         {
-            _inputActions.Player.Move.performed += ReadMoveInput;
-            _inputActions.Player.Move.canceled += ReadMoveInput;
-            _inputActions.Player.Jump.performed += ReadJumpInput;
-            _inputActions.Player.Jump.canceled += ReadJumpInput;
-            _inputActions.Enable();
+            _moveAction.action.performed += ReadMoveInput;
+            _moveAction.action.canceled += ReadMoveInput;
+            _jumpAction.action.performed += ReadJumpInput;
+            _jumpAction.action.canceled += ReadJumpInput;
         }
 
         private void OnDisable()
         {
-            _inputActions.Player.Move.performed -= ReadMoveInput;
-            _inputActions.Player.Move.canceled -= ReadMoveInput;
-            _inputActions.Player.Jump.performed -= ReadJumpInput;
-            _inputActions.Player.Jump.canceled -= ReadJumpInput;
-            _inputActions.Disable();
+            _moveAction.action.performed -= ReadMoveInput;
+            _moveAction.action.canceled -= ReadMoveInput;
+            _jumpAction.action.performed -= ReadJumpInput;
+            _jumpAction.action.canceled -= ReadJumpInput;
         }
 
         #region Subscribers
