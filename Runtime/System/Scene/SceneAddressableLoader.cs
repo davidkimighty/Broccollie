@@ -51,7 +51,9 @@ namespace Broccollie.System
             if (_sceneUnloading) return;
             _sceneUnloading = true;
 
-            await OnBeforeSceneUnloadAsync?.Invoke();
+            if (OnBeforeSceneUnloadAsync != null)
+                await OnBeforeSceneUnloadAsync?.Invoke();
+
             if (_currentlyLoadedScene != null)
                 SceneUnload(_currentlyLoadedScene);
 
@@ -59,7 +61,9 @@ namespace Broccollie.System
             {
                 await SceneLoadAsync(_loadingScene, true);
                 _loadingSceneLoaded = true;
-                await OnAfterSceneLoadAsync?.Invoke();
+
+                if (OnAfterSceneLoadAsync != null)
+                    await OnAfterSceneLoadAsync?.Invoke();
             }
             _sceneUnloading = false;
         }
@@ -71,7 +75,8 @@ namespace Broccollie.System
 
             if (_loadingSceneLoaded)
             {
-                await OnBeforeSceneUnloadAsync?.Invoke();
+                if (OnBeforeSceneUnloadAsync != null)
+                    await OnBeforeSceneUnloadAsync?.Invoke();
                 SceneUnload(_loadingScene);
                 _loadingSceneLoaded = false;
             }
@@ -79,7 +84,8 @@ namespace Broccollie.System
             await SceneLoadAsync(newScene, true);
             _currentlyLoadedScene = newScene;
 
-            await OnAfterSceneLoadAsync?.Invoke();
+            if (OnAfterSceneLoadAsync != null)
+                await OnAfterSceneLoadAsync?.Invoke();
             _sceneLoading = false;
         }
 
