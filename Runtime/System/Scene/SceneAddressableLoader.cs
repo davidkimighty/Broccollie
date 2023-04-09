@@ -25,12 +25,14 @@ namespace Broccollie.System
 
         private void OnEnable()
         {
-            _sceneEventChannel.OnRequestLoadSceneAsync += SceneLoad;
+            if (_sceneEventChannel != null)
+                _sceneEventChannel.OnRequestLoadSceneAsync += SceneLoad;
         }
 
         private void OnDisable()
         {
-            _sceneEventChannel.OnRequestLoadSceneAsync -= SceneLoad;
+            if (_sceneEventChannel != null)
+                _sceneEventChannel.OnRequestLoadSceneAsync -= SceneLoad;
         }
 
         #region Subscribers

@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ba92080e47c04cc3bd5e5b7d0d6495c, type: 3}
-  m_Name: SampleScenePreset_Persistent
+  m_Script: {fileID: 11500000, guid: 001708fb27d8f4a0ab555e009c53584a, type: 3}
+  m_Name: SampleSceneAddressablePreset_Persistent
   m_EditorClassIdentifier: 
-  SceneType: 0
+  SceneId: 0
   SceneReference:
     m_AssetGUID: c082fa849dcf84fac9e272cc14d57e79
     m_SubObjectName: 
