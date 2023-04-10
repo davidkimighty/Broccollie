@@ -10,9 +10,6 @@ namespace Broccollie.System
     public class SceneAddressableLoader : MonoBehaviour
     {
         #region Variable Field
-        public event Func<Task> OnBeforeSceneUnloadAsync = null;
-        public event Func<Task> OnAfterSceneLoadAsync = null;
-
         [SerializeField] private SceneAddressableEventChannel _sceneEventChannel = null;
         [SerializeField] private SceneAddressablePreset _loadingScene = null;
 
@@ -51,8 +48,10 @@ namespace Broccollie.System
             if (_sceneUnloading) return;
             _sceneUnloading = true;
 
-            if (OnBeforeSceneUnloadAsync != null)
-                await OnBeforeSceneUnloadAsync?.Invoke();
+            await _sceneEventChannel.RaiseBeforeTransitionAsync();
+
+            _sceneEventChannel.RaiseBeforeSceneUnload();
+            await _sceneEventChannel.RaiseBeforeSceneUnloadAsync();
 
             if (_currentlyLoadedScene != null)
                 SceneUnload(_currentlyLoadedScene);
@@ -62,8 +61,7 @@ namespace Broccollie.System
                 await SceneLoadAsync(_loadingScene, true);
                 _loadingSceneLoaded = true;
 
-                if (OnAfterSceneLoadAsync != null)
-                    await OnAfterSceneLoadAsync?.Invoke();
+                await _sceneEventChannel.RaiseAfterTransitionAsync();
             }
             _sceneUnloading = false;
         }
@@ -75,8 +73,8 @@ namespace Broccollie.System
 
             if (_loadingSceneLoaded)
             {
-                if (OnBeforeSceneUnloadAsync != null)
-                    await OnBeforeSceneUnloadAsync?.Invoke();
+                await _sceneEventChannel.RaiseBeforeTransitionAsync();
+
                 SceneUnload(_loadingScene);
                 _loadingSceneLoaded = false;
             }
@@ -84,8 +82,10 @@ namespace Broccollie.System
             await SceneLoadAsync(newScene, true);
             _currentlyLoadedScene = newScene;
 
-            if (OnAfterSceneLoadAsync != null)
-                await OnAfterSceneLoadAsync?.Invoke();
+            _sceneEventChannel.RaiseAfterSceneLoad();
+            await _sceneEventChannel.RaiseAfterSceneLoadAsync();
+
+            await _sceneEventChannel.RaiseAfterTransitionAsync();
             _sceneLoading = false;
         }
 
