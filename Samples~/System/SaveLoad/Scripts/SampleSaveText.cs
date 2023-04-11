@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Broccollie.System;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SampleSaveText : MonoBehaviour, ISaveable
 {
-    [SerializeField] private TextMeshProUGUI _nameText = null;
+    [SerializeField] private Text _nameText = null;
 
     public void LoadState(object state)
     {

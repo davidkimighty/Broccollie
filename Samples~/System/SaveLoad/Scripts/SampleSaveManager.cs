@@ -1,39 +1,19 @@
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Broccollie.System;
 using UnityEngine;
 
 public class SampleSaveManager : MonoBehaviour
 {
-    private const string Aeskey = "SAMPLEKEY";
-    private const string SaveFolder = "Saved";
-    private const string SaveFileName = "TestData.json";
-    private static string s_savePath = null;
-
-    [SerializeField] private LocalSaveController _saveLoadController = null;
-    [SerializeField] private LocalSaveOptionsPreset _saveOptions = null;
-
-    private void Awake()
-    {
-        s_savePath = Path.Combine(Application.persistentDataPath, SaveFolder);
-    }
+    [SerializeField] private LocalSaveEventChannel _saveEventChannel = null;
 
     [ContextMenu("Execute Save")]
-    public void Save()
+    public async void Save()
     {
-        Task save = _saveLoadController.SaveAsync(() =>
-        {
-            Debug.Log($"[SampleSaveManager] Saved path: {s_savePath}");
-        });
+        await _saveEventChannel.RequestSaveAsync();
     }
 
     [ContextMenu("Execute Load")]
-    public void Load()
+    public async void Load()
     {
-        Task load = _saveLoadController.LoadAsync(() =>
-        {
-            Debug.Log($"[SampleSaveManager] Data loaded.");
-        });
+        await _saveEventChannel.RequestLoadAsync();
     }
 }
