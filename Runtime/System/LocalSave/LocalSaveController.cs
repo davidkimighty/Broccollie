@@ -11,7 +11,40 @@ namespace Broccollie.System
     public class LocalSaveController : MonoBehaviour
     {
         #region Variable Field
+        [Header("Event Channels")]
+        [SerializeField] private LocalSaveEventChannel _eventChannel = null;
+
+        [Header("Data")]
         [SerializeField] private LocalSaveOptionsPreset _preset = null;
+
+        #endregion
+
+        private void OnEnable()
+        {
+            _eventChannel.OnRequestSaveAsync += RequestSaveAsync;
+            _eventChannel.OnRequestLoadAsync += RequestLoadAsync;
+        }
+
+        private void OnDisable()
+        {
+            _eventChannel.OnRequestSaveAsync -= RequestSaveAsync;
+            _eventChannel.OnRequestLoadAsync -= RequestLoadAsync;
+        }
+
+        #region Subscribers
+        private async Task RequestSaveAsync()
+        {
+            if (_preset.Options.UseSaveables)
+                await SaveSaveablesAsync();
+            await SaveDataAsync(_preset);
+        }
+
+        private async Task RequestLoadAsync()
+        {
+            await LoadDataAsync(_preset);
+            if (_preset.Options.UseSaveables)
+                await LoadSaveablesAsync();
+        }
 
         #endregion
 
