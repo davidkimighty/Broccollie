@@ -8,22 +8,15 @@ namespace Broccollie.System
     public class LocalSaveEventChannel : ScriptableObject
     {
         #region Events
-        public event Func<Task> OnSaveRequestAsync = null;
-        public event Func<Task> OnLoadRequestAsync = null;
-
-        public event Action OnSaveRequest = null;
-        public event Action OnLoadRequest = null;
+        public event Func<Task> OnRequestSaveAsync = null;
+        public event Func<Task> OnRequestLoadAsync = null;
 
         #endregion
 
         #region Publishers
-        public async Task RaiseSaveEventAsync() => await OnSaveRequestAsync?.Invoke();
+        public async Task RequestSaveAsync() => await OnRequestSaveAsync?.Invoke();
 
-        public async Task RaiseLoadEventAsync() => await OnLoadRequestAsync?.Invoke();
-
-        public void RaiseSaveEvent() => OnSaveRequest?.Invoke();
-
-        public void RaiseLoadEvent() => OnLoadRequest?.Invoke();
+        public async Task RequestLoadAsync() => await OnRequestLoadAsync?.Invoke();
 
         #endregion
     }
