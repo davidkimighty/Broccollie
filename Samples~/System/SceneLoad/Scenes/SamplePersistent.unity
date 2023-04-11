@@ -393,7 +393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 877d085218d944353b32f4eaf5d164e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneEventChannel: {fileID: 0}
+  _sceneEventChannel: {fileID: 11400000, guid: b7b118eeed7194e9dae29324e440f5ba, type: 2}
   _loadingScene: {fileID: 11400000, guid: 454142a738980410ba526d7d9770aafd, type: 2}
 --- !u!114 &1574437488
 MonoBehaviour:
@@ -407,7 +407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9115da0ef92b2474e88e7383decee397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneAddressableLoader: {fileID: 1574437487}
+  _sceneEventChannel: {fileID: 11400000, guid: b7b118eeed7194e9dae29324e440f5ba, type: 2}
   _sceneOne: {fileID: 11400000, guid: 49bb78467a23041468624d8c2c940a76, type: 2}
   _sceneTwo: {fileID: 11400000, guid: 7c9f3bdfc476c4ad9ac402f37201d281, type: 2}
   _screenFader: {fileID: 2616622836569609387}

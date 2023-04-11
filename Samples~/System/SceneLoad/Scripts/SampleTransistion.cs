@@ -4,35 +4,36 @@ using UnityEngine;
 
 public class SampleTransistion : MonoBehaviour
 {
-    [SerializeField] private SceneAddressableLoader _sceneAddressableLoader = null;
+    [SerializeField] private SceneAddressableEventChannel _sceneEventChannel = null;
     [SerializeField] private SceneAddressablePreset _sceneOne = null;
     [SerializeField] private SceneAddressablePreset _sceneTwo = null;
 
     [SerializeField] private ScreenFader _screenFader = null;
 
-    private void OnEnable()
+    private void Awake()
     {
-        _sceneAddressableLoader.OnBeforeSceneUnloadAsync += FadeIn;
-        _sceneAddressableLoader.OnAfterSceneLoadAsync += FadeOut;
-    }
-
-    private void OnDisable()
-    {
-        _sceneAddressableLoader.OnBeforeSceneUnloadAsync -= FadeIn;
-        _sceneAddressableLoader.OnAfterSceneLoadAsync -= FadeOut;
+        _screenFader.Fade(0);
     }
 
     private async void Start()
     {
-        await _sceneAddressableLoader.LoadNewSceneAsync(_sceneOne);
+        await _sceneEventChannel.RequestSceneLoadAsync(_sceneOne, false);
 
         await Task.Delay(3 * 1000);
 
-        await _sceneAddressableLoader.UnloadActiveSceneAsync(true);
+        await _sceneEventChannel.RequestSceneLoadAsync(_sceneTwo, true);
+    }
 
-        await Task.Delay(3 * 1000);
+    private void OnEnable()
+    {
+        _sceneEventChannel.OnBeforeTransitionAsync += FadeIn;
+        _sceneEventChannel.OnAfterTransitionAsync += FadeOut;
+    }
 
-        await _sceneAddressableLoader.LoadNewSceneAsync(_sceneTwo);
+    private void OnDisable()
+    {
+        _sceneEventChannel.OnBeforeTransitionAsync -= FadeIn;
+        _sceneEventChannel.OnAfterTransitionAsync -= FadeOut;
     }
 
     private async Task FadeIn()
