@@ -70,7 +70,7 @@ namespace Broccollie.UI
             else
             {
                 _currentState = UIStates.Hide;
-                _isInteractive = false;
+                _isActive = _isInteractive = false;
 
                 if (invokeEvent)
                     RaiseOnHide();
