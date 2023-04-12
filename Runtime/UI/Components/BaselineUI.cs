@@ -20,6 +20,12 @@ namespace Broccollie.UI
         [Header("Baseline")]
         [SerializeField] protected UIStates _currentState = UIStates.Default;
 
+        protected bool _isActive = true;
+        public bool IsActive
+        {
+            get => _isActive;
+        }
+
         protected bool _isInteractive = true;
         public bool IsInteractive
         {
