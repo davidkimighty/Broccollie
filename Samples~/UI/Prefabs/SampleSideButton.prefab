@@ -188,11 +188,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentState: 0
+  _features:
+  - {fileID: 5617412540044352703}
   _buttonType: 0
-  _colorFeature: {fileID: 0}
-  _spriteFeature: {fileID: 0}
-  _transformFeature: {fileID: 0}
-  _audioFeature: {fileID: 0}
 --- !u!114 &5617412540044352703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isEnabled: 1
+  _featureType: 0
   _elements: []
 --- !u!1 &8305231152220207937
 GameObject:

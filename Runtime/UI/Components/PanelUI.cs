@@ -13,58 +13,27 @@ namespace Broccollie.UI
         [Header("Button")]
         [SerializeField] private GameObject _panel = null;
 
-        [Header("Features")]
-        [SerializeField] private UIColorFeature _colorFeature = null;
-        [SerializeField] private UISpriteFeature _spriteFeature = null;
-        [SerializeField] private UITransformFeature _transformFeature = null;
-        [SerializeField] private UIAudioFeature _audioFeature = null;
-
         private Task _featureTasks = null;
 
         #endregion
 
-        private void Awake()
-        {
-            switch (_currentState)
-            {
-                case UIStates.Show:
-                    SetActive(true, false, false);
-                    break;
-
-                case UIStates.Hide:
-                    SetActive(false, false, false);
-                    break;
-
-                case UIStates.Interactive:
-                    SetInteractive(true, false, false);
-                    break;
-
-                case UIStates.NonInteractive:
-                    SetInteractive(false, false, false);
-                    break;
-
-                case UIStates.Default:
-                    ExecuteFeatureInstant(UIStates.Default, false);
-                    break;
-            }
-        }
-
         #region Public Functions
-        public override void SetActive(bool state, bool playAudio = false, bool invokeEvent = true)
+        public override void SetActive(bool state, bool playAudio = true, bool invokeEvent = true)
         {
             if (state)
             {
                 _currentState = UIStates.Show;
                 _isActive = true;
-                _panel.SetActive(true);
+                if (!_panel.activeSelf)
+                    _panel.SetActive(true);
 
                 if (invokeEvent)
-                    RaiseOnShow();
+                    RaiseOnShow(this, EventArgs.Empty);
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Show, playAudio, () =>
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Show, true, () =>
                 {
-                    _isInteractive = true;
-                    Default(playAudio, invokeEvent);
+                    if (_isInteractive)
+                        Default(playAudio, invokeEvent);
                 });
             }
             else
@@ -73,16 +42,16 @@ namespace Broccollie.UI
                 _isActive = _isInteractive = false;
 
                 if (invokeEvent)
-                    RaiseOnHide();
+                    RaiseOnHide(this, EventArgs.Empty);
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, playAudio, () =>
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, true, () =>
                 {
                     _panel.SetActive(false);
                 });
             }
         }
 
-        public override void SetInteractive(bool state, bool playAudio = false, bool invokeEvent = true)
+        public override void SetInteractive(bool state, bool playAudio = true, bool invokeEvent = true)
         {
             if (state)
             {
@@ -91,9 +60,9 @@ namespace Broccollie.UI
                     _panel.SetActive(true);
 
                 if (invokeEvent)
-                    RaiseOnInteractive();
+                    RaiseOnInteractive(this, EventArgs.Empty);
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Interactive, playAudio, () =>
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Interactive, true, () =>
                 {
                     _isInteractive = true;
                     Default(playAudio, invokeEvent);
@@ -102,64 +71,27 @@ namespace Broccollie.UI
             else
             {
                 _currentState = UIStates.NonInteractive;
+                _isInteractive = false;
                 if (!_panel.activeSelf)
                     _panel.SetActive(true);
 
-                _isInteractive = false;
                 if (invokeEvent)
-                    RaiseOnInteractive();
+                    RaiseOnInteractive(this, EventArgs.Empty);
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.NonInteractive, playAudio);
+                _featureTasks = ExecuteFeaturesAsync(UIStates.NonInteractive);
             }
         }
 
-        public void Default(bool playAudio = false, bool invokeEvent = true)
+        public void Default(bool playAudio = true, bool invokeEvent = true)
         {
             if (!_isInteractive) return;
 
             _currentState = UIStates.Default;
             _isHovered = _isPressed = _isSelected = false;
             if (invokeEvent)
-                RaiseOnDefault();
+                RaiseOnDefault(this, EventArgs.Empty);
 
-            _featureTasks = ExecuteFeaturesAsync(UIStates.Default, playAudio);
-        }
-
-        #endregion
-
-        #region Private Functions
-        private async Task ExecuteFeaturesAsync(UIStates state, bool playAudio = true, Action done = null)
-        {
-            List<Task> featureTasks = new List<Task>();
-            if (_colorFeature != null)
-                featureTasks.Add(_colorFeature.ExecuteFeaturesAsync(state));
-
-            if (_spriteFeature != null)
-                featureTasks.Add(_spriteFeature.ExecuteFeaturesAsync(state));
-
-            if (_transformFeature != null)
-                featureTasks.Add(_transformFeature.ExecuteFeaturesAsync(state));
-
-            if (_audioFeature != null && playAudio)
-                featureTasks.Add(_audioFeature.ExecuteFeaturesAsync(state));
-
-            await Task.WhenAll(featureTasks);
-            done?.Invoke();
-        }
-
-        private void ExecuteFeatureInstant(UIStates state, bool playAudio = true, Action done = null)
-        {
-            if (_colorFeature != null)
-                _colorFeature.ExecuteFeatureInstant(state);
-
-            if (_spriteFeature != null)
-                _spriteFeature.ExecuteFeatureInstant(state);
-
-            if (_transformFeature != null)
-                _transformFeature.ExecuteFeatureInstant(state);
-
-            if (_audioFeature != null && playAudio)
-                _audioFeature.ExecuteFeatureInstant(state);
+            _featureTasks = ExecuteFeaturesAsync(UIStates.Default);
         }
 
         #endregion

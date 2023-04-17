@@ -53,11 +53,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentState: 0
+  _features:
+  - {fileID: 5807345430491310529}
   _buttonType: 0
-  _colorFeature: {fileID: 5807345430491310529}
-  _spriteFeature: {fileID: 0}
-  _transformFeature: {fileID: 0}
-  _audioFeature: {fileID: 0}
 --- !u!114 &5807345430491310529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,10 +69,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isEnabled: 1
+  _featureType: 0
   _elements:
   - IsEnabled: 1
     Graphic: {fileID: 1265677659350892002}
-    Preset: {fileID: 11400000, guid: ec0ef557ae9314069b841483d5fd3000, type: 2}
+    Preset: {fileID: 11400000, guid: 0ab8af77f5ec64373bb59979ca55a1fe, type: 2}
 --- !u!1 &2018460655450265590
 GameObject:
   m_ObjectHideFlags: 0

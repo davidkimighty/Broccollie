@@ -53,11 +53,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentState: 0
+  _features:
+  - {fileID: 8823041813143014096}
   _buttonType: 0
-  _colorFeature: {fileID: 8823041813143014096}
-  _spriteFeature: {fileID: 0}
-  _transformFeature: {fileID: 0}
-  _audioFeature: {fileID: 0}
 --- !u!114 &8823041813143014096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,6 +69,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isEnabled: 1
+  _featureType: 0
   _elements:
   - IsEnabled: 1
     Graphic: {fileID: 8919738213035438801}
