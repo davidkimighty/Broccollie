@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Broccollie.UI
@@ -106,14 +107,14 @@ namespace Broccollie.UI
         }
 
         #region Subscribers
-        private void UnselectOthers(BaselineUI ui)
+        private void UnselectOthers(BaselineUI sender, EventArgs args)
         {
             switch (_triggeredState)
             {
                 case UIStates.Show:
                     for (int i = 0; i < _baselineUIs.Length; i++)
                     {
-                        if (_baselineUIs[i] == ui || !_baselineUIs[i].IsInteractive) continue;
+                        if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;
                         _baselineUIs[i].SetActive(true, false, false);
                     }
                     break;
@@ -121,7 +122,7 @@ namespace Broccollie.UI
                 case UIStates.Hide:
                     for (int i = 0; i < _baselineUIs.Length; i++)
                     {
-                        if (_baselineUIs[i] == ui || !_baselineUIs[i].IsInteractive) continue;
+                        if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;
                         _baselineUIs[i].SetActive(false, false, false);
                     }
                     break;
@@ -129,7 +130,7 @@ namespace Broccollie.UI
                 case UIStates.Interactive:
                     for (int i = 0; i < _baselineUIs.Length; i++)
                     {
-                        if (_baselineUIs[i] == ui || !_baselineUIs[i].IsInteractive) continue;
+                        if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;
                         _baselineUIs[i].SetInteractive(true, false, false);
                     }
                     break;
@@ -137,7 +138,7 @@ namespace Broccollie.UI
                 case UIStates.NonInteractive:
                     for (int i = 0; i < _baselineUIs.Length; i++)
                     {
-                        if (_baselineUIs[i] == ui || !_baselineUIs[i].IsInteractive) continue;
+                        if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;
                         _baselineUIs[i].SetInteractive(false, false, false);
                     }
                     break;
@@ -145,7 +146,7 @@ namespace Broccollie.UI
                 case UIStates.Default:
                     for (int i = 0; i < _baselineUIs.Length; i++)
                     {
-                        if (_baselineUIs[i] == ui || !_baselineUIs[i].IsInteractive) continue;
+                        if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;
                         if (_baselineUIs[i].TryGetComponent<IDefaultUI>(out IDefaultUI interaction))
                             interaction.Default(false, false);
                     }
@@ -154,7 +155,7 @@ namespace Broccollie.UI
                 case UIStates.Hover:
                     for (int i = 0; i < _baselineUIs.Length; i++)
                     {
-                        if (_baselineUIs[i] == ui || !_baselineUIs[i].IsInteractive) continue;
+                        if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;
                         if (_baselineUIs[i].TryGetComponent<IHoverUI>(out IHoverUI interaction))
                             interaction.Hover(false, false);
                     }
@@ -163,7 +164,7 @@ namespace Broccollie.UI
                 case UIStates.Press:
                     for (int i = 0; i < _baselineUIs.Length; i++)
                     {
-                        if (_baselineUIs[i] == ui || !_baselineUIs[i].IsInteractive) continue;
+                        if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;
                         if (_baselineUIs[i].TryGetComponent<IPressUI>(out IPressUI interaction))
                             interaction.Press(false, false);
                     }
@@ -172,7 +173,7 @@ namespace Broccollie.UI
                 case UIStates.Select:
                     for (int i = 0; i < _baselineUIs.Length; i++)
                     {
-                        if (_baselineUIs[i] == ui || !_baselineUIs[i].IsInteractive) continue;
+                        if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;
                         if (_baselineUIs[i].TryGetComponent<ISelectUI>(out ISelectUI interaction))
                             interaction.Select(false, false);
                     }

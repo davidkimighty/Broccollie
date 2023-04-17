@@ -1,24 +1,32 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Broccollie.UI
 {
-    public abstract class BaselineUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
+    public abstract class BaselineUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
+        IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
     {
         #region Variable Field
-        public event Action<BaselineUI> OnDefault = null;
-        public event Action<BaselineUI> OnShow = null;
-        public event Action<BaselineUI> OnHide = null;
-        public event Action<BaselineUI> OnInteractive = null;
-        public event Action<BaselineUI> OnNonInteractive = null;
-        public event Action<BaselineUI> OnHover = null;
-        public event Action<BaselineUI> OnPress = null;
-        public event Action<BaselineUI> OnSelect = null;
+        public event Action<BaselineUI, EventArgs> OnDefault = null;
+        public event Action<BaselineUI, EventArgs> OnShow = null;
+        public event Action<BaselineUI, EventArgs> OnHide = null;
+        public event Action<BaselineUI, EventArgs> OnInteractive = null;
+        public event Action<BaselineUI, EventArgs> OnNonInteractive = null;
+        public event Action<BaselineUI, EventArgs> OnHover = null;
+        public event Action<BaselineUI, EventArgs> OnPress = null;
+        public event Action<BaselineUI, EventArgs> OnSelect = null;
 
-        [Header("Baseline")]
+        [Header("Base")]
         [SerializeField] protected UIStates _currentState = UIStates.Default;
+        public UIStates CurrentState
+        {
+            get => _currentState;
+        }
+
+        [SerializeField] protected List<UIBaseFeature> _features = null;
 
         protected bool _isActive = true;
         public bool IsActive
@@ -31,16 +39,19 @@ namespace Broccollie.UI
         {
             get => _isInteractive;
         }
+
         protected bool _isHovered = false;
         public bool IsHovered
         {
             get => _isHovered;
         }
+
         protected bool _isPressed = false;
         public bool IsPressed
         {
             get => _isPressed;
         }
+
         protected bool _isSelected = false;
         public bool IsSelected
         {
@@ -49,29 +60,22 @@ namespace Broccollie.UI
 
         #endregion
 
-        #region Public Functions
-        public virtual void SetActive(bool state, bool playAudio = false, bool invokeEvent = true) { }
-
-        public virtual void SetInteractive(bool state, bool playAudio = false, bool invokeEvent = true) { }
-
-        #endregion
-
         #region Publishers
-        protected void RaiseOnDefault() => OnDefault?.Invoke(this);
+        protected virtual void RaiseOnDefault(BaselineUI sender, EventArgs args) => OnDefault?.Invoke(this, args);
 
-        protected void RaiseOnShow() => OnShow?.Invoke(this);
+        protected virtual void RaiseOnShow(BaselineUI sender, EventArgs args) => OnShow?.Invoke(this, args);
 
-        protected void RaiseOnHide() => OnHide?.Invoke(this);
+        protected virtual void RaiseOnHide(BaselineUI sender, EventArgs args) => OnHide?.Invoke(this, args);
 
-        protected void RaiseOnInteractive() => OnInteractive?.Invoke(this);
+        protected virtual void RaiseOnInteractive(BaselineUI sender, EventArgs args) => OnInteractive?.Invoke(this, args);
 
-        protected void RaiseOnNonInteractive() => OnNonInteractive?.Invoke(this);
+        protected virtual void RaiseOnNonInteractive(BaselineUI sender, EventArgs args) => OnNonInteractive?.Invoke(this, args);
 
-        protected void RaiseOnHover() => OnHover?.Invoke(this);
+        protected virtual void RaiseOnHover(BaselineUI sender, EventArgs args) => OnHover?.Invoke(this, args);
 
-        protected void RaiseOnPress() => OnPress?.Invoke(this);
+        protected virtual void RaiseOnPress(BaselineUI sender, EventArgs args) => OnPress?.Invoke(this, args);
 
-        protected void RaiseOnSelect() => OnSelect?.Invoke(this);
+        protected virtual void RaiseOnSelect(BaselineUI sender, EventArgs args) => OnSelect?.Invoke(this, args);
 
         #endregion
 
@@ -116,8 +120,101 @@ namespace Broccollie.UI
 
         #endregion
 
+        #region Public Functions
+        public virtual void SetActive(bool state, bool playAudio = true, bool invokeEvent = true) { }
+
+        public virtual void SetInteractive(bool state, bool playAudio = true, bool invokeEvent = true) { }
+
+        #endregion
+
+        #region Features
+        /// <summary>
+        /// Use this feature to set initial state in the editor.
+        /// </summary>
+        [ContextMenu("Init Current Features Instantly")]
+        private void InitCurrentFeaturesInstantly()
+        {
+            switch (_currentState)
+            {
+                case UIStates.Show:
+                    _isActive = _isInteractive = true;
+                    _isHovered = _isPressed = _isSelected = false;
+                    ExecuteFeatureInstant(UIStates.Show, false);
+                    break;
+
+                case UIStates.Hide:
+                    _isActive = _isInteractive = _isHovered = _isPressed = _isSelected = false;
+                    ExecuteFeatureInstant(UIStates.Hide, false);
+                    break;
+
+                case UIStates.Interactive:
+                    _isActive = _isInteractive = true;
+                    _isHovered = _isPressed = _isSelected = false;
+                    ExecuteFeatureInstant(UIStates.Interactive, false);
+                    break;
+
+                case UIStates.NonInteractive:
+                    _isActive = true;
+                    _isInteractive = _isHovered = _isPressed = _isSelected = false;
+                    ExecuteFeatureInstant(UIStates.NonInteractive, false);
+                    break;
+
+                case UIStates.Default:
+                    _isActive = _isInteractive = true;
+                    _isHovered = _isPressed = _isSelected = false;
+                    ExecuteFeatureInstant(UIStates.Default, false);
+                    break;
+
+                case UIStates.Hover:
+                    _isActive = _isInteractive = _isHovered = true;
+                    _isPressed = _isSelected = false;
+                    ExecuteFeatureInstant(UIStates.Hover, false);
+                    break;
+
+                case UIStates.Press:
+                    _isActive = _isInteractive = _isPressed = true;
+                    _isHovered = _isSelected = false;
+                    ExecuteFeatureInstant(UIStates.Press, false);
+                    break;
+
+                case UIStates.Select:
+                    _isActive = _isInteractive = _isSelected = true;
+                    _isHovered = _isPressed = false;
+                    ExecuteFeatureInstant(UIStates.Select, false);
+                    break;
+            }
+        }
+
+        protected virtual async Task ExecuteFeaturesAsync(UIStates state, bool playAudio = true, Action done = null)
+        {
+            if (_features == null) return;
+
+            List<Task> featureTasks = new List<Task>();
+            foreach (UIBaseFeature feature in _features)
+            {
+                if (feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
+                featureTasks.Add(feature.ExecuteFeaturesAsync(state));
+            }
+            await Task.WhenAll(featureTasks);
+            done?.Invoke();
+        }
+
+        protected virtual void ExecuteFeatureInstant(UIStates state, bool playAudio = true, Action done = null)
+        {
+            if (_features == null) return;
+
+            foreach (UIBaseFeature feature in _features)
+            {
+                if (feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
+                feature.ExecuteFeatureInstant(state);
+            }
+            done?.Invoke();
+        }
+
+        #endregion
+
 #if UNITY_EDITOR
-        public void HideFeatureComponents()
+        public void HideFeatureComponentsEditor()
         {
             Component[] featureComponents = GetComponents(typeof(UIBaseFeature));
             for (int i = 0; i < featureComponents.Length; i++)
@@ -127,19 +224,19 @@ namespace Broccollie.UI
             }
         }
 
-        public void AddFeatureComponent<T>() where T : UIBaseFeature
+        public void AddFeatureComponentEditor<T>() where T : UIBaseFeature
         {
             if (TryGetComponent<T>(out T component)) return;
             gameObject.AddComponent<T>();
         }
 
-        public void RemoveFeatureComponent<T>() where T : UIBaseFeature
+        public void RemoveFeatureComponentEditor<T>() where T : UIBaseFeature
         {
             if (!TryGetComponent<T>(out T component)) return;
             Destroy(component);
         }
 
-        public bool CheckComponent<T>() where T : UIBaseFeature
+        public bool CheckComponentEditor<T>() where T : UIBaseFeature
         {
             return TryGetComponent<T>(out T component);
         }
