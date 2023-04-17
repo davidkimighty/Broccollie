@@ -11,6 +11,11 @@ namespace Broccollie.UI
         #region Variable Field
         [Header("Base Feature")]
         [SerializeField] private bool _isEnabled = true;
+        [SerializeField] private FeatureTypes _featureType = FeatureTypes.Default;
+        public FeatureTypes FeatureType
+        {
+            get => _featureType;
+        }
 
         private List<IEnumerator> _featureCoroutines = new List<IEnumerator>();
 
@@ -60,4 +65,6 @@ namespace Broccollie.UI
 
         #endregion
     }
+
+    public enum FeatureTypes { Default, Audio, }
 }
