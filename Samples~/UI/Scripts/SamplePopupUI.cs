@@ -9,10 +9,10 @@ public class SamplePopupUI : MonoBehaviour
 
     private void Awake()
     {
-        _triggerButton.OnSelect += (sender, args) => _panel.SetActive(true);
-        _closeButton.OnSelect += (sender, args) => _panel.SetActive(false);
+        _triggerButton.OnSelect += (sender, args) => _panel.SetVisible(true);
+        _closeButton.OnSelect += (sender, args) => _panel.SetVisible(false);
 
         if (_panel.IsActive)
-            _panel.SetActive(false);
+            _panel.SetVisible(false);
     }
 }
