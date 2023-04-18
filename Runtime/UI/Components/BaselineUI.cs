@@ -121,70 +121,17 @@ namespace Broccollie.UI
         #endregion
 
         #region Public Functions
-        public virtual void SetActive(bool state, bool playAudio = true, bool invokeEvent = true) { }
+        public virtual void SetVisible(bool state, bool playAudio = true, bool invokeEvent = true) { }
+
+        public virtual void SetVisibleInstant(bool state, bool playAudio = true, bool invokeEvent = true) { }
 
         public virtual void SetInteractive(bool state, bool playAudio = true, bool invokeEvent = true) { }
+
+        public virtual void SetInteractiveInstant(bool state, bool playAudio = true, bool invokeEvent = true) { }
 
         #endregion
 
         #region Features
-        /// <summary>
-        /// Use this feature to set initial state in the editor.
-        /// </summary>
-        [ContextMenu("Init Current Features Instantly")]
-        private void InitCurrentFeaturesInstantly()
-        {
-            switch (_currentState)
-            {
-                case UIStates.Show:
-                    _isActive = _isInteractive = true;
-                    _isHovered = _isPressed = _isSelected = false;
-                    ExecuteFeatureInstant(UIStates.Show, false);
-                    break;
-
-                case UIStates.Hide:
-                    _isActive = _isInteractive = _isHovered = _isPressed = _isSelected = false;
-                    ExecuteFeatureInstant(UIStates.Hide, false);
-                    break;
-
-                case UIStates.Interactive:
-                    _isActive = _isInteractive = true;
-                    _isHovered = _isPressed = _isSelected = false;
-                    ExecuteFeatureInstant(UIStates.Interactive, false);
-                    break;
-
-                case UIStates.NonInteractive:
-                    _isActive = true;
-                    _isInteractive = _isHovered = _isPressed = _isSelected = false;
-                    ExecuteFeatureInstant(UIStates.NonInteractive, false);
-                    break;
-
-                case UIStates.Default:
-                    _isActive = _isInteractive = true;
-                    _isHovered = _isPressed = _isSelected = false;
-                    ExecuteFeatureInstant(UIStates.Default, false);
-                    break;
-
-                case UIStates.Hover:
-                    _isActive = _isInteractive = _isHovered = true;
-                    _isPressed = _isSelected = false;
-                    ExecuteFeatureInstant(UIStates.Hover, false);
-                    break;
-
-                case UIStates.Press:
-                    _isActive = _isInteractive = _isPressed = true;
-                    _isHovered = _isSelected = false;
-                    ExecuteFeatureInstant(UIStates.Press, false);
-                    break;
-
-                case UIStates.Select:
-                    _isActive = _isInteractive = _isSelected = true;
-                    _isHovered = _isPressed = false;
-                    ExecuteFeatureInstant(UIStates.Select, false);
-                    break;
-            }
-        }
-
         protected virtual async Task ExecuteFeaturesAsync(UIStates state, bool playAudio = true, Action done = null)
         {
             if (_features == null) return;
@@ -214,6 +161,60 @@ namespace Broccollie.UI
         #endregion
 
 #if UNITY_EDITOR
+        private void OnValidate()
+        {
+            switch (_currentState)
+            {
+                case UIStates.Show:
+                    _isActive = _isInteractive = true;
+                    _isHovered = _isPressed = _isSelected = false;
+                    SetVisibleInstant(true);
+                    break;
+
+                case UIStates.Hide:
+                    _isActive = _isInteractive = _isHovered = _isPressed = _isSelected = false;
+                    SetVisibleInstant(false);
+                    break;
+
+                case UIStates.Interactive:
+                    _isActive = _isInteractive = true;
+                    _isHovered = _isPressed = _isSelected = false;
+                    ExecuteFeatureInstant(UIStates.Interactive, false);
+                    break;
+
+                case UIStates.NonInteractive:
+                    _isActive = true;
+                    _isInteractive = _isHovered = _isPressed = _isSelected = false;
+                    ExecuteFeatureInstant(UIStates.NonInteractive, false);
+                    break;
+
+                case UIStates.Default:
+                    _isActive = _isInteractive = true;
+                    _isHovered = _isPressed = _isSelected = false;
+                    SetVisibleInstant(true);
+                    break;
+
+                case UIStates.Hover:
+                    _isActive = _isInteractive = _isHovered = true;
+                    _isPressed = _isSelected = false;
+                    ExecuteFeatureInstant(UIStates.Hover, false);
+                    break;
+
+                case UIStates.Press:
+                    _isActive = _isInteractive = _isPressed = true;
+                    _isHovered = _isSelected = false;
+                    ExecuteFeatureInstant(UIStates.Press, false);
+                    break;
+
+                case UIStates.Select:
+                    _isActive = _isInteractive = _isSelected = true;
+                    _isHovered = _isPressed = false;
+                    ExecuteFeatureInstant(UIStates.Select, false);
+                    break;
+            }
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+
         public void HideFeatureComponentsEditor()
         {
             Component[] featureComponents = GetComponents(typeof(UIBaseFeature));

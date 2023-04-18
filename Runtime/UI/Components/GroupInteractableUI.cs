@@ -115,7 +115,7 @@ namespace Broccollie.UI
                     for (int i = 0; i < _baselineUIs.Length; i++)
                     {
                         if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;
-                        _baselineUIs[i].SetActive(true, false, false);
+                        _baselineUIs[i].SetVisible(true, false, false);
                     }
                     break;
 
@@ -123,7 +123,7 @@ namespace Broccollie.UI
                     for (int i = 0; i < _baselineUIs.Length; i++)
                     {
                         if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;
-                        _baselineUIs[i].SetActive(false, false, false);
+                        _baselineUIs[i].SetVisible(false, false, false);
                     }
                     break;
 
