@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -132,7 +133,7 @@ namespace Broccollie.UI
         #endregion
 
         #region Features
-        protected virtual async Task ExecuteFeaturesAsync(UIStates state, bool playAudio = true, Action done = null)
+        protected virtual async Task ExecuteFeaturesAsync(UIStates state, bool playAudio = true, CancellationTokenSource cts = null, Action done = null)
         {
             if (_features == null) return;
 
@@ -142,7 +143,8 @@ namespace Broccollie.UI
                 if (feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
                 featureTasks.Add(feature.ExecuteFeaturesAsync(state));
             }
-            await Task.WhenAll(featureTasks);
+            
+            await Task.Run(() => Task.WhenAll(featureTasks), cts.Token);
             done?.Invoke();
         }
 
