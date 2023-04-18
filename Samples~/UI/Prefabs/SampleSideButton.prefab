@@ -173,7 +173,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 70}
+  m_SizeDelta: {x: 265.3, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6600480098948724920
 MonoBehaviour:
@@ -190,7 +190,7 @@ MonoBehaviour:
   _currentState: 0
   _features:
   - {fileID: 5617412540044352703}
-  _buttonType: 0
+  _buttonType: 2
 --- !u!114 &5617412540044352703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +205,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isEnabled: 1
   _featureType: 0
-  _elements: []
+  _elements:
+  - IsEnabled: 1
+    Graphic: {fileID: 1312827219945634153}
+    Preset: {fileID: 11400000, guid: 60fcddd9470f9485e95a795204ea8592, type: 2}
 --- !u!1 &8305231152220207937
 GameObject:
   m_ObjectHideFlags: 0

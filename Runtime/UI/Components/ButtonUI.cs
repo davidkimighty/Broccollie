@@ -16,6 +16,7 @@ namespace Broccollie.UI
         [SerializeField] private ButtonTypes _buttonType = ButtonTypes.Button;
 
         private Task _featureTasks = null;
+        private CancellationTokenSource _cts = new CancellationTokenSource();
 
         #endregion
 
@@ -72,8 +73,11 @@ namespace Broccollie.UI
         #endregion
 
         #region Public Functions
-        public override void SetActive(bool state, bool playAudio = true, bool invokeEvent = true)
+        public override void SetVisible(bool state, bool playAudio = true, bool invokeEvent = true)
         {
+            _cts.Cancel();
+            _cts = new CancellationTokenSource();
+
             if (state)
             {
                 _currentState = UIStates.Show;
@@ -85,8 +89,8 @@ namespace Broccollie.UI
 
                 _featureTasks = ExecuteFeaturesAsync(UIStates.Show, playAudio, () =>
                 {
-                    if (_isInteractive)
-                        Default(playAudio, invokeEvent);
+                    _isInteractive = true;
+                    Default(playAudio, invokeEvent);
                 });
             }
             else
@@ -101,6 +105,35 @@ namespace Broccollie.UI
                 {
                     gameObject.SetActive(false);
                 });
+            }
+        }
+
+        public override void SetVisibleInstant(bool state, bool playAudio = true, bool invokeEvent = true)
+        {
+            _cts.Cancel();
+            _cts = new CancellationTokenSource();
+
+            if (state)
+            {
+                _currentState = UIStates.Default;
+                _isActive = true;
+                gameObject.SetActive(true);
+
+                if (invokeEvent)
+                    RaiseOnShow(this, new ButtonUIEventArgs());
+
+                ExecuteFeatureInstant(UIStates.Default, playAudio);
+            }
+            else
+            {
+                _currentState = UIStates.Hide;
+                _isActive = _isInteractive = false;
+                gameObject.SetActive(false);
+
+                if (invokeEvent)
+                    RaiseOnHide(this, new ButtonUIEventArgs());
+
+                ExecuteFeatureInstant(UIStates.Hide, playAudio);
             }
         }
 

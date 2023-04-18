@@ -22,22 +22,19 @@ public class SamplesUIController : MonoBehaviour
 
     private void Awake()
     {
-        _buttonsButton.OnSelect += (sender, args) => _buttonsPanel.SetActive(true);
-        _panelsButton.OnSelect += (sender, args) => _panelsPanel.SetActive(true);
+        _buttonsButton.OnSelect += (sender, args) => _buttonsPanel.SetVisible(true);
+        _panelsButton.OnSelect += (sender, args) => _panelsPanel.SetVisible(true);
 
-        _showButtonTrigger_0.OnSelect += (sender, args) => _showButton_0.SetActive(true);
-        _showButtonTrigger_0.OnDefault += (sender, args) => _showButton_0.SetActive(false);
-        _showButtonTrigger_1.OnSelect += (sender, args) => _showButton_1.SetActive(true);
-        _showButtonTrigger_1.OnDefault += (sender, args) => _showButton_1.SetActive(false);
-        _showButtonTrigger_2.OnSelect += (sender, args) => _showButton_2.SetActive(true);
-        _showButtonTrigger_2.OnDefault += (sender, args) => _showButton_2.SetActive(false);
+        _showButtonTrigger_0.OnSelect += (sender, args) => _showButton_0.SetVisible(true);
+        _showButtonTrigger_0.OnDefault += (sender, args) => _showButton_0.SetVisible(false);
+        _showButtonTrigger_1.OnSelect += (sender, args) => _showButton_1.SetVisible(true);
+        _showButtonTrigger_1.OnDefault += (sender, args) => _showButton_1.SetVisible(false);
+        _showButtonTrigger_2.OnSelect += (sender, args) => _showButton_2.SetVisible(true);
+        _showButtonTrigger_2.OnDefault += (sender, args) => _showButton_2.SetVisible(false);
     }
 
     private void Start()
     {
         _buttonsButton.Select();
-        _showButtonTrigger_0.Select();
-        _showButtonTrigger_1.Select();
-        _showButtonTrigger_2.Default();
     }
 }
