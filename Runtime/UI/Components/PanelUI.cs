@@ -11,7 +11,7 @@ namespace Broccollie.UI
     public class PanelUI : BaselineUI, IDefaultUI
     {
         #region Variable Field
-        [Header("Button")]
+        [Header("Panel")]
         [SerializeField] private GameObject _panel = null;
 
         private Task _featureTasks = null;

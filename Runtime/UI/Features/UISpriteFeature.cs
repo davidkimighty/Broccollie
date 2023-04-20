@@ -64,7 +64,7 @@ namespace Broccollie.UI
         #endregion
 
         [Serializable]
-        public struct Element
+        public class Element
         {
             public bool IsEnabled;
             public Image Graphic;

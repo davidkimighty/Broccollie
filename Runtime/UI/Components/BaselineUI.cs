@@ -21,6 +21,9 @@ namespace Broccollie.UI
         public event Action<BaselineUI, EventArgs> OnSelect = null;
 
         [Header("Base")]
+#if UNITY_EDITOR
+        [SerializeField] protected bool _autoUpdate = true;
+#endif
         [SerializeField] protected UIStates _currentState = UIStates.Default;
         public UIStates CurrentState
         {
@@ -154,7 +157,7 @@ namespace Broccollie.UI
 
             foreach (UIBaseFeature feature in _features)
             {
-                if (feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
+                if (feature == null || feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
                 feature.ExecuteFeatureInstant(state);
             }
             done?.Invoke();
@@ -165,6 +168,8 @@ namespace Broccollie.UI
 #if UNITY_EDITOR
         private void OnValidate()
         {
+            if (!_autoUpdate) return;
+
             switch (_currentState)
             {
                 case UIStates.Show:
