@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Broccollie.Core;
 using UnityEngine;
@@ -12,15 +13,17 @@ namespace Broccollie.UI
     public class UIColorFeature : UIBaseFeature
     {
         #region Variable Field
-        [Header("Feature")]
+        [Header("Color Feature")]
         [SerializeField] private Element[] _elements = null;
 
         #endregion
 
         #region Override Functions
-        protected override List<IEnumerator> GetFeatures(UIStates state)
+        protected override List<Task> GetFeatures(UIStates state, CancellationToken ct)
         {
-            List<IEnumerator> features = new List<IEnumerator>();
+            List<Task> features = new List<Task>();
+            if (_elements == null) return features;
+
             for (int i = 0; i < _elements.Length; i++)
             {
                 if (!_elements[i].IsEnabled || _elements[i].Preset == null) continue;
@@ -28,14 +31,15 @@ namespace Broccollie.UI
                 UIColorPreset.ColorSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
-                features.Add(ChangeColor(_elements[i].Graphic, setting));
+                features.Add(_elements[i].Graphic.LerpColorAsync(setting.TargetColor, setting.Duration, ct, setting.Curve));
             }
             return features;
         }
 
-        public override void ExecuteFeatureInstant(UIStates state)
+        protected override List<Action> GetFeaturesInstant(UIStates state)
         {
-            base.ExecuteFeatureInstant(state);
+            List<Action> features = new List<Action>();
+            if (_elements == null) return features;
 
             for (int i = 0; i < _elements.Length; i++)
             {
@@ -44,21 +48,10 @@ namespace Broccollie.UI
                 UIColorPreset.ColorSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
-                ChangeColorInstant(_elements[i].Graphic, setting);
+                int index = i;
+                features.Add(() => _elements[index].Graphic.color = setting.TargetColor);
             }
-        }
-
-        #endregion
-
-        #region Private Functions
-        private IEnumerator ChangeColor(MaskableGraphic graphic, UIColorPreset.ColorSetting setting)
-        {
-            yield return graphic.ChangeColorGradually(setting.TargetColor, setting.Duration, setting.Curve);
-        }
-
-        private void ChangeColorInstant(MaskableGraphic graphic, UIColorPreset.ColorSetting setting)
-        {
-            graphic.color = setting.TargetColor;
+            return features;
         }
 
         #endregion

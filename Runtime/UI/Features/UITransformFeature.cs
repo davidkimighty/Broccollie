@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Broccollie.Core;
 using UnityEngine;
@@ -16,9 +17,9 @@ namespace Broccollie.UI
         #endregion
 
         #region Override Functions
-        protected override List<IEnumerator> GetFeatures(UIStates state)
+        protected override List<Task> GetFeatures(UIStates state, CancellationToken ct)
         {
-            List<IEnumerator> features = new List<IEnumerator>();
+            List<Task> features = new List<Task>();
             if (_elements == null) return features;
 
             for (int i = 0; i < _elements.Length; i++)
@@ -32,19 +33,19 @@ namespace Broccollie.UI
                 if (refTarget == null) continue;
 
                 if (setting.IsPositionEnabled)
-                    features.Add(TransformPosition(_elements[i].Target, setting, refTarget.Reference.position));
+                    features.Add(_elements[i].Target.LerpPositionAsync(refTarget.Reference.position, setting.PositionDuration, ct, setting.PositionCurve));
 
                 if (setting.IsScaleEnabled)
-                    features.Add(TransformScale(_elements[i].Target, setting, refTarget.Reference.localScale));
+                    features.Add(_elements[i].Target.LerpScaleAsync(refTarget.Reference.localScale, setting.ScaleDuration, ct, setting.ScaleCurve));
             }
             return features;
         }
 
-        public override void ExecuteFeatureInstant(UIStates state)
+        protected override List<Action> GetFeaturesInstant(UIStates state)
         {
-            if (_elements == null) return;
+            List<Action> features = new List<Action>();
+            if (_elements == null) return features;
 
-            base.ExecuteFeatureInstant(state);
             for (int i = 0; i < _elements.Length; i++)
             {
                 if (!_elements[i].IsEnabled || _elements[i].Preset == null) continue;
@@ -55,35 +56,14 @@ namespace Broccollie.UI
                 Element.ReferenceTransform refTarget = _elements[i].ReferenceTransforms.Find(x => x.ExecutionState == state);
                 if (refTarget == null) continue;
 
+                int index = i;
                 if (setting.IsPositionEnabled)
-                    TransformPositionInstant(_elements[i].Target, setting, refTarget.Reference.position);
+                    features.Add(() => _elements[index].Target.position = refTarget.Reference.position);
 
                 if (setting.IsScaleEnabled)
-                    TransformScaleInstant(_elements[i].Target, setting, refTarget.Reference.localScale);
+                    features.Add(() => _elements[index].Target.localScale = refTarget.Reference.localScale);
             }
-        }
-
-        #endregion
-
-        #region Private Functions
-        private IEnumerator TransformPosition(Transform target, UITransformPreset.TransformSetting setting, Vector3 targetPosition)
-        {
-            yield return target.LerpPosition(targetPosition, setting.PositionDuration, setting.PositionCurve);
-        }
-
-        private IEnumerator TransformScale(Transform target, UITransformPreset.TransformSetting setting, Vector3 targetScale)
-        {
-            yield return target.LerpScale(targetScale, setting.ScaleDuration, setting.ScaleCurve);
-        }
-
-        private void TransformPositionInstant(Transform target, UITransformPreset.TransformSetting setting, Vector3 targetPosition)
-        {
-            target.position = targetPosition;
-        }
-
-        private void TransformScaleInstant(Transform target, UITransformPreset.TransformSetting setting, Vector3 targetScale)
-        {
-            target.localScale = targetScale;
+            return features;
         }
 
         #endregion

@@ -43,7 +43,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   - IsEnabled: 1
     ExecutionState: 7
-    TargetColor: {r: 0.49803925, g: 0.83921576, b: 0.9921569, a: 1}
+    TargetColor: {r: 0.73333335, g: 0.14901961, b: 0.28627452, a: 1}
     Duration: 0.3
     Curve:
       serializedVersion: 2

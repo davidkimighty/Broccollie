@@ -491,6 +491,7 @@ GameObject:
   - component: {fileID: 8107112856501055470}
   - component: {fileID: 2754854991842704146}
   - component: {fileID: 5700466895577160013}
+  - component: {fileID: 3084854586525543430}
   m_Layer: 5
   m_Name: SampleToggle
   m_TagString: Untagged
@@ -538,6 +539,7 @@ MonoBehaviour:
   _features:
   - {fileID: 2754854991842704146}
   - {fileID: 5700466895577160013}
+  - {fileID: 3084854586525543430}
   _buttonType: 1
 --- !u!114 &2754854991842704146
 MonoBehaviour:
@@ -586,6 +588,24 @@ MonoBehaviour:
       Reference: {fileID: 8234912034733868089}
     - ExecutionState: 7
       Reference: {fileID: 5138866117055694189}
+--- !u!114 &3084854586525543430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6285468543947368259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15bbe675e79114813a6a0f83d0fc32a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isEnabled: 1
+  _featureType: 1
+  _eventChannel: {fileID: 11400000, guid: 8aa120abe15c94b559389c013b6c2672, type: 2}
+  _elements:
+  - IsEnabled: 1
+    Preset: {fileID: 11400000, guid: ff5ea1104ec9d429e8548297c7aa5db7, type: 2}
 --- !u!1 &8327510943496067162
 GameObject:
   m_ObjectHideFlags: 0

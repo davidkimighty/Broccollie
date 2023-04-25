@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2f1154f52ec549ff897ee46abe3ce4b, type: 3}
-  m_Name: TransformPreset_Toggle
+  m_Name: TransformPreset_ToggleHandle
   m_EditorClassIdentifier: 
   Settings:
   - IsEnabled: 1

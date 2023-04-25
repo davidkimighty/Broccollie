@@ -136,7 +136,7 @@ namespace Broccollie.UI
         #endregion
 
         #region Features
-        protected virtual async Task ExecuteFeaturesAsync(UIStates state, bool playAudio = true, CancellationTokenSource cts = null, Action done = null)
+        protected virtual async Task ExecuteFeaturesAsync(UIStates state, CancellationToken ct, bool playAudio = true, Action done = null)
         {
             if (_features == null) return;
 
@@ -144,10 +144,10 @@ namespace Broccollie.UI
             foreach (UIBaseFeature feature in _features)
             {
                 if (feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
-                featureTasks.Add(feature.ExecuteFeaturesAsync(state));
+                featureTasks.Add(feature.ExecuteFeaturesAsync(state, ct));
             }
             
-            await Task.Run(() => Task.WhenAll(featureTasks), cts.Token);
+            await Task.WhenAll(featureTasks);
             done?.Invoke();
         }
 
@@ -198,7 +198,7 @@ namespace Broccollie.UI
                 case UIStates.Default:
                     _isActive = _isInteractive = true;
                     _isHovered = _isPressed = _isSelected = false;
-                    SetVisibleInstant(true);
+                    ExecuteFeatureInstant(UIStates.Default, false);
                     break;
 
                 case UIStates.Hover:
