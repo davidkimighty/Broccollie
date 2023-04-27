@@ -11,7 +11,7 @@ namespace Broccollie.UI
     public class PanelUI : BaselineUI, IDefaultUI
     {
         #region Variable Field
-        [Header("Button")]
+        [Header("Panel")]
         [SerializeField] private GameObject _panel = null;
 
         private Task _featureTasks = null;
@@ -29,27 +29,27 @@ namespace Broccollie.UI
             {
                 _currentState = UIStates.Show;
                 _isActive = true;
+
                 if (!_panel.activeSelf)
                     _panel.SetActive(true);
 
                 if (invokeEvent)
                     RaiseOnShow(this, EventArgs.Empty);
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Show, playAudio, _cts, () =>
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Show, _cts.Token, false, () =>
                 {
-                    _isInteractive = true;
                     Default(playAudio, invokeEvent);
                 });
             }
             else
             {
                 _currentState = UIStates.Hide;
-                _isActive = _isInteractive = false;
+                _isActive = false;
 
                 if (invokeEvent)
                     RaiseOnHide(this, EventArgs.Empty);
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, playAudio, _cts, () =>
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, _cts.Token, false, () =>
                 {
                     _panel.SetActive(false);
                 });
@@ -65,7 +65,9 @@ namespace Broccollie.UI
             {
                 _currentState = UIStates.Default;
                 _isActive = true;
-                _panel.SetActive(true);
+
+                if (!_panel.activeSelf)
+                    _panel.SetActive(true);
 
                 if (invokeEvent)
                     RaiseOnShow(this, new ButtonUIEventArgs());
@@ -75,8 +77,10 @@ namespace Broccollie.UI
             else
             {
                 _currentState = UIStates.Hide;
-                _isActive = _isInteractive = false;
-                _panel.SetActive(false);
+                _isActive = false;
+
+                if (_panel.activeSelf)
+                    _panel.SetActive(false);
 
                 if (invokeEvent)
                     RaiseOnHide(this, new ButtonUIEventArgs());
@@ -93,29 +97,31 @@ namespace Broccollie.UI
             if (state)
             {
                 _currentState = UIStates.Interactive;
+
                 if (!_panel.activeSelf)
                     _panel.SetActive(true);
 
                 if (invokeEvent)
                     RaiseOnInteractive(this, EventArgs.Empty);
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Interactive, playAudio, _cts, () =>
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Interactive, _cts.Token, false, () =>
                 {
-                    _isInteractive = true;
                     Default(playAudio, invokeEvent);
+                    _isInteractive = true;
                 });
             }
             else
             {
                 _currentState = UIStates.NonInteractive;
                 _isInteractive = false;
+
                 if (!_panel.activeSelf)
                     _panel.SetActive(true);
 
                 if (invokeEvent)
                     RaiseOnInteractive(this, EventArgs.Empty);
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.NonInteractive, playAudio, _cts);
+                _featureTasks = ExecuteFeaturesAsync(UIStates.NonInteractive, _cts.Token, false);
             }
         }
 
@@ -128,10 +134,11 @@ namespace Broccollie.UI
 
             _currentState = UIStates.Default;
             _isHovered = _isPressed = _isSelected = false;
+
             if (invokeEvent)
                 RaiseOnDefault(this, EventArgs.Empty);
 
-            _featureTasks = ExecuteFeaturesAsync(UIStates.Default, playAudio, _cts);
+            _featureTasks = ExecuteFeaturesAsync(UIStates.Default, _cts.Token, false);
         }
 
         #endregion

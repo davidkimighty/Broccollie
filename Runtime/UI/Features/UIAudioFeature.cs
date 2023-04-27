@@ -3,6 +3,8 @@ using Broccollie.Audio;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Broccollie.UI
 {
@@ -16,9 +18,11 @@ namespace Broccollie.UI
         #endregion
 
         #region Override Functions
-        protected override List<IEnumerator> GetFeatures(UIStates state)
+        protected override List<Task> GetFeatures(UIStates state, CancellationToken ct)
         {
-            List<IEnumerator> features = new List<IEnumerator>();
+            List<Task> features = new List<Task>();
+            if (_elements == null) return features;
+
             for (int i = 0; i < _elements.Length; i++)
             {
                 if (!_elements[i].IsEnabled) continue;
@@ -26,7 +30,7 @@ namespace Broccollie.UI
                 UIAudioPreset.AudioSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
-                features.Add(PlayAudio(setting));
+                features.Add(PlayAudioAsync(setting, ct));
             }
             return features;
         }
@@ -34,16 +38,16 @@ namespace Broccollie.UI
         #endregion
 
         #region Private Functions
-        private IEnumerator PlayAudio(UIAudioPreset.AudioSetting setting)
+        private async Task PlayAudioAsync(UIAudioPreset.AudioSetting setting, CancellationToken ct)
         {
             _eventChannel.RaisePlayAudioEvent(setting.Audio);
-            yield return new WaitForSeconds(setting.Duration);
+            await Task.Delay((int)(setting.Duration * 1000f), ct);
         }
 
         #endregion
 
         [Serializable]
-        public struct Element
+        public class Element
         {
             public bool IsEnabled;
             public UIAudioPreset Preset;

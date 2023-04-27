@@ -1,11 +1,11 @@
-.section {
+.section-1 {
     margin-left: 3px;
     margin-right: 3px;
     margin-top: 3px;
     margin-bottom: 3px;
 }
 
-.section-foldout {
+.section-2 {
     background-color: var(--unity-colors-tooltip-background);
     border-left-color: var(--unity-colors-tooltip-border);
     border-left-width: 1px;
@@ -23,6 +23,7 @@
     padding-right: 3px;
     padding-top: 3px;
     padding-bottom: 3px;
+    margin-right: 3px;
 }
 
 .header-1 {
@@ -41,4 +42,13 @@
     margin-bottom: 3px;
     -unity-font-style: bold;
     font-size: 13px;
+}
+
+.header-3 {
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    -unity-font-style: bold;
+    font-size: 10px;
 }

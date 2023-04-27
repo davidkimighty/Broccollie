@@ -1,0 +1,23 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="feature-controls" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+        <ui:VisualElement name="group-feature-controls" style="background-color: rgba(0, 0, 0, 0);">
+            <ui:VisualElement name="group-component-controls" style="flex-direction: row;">
+                <ui:VisualElement name="group-left" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; width: 50%;">
+                    <ui:Toggle label="Enable" value="true" name="toggle-feature-enable" style="-unity-text-align: middle-left; flex-direction: row; white-space: normal;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="group-right" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row-reverse; width: 50%;">
+                    <ui:Button text="Add" display-tooltip-when-elided="true" name="button-add-feature" />
+                    <ui:Button text="Remove" display-tooltip-when-elided="true" name="button-remove-feature" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:EnumField label="Feature Type" type="Broccollie.UI.FeatureTypes, Broccollie.UI" value="None" name="enum-feature-types" style="flex-direction: row;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="group-element-controls" style="flex-direction: row;">
+            <ui:VisualElement name="group-left" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; width: 50%;" />
+            <ui:VisualElement name="group-right" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row-reverse; width: 50%;">
+                <ui:Button text="+" display-tooltip-when-elided="true" name="button-element-add" style="width: 20px;" />
+                <ui:Button text="-" display-tooltip-when-elided="true" name="button-element-remove" style="width: 20px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

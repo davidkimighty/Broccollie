@@ -9,6 +9,7 @@ namespace Broccollie.UI.Editor
     public class ButtonUIEditor : UnityEditor.Editor
     {
         [SerializeField] private VisualTreeAsset _uxml = default;
+        [SerializeField] private VisualTreeAsset _featureControlUxml = null;
 
         public override VisualElement CreateInspectorGUI()
         {

@@ -21,6 +21,9 @@ namespace Broccollie.UI
         public event Action<BaselineUI, EventArgs> OnSelect = null;
 
         [Header("Base")]
+#if UNITY_EDITOR
+        [SerializeField] protected bool _autoUpdate = true;
+#endif
         [SerializeField] protected UIStates _currentState = UIStates.Default;
         public UIStates CurrentState
         {
@@ -133,7 +136,7 @@ namespace Broccollie.UI
         #endregion
 
         #region Features
-        protected virtual async Task ExecuteFeaturesAsync(UIStates state, bool playAudio = true, CancellationTokenSource cts = null, Action done = null)
+        protected virtual async Task ExecuteFeaturesAsync(UIStates state, CancellationToken ct, bool playAudio = true, Action done = null)
         {
             if (_features == null) return;
 
@@ -141,10 +144,10 @@ namespace Broccollie.UI
             foreach (UIBaseFeature feature in _features)
             {
                 if (feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
-                featureTasks.Add(feature.ExecuteFeaturesAsync(state));
+                featureTasks.Add(feature.ExecuteFeaturesAsync(state, ct));
             }
             
-            await Task.Run(() => Task.WhenAll(featureTasks), cts.Token);
+            await Task.WhenAll(featureTasks);
             done?.Invoke();
         }
 
@@ -154,7 +157,7 @@ namespace Broccollie.UI
 
             foreach (UIBaseFeature feature in _features)
             {
-                if (feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
+                if (feature == null || feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
                 feature.ExecuteFeatureInstant(state);
             }
             done?.Invoke();
@@ -165,6 +168,8 @@ namespace Broccollie.UI
 #if UNITY_EDITOR
         private void OnValidate()
         {
+            if (!_autoUpdate) return;
+
             switch (_currentState)
             {
                 case UIStates.Show:
@@ -193,7 +198,7 @@ namespace Broccollie.UI
                 case UIStates.Default:
                     _isActive = _isInteractive = true;
                     _isHovered = _isPressed = _isSelected = false;
-                    SetVisibleInstant(true);
+                    ExecuteFeatureInstant(UIStates.Default, false);
                     break;
 
                 case UIStates.Hover:
