@@ -173,13 +173,13 @@ namespace Broccollie.UI
             switch (_currentState)
             {
                 case UIStates.Show:
-                    _isActive = _isInteractive = true;
+                    _isActive = true;
                     _isHovered = _isPressed = _isSelected = false;
                     SetVisibleInstant(true);
                     break;
 
                 case UIStates.Hide:
-                    _isActive = _isInteractive = _isHovered = _isPressed = _isSelected = false;
+                    _isActive = _isHovered = _isPressed = _isSelected = false;
                     SetVisibleInstant(false);
                     break;
 
@@ -196,25 +196,25 @@ namespace Broccollie.UI
                     break;
 
                 case UIStates.Default:
-                    _isActive = _isInteractive = true;
+                    _isActive = true;
                     _isHovered = _isPressed = _isSelected = false;
                     ExecuteFeatureInstant(UIStates.Default, false);
                     break;
 
                 case UIStates.Hover:
-                    _isActive = _isInteractive = _isHovered = true;
+                    _isActive = _isHovered = true;
                     _isPressed = _isSelected = false;
                     ExecuteFeatureInstant(UIStates.Hover, false);
                     break;
 
                 case UIStates.Press:
-                    _isActive = _isInteractive = _isPressed = true;
+                    _isActive = _isPressed = true;
                     _isHovered = _isSelected = false;
                     ExecuteFeatureInstant(UIStates.Press, false);
                     break;
 
                 case UIStates.Select:
-                    _isActive = _isInteractive = _isSelected = true;
+                    _isActive = _isSelected = true;
                     _isHovered = _isPressed = false;
                     ExecuteFeatureInstant(UIStates.Select, false);
                     break;
