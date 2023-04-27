@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -17,50 +18,39 @@ namespace Broccollie.UI
             get => _featureType;
         }
 
-        private List<IEnumerator> _featureCoroutines = new List<IEnumerator>();
+        private List<Task> _featureTasks = new List<Task>();
 
         #endregion
 
         #region Public Functions
-        public async Task ExecuteFeaturesAsync(UIStates state)
+        public async Task ExecuteFeaturesAsync(UIStates state, CancellationToken ct)
         {
             if (!_isEnabled) return;
 
-            if (_featureCoroutines.Count > 0)
-            {
-                foreach (IEnumerator coroutine in _featureCoroutines)
-                    StopCoroutine(coroutine);
-                _featureCoroutines.Clear();
-            }
-
-            _featureCoroutines.AddRange(GetFeatures(state));
-
-            if (gameObject.activeInHierarchy)
-            {
-                foreach (IEnumerator coroutine in _featureCoroutines)
-                    StartCoroutine(coroutine);
-            }
-            await Task.Yield();
+            _featureTasks.AddRange(GetFeatures(state, ct));
+            await Task.WhenAll(_featureTasks);
         }
 
-        public virtual void ExecuteFeatureInstant(UIStates state)
+        public void ExecuteFeatureInstant(UIStates state)
         {
             if (!_isEnabled) return;
 
-            if (_featureCoroutines.Count > 0)
-            {
-                foreach (IEnumerator coroutine in _featureCoroutines)
-                    StopCoroutine(coroutine);
-                _featureCoroutines.Clear();
-            }
+            List<Action> instantFeatures = GetFeaturesInstant(state);
+            foreach (Action feature in instantFeatures)
+                feature?.Invoke();
         }
 
         #endregion
 
         #region Protected Functions
-        protected virtual List<IEnumerator> GetFeatures(UIStates state)
+        protected virtual List<Task> GetFeatures(UIStates state, CancellationToken ct)
         {
-            return new List<IEnumerator>();
+            return new List<Task>();
+        }
+
+        protected virtual List<Action> GetFeaturesInstant(UIStates state)
+        {
+            return new List<Action>();
         }
 
         #endregion

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Broccollie.Core;
 using UnityEngine;
@@ -16,57 +17,77 @@ namespace Broccollie.UI
         #endregion
 
         #region Override Functions
-        protected override List<IEnumerator> GetFeatures(UIStates state)
+        protected override List<Task> GetFeatures(UIStates state, CancellationToken ct)
         {
-            List<IEnumerator> features = new List<IEnumerator>();
+            List<Task> features = new List<Task>();
+            if (_elements == null) return features;
+
             for (int i = 0; i < _elements.Length; i++)
             {
-                if (!_elements[i].IsEnabled) continue;
+                if (!_elements[i].IsEnabled || _elements[i].Preset == null) continue;
 
                 UITransformPreset.TransformSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
-                features.Add(TransformScale(_elements[i].TargetTransform, setting));
+                Element.ReferenceTransform refTarget = _elements[i].ReferenceTransforms.Find(x => x.ExecutionState == state);
+                if (refTarget == null) continue;
+
+                if (setting.IsPositionEnabled)
+                    features.Add(_elements[i].Target.LerpPositionAsync(refTarget.Reference.position, setting.PositionDuration, ct, setting.PositionCurve));
+
+                if (setting.IsRotationEnabled)
+                    features.Add(_elements[i].Target.LerpRotationAsync(refTarget.Reference.rotation, setting.RotationDuration, ct, setting.RotationCurve));
+
+                if (setting.IsScaleEnabled)
+                    features.Add(_elements[i].Target.LerpScaleAsync(refTarget.Reference.localScale, setting.ScaleDuration, ct, setting.ScaleCurve));
             }
             return features;
         }
 
-        public override void ExecuteFeatureInstant(UIStates state)
+        protected override List<Action> GetFeaturesInstant(UIStates state)
         {
-            base.ExecuteFeatureInstant(state);
+            List<Action> features = new List<Action>();
+            if (_elements == null) return features;
 
             for (int i = 0; i < _elements.Length; i++)
             {
-                if (!_elements[i].IsEnabled) continue;
+                if (!_elements[i].IsEnabled || _elements[i].Preset == null) continue;
 
                 UITransformPreset.TransformSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
-                TransformScaleInstant(_elements[i].TargetTransform, setting);
+                Element.ReferenceTransform refTarget = _elements[i].ReferenceTransforms.Find(x => x.ExecutionState == state);
+                if (refTarget == null) continue;
+
+                int index = i;
+                if (setting.IsPositionEnabled)
+                    features.Add(() => _elements[index].Target.position = refTarget.Reference.position);
+
+                if (setting.IsRotationEnabled)
+                    features.Add(() => _elements[index].Target.rotation = refTarget.Reference.rotation);
+
+                if (setting.IsScaleEnabled)
+                    features.Add(() => _elements[index].Target.localScale = refTarget.Reference.localScale);
             }
-        }
-
-        #endregion
-
-        #region Private Functions
-        private IEnumerator TransformScale(Transform target, UITransformPreset.TransformSetting setting)
-        {
-            yield return target.LerpScale(Vector3.one * setting.TargetScale, setting.ScaleDuration, setting.ScaleCurve);
-        }
-
-        private void TransformScaleInstant(Transform target, UITransformPreset.TransformSetting setting)
-        {
-            target.localScale = Vector3.one * setting.TargetScale;
+            return features;
         }
 
         #endregion
 
         [Serializable]
-        public struct Element
+        public class Element
         {
             public bool IsEnabled;
-            public Transform TargetTransform;
+            public Transform Target;
             public UITransformPreset Preset;
+            public List<ReferenceTransform> ReferenceTransforms = null;
+
+            [Serializable]
+            public class ReferenceTransform
+            {
+                public UIStates ExecutionState = UIStates.Default;
+                public Transform Reference = null;
+            }
         }
     }
 }

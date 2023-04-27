@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,9 +17,11 @@ namespace Broccollie.UI
         #endregion
 
         #region Override Functions
-        protected override List<IEnumerator> GetFeatures(UIStates state)
+        protected override List<Task> GetFeatures(UIStates state, CancellationToken ct)
         {
-            List<IEnumerator> features = new List<IEnumerator>();
+            List<Task> features = new List<Task>();
+            if (_elements == null) return features;
+
             for (int i = 0; i < _elements.Length; i++)
             {
                 if (!_elements[i].IsEnabled) continue;
@@ -26,14 +29,15 @@ namespace Broccollie.UI
                 UISpritePreset.SpriteSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
-                features.Add(SpriteSwap(_elements[i].Graphic, setting));
+                features.Add(SpriteSwapAsync(_elements[i].Graphic, setting, ct));
             }
             return features;
         }
 
-        public override void ExecuteFeatureInstant(UIStates state)
+        protected override List<Action> GetFeaturesInstant(UIStates state)
         {
-            base.ExecuteFeatureInstant(state);
+            List<Action> features = new List<Action>();
+            if (_elements == null) return features;
 
             for (int i = 0; i < _elements.Length; i++)
             {
@@ -42,17 +46,19 @@ namespace Broccollie.UI
                 UISpritePreset.SpriteSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
-                SpriteSwapInstant(_elements[i].Graphic, setting);
+                int index = i;
+                features.Add(() => SpriteSwapInstant(_elements[index].Graphic, setting));
             }
+            return features;
         }
 
         #endregion
 
         #region Private Functions
-        private IEnumerator SpriteSwap(Image image, UISpritePreset.SpriteSetting setting)
+        private async Task SpriteSwapAsync(Image image, UISpritePreset.SpriteSetting setting, CancellationToken ct)
         {
             if (setting.Delay > 0)
-                yield return new WaitForSeconds(setting.Delay);
+                await Task.Delay((int)(setting.Delay * 1000f), ct);
             image.sprite = setting.Sprite;
         }
 
@@ -64,7 +70,7 @@ namespace Broccollie.UI
         #endregion
 
         [Serializable]
-        public struct Element
+        public class Element
         {
             public bool IsEnabled;
             public Image Graphic;

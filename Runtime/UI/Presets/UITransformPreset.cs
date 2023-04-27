@@ -13,13 +13,16 @@ namespace Broccollie.UI
         {
             [Header("Position")]
             public bool IsPositionEnabled;
-            public float TargetPosition;
             public float PositionDuration;
             public AnimationCurve PositionCurve;
 
+            [Header("Rotation")]
+            public bool IsRotationEnabled;
+            public float RotationDuration;
+            public AnimationCurve RotationCurve;
+
             [Header("Scale")]
             public bool IsScaleEnabled;
-            public float TargetScale;
             public float ScaleDuration;
             public AnimationCurve ScaleCurve;
         }
