@@ -4817,8 +4817,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1650836961694611085, guid: ca51f23c1701049cb9b0bcee20cd4fdb,
         type: 3}
+      propertyPath: _isActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1650836961694611085, guid: ca51f23c1701049cb9b0bcee20cd4fdb,
+        type: 3}
       propertyPath: _currentState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1650836961694611085, guid: ca51f23c1701049cb9b0bcee20cd4fdb,
+        type: 3}
+      propertyPath: _isInteractive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1650836961694611085, guid: ca51f23c1701049cb9b0bcee20cd4fdb,
         type: 3}
