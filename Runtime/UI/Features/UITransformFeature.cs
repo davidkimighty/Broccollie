@@ -35,6 +35,9 @@ namespace Broccollie.UI
                 if (setting.IsPositionEnabled)
                     features.Add(_elements[i].Target.LerpPositionAsync(refTarget.Reference.position, setting.PositionDuration, ct, setting.PositionCurve));
 
+                if (setting.IsRotationEnabled)
+                    features.Add(_elements[i].Target.LerpRotationAsync(refTarget.Reference.rotation, setting.RotationDuration, ct, setting.RotationCurve));
+
                 if (setting.IsScaleEnabled)
                     features.Add(_elements[i].Target.LerpScaleAsync(refTarget.Reference.localScale, setting.ScaleDuration, ct, setting.ScaleCurve));
             }
@@ -59,6 +62,9 @@ namespace Broccollie.UI
                 int index = i;
                 if (setting.IsPositionEnabled)
                     features.Add(() => _elements[index].Target.position = refTarget.Reference.position);
+
+                if (setting.IsRotationEnabled)
+                    features.Add(() => _elements[index].Target.rotation = refTarget.Reference.rotation);
 
                 if (setting.IsScaleEnabled)
                     features.Add(() => _elements[index].Target.localScale = refTarget.Reference.localScale);

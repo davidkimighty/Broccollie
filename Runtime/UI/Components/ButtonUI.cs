@@ -20,16 +20,6 @@ namespace Broccollie.UI
 
         #endregion
 
-        private void OnEnable()
-        {
-            // check current state
-        }
-
-        private void OnDisable()
-        {
-            _cts.Cancel();
-        }
-
         #region Pointer Callback Subscribers
         protected override void InvokePointerEnter(PointerEventData eventData, BaselineUI baselineUI) => Hover();
 
@@ -98,28 +88,30 @@ namespace Broccollie.UI
             {
                 _currentState = UIStates.Show;
                 _isActive = true;
-                gameObject.SetActive(true);
+
+                if (!gameObject.activeSelf)
+                    gameObject.SetActive(true);
 
                 if (invokeEvent)
                     RaiseOnShow(this, new ButtonUIEventArgs());
 
                 _featureTasks = ExecuteFeaturesAsync(UIStates.Show, _cts.Token, playAudio, () =>
                 {
-                    _isInteractive = true;
                     Default(playAudio, invokeEvent);
                 });
             }
             else
             {
                 _currentState = UIStates.Hide;
-                _isActive = _isInteractive = false;
+                _isActive = false;
 
                 if (invokeEvent)
                     RaiseOnHide(this, new ButtonUIEventArgs());
 
                 _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, _cts.Token, playAudio, () =>
                 {
-                    gameObject.SetActive(false);
+                    if (gameObject.activeSelf)
+                        gameObject.SetActive(false);
                 });
             }
         }
@@ -133,7 +125,9 @@ namespace Broccollie.UI
             {
                 _currentState = UIStates.Show;
                 _isActive = true;
-                gameObject.SetActive(true);
+
+                if (!gameObject.activeSelf)
+                    gameObject.SetActive(true);
 
                 if (invokeEvent)
                     RaiseOnShow(this, new ButtonUIEventArgs());
@@ -143,8 +137,10 @@ namespace Broccollie.UI
             else
             {
                 _currentState = UIStates.Hide;
-                _isActive = _isInteractive = false;
-                gameObject.SetActive(false);
+                _isActive = false;
+
+                if (gameObject.activeSelf)
+                    gameObject.SetActive(false);
 
                 if (invokeEvent)
                     RaiseOnHide(this, new ButtonUIEventArgs());
@@ -161,6 +157,7 @@ namespace Broccollie.UI
             if (state)
             {
                 _currentState = UIStates.Interactive;
+
                 if (!gameObject.activeSelf)
                     gameObject.SetActive(true);
 
@@ -177,6 +174,7 @@ namespace Broccollie.UI
             {
                 _currentState = UIStates.NonInteractive;
                 _isInteractive = false;
+
                 if (!gameObject.activeSelf)
                     gameObject.SetActive(true);
 
@@ -196,6 +194,7 @@ namespace Broccollie.UI
 
             _currentState = UIStates.Default;
             _isHovered = _isPressed = _isSelected = false;
+
             if (invokeEvent)
                 RaiseOnDefault(this, new ButtonUIEventArgs());
 
@@ -211,6 +210,7 @@ namespace Broccollie.UI
 
             _currentState = UIStates.Hover;
             _isHovered = true;
+
             if (invokeEvent)
                 RaiseOnHover(this, new ButtonUIEventArgs());
 
@@ -226,6 +226,7 @@ namespace Broccollie.UI
 
             _currentState = UIStates.Press;
             _isPressed = true;
+
             if (invokeEvent)
                 RaiseOnPress(this, new ButtonUIEventArgs());
 
@@ -251,6 +252,7 @@ namespace Broccollie.UI
                     if (_isSelected)
                     {
                         _currentState = UIStates.Select;
+
                         if (invokeEvent)
                             RaiseOnSelect(this, new ButtonUIEventArgs());
 
@@ -259,6 +261,7 @@ namespace Broccollie.UI
                     else
                     {
                         _currentState = UIStates.Default;
+
                         if (invokeEvent)
                             RaiseOnDefault(this, new ButtonUIEventArgs());
 
@@ -269,6 +272,7 @@ namespace Broccollie.UI
                 case ButtonTypes.Radio:
                     _currentState = UIStates.Select;
                     _isSelected = true;
+
                     if (invokeEvent)
                         RaiseOnSelect(this, new ButtonUIEventArgs());
 

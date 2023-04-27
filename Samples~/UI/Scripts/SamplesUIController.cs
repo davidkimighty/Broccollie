@@ -11,13 +11,21 @@ public class SamplesUIController : MonoBehaviour
     [SerializeField] private PanelUI _buttonsPanel = null;
     [SerializeField] private PanelUI _panelsPanel = null;
 
-    [Header("Buttons")]
+    [Header("Scale")]
     [SerializeField] private ButtonUI _showButtonTrigger_0 = null;
     [SerializeField] private ButtonUI _showButton_0 = null;
     [SerializeField] private ButtonUI _showButtonTrigger_1 = null;
     [SerializeField] private ButtonUI _showButton_1 = null;
     [SerializeField] private ButtonUI _showButtonTrigger_2 = null;
     [SerializeField] private ButtonUI _showButton_2 = null;
+
+    [Header("Animation")]
+    [SerializeField] private ButtonUI _animationShowTrigger_0 = null;
+    [SerializeField] private ButtonUI _animationShow_0 = null;
+    [SerializeField] private ButtonUI _animationShowTrigger_1 = null;
+    [SerializeField] private ButtonUI _animationShow_1 = null;
+    [SerializeField] private ButtonUI _animationShowTrigger_2 = null;
+    [SerializeField] private ButtonUI _animationShow_2 = null;
 
 
     private void Awake()
@@ -31,6 +39,13 @@ public class SamplesUIController : MonoBehaviour
         _showButtonTrigger_1.OnDefault += (sender, args) => _showButton_1.SetVisible(false);
         _showButtonTrigger_2.OnSelect += (sender, args) => _showButton_2.SetVisible(true);
         _showButtonTrigger_2.OnDefault += (sender, args) => _showButton_2.SetVisible(false);
+
+        _animationShowTrigger_0.OnSelect += (sender, args) => _animationShow_0.SetVisible(true);
+        _animationShowTrigger_0.OnDefault += (sender, args) => _animationShow_0.SetVisible(false);
+        _animationShowTrigger_1.OnSelect += (sender, args) => _animationShow_1.SetVisible(true);
+        _animationShowTrigger_1.OnDefault += (sender, args) => _animationShow_1.SetVisible(false);
+        _animationShowTrigger_2.OnSelect += (sender, args) => _animationShow_2.SetVisible(true);
+        _animationShowTrigger_2.OnDefault += (sender, args) => _animationShow_2.SetVisible(false);
     }
 
     private void Start()
