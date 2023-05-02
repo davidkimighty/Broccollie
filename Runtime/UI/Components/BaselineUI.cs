@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 namespace Broccollie.UI
 {
     public abstract class BaselineUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
-        IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
+        IPointerDownHandler, IPointerUpHandler, IPointerClickHandler, IMoveHandler
     {
         #region Variable Field
         public event Action<BaselineUI, EventArgs> OnDefault = null;
@@ -31,6 +31,10 @@ namespace Broccollie.UI
         }
 
         [SerializeField] protected List<UIBaseFeature> _features = null;
+        public List<UIBaseFeature> Features
+        {
+            get => _features;
+        }
 
         protected bool _isActive = true;
         public bool IsActive
@@ -61,6 +65,9 @@ namespace Broccollie.UI
         {
             get => _isSelected;
         }
+
+        protected Task _featureTasks = null;
+        protected CancellationTokenSource _cts = new CancellationTokenSource();
 
         #endregion
 
@@ -94,6 +101,8 @@ namespace Broccollie.UI
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData) => InvokePointerClick(eventData, null);
 
+        void IMoveHandler.OnMove(AxisEventData eventData) => InvokeMove(eventData, null);
+
         #endregion
 
         #region Pointer Callback Subscribers
@@ -122,6 +131,11 @@ namespace Broccollie.UI
             if (baselineUI == null) return;
         }
 
+        protected virtual void InvokeMove(AxisEventData eventData, BaselineUI baselineUI)
+        {
+            if (baselineUI == null) return;
+        }
+
         #endregion
 
         #region Public Functions
@@ -144,7 +158,7 @@ namespace Broccollie.UI
             foreach (UIBaseFeature feature in _features)
             {
                 if (feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
-                featureTasks.Add(feature.ExecuteFeaturesAsync(state, ct));
+                featureTasks.Add(feature.ExecuteAsync(state, ct));
             }
             
             await Task.WhenAll(featureTasks);
@@ -158,9 +172,15 @@ namespace Broccollie.UI
             foreach (UIBaseFeature feature in _features)
             {
                 if (feature == null || feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
-                feature.ExecuteFeatureInstant(state);
+                feature.ExecuteInstant(state);
             }
             done?.Invoke();
+        }
+
+        protected virtual void CancelFeatureTask()
+        {
+            _cts.Cancel();
+            _cts = new CancellationTokenSource();
         }
 
         #endregion
@@ -248,6 +268,7 @@ namespace Broccollie.UI
         {
             return TryGetComponent<T>(out T component);
         }
+
 #endif
     }
 

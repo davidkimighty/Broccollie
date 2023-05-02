@@ -15,9 +15,6 @@ namespace Broccollie.UI
         [Header("Button")]
         [SerializeField] private ButtonTypes _buttonType = ButtonTypes.Button;
 
-        private Task _featureTasks = null;
-        private CancellationTokenSource _cts = new CancellationTokenSource();
-
         #endregion
 
         #region Pointer Callback Subscribers
@@ -27,8 +24,7 @@ namespace Broccollie.UI
         {
             if (!_isInteractive) return;
 
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
+            CancelFeatureTask();
 
             _isHovered = false;
             if (_isPressed) return;
@@ -51,8 +47,7 @@ namespace Broccollie.UI
         {
             if (!_isInteractive) return;
 
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
+            CancelFeatureTask();
 
             _isPressed = false;
             if (_isHovered)
@@ -76,13 +71,17 @@ namespace Broccollie.UI
 
         protected override void InvokePointerClick(PointerEventData eventData, BaselineUI baselineUI) => Select();
 
+        protected override void InvokeMove(AxisEventData eventData, BaselineUI baselineUI)
+        {
+            Debug.Log($"Move {eventData.moveDir}");
+        }
+
         #endregion
 
         #region Public Functions
         public override void SetVisible(bool state, bool playAudio = true, bool invokeEvent = true)
         {
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
+            CancelFeatureTask();
 
             if (state)
             {
@@ -118,8 +117,7 @@ namespace Broccollie.UI
 
         public override void SetVisibleInstant(bool state, bool playAudio = true, bool invokeEvent = true)
         {
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
+            CancelFeatureTask();
 
             if (state)
             {
@@ -151,8 +149,7 @@ namespace Broccollie.UI
 
         public override void SetInteractive(bool state, bool playAudio = true, bool invokeEvent = true)
         {
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
+            CancelFeatureTask();
 
             if (state)
             {
@@ -189,8 +186,7 @@ namespace Broccollie.UI
         {
             if (!_isInteractive) return;
 
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
+            CancelFeatureTask();
 
             _currentState = UIStates.Default;
             _isHovered = _isPressed = _isSelected = false;
@@ -205,8 +201,7 @@ namespace Broccollie.UI
         {
             if (!_isInteractive) return;
 
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
+            CancelFeatureTask();
 
             _currentState = UIStates.Hover;
             _isHovered = true;
@@ -221,8 +216,7 @@ namespace Broccollie.UI
         {
             if (!_isInteractive) return;
 
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
+            CancelFeatureTask();
 
             _currentState = UIStates.Press;
             _isPressed = true;
@@ -237,9 +231,6 @@ namespace Broccollie.UI
         {
             if (!_isInteractive) return;
 
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
-
             switch (_buttonType)
             {
                 case ButtonTypes.Button:
@@ -251,6 +242,8 @@ namespace Broccollie.UI
                     _isSelected = !_isSelected;
                     if (_isSelected)
                     {
+                        CancelFeatureTask();
+
                         _currentState = UIStates.Select;
 
                         if (invokeEvent)
@@ -260,6 +253,8 @@ namespace Broccollie.UI
                     }
                     else
                     {
+                        CancelFeatureTask();
+
                         _currentState = UIStates.Default;
 
                         if (invokeEvent)
@@ -270,6 +265,8 @@ namespace Broccollie.UI
                     break;
 
                 case ButtonTypes.Radio:
+                    CancelFeatureTask();
+
                     _currentState = UIStates.Select;
                     _isSelected = true;
 

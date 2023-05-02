@@ -57,7 +57,7 @@ namespace Broccollie.UI
                 if (setting == null || !setting.IsEnabled) continue;
 
                 Element.ReferenceTransform refTarget = _elements[i].ReferenceTransforms.Find(x => x.ExecutionState == state);
-                if (refTarget == null) continue;
+                if (refTarget == null || refTarget.Reference == null) continue;
 
                 int index = i;
                 if (setting.IsPositionEnabled)

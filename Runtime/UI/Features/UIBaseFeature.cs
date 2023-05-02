@@ -23,7 +23,7 @@ namespace Broccollie.UI
         #endregion
 
         #region Public Functions
-        public async Task ExecuteFeaturesAsync(UIStates state, CancellationToken ct)
+        public async Task ExecuteAsync(UIStates state, CancellationToken ct)
         {
             if (!_isEnabled) return;
 
@@ -31,7 +31,7 @@ namespace Broccollie.UI
             await Task.WhenAll(_featureTasks);
         }
 
-        public void ExecuteFeatureInstant(UIStates state)
+        public void ExecuteInstant(UIStates state)
         {
             if (!_isEnabled) return;
 
