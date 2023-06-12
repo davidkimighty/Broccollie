@@ -8,13 +8,25 @@ using UnityEngine.EventSystems;
 namespace Broccollie.UI
 {
     [DefaultExecutionOrder(-120)]
-    public class PanelUI : BaselineUI, IDefaultUI
+    public class PanelUI : BaseUI, IDefaultUI
     {
         #region Variable Field
+        private static List<BaseUI> s_activePanels = new List<BaseUI>();
+
         [Header("Panel")]
         [SerializeField] private GameObject _panel = null;
 
         #endregion
+
+        private void OnEnable()
+        {
+            s_activePanels.Add(this);
+        }
+
+        private void OnDisable()
+        {
+            s_activePanels.Remove(this);
+        }
 
         #region Public Functions
         public override void SetVisible(bool state, bool playAudio = true, bool invokeEvent = true)
@@ -126,7 +138,7 @@ namespace Broccollie.UI
             CancelFeatureTask();
 
             _currentState = UIStates.Default;
-            _isHovered = _isPressed = _isSelected = false;
+            _isHovered = _isPressed = _isClicked = false;
 
             if (invokeEvent)
                 RaiseOnDefault(this, new PanelUIEventArgs());

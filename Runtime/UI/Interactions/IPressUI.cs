@@ -1,7 +1,9 @@
+using UnityEngine.EventSystems;
+
 namespace Broccollie.UI
 {
     public interface IPressUI
     {
-        void Press(bool playAudio = false, bool invokeEvent = true);
+        void Press(PointerEventData eventData = null, bool playAudio = false, bool invokeEvent = true);
     }
 }

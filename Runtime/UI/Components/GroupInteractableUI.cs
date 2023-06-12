@@ -8,9 +8,9 @@ namespace Broccollie.UI
     {
         #region Variable Field
         [Header("Group")]
-        [SerializeField] private UIStates _triggerState = UIStates.Select;
+        [SerializeField] private UIStates _triggerState = UIStates.Click;
         [SerializeField] private UIStates _triggeredState = UIStates.Default;
-        [SerializeField] private BaselineUI[] _baselineUIs = null;
+        [SerializeField] private BaseUI[] _baselineUIs = null;
 
         #endregion
 
@@ -53,9 +53,9 @@ namespace Broccollie.UI
                         _baselineUIs[i].OnPress += UnselectOthers;
                     break;
 
-                case UIStates.Select:
+                case UIStates.Click:
                     for (int i = 0; i < _baselineUIs.Length; i++)
-                        _baselineUIs[i].OnSelect += UnselectOthers;
+                        _baselineUIs[i].OnClick += UnselectOthers;
                     break;
             }
         }
@@ -99,15 +99,15 @@ namespace Broccollie.UI
                         _baselineUIs[i].OnPress -= UnselectOthers;
                     break;
 
-                case UIStates.Select:
+                case UIStates.Click:
                     for (int i = 0; i < _baselineUIs.Length; i++)
-                        _baselineUIs[i].OnSelect -= UnselectOthers;
+                        _baselineUIs[i].OnClick -= UnselectOthers;
                     break;
             }
         }
 
         #region Subscribers
-        private void UnselectOthers(BaselineUI sender, EventArgs args)
+        private void UnselectOthers(BaseUI sender, EventArgs args)
         {
             switch (_triggeredState)
             {
@@ -166,11 +166,11 @@ namespace Broccollie.UI
                     {
                         if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;
                         if (_baselineUIs[i].TryGetComponent<IPressUI>(out IPressUI interaction))
-                            interaction.Press(false, false);
+                            interaction.Press(null, false, false);
                     }
                     break;
 
-                case UIStates.Select:
+                case UIStates.Click:
                     for (int i = 0; i < _baselineUIs.Length; i++)
                     {
                         if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;

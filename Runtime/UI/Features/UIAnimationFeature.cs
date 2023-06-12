@@ -69,7 +69,7 @@ namespace Broccollie.UI
                 animationStates.Add(UIStates.Interactive.ToString());
                 animationStates.Add(UIStates.NonInteractive.ToString());
                 animationStates.Add(UIStates.Press.ToString());
-                animationStates.Add(UIStates.Select.ToString());
+                animationStates.Add(UIStates.Click.ToString());
 
                 foreach (string animationState in animationStates)
                 {
@@ -85,7 +85,7 @@ namespace Broccollie.UI
                 element.Animator.SetBool(UIStates.Hover.ToString(), true);
             }
 
-            if (executionState == UIStates.Default.ToString() || executionState == UIStates.Select.ToString())
+            if (executionState == UIStates.Default.ToString() || executionState == UIStates.Click.ToString())
                 element.Animator.SetBool(UIStates.Hover.ToString(), false);
 
             await Task.Delay(TimeSpan.FromSeconds(setting.Animation.length).Milliseconds, ct);
