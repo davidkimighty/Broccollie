@@ -29,17 +29,14 @@ namespace Broccollie.UI
                 UITransformPreset.TransformSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
-                Element.ReferenceTransform refTarget = _elements[i].ReferenceTransforms.Find(x => x.ExecutionState == state);
-                if (refTarget == null) continue;
-
                 if (setting.IsPositionEnabled)
-                    features.Add(_elements[i].Target.LerpPositionAsync(refTarget.Reference.position, setting.PositionDuration, ct, setting.PositionCurve));
+                    features.Add(_elements[i].Target.LerpAnchoredPositionAsync(setting.AnchoredPosition, setting.PositionDuration, ct, setting.PositionCurve));
 
                 if (setting.IsRotationEnabled)
-                    features.Add(_elements[i].Target.LerpRotationAsync(refTarget.Reference.rotation, setting.RotationDuration, ct, setting.RotationCurve));
+                    features.Add(_elements[i].Target.LerpRotationAsync(Quaternion.Euler(setting.TargetRotation), setting.RotationDuration, ct, setting.RotationCurve));
 
                 if (setting.IsScaleEnabled)
-                    features.Add(_elements[i].Target.LerpScaleAsync(refTarget.Reference.localScale, setting.ScaleDuration, ct, setting.ScaleCurve));
+                    features.Add(_elements[i].Target.LerpScaleAsync(setting.TargetScale, setting.ScaleDuration, ct, setting.ScaleCurve));
             }
             return features;
         }
@@ -56,18 +53,15 @@ namespace Broccollie.UI
                 UITransformPreset.TransformSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
-                Element.ReferenceTransform refTarget = _elements[i].ReferenceTransforms.Find(x => x.ExecutionState == state);
-                if (refTarget == null || refTarget.Reference == null) continue;
-
                 int index = i;
                 if (setting.IsPositionEnabled)
-                    features.Add(() => _elements[index].Target.position = refTarget.Reference.position);
+                    features.Add(() => _elements[index].Target.anchoredPosition = setting.AnchoredPosition);
 
                 if (setting.IsRotationEnabled)
-                    features.Add(() => _elements[index].Target.rotation = refTarget.Reference.rotation);
+                    features.Add(() => _elements[index].Target.rotation = Quaternion.Euler(setting.TargetRotation));
 
                 if (setting.IsScaleEnabled)
-                    features.Add(() => _elements[index].Target.localScale = refTarget.Reference.localScale);
+                    features.Add(() => _elements[index].Target.localScale = setting.TargetScale);
             }
             return features;
         }
@@ -78,16 +72,8 @@ namespace Broccollie.UI
         public class Element
         {
             public bool IsEnabled;
-            public Transform Target;
+            public RectTransform Target;
             public UITransformPreset Preset;
-            public List<ReferenceTransform> ReferenceTransforms = null;
-
-            [Serializable]
-            public class ReferenceTransform
-            {
-                public UIStates ExecutionState = UIStates.Default;
-                public Transform Reference = null;
-            }
         }
     }
 }

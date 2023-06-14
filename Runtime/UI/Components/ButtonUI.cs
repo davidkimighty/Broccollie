@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -47,12 +48,14 @@ namespace Broccollie.UI
 
         protected override void InvokeDeselect(BaseEventData eventData, BaseUI invoker) => Exit();
 
+        protected override void InvokeSubmit(BaseEventData eventData, BaseUI invoker) => Select();
+
         #endregion
 
         #region Public Functions
         public override void SetVisible(bool state, bool playAudio = true, bool invokeEvent = true)
         {
-            CancelFeatureTask();
+            
 
             if (state)
             {
@@ -65,7 +68,7 @@ namespace Broccollie.UI
                 if (invokeEvent)
                     RaiseOnShow(this, new ButtonUIEventArgs());
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Show, _cts.Token, playAudio, () =>
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Show, playAudio, () =>
                 {
                     Default(playAudio, invokeEvent);
                 });
@@ -78,7 +81,7 @@ namespace Broccollie.UI
                 if (invokeEvent)
                     RaiseOnHide(this, new ButtonUIEventArgs());
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, _cts.Token, playAudio, () =>
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Hide, playAudio, () =>
                 {
                     if (gameObject.activeSelf)
                         gameObject.SetActive(false);
@@ -88,7 +91,7 @@ namespace Broccollie.UI
 
         public override void SetVisibleInstant(bool state, bool playAudio = true, bool invokeEvent = true)
         {
-            CancelFeatureTask();
+            
 
             if (state)
             {
@@ -120,7 +123,7 @@ namespace Broccollie.UI
 
         public override void SetInteractive(bool state, bool playAudio = true, bool invokeEvent = true)
         {
-            CancelFeatureTask();
+            
 
             if (state)
             {
@@ -132,7 +135,7 @@ namespace Broccollie.UI
                 if (invokeEvent)
                     RaiseOnInteractive(this, new ButtonUIEventArgs());
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Interactive, _cts.Token, playAudio, () =>
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Interactive, playAudio, () =>
                 {
                     _isInteractive = true;
                     Default(playAudio, invokeEvent);
@@ -149,7 +152,7 @@ namespace Broccollie.UI
                 if (invokeEvent)
                     RaiseOnInteractive(this, new ButtonUIEventArgs());
 
-                _featureTasks = ExecuteFeaturesAsync(UIStates.NonInteractive, _cts.Token, playAudio);
+                _featureTasks = ExecuteFeaturesAsync(UIStates.NonInteractive, playAudio);
             }
         }
 
@@ -157,22 +160,18 @@ namespace Broccollie.UI
         {
             if (!_isInteractive) return;
 
-            CancelFeatureTask();
-
             _currentState = UIStates.Default;
             _isHovered = _isPressed = _isClicked = false;
 
             if (invokeEvent)
                 RaiseOnDefault(this, new ButtonUIEventArgs());
 
-            _featureTasks = ExecuteFeaturesAsync(UIStates.Default, _cts.Token, playAudio);
+            _featureTasks = ExecuteFeaturesAsync(UIStates.Default, playAudio);
         }
 
         public void Hover(bool playAudio = true, bool invokeEvent = true)
         {
             if (!_isInteractive) return;
-
-            CancelFeatureTask();
 
             _currentState = UIStates.Hover;
             _isHovered = true;
@@ -180,23 +179,23 @@ namespace Broccollie.UI
             if (invokeEvent)
                 RaiseOnHover(this, new ButtonUIEventArgs());
 
-            _featureTasks = ExecuteFeaturesAsync(UIStates.Hover, _cts.Token, playAudio);
+            _featureTasks = ExecuteFeaturesAsync(UIStates.Hover, playAudio);
         }
 
         public void Press(PointerEventData eventData, bool playAudio = true, bool invokeEvent = true)
         {
             if (!_isInteractive) return;
 
-            CancelFeatureTask();
+            if (eventData != null)
+                EventSystem.current.SetSelectedGameObject(gameObject, eventData);
 
-            EventSystem.current.SetSelectedGameObject(gameObject, eventData);
             _currentState = UIStates.Press;
             _isPressed = true;
 
             if (invokeEvent)
                 RaiseOnPress(this, new ButtonUIEventArgs());
 
-            _featureTasks = ExecuteFeaturesAsync(UIStates.Press, _cts.Token, playAudio);
+            _featureTasks = ExecuteFeaturesAsync(UIStates.Press, playAudio);
         }
 
         public void Select(bool playAudio = true, bool invokeEvent = true)
@@ -208,44 +207,47 @@ namespace Broccollie.UI
                 case ButtonTypes.Button:
                     if (invokeEvent)
                         RaiseOnClick(this, new ButtonUIEventArgs());
+
+                    if (!_isPressed) // invoked by submit
+                    {
+                        _featureTasks = ExecuteFeaturesAsync(UIStates.Press, playAudio, () =>
+                        {
+                            Default(false, invokeEvent);
+                        });
+                    }
                     break;
 
                 case ButtonTypes.Checkbox:
                     _isClicked = !_isClicked;
+
                     if (_isClicked)
                     {
-                        CancelFeatureTask();
-
                         _currentState = UIStates.Click;
 
                         if (invokeEvent)
                             RaiseOnClick(this, new ButtonUIEventArgs());
 
-                        _featureTasks = ExecuteFeaturesAsync(UIStates.Click, _cts.Token, playAudio);
+                        _featureTasks = ExecuteFeaturesAsync(UIStates.Click, playAudio);
                     }
                     else
                     {
-                        CancelFeatureTask();
-
                         _currentState = UIStates.Default;
 
                         if (invokeEvent)
                             RaiseOnDefault(this, new ButtonUIEventArgs());
 
-                        _featureTasks = ExecuteFeaturesAsync(UIStates.Default, _cts.Token, playAudio);
+                        _featureTasks = ExecuteFeaturesAsync(UIStates.Default, playAudio);
                     }
                     break;
 
                 case ButtonTypes.Radio:
-                    CancelFeatureTask();
-
                     _currentState = UIStates.Click;
                     _isClicked = true;
 
                     if (invokeEvent)
                         RaiseOnClick(this, new ButtonUIEventArgs());
 
-                    _featureTasks = ExecuteFeaturesAsync(UIStates.Click, _cts.Token, playAudio);
+                    _featureTasks = ExecuteFeaturesAsync(UIStates.Click, playAudio);
                     break;
             }
         }
@@ -254,20 +256,18 @@ namespace Broccollie.UI
         {
             if (!_isInteractive) return;
 
-            CancelFeatureTask();
-
             _isHovered = false;
             if (_isPressed) return;
 
             if (_isClicked)
             {
                 _currentState = UIStates.Click;
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Click, _cts.Token, false);
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Click, false);
             }
             else
             {
                 _currentState = UIStates.Default;
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Default, _cts.Token, false);
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Default, false);
             }
         }
 
@@ -275,25 +275,23 @@ namespace Broccollie.UI
         {
             if (!_isInteractive) return;
 
-            CancelFeatureTask();
-
             _isPressed = false;
             if (_isHovered)
             {
                 _currentState = UIStates.Hover;
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Hover, _cts.Token, false);
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Hover, false);
                 return;
             }
 
             if (_isClicked)
             {
                 _currentState = UIStates.Click;
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Click, _cts.Token, false);
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Click, false);
             }
             else
             {
                 _currentState = UIStates.Default;
-                _featureTasks = ExecuteFeaturesAsync(UIStates.Default, _cts.Token, false);
+                _featureTasks = ExecuteFeaturesAsync(UIStates.Default, false);
             }
         }
 
