@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Broccollie.UI
 {
     [DisallowMultipleComponent]
-    public class UIAnimationFeature : UIBaseFeature
+    public class AnimationUIFeature : BaseUIFeature
     {
         #region Variable Field
         [Header("Animation Feature")]
@@ -29,7 +29,7 @@ namespace Broccollie.UI
             {
                 if (!_elements[i].IsEnabled || _elements[i].Preset == null) continue;
 
-                UIAnimationPreset.AnimationSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
+                AnimationUIPreset.AnimationSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
                 features.Add(PlayAnimationAsync(state.ToString(), _elements[i], setting, ct));
@@ -45,7 +45,7 @@ namespace Broccollie.UI
         #endregion
 
         #region Private Functions
-        private async Task PlayAnimationAsync(string executionState, Element element, UIAnimationPreset.AnimationSetting setting, CancellationToken ct)
+        private async Task PlayAnimationAsync(string executionState, Element element, AnimationUIPreset.AnimationSetting setting, CancellationToken ct)
         {
             if (_overrideController == null)
             {
@@ -104,6 +104,6 @@ namespace Broccollie.UI
     {
         public bool IsEnabled;
         public Animator Animator = null;
-        public UIAnimationPreset Preset = null;
+        public AnimationUIPreset Preset = null;
     }
 }

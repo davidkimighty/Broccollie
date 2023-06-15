@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Broccollie.UI
 {
     [DefaultExecutionOrder(-110)]
-    public class GroupInteractableUI : MonoBehaviour
+    public class GroupUI : MonoBehaviour
     {
         #region Variable Field
         [Header("Group")]
@@ -174,8 +174,8 @@ namespace Broccollie.UI
                     for (int i = 0; i < _baselineUIs.Length; i++)
                     {
                         if (_baselineUIs[i] == sender || !_baselineUIs[i].IsInteractive) continue;
-                        if (_baselineUIs[i].TryGetComponent<ISelectUI>(out ISelectUI interaction))
-                            interaction.Select(false, false);
+                        if (_baselineUIs[i].TryGetComponent<IClickUI>(out IClickUI interaction))
+                            interaction.Click(false, false);
                     }
                     break;
             }

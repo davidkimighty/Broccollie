@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Broccollie.UI
 {
     [CreateAssetMenu(fileName = "ColorPreset", menuName = "Broccollie/UI/Preset/Color")]
-    public class UIColorPreset : UIBasePreset
+    public class ColorUIPreset : BaseUIPreset
     {
         public ColorSetting[] Settings = null;
 

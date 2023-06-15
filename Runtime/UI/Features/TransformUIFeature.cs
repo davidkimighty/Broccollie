@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Broccollie.UI
 {
-    public class UITransformFeature : UIBaseFeature
+    public class TransformUIFeature : BaseUIFeature
     {
         #region Variable Field
         [Header("Transform Feature")]
@@ -26,7 +26,7 @@ namespace Broccollie.UI
             {
                 if (!_elements[i].IsEnabled || _elements[i].Preset == null) continue;
 
-                UITransformPreset.TransformSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
+                TransformUIPreset.TransformSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
                 if (setting.IsPositionEnabled)
@@ -50,7 +50,7 @@ namespace Broccollie.UI
             {
                 if (!_elements[i].IsEnabled || _elements[i].Preset == null) continue;
 
-                UITransformPreset.TransformSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
+                TransformUIPreset.TransformSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
                 int index = i;
@@ -73,7 +73,7 @@ namespace Broccollie.UI
         {
             public bool IsEnabled;
             public RectTransform Target;
-            public UITransformPreset Preset;
+            public TransformUIPreset Preset;
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Broccollie.UI
 {
     [CreateAssetMenu(fileName = "AnimationPreset", menuName = "Broccollie/UI/Preset/Animation")]
-    public class UIAnimationPreset : UIBasePreset
+    public class AnimationUIPreset : BaseUIPreset
     {
         public AnimatorOverrideController OverrideAnimator = null;
         public AnimationSetting[] Settings = null;

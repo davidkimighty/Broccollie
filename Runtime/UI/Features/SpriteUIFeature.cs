@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Broccollie.UI
 {
-    public class UISpriteFeature : UIBaseFeature
+    public class SpriteUIFeature : BaseUIFeature
     {
         #region Variable Field
         [Header("Sprite Feature")]
@@ -26,7 +26,7 @@ namespace Broccollie.UI
             {
                 if (!_elements[i].IsEnabled) continue;
 
-                UISpritePreset.SpriteSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
+                SpriteUIPreset.SpriteSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
                 features.Add(SpriteSwapAsync(_elements[i].Graphic, setting, ct));
@@ -43,7 +43,7 @@ namespace Broccollie.UI
             {
                 if (!_elements[i].IsEnabled) continue;
 
-                UISpritePreset.SpriteSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
+                SpriteUIPreset.SpriteSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
                 int index = i;
@@ -55,14 +55,14 @@ namespace Broccollie.UI
         #endregion
 
         #region Private Functions
-        private async Task SpriteSwapAsync(Image image, UISpritePreset.SpriteSetting setting, CancellationToken ct)
+        private async Task SpriteSwapAsync(Image image, SpriteUIPreset.SpriteSetting setting, CancellationToken ct)
         {
             if (setting.Delay > 0)
                 await Task.Delay((int)(setting.Delay * 1000f), ct);
             image.sprite = setting.Sprite;
         }
 
-        private void SpriteSwapInstant(Image image, UISpritePreset.SpriteSetting setting)
+        private void SpriteSwapInstant(Image image, SpriteUIPreset.SpriteSetting setting)
         {
             image.sprite = setting.Sprite;
         }
@@ -74,7 +74,7 @@ namespace Broccollie.UI
         {
             public bool IsEnabled;
             public Image Graphic;
-            public UISpritePreset Preset;
+            public SpriteUIPreset Preset;
         }
     }
 }

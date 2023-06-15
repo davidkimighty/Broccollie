@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Broccollie.UI
 {
     [CreateAssetMenu(fileName = "TransformPreset", menuName = "Broccollie/UI/Preset/Transform")]
-    public class UITransformPreset : UIBasePreset
+    public class TransformUIPreset : BaseUIPreset
     {
         public TransformSetting[] Settings = null;
 

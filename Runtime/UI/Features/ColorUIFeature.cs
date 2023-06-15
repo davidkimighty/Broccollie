@@ -10,7 +10,7 @@ using UnityEngine.UI;
 namespace Broccollie.UI
 {
     [DisallowMultipleComponent]
-    public class UIColorFeature : UIBaseFeature
+    public class ColorUIFeature : BaseUIFeature
     {
         #region Variable Field
         [Header("Color Feature")]
@@ -28,7 +28,7 @@ namespace Broccollie.UI
             {
                 if (!_elements[i].IsEnabled || _elements[i].Preset == null) continue;
 
-                UIColorPreset.ColorSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
+                ColorUIPreset.ColorSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
                 features.Add(_elements[i].Graphic.LerpColorAsync(setting.TargetColor, setting.Duration, ct, setting.Curve));
@@ -45,7 +45,7 @@ namespace Broccollie.UI
             {
                 if (!_elements[i].IsEnabled || _elements[i].Preset == null) continue;
 
-                UIColorPreset.ColorSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
+                ColorUIPreset.ColorSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
                 int index = i;
@@ -61,7 +61,7 @@ namespace Broccollie.UI
         {
             public bool IsEnabled;
             public MaskableGraphic Graphic;
-            public UIColorPreset Preset;
+            public ColorUIPreset Preset;
         }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Broccollie.UI
 {
-    public class UIBaseFeature : MonoBehaviour
+    public class BaseUIFeature : MonoBehaviour
     {
         #region Variable Field
         [Header("Base Feature")]

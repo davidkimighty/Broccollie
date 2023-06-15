@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Broccollie.UI
 {
     [CreateAssetMenu(fileName = "AudioPreset", menuName = "Broccollie/UI/Preset/Audio")]
-    public class UIAudioPreset : UIBasePreset
+    public class AudioUIPreset : BaseUIPreset
     {
         public AudioSetting[] Settings = null;
 

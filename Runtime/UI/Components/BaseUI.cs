@@ -29,8 +29,8 @@ namespace Broccollie.UI
             get => _currentState;
         }
 
-        [SerializeField] protected List<UIBaseFeature> _features = null;
-        public List<UIBaseFeature> Features
+        [SerializeField] protected List<BaseUIFeature> _features = null;
+        public List<BaseUIFeature> Features
         {
             get => _features;
         }
@@ -230,13 +230,9 @@ namespace Broccollie.UI
         #endregion
 
         #region Public Functions
-        public virtual void SetVisible(bool state, bool playAudio = true, bool invokeEvent = true) { }
+        public virtual void SetVisible(bool state, bool playAudio = true, bool invokeEvent = true, bool instant = false) { }
 
-        public virtual void SetVisibleInstant(bool state, bool playAudio = true, bool invokeEvent = true) { }
-
-        public virtual void SetInteractive(bool state, bool playAudio = true, bool invokeEvent = true) { }
-
-        public virtual void SetInteractiveInstant(bool state, bool playAudio = true, bool invokeEvent = true) { }
+        public virtual void SetInteractive(bool state, bool playAudio = true, bool invokeEvent = true, bool instant = false) { }
 
         #endregion
 
@@ -251,7 +247,7 @@ namespace Broccollie.UI
                 _cts = new CancellationTokenSource();
 
                 List<Task> featureTasks = new List<Task>();
-                foreach (UIBaseFeature feature in _features)
+                foreach (BaseUIFeature feature in _features)
                 {
                     if (feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
                     featureTasks.Add(feature.ExecuteAsync(state, _cts.Token));
@@ -272,7 +268,7 @@ namespace Broccollie.UI
 
             _cts.Cancel();
 
-            foreach (UIBaseFeature feature in _features)
+            foreach (BaseUIFeature feature in _features)
             {
                 if (feature == null || feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
                 feature.ExecuteInstant(state);
@@ -290,12 +286,12 @@ namespace Broccollie.UI
                 case UIStates.Show:
                     _isActive = true;
                     _isHovered = _isPressed = _isClicked = false;
-                    SetVisibleInstant(true);
+                    SetVisible(true, true, true, true);
                     break;
 
                 case UIStates.Hide:
                     _isActive = _isHovered = _isPressed = _isClicked = false;
-                    SetVisibleInstant(false);
+                    SetVisible(false, true, true, true);
                     break;
 
                 case UIStates.Interactive:
@@ -339,7 +335,7 @@ namespace Broccollie.UI
 
         public void HideFeatureComponentsEditor()
         {
-            Component[] featureComponents = GetComponents(typeof(UIBaseFeature));
+            Component[] featureComponents = GetComponents(typeof(BaseUIFeature));
             for (int i = 0; i < featureComponents.Length; i++)
             {
                 if (featureComponents[i].hideFlags != HideFlags.HideInInspector)
@@ -347,19 +343,19 @@ namespace Broccollie.UI
             }
         }
 
-        public void AddFeatureComponentEditor<T>() where T : UIBaseFeature
+        public void AddFeatureComponentEditor<T>() where T : BaseUIFeature
         {
             if (TryGetComponent<T>(out T component)) return;
             gameObject.AddComponent<T>();
         }
 
-        public void RemoveFeatureComponentEditor<T>() where T : UIBaseFeature
+        public void RemoveFeatureComponentEditor<T>() where T : BaseUIFeature
         {
             if (!TryGetComponent<T>(out T component)) return;
             Destroy(component);
         }
 
-        public bool CheckComponentEditor<T>() where T : UIBaseFeature
+        public bool CheckComponentEditor<T>() where T : BaseUIFeature
         {
             return TryGetComponent<T>(out T component);
         }

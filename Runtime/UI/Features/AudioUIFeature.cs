@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace Broccollie.UI
 {
-    public class UIAudioFeature : UIBaseFeature
+    public class AudioUIFeature : BaseUIFeature
     {
         #region Variable Field
         [Header("Audio Feature")]
@@ -27,7 +27,7 @@ namespace Broccollie.UI
             {
                 if (!_elements[i].IsEnabled) continue;
 
-                UIAudioPreset.AudioSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
+                AudioUIPreset.AudioSetting setting = Array.Find(_elements[i].Preset.Settings, x => x.ExecutionState == state);
                 if (setting == null || !setting.IsEnabled) continue;
 
                 features.Add(PlayAudioAsync(setting, ct));
@@ -38,7 +38,7 @@ namespace Broccollie.UI
         #endregion
 
         #region Private Functions
-        private async Task PlayAudioAsync(UIAudioPreset.AudioSetting setting, CancellationToken ct)
+        private async Task PlayAudioAsync(AudioUIPreset.AudioSetting setting, CancellationToken ct)
         {
             _eventChannel.RaisePlayAudioEvent(setting.Audio);
             await Task.Delay((int)(setting.Duration * 1000f), ct);
@@ -50,7 +50,7 @@ namespace Broccollie.UI
         public class Element
         {
             public bool IsEnabled;
-            public UIAudioPreset Preset;
+            public AudioUIPreset Preset;
         }
     }
 }

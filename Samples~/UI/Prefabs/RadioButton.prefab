@@ -60,7 +60,7 @@ MonoBehaviour:
   _features:
   - {fileID: 6153858085855196414}
   - {fileID: 5904454129600945179}
-  _buttonType: 1
+  _buttonType: 2
 --- !u!114 &5904454129600945179
 MonoBehaviour:
   m_ObjectHideFlags: 0

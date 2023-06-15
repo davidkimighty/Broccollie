@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Broccollie.UI
 {
-    public abstract class UIBasePreset : ScriptableObject
+    public abstract class BaseUIPreset : ScriptableObject
     {
         public abstract class Setting
         {

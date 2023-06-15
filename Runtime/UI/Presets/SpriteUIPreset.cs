@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Broccollie.UI
 {
     [CreateAssetMenu(fileName = "SpritePreset", menuName = "Broccollie/UI/Preset/Sprite")]
-    public class UISpritePreset : UIBasePreset
+    public class SpriteUIPreset : BaseUIPreset
     {
         public SpriteSetting[] Settings = null;
 
