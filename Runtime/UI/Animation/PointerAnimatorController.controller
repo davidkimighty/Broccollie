@@ -95,7 +95,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Default
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Select
+    m_ConditionEvent: Click
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6724861644162632917}
@@ -197,7 +197,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Select
+    m_ConditionEvent: Click
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Press
@@ -325,7 +325,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Select
+  m_Name: Click
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -355,7 +355,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Select
+    m_ConditionEvent: Click
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1805558206606414758}
@@ -447,7 +447,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Select
+  - m_Name: Click
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0

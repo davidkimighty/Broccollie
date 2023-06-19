@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 namespace Broccollie.UI
 {
     [DefaultExecutionOrder(-120)]
-    public class PanelUI : BaseUI, IDefaultUI
+    public class PanelUI : BaseUI, IDefaultUI, IHoverUI
     {
         #region Variable Field
         private static List<BaseUI> s_activePanels = new List<BaseUI>();
@@ -134,6 +134,19 @@ namespace Broccollie.UI
                 RaiseOnDefault(this, null);
 
             _featureTasks = ExecuteFeaturesAsync(UIStates.Default, false);
+        }
+
+        public void Hover(bool playAudio = false, bool invokeEvent = true)
+        {
+            if (!_isInteractive) return;
+
+            _currentState = UIStates.Hover;
+            _isHovered = true;
+
+            if (invokeEvent)
+                RaiseOnHover(this, null);
+
+            _featureTasks = ExecuteFeaturesAsync(UIStates.Hover, playAudio);
         }
 
         #endregion

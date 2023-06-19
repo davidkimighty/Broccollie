@@ -229,10 +229,12 @@ namespace Broccollie.UI
 
         #endregion
 
-        #region Public Functions
+        #region Public Features
         public virtual void SetVisible(bool state, bool playAudio = true, bool invokeEvent = true, bool instant = false) { }
 
         public virtual void SetInteractive(bool state, bool playAudio = true, bool invokeEvent = true, bool instant = false) { }
+
+        public virtual void SetInteraction(bool state) => _isInteractive = state;
 
         #endregion
 
