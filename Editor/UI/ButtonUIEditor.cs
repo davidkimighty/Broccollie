@@ -20,15 +20,15 @@ namespace Broccollie.UI.Editor
 
             Button addColorFeatureButton = root.Q<Button>("button-add-colorfeature");
             Button removeColorFeatureButton = root.Q<Button>("button-remove-colorfeature");
-            addColorFeatureButton.SetEnabled(!buttonUI.CheckComponentEditor<UIColorFeature>());
-            removeColorFeatureButton.SetEnabled(buttonUI.CheckComponentEditor<UIColorFeature>());
-            addColorFeatureButton.clicked += () => AddFeature<UIColorFeature>(buttonUI, addColorFeatureButton, removeColorFeatureButton);
+            addColorFeatureButton.SetEnabled(!buttonUI.CheckComponentEditor<ColorUIFeature>());
+            removeColorFeatureButton.SetEnabled(buttonUI.CheckComponentEditor<ColorUIFeature>());
+            addColorFeatureButton.clicked += () => AddFeature<ColorUIFeature>(buttonUI, addColorFeatureButton, removeColorFeatureButton);
 
             return root;
         }
 
         #region Subscribers
-        private void AddFeature<T>(ButtonUI button, Button addButton, Button removeButton) where T : UIBaseFeature
+        private void AddFeature<T>(ButtonUI button, Button addButton, Button removeButton) where T : BaseUIFeature
         {
             addButton.visible = false;
             removeButton.visible = true;
@@ -36,7 +36,7 @@ namespace Broccollie.UI.Editor
             button.HideFeatureComponentsEditor();
         }
 
-        private void RemoveFeature<T>(ButtonUI button, Button addButton, Button removeButton) where T : UIBaseFeature
+        private void RemoveFeature<T>(ButtonUI button, Button addButton, Button removeButton) where T : BaseUIFeature
         {
 
         }

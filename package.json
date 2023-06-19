@@ -1,9 +1,9 @@
 {
   "name": "com.hyunwookimbob.broccollie",
-  "version": "2.0.14",
+  "version": "2.0.15",
   "displayName": "Broccollie",
   "description": "Essential game ready features in URP",
-  "unity": "2022.2",
+  "unity": "2022.3",
   "dependencies": {
     "com.unity.addressables": "1.21.8",
     "com.unity.inputsystem": "1.5.0",

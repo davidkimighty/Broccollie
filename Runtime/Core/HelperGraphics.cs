@@ -17,7 +17,10 @@ namespace Broccollie.Core
 
             while (elapsedTime < duration)
             {
-                if (ct.IsCancellationRequested || graphic.color == targetColor) break;
+                if (ct.IsCancellationRequested)
+                    ct.ThrowIfCancellationRequested();
+
+                if (graphic.color == targetColor) break;
 
                 if (curve == null)
                     graphic.color = Color.Lerp(startColor, targetColor, elapsedTime / duration);

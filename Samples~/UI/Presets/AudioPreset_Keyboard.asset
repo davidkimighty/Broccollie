@@ -14,10 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Settings:
   - IsEnabled: 1
-    ExecutionState: 0
-    Audio: {fileID: 11400000, guid: 662a1e3d5b37d4f52a5ff22292e018ba, type: 2}
-    Duration: 0
-  - IsEnabled: 1
-    ExecutionState: 7
-    Audio: {fileID: 11400000, guid: 662a1e3d5b37d4f52a5ff22292e018ba, type: 2}
+    ExecutionState: 6
+    Audio: {fileID: 11400000, guid: c4e446b340b4046ed832f034e5092307, type: 2}
     Duration: 0
