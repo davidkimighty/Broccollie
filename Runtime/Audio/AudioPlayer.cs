@@ -84,7 +84,7 @@ namespace Broccollie.Audio
                 _source.Play();
                 while (_source.isPlaying)
                 {
-                    if (_cts != null)
+                    if (_cts.IsCancellationRequested)
                         _cts.Token.ThrowIfCancellationRequested();
                     await Task.Yield();
                 }
