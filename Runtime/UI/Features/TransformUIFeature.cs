@@ -14,11 +14,16 @@ namespace Broccollie.UI
         [Header("Transform Feature")]
         [SerializeField] private Element[] _elements = null;
 
+        private Vector3[] _startPositions = null;
+        private bool _initialized = false;
+
         #endregion
 
         #region Override Functions
         protected override List<Task> GetFeatures(UIStates state, CancellationToken ct)
         {
+            Initialize();
+
             List<Task> features = new List<Task>();
             if (_elements == null) return features;
 
@@ -30,7 +35,10 @@ namespace Broccollie.UI
                 if (setting == null || !setting.IsEnabled) continue;
 
                 if (setting.IsPositionEnabled)
-                    features.Add(_elements[i].Target.LerpAnchoredPositionAsync(setting.AnchoredPosition, setting.PositionDuration, ct, setting.PositionCurve));
+                {
+                    Vector3 targetValue = state != UIStates.Default ? _startPositions[i] + setting.TargetPosition : _startPositions[i];
+                    features.Add(_elements[i].Target.LerpLocalPositionAsync(targetValue, setting.PositionDuration, ct, setting.PositionCurve));
+                }
 
                 if (setting.IsRotationEnabled)
                     features.Add(_elements[i].Target.LerpRotationAsync(Quaternion.Euler(setting.TargetRotation), setting.RotationDuration, ct, setting.RotationCurve));
@@ -55,7 +63,10 @@ namespace Broccollie.UI
 
                 int index = i;
                 if (setting.IsPositionEnabled)
-                    features.Add(() => _elements[index].Target.anchoredPosition = setting.AnchoredPosition);
+                {
+                    Vector3 targetValue = state != UIStates.Default ? _startPositions[i] + setting.TargetPosition : setting.TargetPosition;
+                    features.Add(() => _elements[index].Target.localPosition = setting.TargetPosition);
+                }
 
                 if (setting.IsRotationEnabled)
                     features.Add(() => _elements[index].Target.rotation = Quaternion.Euler(setting.TargetRotation));
@@ -68,11 +79,26 @@ namespace Broccollie.UI
 
         #endregion
 
+        #region Private Functions
+        private void Initialize()
+        {
+            if (!_initialized || _startPositions.Length != _elements.Length)
+            {
+                List<Vector3> positions = new List<Vector3>();
+                for (int i = 0; i < _elements.Length; i++)
+                    positions.Add(_elements[i].Target.localPosition);
+                _startPositions = positions.ToArray();
+                _initialized = true;
+            }
+        }
+
+        #endregion
+
         [Serializable]
         public class Element
         {
             public bool IsEnabled;
-            public RectTransform Target;
+            public Transform Target;
             public TransformUIPreset Preset;
         }
     }

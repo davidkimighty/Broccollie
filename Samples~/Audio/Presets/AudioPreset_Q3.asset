@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: AudioPreset_Q3
   m_EditorClassIdentifier: 
   AudioClips:
-  - {fileID: 8300000, guid: 3daa34c618b724be9acd2c0c2eae4377, type: 3}
   - {fileID: 8300000, guid: 670e435fdf74b426ea7f619e7d883853, type: 3}
   - {fileID: 8300000, guid: 24a0d49a0840d426a863d2b0d672af9e, type: 3}
   - {fileID: 8300000, guid: b90cddf0bbe7f44238cc761dd0a1a57f, type: 3}
@@ -23,5 +22,5 @@ MonoBehaviour:
   Volume: 1
   Delay: 0
   Loop: 0
-  _playIndex: 0
+  _playIndex: 2
   _playOrder: 0

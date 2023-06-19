@@ -13,7 +13,7 @@ namespace Broccollie.UI
         {
             [Header("Position")]
             public bool IsPositionEnabled;
-            public Vector3 AnchoredPosition;
+            public Vector3 TargetPosition;
             public float PositionDuration;
             public AnimationCurve PositionCurve;
 

@@ -16,7 +16,7 @@ MonoBehaviour:
   - IsEnabled: 1
     ExecutionState: 0
     IsPositionEnabled: 1
-    AnchoredPosition: {x: -5.65, y: 0, z: 0}
+    TargetPosition: {x: -5.7, y: 0, z: 0}
     PositionDuration: 0.3
     PositionCurve:
       serializedVersion: 2
@@ -63,7 +63,7 @@ MonoBehaviour:
   - IsEnabled: 1
     ExecutionState: 7
     IsPositionEnabled: 1
-    AnchoredPosition: {x: -3.93, y: 0, z: 0}
+    TargetPosition: {x: 1.7, y: 0, z: 0}
     PositionDuration: 0.3
     PositionCurve:
       serializedVersion: 2

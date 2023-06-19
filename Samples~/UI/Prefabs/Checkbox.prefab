@@ -375,6 +375,7 @@ GameObject:
   - component: {fileID: 4003377563926501724}
   - component: {fileID: 3123755181062948573}
   - component: {fileID: 1175095816580932174}
+  - component: {fileID: 7038411101657196604}
   m_Layer: 5
   m_Name: Checkbox
   m_TagString: Untagged
@@ -423,6 +424,7 @@ MonoBehaviour:
   _features:
   - {fileID: 1175095816580932174}
   - {fileID: 3123755181062948573}
+  - {fileID: 7038411101657196604}
   _buttonType: 1
 --- !u!114 &3123755181062948573
 MonoBehaviour:
@@ -472,6 +474,24 @@ MonoBehaviour:
   _elements:
   - IsEnabled: 1
     Preset: {fileID: 11400000, guid: ff5ea1104ec9d429e8548297c7aa5db7, type: 2}
+--- !u!114 &7038411101657196604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6960873558771305930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de06c74b2d364c9ba48608edafc0317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isEnabled: 1
+  _featureType: 0
+  _elements:
+  - IsEnabled: 1
+    Target: {fileID: 6936895669794402837}
+    Preset: {fileID: 11400000, guid: 5c4ba0e5dfc2f4eaf9a4f2a6a1950a16, type: 2}
 --- !u!1 &8961638752351365842
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,15 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 733e03e09b69642588c3de156f18dfce, type: 3}
-  m_Name: ColorPreset_Selectable_CheckOutline
+  m_Script: {fileID: 11500000, guid: b2f1154f52ec549ff897ee46abe3ce4b, type: 3}
+  m_Name: TransformPreset_HoverInAir
   m_EditorClassIdentifier: 
   Settings:
   - IsEnabled: 1
     ExecutionState: 0
-    TargetColor: {r: 0, g: 0, b: 0, a: 1}
-    Duration: 0.3
-    Curve:
+    IsPositionEnabled: 1
+    TargetPosition: {x: 0, y: 0, z: 0}
+    PositionDuration: 0.3
+    PositionCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -41,11 +42,30 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    IsRotationEnabled: 0
+    TargetRotation: {x: 0, y: 0, z: 0}
+    RotationDuration: 0
+    RotationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    IsScaleEnabled: 0
+    TargetScale: {x: 0, y: 0, z: 0}
+    ScaleDuration: 0
+    ScaleCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
   - IsEnabled: 1
     ExecutionState: 5
-    TargetColor: {r: 1, g: 1, b: 1, a: 1}
-    Duration: 0.2
-    Curve:
+    IsPositionEnabled: 1
+    TargetPosition: {x: 0, y: 0, z: -0.3}
+    PositionDuration: 0.15
+    PositionCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -69,11 +89,30 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    IsRotationEnabled: 0
+    TargetRotation: {x: 0, y: 0, z: 0}
+    RotationDuration: 0
+    RotationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    IsScaleEnabled: 0
+    TargetScale: {x: 0, y: 0, z: 0}
+    ScaleDuration: 0
+    ScaleCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
   - IsEnabled: 1
     ExecutionState: 6
-    TargetColor: {r: 0.99607843, g: 0.8156863, b: 0.21176471, a: 1}
-    Duration: 0.15
-    Curve:
+    IsPositionEnabled: 1
+    TargetPosition: {x: 0, y: 0, z: 0}
+    PositionDuration: 0.15
+    PositionCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -97,11 +136,30 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    IsRotationEnabled: 0
+    TargetRotation: {x: 0, y: 0, z: 0}
+    RotationDuration: 0
+    RotationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    IsScaleEnabled: 0
+    TargetScale: {x: 0, y: 0, z: 0}
+    ScaleDuration: 0
+    ScaleCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
   - IsEnabled: 1
     ExecutionState: 7
-    TargetColor: {r: 1, g: 1, b: 1, a: 1}
-    Duration: 0.3
-    Curve:
+    IsPositionEnabled: 1
+    TargetPosition: {x: 0, y: 0, z: 0}
+    PositionDuration: 0.3
+    PositionCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -124,4 +182,22 @@ MonoBehaviour:
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
+      m_RotationOrder: 4
+    IsRotationEnabled: 0
+    TargetRotation: {x: 0, y: 0, z: 0}
+    RotationDuration: 0
+    RotationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 4
+    IsScaleEnabled: 0
+    TargetScale: {x: 0, y: 0, z: 0}
+    ScaleDuration: 0
+    ScaleCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
       m_RotationOrder: 4
