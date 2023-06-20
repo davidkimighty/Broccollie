@@ -33,23 +33,23 @@
 # ScriptableObject-based UI
 
 ## Buttons
-<img style="width:100%;" src="https://github.com/hyunwookimbob/Broccollie/assets/32338791/0553139c-46f7-4370-b4bc-d4cb755c749e" alt="popup">
+<img style="width:100%;" src="https://github.com/hyunwookimbob/Broccollie/assets/32338791/0553139c-46f7-4370-b4bc-d4cb755c749e" alt="buttons">
 
 ## Panels
-<img style="width:100%;" src="https://github.com/hyunwookimbob/Broccollie/assets/32338791/e817928a-85f5-4dd6-9cff-31f383a0da1e" alt="popup">
+<img style="width:100%;" src="https://github.com/hyunwookimbob/Broccollie/assets/32338791/e817928a-85f5-4dd6-9cff-31f383a0da1e" alt="panels">
 
 # Player Controller
 
 ## Physics-Based
 <table>
-<tr><td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/212265122-d9c1df6d-fc26-4472-a8f4-cc4441c42e96.gif" alt="popup"></td>
-<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/212261902-681a2956-90dd-4c30-8c94-8c029e6e758f.gif" alt="drag"></td>
+<tr><td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/212265122-d9c1df6d-fc26-4472-a8f4-cc4441c42e96.gif" alt="thirdperson"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/212261902-681a2956-90dd-4c30-8c94-8c029e6e758f.gif" alt="firstperson"></td>
 </table>
 
 ## CharacterController-Based
 <table>
-<tr><td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/212261819-0aca9bc0-36b8-46a1-bae1-0e559f70d938.gif" alt="popup"></td>
-<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/212261915-030f98ba-fdf3-4aac-a282-20c9be54f888.gif" alt="drag"></td>
+<tr><td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/212261819-0aca9bc0-36b8-46a1-bae1-0e559f70d938.gif" alt="thirdperson"></td>
+<td><img style="width:100%;" src="https://user-images.githubusercontent.com/32338791/212261915-030f98ba-fdf3-4aac-a282-20c9be54f888.gif" alt="firstperson"></td>
 </table>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
