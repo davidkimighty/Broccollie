@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -18,8 +17,6 @@ namespace Broccollie.Core
             {
                 if (ct.IsCancellationRequested)
                     ct.ThrowIfCancellationRequested();
-
-                if (transform.position == targetPosition) break;
 
                 if (curve == null)
                     transform.position = Vector3.LerpUnclamped(startingPosition, targetPosition, elapsedTime / duration);
@@ -43,8 +40,6 @@ namespace Broccollie.Core
                 if (ct.IsCancellationRequested)
                     ct.ThrowIfCancellationRequested();
 
-                if (transform.localPosition == targetPosition) break;
-
                 if (curve == null)
                     transform.localPosition = Vector3.LerpUnclamped(startingPosition, targetPosition, elapsedTime / duration);
                 else
@@ -66,8 +61,6 @@ namespace Broccollie.Core
             {
                 if (ct.IsCancellationRequested)
                     ct.ThrowIfCancellationRequested();
-
-                if (rectTransform.anchoredPosition == targetPosition) break;
 
                 if (curve == null)
                     rectTransform.anchoredPosition = Vector2.LerpUnclamped(startingPosition, targetPosition, elapsedTime / duration);
@@ -91,8 +84,6 @@ namespace Broccollie.Core
                 if (ct.IsCancellationRequested)
                     ct.ThrowIfCancellationRequested();
 
-                if (transform.localScale == targetScale) break;
-
                 if (curve == null)
                     transform.localScale = Vector3.LerpUnclamped(startingScale, targetScale, elapsedTime / duration);
                 else
@@ -114,8 +105,6 @@ namespace Broccollie.Core
             {
                 if (ct.IsCancellationRequested)
                     ct.ThrowIfCancellationRequested();
-
-                if (transform.rotation == targetRotation) break;
 
                 if (curve == null)
                     transform.rotation = Quaternion.LerpUnclamped(startingRotation, targetRotation, elapsedTime / duration);
@@ -139,8 +128,6 @@ namespace Broccollie.Core
                 if (ct.IsCancellationRequested)
                     ct.ThrowIfCancellationRequested();
 
-                if (transform.localRotation == targetRotation) break;
-
                 if (curve == null)
                     transform.localRotation = Quaternion.LerpUnclamped(startingRotation, targetRotation, elapsedTime / duration);
                 else
@@ -160,8 +147,6 @@ namespace Broccollie.Core
 
             while (elapsedTime < duration)
             {
-                if (transform.position == targetPosition) yield break;
-
                 if (curve == null)
                     transform.position = Vector3.LerpUnclamped(startingPosition, targetPosition, elapsedTime / duration);
                 else
@@ -181,8 +166,6 @@ namespace Broccollie.Core
 
             while (elapsedTime < duration)
             {
-                if (transform.localPosition == targetPosition) yield break;
-
                 if (curve == null)
                     transform.localPosition = Vector3.LerpUnclamped(startingPosition, targetPosition, elapsedTime / duration);
                 else
@@ -202,8 +185,6 @@ namespace Broccollie.Core
 
             while (elapsedTime < duration)
             {
-                if (transform.localScale == targetScale) yield break;
-
                 if (curve == null)
                     transform.localScale = Vector3.LerpUnclamped(startingScale, targetScale, elapsedTime / duration);
                 else
@@ -223,8 +204,6 @@ namespace Broccollie.Core
 
             while (elapsedTime < duration)
             {
-                if (transform.rotation == targetRotation) yield break;
-
                 if (curve == null)
                     transform.rotation = Quaternion.LerpUnclamped(startingRotation, targetRotation, elapsedTime / duration);
                 else
@@ -244,8 +223,6 @@ namespace Broccollie.Core
 
             while (elapsedTime < duration)
             {
-                if (transform.localRotation == targetRotation) yield break;
-
                 if (curve == null)
                     transform.localRotation = Quaternion.LerpUnclamped(startingRotation, targetRotation, elapsedTime / duration);
                 else
