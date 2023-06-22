@@ -26,14 +26,18 @@ public class SampleTransistion : MonoBehaviour
 
     private void OnEnable()
     {
-        _sceneEventChannel.OnBeforeTransitionAsync += FadeIn;
-        _sceneEventChannel.OnAfterTransitionAsync += FadeOut;
+        _sceneEventChannel.OnBeforeSceneUnloadAsync += FadeIn;
+        _sceneEventChannel.OnAfterLoadingSceneLoadAsync += FadeOut;
+        _sceneEventChannel.OnBeforeLoadingSceneUnloadAsync += FadeIn;
+        _sceneEventChannel.OnAfterSceneLoadAsync += FadeOut;
     }
 
     private void OnDisable()
     {
-        _sceneEventChannel.OnBeforeTransitionAsync -= FadeIn;
-        _sceneEventChannel.OnAfterTransitionAsync -= FadeOut;
+        _sceneEventChannel.OnBeforeSceneUnloadAsync -= FadeIn;
+        _sceneEventChannel.OnAfterLoadingSceneLoadAsync -= FadeOut;
+        _sceneEventChannel.OnBeforeLoadingSceneUnloadAsync -= FadeIn;
+        _sceneEventChannel.OnAfterSceneLoadAsync -= FadeOut;
     }
 
     private async Task FadeIn()

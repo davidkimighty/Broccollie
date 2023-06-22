@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-namespace Broccollie.Game
+namespace Broccollie.Game.CameraEffect
 {
     public class CameraAutoFocus : MonoBehaviour
     {

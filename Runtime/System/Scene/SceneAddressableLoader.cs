@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -9,7 +8,6 @@ namespace Broccollie.System
     [DefaultExecutionOrder(-100)]
     public class SceneAddressableLoader : MonoBehaviour
     {
-        #region Variable Field
         [SerializeField] private SceneAddressableEventChannel _sceneEventChannel = null;
         [SerializeField] private SceneAddressablePreset _loadingScene = null;
 
@@ -17,8 +15,6 @@ namespace Broccollie.System
         private bool _sceneUnloading = false;
         private bool _sceneLoading = false;
         private bool _loadingSceneLoaded = false;
-
-        #endregion
 
         private void OnEnable()
         {
@@ -36,7 +32,6 @@ namespace Broccollie.System
         private async Task SceneLoad(SceneAddressablePreset scene, bool showLoading)
         {
             await UnloadActiveSceneAsync(showLoading);
-
             await LoadNewSceneAsync(scene);
         }
 
@@ -47,8 +42,6 @@ namespace Broccollie.System
         {
             if (_sceneUnloading) return;
             _sceneUnloading = true;
-
-            await _sceneEventChannel.RaiseBeforeTransitionAsync();
 
             _sceneEventChannel.RaiseBeforeSceneUnload();
             await _sceneEventChannel.RaiseBeforeSceneUnloadAsync();
@@ -61,7 +54,8 @@ namespace Broccollie.System
                 await SceneLoadAsync(_loadingScene, true);
                 _loadingSceneLoaded = true;
 
-                await _sceneEventChannel.RaiseAfterTransitionAsync();
+                _sceneEventChannel.RaiseAfterLoadingSceneLoad();
+                await _sceneEventChannel.RaiseAfterLoadingSceneLoadAsync();
             }
             _sceneUnloading = false;
         }
@@ -73,7 +67,8 @@ namespace Broccollie.System
 
             if (_loadingSceneLoaded)
             {
-                await _sceneEventChannel.RaiseBeforeTransitionAsync();
+                _sceneEventChannel.RaiseBeforeLoadingSceneUnload();
+                await _sceneEventChannel.RaiseBeforeLoadingSceneUnloadAsync();
 
                 SceneUnload(_loadingScene);
                 _loadingSceneLoaded = false;
@@ -85,13 +80,11 @@ namespace Broccollie.System
             _sceneEventChannel.RaiseAfterSceneLoad();
             await _sceneEventChannel.RaiseAfterSceneLoadAsync();
 
-            await _sceneEventChannel.RaiseAfterTransitionAsync();
             _sceneLoading = false;
         }
 
         #endregion
 
-        #region Private Functions
         private void SceneUnload(SceneAddressablePreset scene)
         {
             scene.SceneReference.UnLoadScene();
@@ -104,11 +97,10 @@ namespace Broccollie.System
             
             while (!loadOperation.IsDone)
             {
-                float progress = loadOperation.PercentComplete;
-                //Debug.Log($"[SceneLoader] Load {progress}");
+                //float progress = loadOperation.PercentComplete;
+                //Debug.Log($"[SceneLoader] Load progress {progress}");
                 await Task.Yield();
             }
         }
-        #endregion
     }
 }

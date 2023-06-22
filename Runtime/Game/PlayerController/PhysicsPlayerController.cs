@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,7 +12,7 @@ namespace Broccollie.Game
         [Header("Player")]
         [SerializeField] private Rigidbody _targetBody = null;
         [SerializeField] private LayerMask _playerLayer;
-        [SerializeField] private CameraController _cameraController = null;
+        //[SerializeField] private CameraController _cameraController = null;
 
         [Header("Float")]
         [SerializeField] private Vector3 _rayDir = Vector3.down;
@@ -134,16 +132,16 @@ namespace Broccollie.Game
         private void Rotation()
         {
             _moveDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * _moveInput;
-            if (_moveDirection.magnitude > 0 && _cameraController.ViewType == CameraViewType.ThirdPersonView)
-            {
-                _lookRotation = Quaternion.LookRotation(_moveDirection);
-            }
-            else if (_cameraController.ViewType == CameraViewType.FirstPersonView)
-            {
-                _yawAngle += _cameraController.LookVelocity.x;
-                _lookRotation = Quaternion.Euler(_yawAngle * Vector3.up);
-                _targetBody.transform.Rotate(_cameraController.LookVelocity.x * Vector3.up);
-            }
+            //if (_moveDirection.magnitude > 0 && _cameraController.ViewType == CameraViewType.ThirdPersonView)
+            //{
+            //    _lookRotation = Quaternion.LookRotation(_moveDirection);
+            //}
+            //else if (_cameraController.ViewType == CameraViewType.FirstPersonView)
+            //{
+            //    _yawAngle += _cameraController.LookVelocity.x;
+            //    _lookRotation = Quaternion.Euler(_yawAngle * Vector3.up);
+            //    _targetBody.transform.Rotate(_cameraController.LookVelocity.x * Vector3.up);
+            //}
 
             Quaternion currentRotation = _targetBody.rotation;
             Quaternion targetRotation = Core.Helper.ShortestRotation(_lookRotation, currentRotation);

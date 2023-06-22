@@ -3,7 +3,7 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Broccollie.Game
+namespace Broccollie.Game.CameraEffect
 {
     [DefaultExecutionOrder(-100)]
     [DisallowMultipleComponent]

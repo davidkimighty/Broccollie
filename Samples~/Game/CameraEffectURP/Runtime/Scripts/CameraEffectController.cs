@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace Broccollie.Game
+namespace Broccollie.Game.CameraEffect
 {
     public class CameraEffectController : MonoBehaviour
     {

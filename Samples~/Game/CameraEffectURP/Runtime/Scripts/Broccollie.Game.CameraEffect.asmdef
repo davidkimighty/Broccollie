@@ -1,0 +1,20 @@
+{
+    "name": "Broccollie.Game.CameraEffect",
+    "rootNamespace": "",
+    "references": [
+        "GUID:df380645f10b7bc4b97d4f5eb6303d95",
+        "GUID:15fc0a57446b3144c949da3e2b9737a9",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:9018b00fefbd64782bb938c28a0195c6",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

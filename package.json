@@ -1,6 +1,6 @@
 {
   "name": "com.hyunwookimbob.broccollie",
-  "version": "2.0.18",
+  "version": "2.0.19",
   "displayName": "Broccollie",
   "description": "Essential game features in Unity.",
   "unity": "2022.3",
@@ -26,20 +26,10 @@
       "path": "Samples~/Audio"
     },
     {
-      "displayName": "Game",
-      "description": "Game feature samples.",
-      "path": "Samples~/Game"
+      "displayName": "Camera Effect URP",
+      "description": "Camera effects in URP.",
+      "path": "Samples~/Game/CameraEffectURP"
     }
-  ],
-  "keywords": [
-    "UI Conponent",
-    "Scene Controller",
-    "Save Controller",
-    "Network Controller",
-    "Audio Controller",
-    "Parallax Effect Controller",
-    "Camera Effect Controller",
-    "Player Controller"
   ],
   "author": {
     "name": "Hyunwoo Kim",

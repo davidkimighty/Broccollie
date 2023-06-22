@@ -13,7 +13,7 @@ namespace Broccollie.Game
         #region Variable Field
         [Header("Player")]
         [SerializeField] private CharacterController _characterController = null;
-        [SerializeField] private CameraController _cameraController = null;
+        //[SerializeField] private CameraController _cameraController = null;
 
         [Header("Move")]
         [SerializeField] private InputActionProperty _moveAction;
@@ -67,10 +67,10 @@ namespace Broccollie.Game
         public void ReadMoveInput(InputAction.CallbackContext context)
         {
             Vector2 rawInput = context.ReadValue<Vector2>();
-            if (_cameraController.ViewType == CameraViewType.FirstPersonView)
-                _moveInput = _characterController.transform.right * rawInput.x + _characterController.transform.forward * rawInput.y;
-            else if (_cameraController.ViewType == CameraViewType.ThirdPersonView)
-                _moveInput = rawInput;
+            //if (_cameraController.ViewType == CameraViewType.FirstPersonView)
+            //    _moveInput = _characterController.transform.right * rawInput.x + _characterController.transform.forward * rawInput.y;
+            //else if (_cameraController.ViewType == CameraViewType.ThirdPersonView)
+            //    _moveInput = rawInput;
         }
 
         private void ReadJumpInput(InputAction.CallbackContext context)
@@ -118,10 +118,10 @@ namespace Broccollie.Game
 
         private void Move()
         {
-            if (_cameraController.ViewType == CameraViewType.FirstPersonView)
-                FirstPersonControlMove();
-            else if (_cameraController.ViewType == CameraViewType.ThirdPersonView)
-                ThirdPersonControlMove();
+            //if (_cameraController.ViewType == CameraViewType.FirstPersonView)
+            //    FirstPersonControlMove();
+            //else if (_cameraController.ViewType == CameraViewType.ThirdPersonView)
+            //    ThirdPersonControlMove();
 
             void FirstPersonControlMove()
             {
@@ -159,9 +159,9 @@ namespace Broccollie.Game
 
         private void Rotate()
         {
-            if (_cameraController.ViewType != CameraViewType.FirstPersonView) return;
+            //if (_cameraController.ViewType != CameraViewType.FirstPersonView) return;
 
-            _characterController.transform.Rotate(_cameraController.LookVelocity.x * Vector3.up);
+            //_characterController.transform.Rotate(_cameraController.LookVelocity.x * Vector3.up);
         }
 
         #endregion
