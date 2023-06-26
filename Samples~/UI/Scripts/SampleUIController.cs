@@ -9,8 +9,8 @@ public class SampleUIController : MonoBehaviour
     [SerializeField] private ButtonUI _rightButton = null;
     [SerializeField] private ScrollUI _scroll = null;
 
-    [SerializeField] private PanelUI _panelInteractive = null;
-    [SerializeField] private ButtonUI _toggleInteractive = null;
+    [SerializeField] private PanelUI _panel1 = null;
+    [SerializeField] private ButtonUI _toggle1 = null;
 
     private int _scrollIndex = 0;
     private string[] _titles = { "Buttons", "Panels" };
@@ -23,10 +23,10 @@ public class SampleUIController : MonoBehaviour
 
         _scroll.SelectPageWithIndex(_scrollIndex);
 
-        _toggleInteractive.OnClick += (eventArgs, sender) => _panelInteractive.SetVisible(true);
-        _toggleInteractive.OnDefault += (eventArgs, sender) => _panelInteractive.SetVisible(false);
+        _toggle1.OnClick += (eventArgs, sender) => _panel1.ChangeState(UIStates.Show.ToString());
+        _toggle1.OnDefault += (eventArgs, sender) => _panel1.ChangeState(UIStates.Hide.ToString());
 
-        _panelInteractive.SetVisible(false);
+        _panel1.ChangeState(UIStates.Hide.ToString());
     }
 
     private void ChangeScrollPage(int index)

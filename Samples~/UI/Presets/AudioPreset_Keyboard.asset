@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: AudioPreset_Keyboard
   m_EditorClassIdentifier: 
   Settings:
-  - IsEnabled: 1
-    ExecutionState: 6
+  - ExecutionStateHelper: 6
+    ExecutionState: Press
+    IsEnabled: 1
     Audio: {fileID: 11400000, guid: c4e446b340b4046ed832f034e5092307, type: 2}
     Duration: 0

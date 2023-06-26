@@ -1,23 +1,29 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Broccollie.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 namespace Broccollie.UI
 {
     public class ScrollUI : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     {
-        #region Variable Field
+        public event Action OnBeginScroll = null;
+        public event Action OnEndScroll = null;
+        public event Action<BaseUI, int> OnFocusElement = null;
+        public event Action<BaseUI> OnUnfocusElement = null;
+
         [SerializeField] private List<BaseUI> _scrollElements = new List<BaseUI>();
+        public List<BaseUI> ScrollElements
+        {
+            get => _scrollElements;
+        }
         [SerializeField] private Scrollbar _scrollbar = null;
         [Range(1, 10)]
         [SerializeField] private int _transitionSpeed = 5;
         [Range(0.05f, 1)]
         [SerializeField] private float _scrollStopSpeed = 0.1f;
+        [SerializeField] private AnimationCurve _scrollCurve = null;
         [SerializeField] private bool _scrollWhenRelease = true;
 
         [Header("Knob")]
@@ -40,8 +46,8 @@ namespace Broccollie.UI
         }
         private bool _knobClicked = false;
         private float _targetAnchorPoint = 0f;
-
-        #endregion
+        private bool _dragStartFlag = false;
+        private bool _scrollEndFlag = false;
 
         private void Awake()
         {
@@ -81,10 +87,22 @@ namespace Broccollie.UI
         private void ClickKnob(int index)
         {
             _targetAnchorPoint = _anchorPoints[index];
-            _knobClicked = true;
+            _knobClicked = _scrollEndFlag = true;
+            OnBeginScroll?.Invoke();
         }
 
         #endregion
+
+        void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
+        {
+            _dragStartFlag = true;
+            _dragging = true;
+        }
+
+        void IEndDragHandler.OnEndDrag(PointerEventData eventData)
+        {
+            _dragging = false;
+        }
 
         #region Public Functions
         public void AddScrollElement(BaseUI element)
@@ -94,32 +112,11 @@ namespace Broccollie.UI
             _scrollElements.Add(element);
         }
 
-        public void SelectPageWithIndex(int index)
-        {
-            _anchorPoint = _anchorPoints[index];
-            if (_scrollElements[index].TryGetComponent<IClickUI>(out IClickUI element))
-                element.Click();
-
-            if (_useKnob)
-            {
-                if (_knobs[index].TryGetComponent<IClickUI>(out IClickUI knob))
-                    knob.Click();
-            }
-        }
+        public void SelectPageWithIndex(int index) => ClickKnob(index);
 
         public int GetPageCount() => _scrollElements.Count;
 
         #endregion
-
-        void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
-        {
-            _dragging = true;
-        }
-
-        void IEndDragHandler.OnEndDrag(PointerEventData eventData)
-        {
-            _dragging = false;
-        }
 
         private void Update()
         {
@@ -128,29 +125,60 @@ namespace Broccollie.UI
                 if (!Snapping(_targetAnchorPoint))
                     _knobClicked = false;
 
-                UpdateUI();
-                NextAnchorPoint();
-                _scrollbar.value = Mathf.Lerp(_scrollbar.value, _targetAnchorPoint, _transitionSpeed * Time.deltaTime);
+                InvokeEvents();
+                SetNextAnchorPoint();
+
+                _scrollbar.value = Mathf.LerpUnclamped(_scrollbar.value, _targetAnchorPoint, _scrollCurve.Evaluate(_transitionSpeed * Time.deltaTime));
             }
             else if (_dragging || (_scrollWhenRelease && GetScrollSpeed() > _scrollStopSpeed))
             {
-                UpdateUI();
-                NextAnchorPoint();
+                if (_dragStartFlag)
+                {
+                    OnBeginScroll?.Invoke();
+                    _dragStartFlag = false;
+                    _scrollEndFlag = true;
+                }
+                InvokeEvents();
+                SetNextAnchorPoint();
             }
             else if (Snapping(_anchorPoint))
             {
-                UpdateUI();
-                _scrollbar.value = Mathf.Lerp(_scrollbar.value, _anchorPoint, _transitionSpeed * Time.deltaTime);
+                InvokeEvents();
+                _scrollbar.value = Mathf.Lerp(_scrollbar.value, _anchorPoint, _scrollCurve.Evaluate(_transitionSpeed * Time.deltaTime));
             }
             else
             {
-                if (_knobClicked)
-                    _knobClicked = false;
+                if (_scrollEndFlag)
+                {
+                    OnEndScroll?.Invoke();
+                    _scrollEndFlag = false;
+                }
+                _knobClicked = false;
             }
         }
 
-        #region Private Functions
-        private void NextAnchorPoint()
+        private void InvokeEvents()
+        {
+            for (int i = 0; i < _anchorPoints.Length; i++)
+            {
+                if (_anchorPoints[i] == _anchorPoint)
+                {
+                    OnFocusElement?.Invoke(_scrollElements[i], i);
+
+                    if (!_useKnob) continue;
+                    OnFocusElement?.Invoke(_knobs[i], i);
+                }
+                else
+                {
+                    OnUnfocusElement?.Invoke(_scrollElements[i]);
+
+                    if (!_useKnob) continue;
+                    OnUnfocusElement?.Invoke(_knobs[i]);
+                }
+            }
+        }
+
+        private void SetNextAnchorPoint()
         {
             _scrollbarValue = _scrollbar.value;
             if (_scrollbarValue < 0)
@@ -171,30 +199,6 @@ namespace Broccollie.UI
             }
         }
 
-        // Remove this function in the future. Separate the visual logics.
-        private void UpdateUI()
-        {
-            for (int i = 0; i < _anchorPoints.Length; i++)
-            {
-                if (_anchorPoints[i] == _anchorPoint)
-                {
-                    if (_scrollElements[i].TryGetComponent<IClickUI>(out IClickUI element))
-                        element.Click(false, true);
-
-                    if (_useKnob && _knobs[i].TryGetComponent<IClickUI>(out IClickUI knob))
-                        knob.Click(false, false);
-                }
-                else
-                {
-                    if (_scrollElements[i].TryGetComponent<IDefaultUI>(out IDefaultUI element))
-                        element.Default(false, true);
-
-                    if (_useKnob && _knobs[i].TryGetComponent<IDefaultUI>(out IDefaultUI knob))
-                        knob.Default(false, false);
-                }
-            }
-        }
-
         private float GetScrollSpeed()
         {
             return Mathf.Abs(_scrollbarValue - _scrollbar.value) / Time.deltaTime;
@@ -202,10 +206,7 @@ namespace Broccollie.UI
 
         private bool Snapping(float anchorPoint)
         {
-            return Mathf.Abs(_scrollbar.value - anchorPoint) > 0.01f;
+            return Mathf.Abs(_scrollbar.value - anchorPoint) > 0.001f;
         }
-
-       
-        #endregion
     }
 }

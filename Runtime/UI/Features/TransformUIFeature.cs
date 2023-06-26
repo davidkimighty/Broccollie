@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,17 +9,14 @@ namespace Broccollie.UI
 {
     public class TransformUIFeature : BaseUIFeature
     {
-        #region Variable Field
         [Header("Transform Feature")]
         [SerializeField] private Element[] _elements = null;
 
         private Vector3[] _startPositions = null;
         private bool _initialized = false;
 
-        #endregion
-
         #region Override Functions
-        protected override List<Task> GetFeatures(UIStates state, CancellationToken ct)
+        protected override List<Task> GetFeatures(string state, CancellationToken ct)
         {
             Initialize();
 
@@ -36,7 +32,7 @@ namespace Broccollie.UI
 
                 if (setting.IsPositionEnabled)
                 {
-                    Vector3 targetValue = state != UIStates.Default ? _startPositions[i] + setting.TargetPosition : _startPositions[i];
+                    Vector3 targetValue = state != UIStates.Default.ToString() ? _startPositions[i] + setting.TargetPosition : _startPositions[i];
                     features.Add(_elements[i].Target.LerpLocalPositionAsync(targetValue, setting.PositionDuration, ct, setting.PositionCurve));
                 }
 
@@ -49,7 +45,7 @@ namespace Broccollie.UI
             return features;
         }
 
-        protected override List<Action> GetFeaturesInstant(UIStates state)
+        protected override List<Action> GetFeaturesInstant(string state)
         {
             List<Action> features = new List<Action>();
             if (_elements == null) return features;
@@ -64,7 +60,7 @@ namespace Broccollie.UI
                 int index = i;
                 if (setting.IsPositionEnabled)
                 {
-                    Vector3 targetValue = state != UIStates.Default ? _startPositions[i] + setting.TargetPosition : setting.TargetPosition;
+                    Vector3 targetValue = state != UIStates.Default.ToString() ? _startPositions[i] + setting.TargetPosition : setting.TargetPosition;
                     features.Add(() => _elements[index].Target.localPosition = setting.TargetPosition);
                 }
 
@@ -79,7 +75,6 @@ namespace Broccollie.UI
 
         #endregion
 
-        #region Private Functions
         private void Initialize()
         {
             if (!_initialized || _startPositions.Length != _elements.Length)
@@ -91,8 +86,6 @@ namespace Broccollie.UI
                 _initialized = true;
             }
         }
-
-        #endregion
 
         [Serializable]
         public class Element

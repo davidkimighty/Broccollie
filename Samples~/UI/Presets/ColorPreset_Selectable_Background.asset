@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: ColorPreset_Selectable_Background
   m_EditorClassIdentifier: 
   Settings:
-  - IsEnabled: 1
-    ExecutionState: 0
+  - ExecutionStateHelper: 0
+    ExecutionState: Default
+    IsEnabled: 1
     TargetColor: {r: 0, g: 0, b: 0, a: 0}
     Duration: 0.3
     Curve:
@@ -41,8 +42,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - IsEnabled: 1
-    ExecutionState: 5
+  - ExecutionStateHelper: 5
+    ExecutionState: Hover
+    IsEnabled: 1
     TargetColor: {r: 1, g: 1, b: 1, a: 0}
     Duration: 0
     Curve:
@@ -69,8 +71,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - IsEnabled: 1
-    ExecutionState: 6
+  - ExecutionStateHelper: 6
+    ExecutionState: Press
+    IsEnabled: 1
     TargetColor: {r: 1, g: 1, b: 1, a: 1}
     Duration: 0.15
     Curve:
@@ -97,8 +100,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - IsEnabled: 1
-    ExecutionState: 7
+  - ExecutionStateHelper: 7
+    ExecutionState: Click
+    IsEnabled: 1
     TargetColor: {r: 1, g: 1, b: 1, a: 1}
     Duration: 0.3
     Curve:

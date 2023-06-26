@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +8,6 @@ namespace Broccollie.UI
 {
     public class BaseUIFeature : MonoBehaviour
     {
-        #region Variable Field
         [Header("Base Feature")]
         [SerializeField] private bool _isEnabled = true;
         [SerializeField] private FeatureTypes _featureType = FeatureTypes.None;
@@ -20,10 +18,8 @@ namespace Broccollie.UI
 
         private List<Task> _featureTasks = new List<Task>();
 
-        #endregion
-
         #region Public Functions
-        public async Task ExecuteAsync(UIStates state, CancellationToken ct)
+        public async Task ExecuteAsync(string state, CancellationToken ct)
         {
             if (!_isEnabled) return;
 
@@ -31,7 +27,7 @@ namespace Broccollie.UI
             await Task.WhenAll(_featureTasks);
         }
 
-        public void ExecuteInstant(UIStates state)
+        public void ExecuteInstant(string state)
         {
             if (!_isEnabled) return;
 
@@ -42,18 +38,15 @@ namespace Broccollie.UI
 
         #endregion
 
-        #region Protected Functions
-        protected virtual List<Task> GetFeatures(UIStates state, CancellationToken ct)
+        protected virtual List<Task> GetFeatures(string state, CancellationToken ct)
         {
             return new List<Task>();
         }
 
-        protected virtual List<Action> GetFeaturesInstant(UIStates state)
+        protected virtual List<Action> GetFeaturesInstant(string state)
         {
             return new List<Action>();
         }
-
-        #endregion
     }
 
     public enum FeatureTypes { None, Audio, }

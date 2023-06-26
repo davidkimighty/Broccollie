@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OverrideAnimator: {fileID: 22100000, guid: 138ba92f93162441ba2ce5053cc2bbeb, type: 2}
   Settings:
-  - IsEnabled: 1
-    ExecutionState: 1
+  - ExecutionStateHelper: 1
+    ExecutionState: Show
+    IsEnabled: 1
     Animation: {fileID: 7400000, guid: 6cf2beb0095994a0a8ba0c7765e22e81, type: 2}
-  - IsEnabled: 1
-    ExecutionState: 2
+  - ExecutionStateHelper: 2
+    ExecutionState: Hide
+    IsEnabled: 1
     Animation: {fileID: 7400000, guid: 706c724938ae74c1bb42f8f4cb46ff64, type: 2}

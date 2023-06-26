@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,14 +9,10 @@ namespace Broccollie.UI
 {
     public class SpriteUIFeature : BaseUIFeature
     {
-        #region Variable Field
         [Header("Sprite Feature")]
         [SerializeField] private Element[] _elements = null;
 
-        #endregion
-
-        #region Override Functions
-        protected override List<Task> GetFeatures(UIStates state, CancellationToken ct)
+        protected override List<Task> GetFeatures(string state, CancellationToken ct)
         {
             List<Task> features = new List<Task>();
             if (_elements == null) return features;
@@ -34,7 +29,7 @@ namespace Broccollie.UI
             return features;
         }
 
-        protected override List<Action> GetFeaturesInstant(UIStates state)
+        protected override List<Action> GetFeaturesInstant(string state)
         {
             List<Action> features = new List<Action>();
             if (_elements == null) return features;
@@ -52,9 +47,6 @@ namespace Broccollie.UI
             return features;
         }
 
-        #endregion
-
-        #region Private Functions
         private async Task SpriteSwapAsync(Image image, SpriteUIPreset.SpriteSetting setting, CancellationToken ct)
         {
             if (setting.Delay > 0)
@@ -66,8 +58,6 @@ namespace Broccollie.UI
         {
             image.sprite = setting.Sprite;
         }
-
-        #endregion
 
         [Serializable]
         public class Element
