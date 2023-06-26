@@ -1,5 +1,4 @@
 using System;
-using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,16 +9,13 @@ namespace Broccollie.UI
     [DisallowMultipleComponent]
     public class AnimationUIFeature : BaseUIFeature
     {
-        #region Variable Field
         [Header("Animation Feature")]
         [SerializeField] private Element[] _elements = null;
 
         private AnimatorOverrideController _overrideController = null;
 
-        #endregion
-
         #region Override Functions
-        protected override List<Task> GetFeatures(UIStates state, CancellationToken ct)
+        protected override List<Task> GetFeatures(string state, CancellationToken ct)
         {
             List<Task> features = new List<Task>();
             if (_elements == null) return features;
@@ -36,14 +32,13 @@ namespace Broccollie.UI
             return features;
         }
 
-        protected override List<Action> GetFeaturesInstant(UIStates state)
+        protected override List<Action> GetFeaturesInstant(string state)
         {
             return base.GetFeaturesInstant(state);
         }
 
         #endregion
 
-        #region Private Functions
         private async Task PlayAnimationAsync(string executionState, Element element, AnimationUIPreset.AnimationSetting setting, CancellationToken ct)
         {
             if (_overrideController == null)
@@ -61,14 +56,16 @@ namespace Broccollie.UI
 
             if (executionState != UIStates.Hover.ToString())
             {
-                List<string> animationStates = new List<string>();
-                animationStates.Add(UIStates.Default.ToString());
-                animationStates.Add(UIStates.Show.ToString());
-                animationStates.Add(UIStates.Hide.ToString());
-                animationStates.Add(UIStates.Interactive.ToString());
-                animationStates.Add(UIStates.NonInteractive.ToString());
-                animationStates.Add(UIStates.Press.ToString());
-                animationStates.Add(UIStates.Click.ToString());
+                List<string> animationStates = new List<string>
+                {
+                    UIStates.Default.ToString(),
+                    UIStates.Show.ToString(),
+                    UIStates.Hide.ToString(),
+                    UIStates.Interactive.ToString(),
+                    UIStates.NonInteractive.ToString(),
+                    UIStates.Press.ToString(),
+                    UIStates.Click.ToString()
+                };
 
                 foreach (string animationState in animationStates)
                 {
@@ -94,8 +91,6 @@ namespace Broccollie.UI
         {
 
         }
-
-        #endregion
     }
 
     [Serializable]

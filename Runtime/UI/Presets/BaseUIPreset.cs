@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Broccollie.UI
@@ -7,8 +6,11 @@ namespace Broccollie.UI
     {
         public abstract class Setting
         {
+#if UNITY_EDITOR
+            public UIStates ExecutionStateHelper = UIStates.Default;
+#endif
+            public string ExecutionState = null;
             public bool IsEnabled = true;
-            public UIStates ExecutionState = UIStates.Default;
         }
     }
 }

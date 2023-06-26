@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: TransformPreset_HoverInAir
   m_EditorClassIdentifier: 
   Settings:
-  - IsEnabled: 1
-    ExecutionState: 0
+  - ExecutionStateHelper: 0
+    ExecutionState: Default
+    IsEnabled: 1
     IsPositionEnabled: 1
     TargetPosition: {x: 0, y: 0, z: 0}
     PositionDuration: 0.3
@@ -60,8 +61,9 @@ MonoBehaviour:
       m_PreInfinity: 0
       m_PostInfinity: 0
       m_RotationOrder: 0
-  - IsEnabled: 1
-    ExecutionState: 5
+  - ExecutionStateHelper: 5
+    ExecutionState: Hover
+    IsEnabled: 1
     IsPositionEnabled: 1
     TargetPosition: {x: 0, y: 0, z: -0.3}
     PositionDuration: 0.15
@@ -107,8 +109,9 @@ MonoBehaviour:
       m_PreInfinity: 0
       m_PostInfinity: 0
       m_RotationOrder: 0
-  - IsEnabled: 1
-    ExecutionState: 6
+  - ExecutionStateHelper: 6
+    ExecutionState: Press
+    IsEnabled: 1
     IsPositionEnabled: 1
     TargetPosition: {x: 0, y: 0, z: 0}
     PositionDuration: 0.15
@@ -154,8 +157,9 @@ MonoBehaviour:
       m_PreInfinity: 0
       m_PostInfinity: 0
       m_RotationOrder: 0
-  - IsEnabled: 1
-    ExecutionState: 7
+  - ExecutionStateHelper: 7
+    ExecutionState: Click
+    IsEnabled: 1
     IsPositionEnabled: 1
     TargetPosition: {x: 0, y: 0, z: 0}
     PositionDuration: 0.3

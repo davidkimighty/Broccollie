@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace Broccollie.UI
 {
@@ -12,7 +11,6 @@ namespace Broccollie.UI
         IPointerDownHandler, IPointerUpHandler, IPointerClickHandler, IMoveHandler,
         ISelectHandler, IDeselectHandler, ISubmitHandler
     {
-        #region Variable Field
         public event Action<BaseUI, EventArgs> OnDefault = null;
         public event Action<BaseUI, EventArgs> OnShow = null;
         public event Action<BaseUI, EventArgs> OnHide = null;
@@ -21,10 +19,11 @@ namespace Broccollie.UI
         public event Action<BaseUI, EventArgs> OnHover = null;
         public event Action<BaseUI, EventArgs> OnPress = null;
         public event Action<BaseUI, EventArgs> OnClick = null;
+        public event Action<BaseUI, EventArgs> OnCustomState = null;
 
         [Header("Base")]
-        [SerializeField] protected UIStates _currentState = UIStates.Default;
-        public UIStates CurrentState
+        [SerializeField] protected string _currentState = UIStates.Default.ToString();
+        public string CurrentState
         {
             get => _currentState;
         }
@@ -60,7 +59,7 @@ namespace Broccollie.UI
         }
 
         protected bool _isClicked = false;
-        public bool IsSelected
+        public bool IsClicked
         {
             get => _isClicked;
         }
@@ -68,28 +67,13 @@ namespace Broccollie.UI
         protected Task _featureTasks = null;
         protected CancellationTokenSource _cts = new CancellationTokenSource();
 
-        #endregion
+        #region Public Features
+        public virtual void ChangeState(string state, bool instant = false, bool playAudio = true, bool invokeEvent = true) { }
 
-        #region Publishers
-        protected virtual void RaiseOnDefault(BaseUI sender, EventArgs args) => OnDefault?.Invoke(this, args);
-
-        protected virtual void RaiseOnShow(BaseUI sender, EventArgs args) => OnShow?.Invoke(this, args);
-
-        protected virtual void RaiseOnHide(BaseUI sender, EventArgs args) => OnHide?.Invoke(this, args);
-
-        protected virtual void RaiseOnInteractive(BaseUI sender, EventArgs args) => OnInteractive?.Invoke(this, args);
-
-        protected virtual void RaiseOnNonInteractive(BaseUI sender, EventArgs args) => OnNonInteractive?.Invoke(this, args);
-
-        protected virtual void RaiseOnHover(BaseUI sender, EventArgs args) => OnHover?.Invoke(this, args);
-
-        protected virtual void RaiseOnPress(BaseUI sender, EventArgs args) => OnPress?.Invoke(this, args);
-
-        protected virtual void RaiseOnClick(BaseUI sender, EventArgs args) => OnClick?.Invoke(this, args);
+        public virtual void SetActive(bool state) { }
 
         #endregion
 
-        #region Pointer Callbacks
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => InvokePointerEnter(eventData, null);
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData) => InvokePointerExit(eventData, null);
@@ -107,8 +91,6 @@ namespace Broccollie.UI
         void IDeselectHandler.OnDeselect(BaseEventData eventData) => InvokeDeselect(eventData, null);
 
         void ISubmitHandler.OnSubmit(BaseEventData eventData) => InvokeSubmit(eventData, null);
-
-        #endregion
 
         #region Pointer Callback Subscribers
         protected virtual void InvokePointerEnter(PointerEventData eventData, BaseUI invoker)
@@ -139,7 +121,89 @@ namespace Broccollie.UI
         protected virtual void InvokeMove(AxisEventData eventData, BaseUI invoker, List<BaseUI> activeList)
         {
             if (invoker == null) return;
+            MoveToNextSelectable(eventData, activeList);
+        }
 
+        protected virtual void InvokeSelect(BaseEventData eventData, BaseUI invoker)
+        {
+            if (invoker == null) return;
+        }
+
+        protected virtual void InvokeDeselect(BaseEventData eventData, BaseUI invoker)
+        {
+            if (invoker == null) return;
+        }
+
+        protected virtual void InvokeSubmit(BaseEventData eventData, BaseUI invoker)
+        {
+            if (invoker == null) return;
+        }
+
+        #endregion
+
+        #region Publishers
+        protected virtual void RaiseOnDefault(BaseUI sender, EventArgs args) => OnDefault?.Invoke(this, args);
+
+        protected virtual void RaiseOnShow(BaseUI sender, EventArgs args) => OnShow?.Invoke(this, args);
+
+        protected virtual void RaiseOnHide(BaseUI sender, EventArgs args) => OnHide?.Invoke(this, args);
+
+        protected virtual void RaiseOnInteractive(BaseUI sender, EventArgs args) => OnInteractive?.Invoke(this, args);
+
+        protected virtual void RaiseOnNonInteractive(BaseUI sender, EventArgs args) => OnNonInteractive?.Invoke(this, args);
+
+        protected virtual void RaiseOnHover(BaseUI sender, EventArgs args) => OnHover?.Invoke(this, args);
+
+        protected virtual void RaiseOnPress(BaseUI sender, EventArgs args) => OnPress?.Invoke(this, args);
+
+        protected virtual void RaiseOnClick(BaseUI sender, EventArgs args) => OnClick?.Invoke(this, args);
+
+        protected virtual void RaiseOnCustomState(BaseUI sender, EventArgs args) => OnCustomState?.Invoke(this, args);
+
+        #endregion
+
+        protected virtual async Task ExecuteFeaturesAsync(string state, bool playAudio = true, Action done = null)
+        {
+            if (_features == null) return;
+            try
+            {
+                _cts.Cancel();
+                _cts = new CancellationTokenSource();
+
+                List<Task> featureTasks = new List<Task>();
+                foreach (BaseUIFeature feature in _features)
+                {
+                    if (feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
+                    featureTasks.Add(feature.ExecuteAsync(state, _cts.Token));
+                }
+                await Task.WhenAll(featureTasks);
+            }
+            catch (OperationCanceledException) { }
+            done?.Invoke();
+        }
+
+        protected virtual void ExecuteFeatureInstant(string state, bool playAudio = true, Action done = null)
+        {
+            if (_features == null) return;
+
+            _cts.Cancel();
+
+            foreach (BaseUIFeature feature in _features)
+            {
+                if (feature == null || feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
+                feature.ExecuteInstant(state);
+            }
+            done?.Invoke();
+        }
+
+        protected void SetCurrentState(UIStates state, out string stateStr)
+        {
+            stateStr = state.ToString();
+            _currentState = stateStr;
+        }
+
+        private void MoveToNextSelectable(AxisEventData eventData, List<BaseUI> activeList)
+        {
             BaseUI nextSelectable = null;
             switch (eventData.moveDir)
             {
@@ -212,124 +276,60 @@ namespace Broccollie.UI
             }
         }
 
-        protected virtual void InvokeSelect(BaseEventData eventData, BaseUI invoker)
-        {
-            if (invoker == null) return;
-        }
-
-        protected virtual void InvokeDeselect(BaseEventData eventData, BaseUI invoker)
-        {
-            if (invoker == null) return;
-        }
-
-        protected virtual void InvokeSubmit(BaseEventData eventData, BaseUI invoker)
-        {
-            if (invoker == null) return;
-        }
-
-        #endregion
-
-        #region Public Features
-        public virtual void SetVisible(bool state, bool playAudio = true, bool invokeEvent = true, bool instant = false) { }
-
-        public virtual void SetInteractive(bool state, bool playAudio = true, bool invokeEvent = true, bool instant = false) { }
-
-        public virtual void SetInteraction(bool state) => _isInteractive = state;
-
-        #endregion
-
-        #region Features
-        protected virtual async Task ExecuteFeaturesAsync(UIStates state, bool playAudio = true, Action done = null)
-        {
-            if (_features == null) return;
-
-            try
-            {
-                _cts.Cancel();
-                _cts = new CancellationTokenSource();
-
-                List<Task> featureTasks = new List<Task>();
-                foreach (BaseUIFeature feature in _features)
-                {
-                    if (feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
-                    featureTasks.Add(feature.ExecuteAsync(state, _cts.Token));
-                }
-
-                await Task.WhenAll(featureTasks);
-            }
-            catch (OperationCanceledException e)
-            {
-                
-            }
-            done?.Invoke();
-        }
-
-        protected virtual void ExecuteFeatureInstant(UIStates state, bool playAudio = true, Action done = null)
-        {
-            if (_features == null) return;
-
-            _cts.Cancel();
-
-            foreach (BaseUIFeature feature in _features)
-            {
-                if (feature == null || feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
-                feature.ExecuteInstant(state);
-            }
-            done?.Invoke();
-        }
-
-        #endregion
-
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            switch (_currentState)
+            if (!Enum.TryParse(_currentState, out UIStates state)) return;
+
+            switch (state)
             {
                 case UIStates.Show:
                     _isActive = true;
                     _isHovered = _isPressed = _isClicked = false;
-                    SetVisible(true, true, true, true);
+                    SetActive(true);
+                    ExecuteFeatureInstant(UIStates.Show.ToString(), false);
                     break;
 
                 case UIStates.Hide:
                     _isActive = _isHovered = _isPressed = _isClicked = false;
-                    SetVisible(false, true, true, true);
+                    ExecuteFeatureInstant(UIStates.Hide.ToString(), false);
+                    SetActive(false);
                     break;
 
                 case UIStates.Interactive:
                     _isActive = _isInteractive = true;
                     _isHovered = _isPressed = _isClicked = false;
-                    ExecuteFeatureInstant(UIStates.Interactive, false);
+                    ExecuteFeatureInstant(UIStates.Interactive.ToString(), false);
                     break;
 
                 case UIStates.NonInteractive:
                     _isActive = true;
                     _isInteractive = _isHovered = _isPressed = _isClicked = false;
-                    ExecuteFeatureInstant(UIStates.NonInteractive, false);
+                    ExecuteFeatureInstant(UIStates.NonInteractive.ToString(), false);
                     break;
 
                 case UIStates.Default:
                     _isActive = true;
                     _isHovered = _isPressed = _isClicked = false;
-                    ExecuteFeatureInstant(UIStates.Default, false);
+                    ExecuteFeatureInstant(UIStates.Default.ToString(), false);
                     break;
 
                 case UIStates.Hover:
                     _isActive = _isHovered = true;
                     _isPressed = _isClicked = false;
-                    ExecuteFeatureInstant(UIStates.Hover, false);
+                    ExecuteFeatureInstant(UIStates.Hover.ToString(), false);
                     break;
 
                 case UIStates.Press:
                     _isActive = _isPressed = true;
                     _isHovered = _isClicked = false;
-                    ExecuteFeatureInstant(UIStates.Press, false);
+                    ExecuteFeatureInstant(UIStates.Press.ToString(), false);
                     break;
 
                 case UIStates.Click:
                     _isActive = _isClicked = true;
                     _isHovered = _isPressed = false;
-                    ExecuteFeatureInstant(UIStates.Click, false);
+                    ExecuteFeatureInstant(UIStates.Click.ToString(), false);
                     break;
             }
             UnityEditor.EditorUtility.SetDirty(this);

@@ -14,21 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OverrideAnimator: {fileID: 22100000, guid: 138ba92f93162441ba2ce5053cc2bbeb, type: 2}
   Settings:
-  - IsEnabled: 1
-    ExecutionState: 0
+  - ExecutionStateHelper: 0
+    ExecutionState: Default
+    IsEnabled: 1
     Animation: {fileID: 7400000, guid: 1c7794075bfee4a80956bc12d72ccd53, type: 2}
-  - IsEnabled: 1
-    ExecutionState: 5
+  - ExecutionStateHelper: 5
+    ExecutionState: Hover
+    IsEnabled: 1
     Animation: {fileID: 7400000, guid: b67c9743867ad45959d204f5fdc2e54b, type: 2}
-  - IsEnabled: 1
-    ExecutionState: 6
+  - ExecutionStateHelper: 6
+    ExecutionState: Press
+    IsEnabled: 1
     Animation: {fileID: 7400000, guid: 08c033c4872cc4e168bc819ec7ba0ea7, type: 2}
-  - IsEnabled: 1
-    ExecutionState: 7
+  - ExecutionStateHelper: 7
+    ExecutionState: Click
+    IsEnabled: 1
     Animation: {fileID: 7400000, guid: d7f57e7c698ff402c876e1bb6aaf881f, type: 2}
-  - IsEnabled: 1
-    ExecutionState: 1
+  - ExecutionStateHelper: 1
+    ExecutionState: Show
+    IsEnabled: 1
     Animation: {fileID: 7400000, guid: c1a1289c4a36c465f875ad958b2163d9, type: 2}
-  - IsEnabled: 1
-    ExecutionState: 2
+  - ExecutionStateHelper: 2
+    ExecutionState: Hide
+    IsEnabled: 1
     Animation: {fileID: 7400000, guid: 5adf3d1f2c82e41cd869783b573e5a8a, type: 2}
