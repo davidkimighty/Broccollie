@@ -69,7 +69,7 @@ namespace Broccollie.UI
 
         public override void SetActive(bool state)
         {
-            SetActive(state);
+            gameObject.SetActive(state);
         }
 
         #endregion
