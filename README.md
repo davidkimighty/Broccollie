@@ -33,10 +33,13 @@
 # ScriptableObject-based UI
 
 ## Buttons
-<img style="width:100%;" src="https://github.com/hyunwookimbob/Broccollie/assets/32338791/0553139c-46f7-4370-b4bc-d4cb755c749e" alt="buttons">
+<img style="width:100%;" src="https://github.com/hyunwookimbob/Broccollie/assets/32338791/8d4f69b4-6286-46be-8d6e-68a02e72b13b" alt="buttons">
 
 ## Panels
-<img style="width:100%;" src="https://github.com/hyunwookimbob/Broccollie/assets/32338791/e817928a-85f5-4dd6-9cff-31f383a0da1e" alt="panels">
+<img style="width:100%;" src="https://github.com/hyunwookimbob/Broccollie/assets/32338791/0d5a5e31-804c-462c-899d-f7c3abf6669b" alt="panels">
+
+## Scroll and Snap
+<img style="width:100%;" src="https://github.com/hyunwookimbob/Broccollie/assets/32338791/15235f89-14ff-493c-b5e6-5a688359f7fa" alt="scroll snap">
 
 # Player Controller
 
