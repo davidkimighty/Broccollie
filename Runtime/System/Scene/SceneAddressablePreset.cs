@@ -10,9 +10,11 @@ namespace Broccollie.System
         public string SceneName = null;
         public AssetReference SceneReference = null;
 
+#if UNITY_EDITOR
         private void OnValidate()
         {
             SceneName = SceneReference.editorAsset.name;
         }
+#endif
     }
 }
