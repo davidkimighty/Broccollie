@@ -20,12 +20,10 @@ namespace Broccollie.Core
                 if (ct.IsCancellationRequested)
                     ct.ThrowIfCancellationRequested();
 
-                if (graphic.color == targetColor) break;
-
                 if (curve == null)
-                    graphic.color = Color.Lerp(startColor, targetColor, elapsedTime / duration);
+                    graphic.color = Color.LerpUnclamped(startColor, targetColor, elapsedTime / duration);
                 else
-                    graphic.color = Color.Lerp(startColor, targetColor, curve.Evaluate(elapsedTime / duration));
+                    graphic.color = Color.LerpUnclamped(startColor, targetColor, curve.Evaluate(elapsedTime / duration));
 
                 elapsedTime += Time.deltaTime;
                 await Task.Yield();
@@ -41,12 +39,10 @@ namespace Broccollie.Core
 
             while (elapsedTime < duration)
             {
-                if (graphic.color == targetColor) yield break;
-
                 if (curve == null)
-                    graphic.color = Color.Lerp(startColor, targetColor, elapsedTime / duration);
+                    graphic.color = Color.LerpUnclamped(startColor, targetColor, elapsedTime / duration);
                 else
-                    graphic.color = Color.Lerp(startColor, targetColor, curve.Evaluate(elapsedTime / duration));
+                    graphic.color = Color.LerpUnclamped(startColor, targetColor, curve.Evaluate(elapsedTime / duration));
 
                 elapsedTime += Time.deltaTime;
                 yield return null;
