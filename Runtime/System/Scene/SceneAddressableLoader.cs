@@ -46,8 +46,8 @@ namespace Broccollie.System
 
             if (showLoading)
             {
-                await LoadSceneAsync(_loadingScene);
                 _currentlyLoadedScene = _loadingScene;
+                await LoadSceneAsync(_loadingScene);
 
                 _sceneEventChannel.RaiseAfterLoadingSceneLoad();
                 await _sceneEventChannel.RaiseAfterLoadingSceneLoadAsync();
@@ -64,8 +64,8 @@ namespace Broccollie.System
                 await UnloadActiveScene();
             }
 
-            await LoadSceneAsync(newScene);
             _currentlyLoadedScene = newScene;
+            await LoadSceneAsync(newScene);
 
             _sceneEventChannel.RaiseAfterSceneLoad();
             await _sceneEventChannel.RaiseAfterSceneLoadAsync();
@@ -76,33 +76,38 @@ namespace Broccollie.System
         private async Task UnloadActiveScene()
         {
             if (_currentlyLoadedScene == null || _currentlyLoadedScene.SceneId == 0) return;
-
             try
             {
                 AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(_currentlyLoadedScene.SceneName);
                 while (!unloadOperation.isDone)
                 {
-                    //Debug.Log($"[SceneLoader] Unload progress {unloadOperation.progress}");
+                    //Debug.Log($"[SceneLoader] Unload progress {_currentlyLoadedScene.SceneName} {unloadOperation.progress}");
                     await Task.Yield();
                 }
             }
-            catch (Exception) { }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
 
         private async Task LoadSceneAsync(SceneAddressablePreset scene)
         {
             try
             {
-                AsyncOperationHandle<SceneInstance> loadOperation = scene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive);
+                AsyncOperationHandle<SceneInstance> loadOperation = scene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
                 if (!loadOperation.IsValid()) return;
 
                 while (!loadOperation.IsDone)
                 {
-                    //Debug.Log($"[SceneLoader] Load progress {loadOperation.PercentComplete}");
+                    //Debug.Log($"[SceneLoader] Load progress {scene.SceneName} {loadOperation.PercentComplete}");
                     await Task.Yield();
                 }
             }
-            catch (Exception) { }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
     }
 }

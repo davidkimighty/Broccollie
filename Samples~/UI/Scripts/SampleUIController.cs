@@ -17,6 +17,9 @@ public class SampleUIController : MonoBehaviour
 
     private void Start()
     {
+        _scroll.OnFocusElement += Focus;
+        _scroll.OnUnfocusElement += Unfocus;
+
         _leftButton.OnClick += (eventArgs, sender) => ChangeScrollPage(Mathf.Abs((_scrollIndex == 0 ?
             _scrollIndex - _scroll.GetPageCount() + 1 : _scrollIndex - 1)) % _scroll.GetPageCount());
         _rightButton.OnClick += (eventArgs, sender) => ChangeScrollPage(Mathf.Abs((_scrollIndex + 1)) % _scroll.GetPageCount());
@@ -34,5 +37,17 @@ public class SampleUIController : MonoBehaviour
         _scrollIndex = index;
         _scroll.SelectPageWithIndex(_scrollIndex);
         _title.text = _titles[index];
+    }
+
+    private void Focus(BaseUI baseUI, int index)
+    {
+        if (baseUI.CurrentState == UIStates.Hover.ToString()) return;
+        baseUI.ChangeState(UIStates.Hover.ToString());
+    }
+
+    private void Unfocus(BaseUI baseUI)
+    {
+        if (baseUI.CurrentState == UIStates.Default.ToString()) return;
+        baseUI.ChangeState(UIStates.Default.ToString());
     }
 }
