@@ -12,8 +12,6 @@ namespace Broccollie.System
         [SerializeField] private SceneAddressablePreset _loadingScene = null;
 
         private SceneAddressablePreset _currentlyLoadedScene = null;
-        private bool _sceneUnloading = false;
-        private bool _sceneLoading = false;
         private bool _loadingSceneLoaded = false;
 
         private void OnEnable()
@@ -40,9 +38,6 @@ namespace Broccollie.System
         #region Public Functions
         public async Task UnloadActiveSceneAsync(bool showLoading)
         {
-            if (_sceneUnloading) return;
-            _sceneUnloading = true;
-
             _sceneEventChannel.RaiseBeforeSceneUnload();
             await _sceneEventChannel.RaiseBeforeSceneUnloadAsync();
 
@@ -57,14 +52,10 @@ namespace Broccollie.System
                 _sceneEventChannel.RaiseAfterLoadingSceneLoad();
                 await _sceneEventChannel.RaiseAfterLoadingSceneLoadAsync();
             }
-            _sceneUnloading = false;
         }
 
         public async Task LoadNewSceneAsync(SceneAddressablePreset newScene)
         {
-            if (_sceneLoading) return;
-            _sceneLoading = true;
-
             if (_loadingSceneLoaded)
             {
                 _sceneEventChannel.RaiseBeforeLoadingSceneUnload();
@@ -79,8 +70,6 @@ namespace Broccollie.System
 
             _sceneEventChannel.RaiseAfterSceneLoad();
             await _sceneEventChannel.RaiseAfterSceneLoadAsync();
-
-            _sceneLoading = false;
         }
 
         #endregion

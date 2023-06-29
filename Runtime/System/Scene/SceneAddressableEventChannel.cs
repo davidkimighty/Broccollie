@@ -25,8 +25,7 @@ namespace Broccollie.System
         public async Task RequestSceneLoadAsync(SceneAddressablePreset scene, bool showLoadingScene)
         {
             if (scene == null) return;
-            if (OnRequestLoadSceneAsync != null)
-                await OnRequestLoadSceneAsync.Invoke(scene, showLoadingScene);
+            await OnRequestLoadSceneAsync.Invoke(scene, showLoadingScene);
         }
 
         public void RaiseBeforeSceneUnload() => OnBeforeSceneUnload?.Invoke();
