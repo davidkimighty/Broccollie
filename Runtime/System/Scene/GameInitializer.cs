@@ -10,7 +10,7 @@ namespace Broccollie.System
 
         private void Start()
         {
-            _persistentScene.SceneReference.LoadSceneAsync(LoadSceneMode.Single, true);
+            _persistentScene.SceneReference.LoadSceneAsync(LoadSceneMode.Single);
         }
     }
 }
