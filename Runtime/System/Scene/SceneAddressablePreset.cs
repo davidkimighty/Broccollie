@@ -7,6 +7,12 @@ namespace Broccollie.System
     public class SceneAddressablePreset : ScriptableObject
     {
         public int SceneId = 0;
+        public string SceneName = null;
         public AssetReference SceneReference = null;
+
+        private void OnValidate()
+        {
+            SceneName = SceneReference.editorAsset.name;
+        }
     }
 }

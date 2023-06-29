@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -76,24 +77,32 @@ namespace Broccollie.System
         {
             if (_currentlyLoadedScene == null || _currentlyLoadedScene.SceneId == 0) return;
 
-            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(_currentlyLoadedScene.SceneReference.editorAsset.name);
-            while (!unloadOperation.isDone)
+            try
             {
-                //Debug.Log($"[SceneLoader] Unload progress {unloadOperation.progress}");
-                await Task.Yield();
+                AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(_currentlyLoadedScene.SceneName);
+                while (!unloadOperation.isDone)
+                {
+                    //Debug.Log($"[SceneLoader] Unload progress {unloadOperation.progress}");
+                    await Task.Yield();
+                }
             }
+            catch (Exception) { }
         }
 
         private async Task LoadSceneAsync(SceneAddressablePreset scene)
         {
-            AsyncOperationHandle<SceneInstance> loadOperation = scene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive);
-            if (!loadOperation.IsValid()) return;
-            
-            while (!loadOperation.IsDone)
+            try
             {
-                //Debug.Log($"[SceneLoader] Load progress {loadOperation.PercentComplete}");
-                await Task.Yield();
+                AsyncOperationHandle<SceneInstance> loadOperation = scene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive);
+                if (!loadOperation.IsValid()) return;
+
+                while (!loadOperation.IsDone)
+                {
+                    //Debug.Log($"[SceneLoader] Load progress {loadOperation.PercentComplete}");
+                    await Task.Yield();
+                }
             }
+            catch (Exception) { }
         }
     }
 }
