@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 namespace Broccollie.System
@@ -12,7 +13,6 @@ namespace Broccollie.System
         [SerializeField] private SceneAddressablePreset _loadingScene = null;
 
         private SceneAddressablePreset _currentlyLoadedScene = null;
-        private bool _loadingSceneLoaded = false;
 
         private void OnEnable()
         {
@@ -41,13 +41,12 @@ namespace Broccollie.System
             _sceneEventChannel.RaiseBeforeSceneUnload();
             await _sceneEventChannel.RaiseBeforeSceneUnloadAsync();
 
-            if (_currentlyLoadedScene != null)
-                SceneUnload(_currentlyLoadedScene);
+            await UnloadActiveScene();
 
             if (showLoading)
             {
-                await SceneLoadAsync(_loadingScene, true);
-                _loadingSceneLoaded = true;
+                await LoadSceneAsync(_loadingScene);
+                _currentlyLoadedScene = _loadingScene;
 
                 _sceneEventChannel.RaiseAfterLoadingSceneLoad();
                 await _sceneEventChannel.RaiseAfterLoadingSceneLoadAsync();
@@ -56,16 +55,15 @@ namespace Broccollie.System
 
         public async Task LoadNewSceneAsync(SceneAddressablePreset newScene)
         {
-            if (_loadingSceneLoaded)
+            if (_currentlyLoadedScene == _loadingScene)
             {
                 _sceneEventChannel.RaiseBeforeLoadingSceneUnload();
                 await _sceneEventChannel.RaiseBeforeLoadingSceneUnloadAsync();
 
-                SceneUnload(_loadingScene);
-                _loadingSceneLoaded = false;
+                await UnloadActiveScene();
             }
 
-            await SceneLoadAsync(newScene, true);
+            await LoadSceneAsync(newScene);
             _currentlyLoadedScene = newScene;
 
             _sceneEventChannel.RaiseAfterSceneLoad();
@@ -74,20 +72,26 @@ namespace Broccollie.System
 
         #endregion
 
-        private void SceneUnload(SceneAddressablePreset scene)
+        private async Task UnloadActiveScene()
         {
-            scene.SceneReference.UnLoadScene();
+            if (_currentlyLoadedScene == null || _currentlyLoadedScene.SceneId == 0) return;
+
+            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(_currentlyLoadedScene.SceneReference.editorAsset.name);
+            while (!unloadOperation.isDone)
+            {
+                //Debug.Log($"[SceneLoader] Unload progress {unloadOperation.progress}");
+                await Task.Yield();
+            }
         }
 
-        private async Task SceneLoadAsync(SceneAddressablePreset scene, bool activate)
+        private async Task LoadSceneAsync(SceneAddressablePreset scene)
         {
-            AsyncOperationHandle loadOperation = scene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, activate);
+            AsyncOperationHandle<SceneInstance> loadOperation = scene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive);
             if (!loadOperation.IsValid()) return;
             
             while (!loadOperation.IsDone)
             {
-                //float progress = loadOperation.PercentComplete;
-                //Debug.Log($"[SceneLoader] Load progress {progress}");
+                //Debug.Log($"[SceneLoader] Load progress {loadOperation.PercentComplete}");
                 await Task.Yield();
             }
         }
