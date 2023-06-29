@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 001708fb27d8f4a0ab555e009c53584a, type: 3}
-  m_Name: SampleSceneAddressablePreset_Persistent
+  m_Name: SampleScenePreset_GamePlay_3
   m_EditorClassIdentifier: 
-  SceneId: 0
+  SceneId: 3
+  SceneName: SampleGamePlay 3
   SceneReference:
-    m_AssetGUID: c082fa849dcf84fac9e272cc14d57e79
+    m_AssetGUID: c9476e677a89b48f4a9f91e6183ad5ec
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

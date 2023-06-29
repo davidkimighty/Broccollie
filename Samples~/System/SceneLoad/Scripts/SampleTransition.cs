@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Broccollie.System;
 using UnityEngine;
 
-public class SampleTransistion : MonoBehaviour
+public class SampleTransition : MonoBehaviour
 {
     [SerializeField] private SceneAddressableEventChannel _sceneEventChannel = null;
     [SerializeField] private SceneAddressablePreset _sceneOne = null;
@@ -10,19 +10,20 @@ public class SampleTransistion : MonoBehaviour
 
     [SerializeField] private ScreenFader _screenFader = null;
 
-    private void Awake()
+    private async void Awake()
     {
         _screenFader.Fade(0);
-    }
-
-    private async void Start()
-    {
-        await _sceneEventChannel.RequestSceneLoadAsync(_sceneOne, false);
-
-        await Task.Delay(3 * 1000);
-
         await _sceneEventChannel.RequestSceneLoadAsync(_sceneTwo, false);
     }
+
+    //private async void Start()
+    //{
+    //    await _sceneEventChannel.RequestSceneLoadAsync(_sceneOne, false);
+
+    //    await Task.Delay(3 * 1000);
+
+    //    await _sceneEventChannel.RequestSceneLoadAsync(_sceneTwo, false);
+    //}
 
     private void OnEnable()
     {
