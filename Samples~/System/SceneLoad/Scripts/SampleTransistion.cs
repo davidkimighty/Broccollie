@@ -21,7 +21,7 @@ public class SampleTransistion : MonoBehaviour
 
         await Task.Delay(3 * 1000);
 
-        await _sceneEventChannel.RequestSceneLoadAsync(_sceneTwo, true);
+        await _sceneEventChannel.RequestSceneLoadAsync(_sceneTwo, false);
     }
 
     private void OnEnable()
