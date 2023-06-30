@@ -41,12 +41,12 @@ public class SampleTransition : MonoBehaviour
         _sceneEventChannel.OnAfterSceneLoadAsync -= FadeOut;
     }
 
-    private async Task FadeIn()
+    private async Task FadeIn(SceneAddressablePreset preset)
     {
         await _screenFader.FadeAsync(1);
     }
 
-    private async Task FadeOut()
+    private async Task FadeOut(SceneAddressablePreset preset)
     {
         await _screenFader.FadeAsync(0);
     }

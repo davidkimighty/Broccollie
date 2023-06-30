@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Broccollie.System;
 using UnityEngine;
@@ -19,7 +17,7 @@ public class GamePlayController : MonoBehaviour
         _sceneEventChannel.OnAfterSceneLoadAsync -= Init;
     }
 
-    private async Task Init()
+    private async Task Init(SceneAddressablePreset preset)
     {
         await Task.Delay(2 * 1000);
         _object.SetActive(true);

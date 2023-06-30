@@ -177,23 +177,25 @@ namespace Broccollie.UI
                     featureTasks.Add(feature.ExecuteAsync(state, _cts.Token));
                 }
                 await Task.WhenAll(featureTasks);
+                done?.Invoke();
             }
             catch (OperationCanceledException) { }
-            done?.Invoke();
         }
 
         protected virtual void ExecuteFeatureInstant(string state, bool playAudio = true, Action done = null)
         {
             if (_features == null) return;
-
-            _cts.Cancel();
-
-            foreach (BaseUIFeature feature in _features)
+            try
             {
-                if (feature == null || feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
-                feature.ExecuteInstant(state);
+                _cts.Cancel();
+                foreach (BaseUIFeature feature in _features)
+                {
+                    if (feature == null || feature.FeatureType == FeatureTypes.Audio && !playAudio) continue;
+                    feature.ExecuteInstant(state);
+                }
+                done?.Invoke();
             }
-            done?.Invoke();
+            catch (OperationCanceledException) { }
         }
 
         protected void SetCurrentState(UIStates state, out string stateStr)

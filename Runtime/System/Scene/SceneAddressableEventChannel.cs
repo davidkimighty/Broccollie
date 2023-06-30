@@ -9,17 +9,17 @@ namespace Broccollie.System
     {
         public event Func<SceneAddressablePreset, bool, Task> OnRequestLoadSceneAsync = null;
 
-        public event Action OnBeforeSceneUnload = null;
-        public event Func<Task> OnBeforeSceneUnloadAsync = null;
+        public event Action<SceneAddressablePreset> OnBeforeSceneUnload = null;
+        public event Func<SceneAddressablePreset, Task> OnBeforeSceneUnloadAsync = null;
 
-        public event Action OnAfterSceneLoad = null;
-        public event Func<Task> OnAfterSceneLoadAsync = null;
+        public event Action<SceneAddressablePreset> OnAfterSceneLoad = null;
+        public event Func<SceneAddressablePreset, Task> OnAfterSceneLoadAsync = null;
 
-        public event Action OnAfterLoadingSceneLoad = null;
-        public event Func<Task> OnAfterLoadingSceneLoadAsync = null;
+        public event Action<SceneAddressablePreset> OnAfterLoadingSceneLoad = null;
+        public event Func<SceneAddressablePreset, Task> OnAfterLoadingSceneLoadAsync = null;
 
-        public event Action OnBeforeLoadingSceneUnload = null;
-        public event Func<Task> OnBeforeLoadingSceneUnloadAsync = null;
+        public event Action<SceneAddressablePreset> OnBeforeLoadingSceneUnload = null;
+        public event Func<SceneAddressablePreset, Task> OnBeforeLoadingSceneUnloadAsync = null;
 
         #region Publishers
         public async Task RequestSceneLoadAsync(SceneAddressablePreset scene, bool showLoadingScene)
@@ -28,36 +28,36 @@ namespace Broccollie.System
             await OnRequestLoadSceneAsync.Invoke(scene, showLoadingScene);
         }
 
-        public void RaiseBeforeSceneUnload() => OnBeforeSceneUnload?.Invoke();
+        public void RaiseBeforeSceneUnload(SceneAddressablePreset scene) => OnBeforeSceneUnload?.Invoke(scene);
 
-        public async Task RaiseBeforeSceneUnloadAsync()
+        public async Task RaiseBeforeSceneUnloadAsync(SceneAddressablePreset scene)
         {
             if (OnBeforeSceneUnloadAsync != null)
-                await OnBeforeSceneUnloadAsync.Invoke();
+                await OnBeforeSceneUnloadAsync.Invoke(scene);
         }
 
-        public void RaiseAfterSceneLoad() => OnAfterSceneLoad?.Invoke();
+        public void RaiseAfterSceneLoad(SceneAddressablePreset scene) => OnAfterSceneLoad?.Invoke(scene);
 
-        public async Task RaiseAfterSceneLoadAsync()
+        public async Task RaiseAfterSceneLoadAsync(SceneAddressablePreset scene)
         {
             if (OnAfterSceneLoadAsync != null)
-                await OnAfterSceneLoadAsync.Invoke();
+                await OnAfterSceneLoadAsync.Invoke(scene);
         }
 
-        public void RaiseAfterLoadingSceneLoad() => OnAfterLoadingSceneLoad?.Invoke();
+        public void RaiseAfterLoadingSceneLoad(SceneAddressablePreset scene) => OnAfterLoadingSceneLoad?.Invoke(scene);
 
-        public async Task RaiseAfterLoadingSceneLoadAsync()
+        public async Task RaiseAfterLoadingSceneLoadAsync(SceneAddressablePreset scene)
         {
             if (OnAfterLoadingSceneLoadAsync != null)
-                await OnAfterLoadingSceneLoadAsync.Invoke();
+                await OnAfterLoadingSceneLoadAsync.Invoke(scene);
         }
 
-        public void RaiseBeforeLoadingSceneUnload() => OnBeforeLoadingSceneUnload?.Invoke();
+        public void RaiseBeforeLoadingSceneUnload(SceneAddressablePreset scene) => OnBeforeLoadingSceneUnload?.Invoke(scene);
 
-        public async Task RaiseBeforeLoadingSceneUnloadAsync()
+        public async Task RaiseBeforeLoadingSceneUnloadAsync(SceneAddressablePreset scene)
         {
             if (OnBeforeLoadingSceneUnloadAsync != null)
-                await OnBeforeLoadingSceneUnloadAsync.Invoke();
+                await OnBeforeLoadingSceneUnloadAsync.Invoke(scene);
         }
 
         #endregion
