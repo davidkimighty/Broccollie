@@ -190,8 +190,8 @@ namespace Broccollie.UI
 
             if (instant)
             {
-                SetActive(false);
                 ExecuteFeatureInstant(state, playAudio);
+                SetActive(false);
             }
             else
             {

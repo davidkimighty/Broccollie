@@ -39,9 +39,6 @@ namespace Broccollie.System
         #region Public Functions
         public async Task UnloadActiveSceneAsync(bool showLoading)
         {
-            _sceneEventChannel.RaiseBeforeSceneUnload();
-            await _sceneEventChannel.RaiseBeforeSceneUnloadAsync();
-
             await UnloadActiveScene();
 
             if (showLoading)
@@ -49,8 +46,8 @@ namespace Broccollie.System
                 _currentlyLoadedScene = _loadingScene;
                 await LoadSceneAsync(_loadingScene);
 
-                _sceneEventChannel.RaiseAfterLoadingSceneLoad();
-                await _sceneEventChannel.RaiseAfterLoadingSceneLoadAsync();
+                _sceneEventChannel.RaiseAfterLoadingSceneLoad(_loadingScene);
+                await _sceneEventChannel.RaiseAfterLoadingSceneLoadAsync(_loadingScene);
             }
         }
 
@@ -58,17 +55,14 @@ namespace Broccollie.System
         {
             if (_currentlyLoadedScene == _loadingScene)
             {
-                _sceneEventChannel.RaiseBeforeLoadingSceneUnload();
-                await _sceneEventChannel.RaiseBeforeLoadingSceneUnloadAsync();
+                _sceneEventChannel.RaiseBeforeLoadingSceneUnload(_loadingScene);
+                await _sceneEventChannel.RaiseBeforeLoadingSceneUnloadAsync(_loadingScene);
 
                 await UnloadActiveScene();
             }
 
             _currentlyLoadedScene = newScene;
             await LoadSceneAsync(newScene);
-
-            _sceneEventChannel.RaiseAfterSceneLoad();
-            await _sceneEventChannel.RaiseAfterSceneLoadAsync();
         }
 
         #endregion
@@ -76,6 +70,10 @@ namespace Broccollie.System
         private async Task UnloadActiveScene()
         {
             if (_currentlyLoadedScene == null || _currentlyLoadedScene.SceneId == 0) return;
+
+            _sceneEventChannel.RaiseBeforeSceneUnload(_currentlyLoadedScene);
+            await _sceneEventChannel.RaiseBeforeSceneUnloadAsync(_currentlyLoadedScene);
+
             try
             {
                 AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(_currentlyLoadedScene.SceneName);
@@ -103,6 +101,9 @@ namespace Broccollie.System
                     //Debug.Log($"[SceneLoader] Load progress {scene.SceneName} {loadOperation.PercentComplete}");
                     await Task.Yield();
                 }
+
+                _sceneEventChannel.RaiseAfterSceneLoad(_currentlyLoadedScene);
+                await _sceneEventChannel.RaiseAfterSceneLoadAsync(_currentlyLoadedScene);
             }
             catch (Exception e)
             {
