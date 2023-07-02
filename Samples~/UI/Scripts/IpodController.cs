@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class IpodController : MonoBehaviour
 {
+    private const string s_key = "pre";
+
     [SerializeField] private ScrollUI _scroll = null;
     [SerializeField] private HorizontalLayoutGroup _horizontal = null;
 
@@ -70,8 +72,8 @@ public class IpodController : MonoBehaviour
 
     private void ChangeMusicByDir(bool forward)
     {
-        _index = forward ? _index >= _scroll.GetPageCount() - 1 ? 0 : _index + 1 :
-            _index <= 0 ? _scroll.GetPageCount() - 1 : _index - 1;
+        _index = forward ? _index >= _scroll.GetPageCount(s_key) - 1 ? 0 : _index + 1 :
+            _index <= 0 ? _scroll.GetPageCount(s_key) - 1 : _index - 1;
         _scroll.SelectPageWithIndex(_index);
     }
 

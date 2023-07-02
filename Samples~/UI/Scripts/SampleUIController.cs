@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SampleUIController : MonoBehaviour
 {
+    private const string s_key = "pre";
+
     [SerializeField] private TextMeshProUGUI _title = null;
     [SerializeField] private ButtonUI _leftButton = null;
     [SerializeField] private ButtonUI _rightButton = null;
@@ -21,8 +23,8 @@ public class SampleUIController : MonoBehaviour
         _scroll.OnUnfocusElement += Unfocus;
 
         _leftButton.OnClick += (eventArgs, sender) => ChangeScrollPage(Mathf.Abs((_scrollIndex == 0 ?
-            _scrollIndex - _scroll.GetPageCount() + 1 : _scrollIndex - 1)) % _scroll.GetPageCount());
-        _rightButton.OnClick += (eventArgs, sender) => ChangeScrollPage(Mathf.Abs((_scrollIndex + 1)) % _scroll.GetPageCount());
+            _scrollIndex - _scroll.GetPageCount(s_key) + 1 : _scrollIndex - 1)) % _scroll.GetPageCount(s_key));
+        _rightButton.OnClick += (eventArgs, sender) => ChangeScrollPage(Mathf.Abs((_scrollIndex + 1)) % _scroll.GetPageCount(s_key));
 
         _scroll.SelectPageWithIndex(_scrollIndex);
 
