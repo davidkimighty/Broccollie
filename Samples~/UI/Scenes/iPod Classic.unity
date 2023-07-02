@@ -455,11 +455,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82cba1181cd7a4c0fba2dc95c6326871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scrollElements:
+  _preSetupElementsKey: pre
+  _preSetupScrollElements:
   - {fileID: 1036917800}
   - {fileID: 1778908583}
   - {fileID: 692271445}
   - {fileID: 1891037922}
+  _contentHolder: {fileID: 0}
   _scrollbar: {fileID: 899839599}
   _transitionSpeed: 5
   _scrollStopSpeed: 0.328
