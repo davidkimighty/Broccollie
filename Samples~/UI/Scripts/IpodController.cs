@@ -63,7 +63,7 @@ public class IpodController : MonoBehaviour
         baseUI.ChangeState(UIStates.Hover.ToString());
     }
 
-    private void Unfocus(BaseUI baseUI)
+    private void Unfocus(BaseUI baseUI, int index)
     {
         if (baseUI.CurrentState == UIStates.Default.ToString()) return;
 
