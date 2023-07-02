@@ -36,7 +36,7 @@ namespace Broccollie.UI
         private Dictionary<string, List<BaseUI>> _scrollElements = new();
         private Dictionary<string, float[]> _anchorPoints = new();
         private Dictionary<string, float> _subdivisionDists = new();
-        private string _currentKey = null;
+        private string _currentKey = "";
         private float _anchorPoint = 0f;
 
         private float _scrollbarValue = 0f;
@@ -176,6 +176,8 @@ namespace Broccollie.UI
 
         private void Update()
         {
+            if (_currentKey == null || _currentKey == string.Empty) return;
+
             if (_knobClicked)
             {
                 if (!Snapping(_targetAnchorPoint))
