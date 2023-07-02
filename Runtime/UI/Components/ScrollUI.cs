@@ -11,7 +11,7 @@ namespace Broccollie.UI
         public event Action OnBeginScroll = null;
         public event Action OnEndScroll = null;
         public event Action<BaseUI, int> OnFocusElement = null;
-        public event Action<BaseUI> OnUnfocusElement = null;
+        public event Action<BaseUI, int> OnUnfocusElement = null;
 
         [SerializeField] private string _preSetupElementsKey = "pre";
         [SerializeField] private List<BaseUI> _preSetupScrollElements = new List<BaseUI>();
@@ -227,12 +227,7 @@ namespace Broccollie.UI
                     OnFocusElement?.Invoke(_knobs[i], i);
                 }
                 else
-                {
-                    OnUnfocusElement?.Invoke(_scrollElements[_currentKey][i]);
-
-                    if (!_useKnob || _knobs == null) continue;
-                    OnUnfocusElement?.Invoke(_knobs[i]);
-                }
+                    OnUnfocusElement?.Invoke(_scrollElements[_currentKey][i], i);
             }
         }
 
