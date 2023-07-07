@@ -97,7 +97,9 @@ namespace Broccollie.UI
         protected override void InvokeSubmit(BaseEventData eventData, BaseUI invoker)
         {
             Click(true, true);
-            ButtonSubmitVisuals();
+
+            if (!_isRaycastIgnored)
+                ButtonSubmitVisuals();
 
             void ButtonSubmitVisuals()
             {
@@ -204,7 +206,7 @@ namespace Broccollie.UI
 
         private void Hover(bool playAudio, bool invokeEvent)
         {
-            if (!_isInteractive) return;
+            if (_isRaycastIgnored || !_isInteractive) return;
 
             SetCurrentState(UIStates.Hover, out string state);
             _isHovered = true;
@@ -217,7 +219,7 @@ namespace Broccollie.UI
 
         private void Press(PointerEventData eventData, bool playAudio, bool invokeEvent)
         {
-            if (!_isInteractive) return;
+            if (_isRaycastIgnored || !_isInteractive) return;
 
             if (eventData != null)
                 EventSystem.current.SetSelectedGameObject(gameObject, eventData);
@@ -233,7 +235,7 @@ namespace Broccollie.UI
 
         private void Click(bool playAudio, bool invokeEvent)
         {
-            if (!_isInteractive) return;
+            if (_isRaycastIgnored || !_isInteractive) return;
 
             switch (_buttonType)
             {
@@ -275,7 +277,7 @@ namespace Broccollie.UI
 
         private void Exit()
         {
-            if (!_isInteractive) return;
+            if (_isRaycastIgnored || !_isInteractive) return;
 
             _isHovered = false;
             if (_isPressed) return;
@@ -294,7 +296,7 @@ namespace Broccollie.UI
 
         private void Release()
         {
-            if (!_isInteractive) return;
+            if (_isRaycastIgnored || !_isInteractive) return;
 
             _isPressed = false;
             if (_isHovered)
@@ -318,7 +320,7 @@ namespace Broccollie.UI
 
         private void CustomState(string state, bool playAudio, bool invokeEvent)
         {
-            if (!_isInteractive) return;
+            if (_isRaycastIgnored || !_isInteractive) return;
 
             _currentState = state;
             _isHovered = _isPressed = _isClicked = false;
