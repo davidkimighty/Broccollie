@@ -64,6 +64,12 @@ namespace Broccollie.UI
             get => _isClicked;
         }
 
+        protected bool _isRaycastIgnored = false;
+        public bool IsRaycasIgnored
+        {
+            get => _isRaycastIgnored;
+        }
+
         protected Task _featureTasks = null;
         protected CancellationTokenSource _cts = new CancellationTokenSource();
 
@@ -71,6 +77,8 @@ namespace Broccollie.UI
         public virtual void ChangeState(string state, bool instant = false, bool playAudio = true, bool invokeEvent = true) { }
 
         public virtual void SetActive(bool state) { }
+
+        public virtual void SetRaycastIgnore(bool state) => _isRaycastIgnored = state;
 
         #endregion
 
@@ -206,27 +214,22 @@ namespace Broccollie.UI
 
         private void MoveToNextSelectable(AxisEventData eventData, List<BaseUI> activeList)
         {
-            BaseUI nextSelectable = null;
             switch (eventData.moveDir)
             {
                 case MoveDirection.Left:
-                    nextSelectable = GetNextSelectable(transform.rotation * Vector3.left);
-                    ChangeSelectedObject(nextSelectable);
+                    ChangeSelectedObject(GetNextSelectable(transform.rotation * Vector3.left));
                     break;
 
                 case MoveDirection.Right:
-                    nextSelectable = GetNextSelectable(transform.rotation * Vector3.right);
-                    ChangeSelectedObject(nextSelectable);
+                    ChangeSelectedObject(GetNextSelectable(transform.rotation * Vector3.right));
                     break;
 
                 case MoveDirection.Up:
-                    nextSelectable = GetNextSelectable(transform.rotation * Vector3.up);
-                    ChangeSelectedObject(nextSelectable);
+                    ChangeSelectedObject(GetNextSelectable(transform.rotation * Vector3.up));
                     break;
 
                 case MoveDirection.Down:
-                    nextSelectable = GetNextSelectable(transform.rotation * Vector3.down);
-                    ChangeSelectedObject(nextSelectable);
+                    ChangeSelectedObject(GetNextSelectable(transform.rotation * Vector3.down));
                     break;
             }
 
