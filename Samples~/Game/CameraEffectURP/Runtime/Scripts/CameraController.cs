@@ -1,15 +1,13 @@
-
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Broccollie.Game.CameraEffect
+namespace Broccollie.Game
 {
     [DefaultExecutionOrder(-100)]
     [DisallowMultipleComponent]
     public class CameraController : MonoBehaviour
     {
-        #region Variable Field
         [Header("Camera")]
         [SerializeField] private InputActionProperty _lookAction;
         [SerializeField] private CameraViewType _cameraViewType = CameraViewType.ThirdPersonView;
@@ -37,32 +35,6 @@ namespace Broccollie.Game.CameraEffect
             get => _lookVelocity;
         }
         private float _pitchAngle = 0f;
-
-        #endregion
-
-        private void Awake()
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-
-            _thirdPersonVirtualCam.Follow = _cameraLookTarget;
-            _thirdPersonVirtualCam.LookAt = _cameraLookTarget;
-            _thirdPersonVirtualCam.m_XAxis.m_MaxSpeed = _tpcSpeedX;
-            _thirdPersonVirtualCam.m_YAxis.m_MaxSpeed = _tpcSpeedY;
-
-            _firstPersonVirtualCam.Follow = _cameraLookTarget;
-        }
-
-        private void OnEnable()
-        {
-            _lookAction.action.performed += ReadLookInput;
-            _lookAction.action.canceled += ReadLookInput;
-        }
-
-        private void OnDisable()
-        {
-            _lookAction.action.performed -= ReadLookInput;
-            _lookAction.action.canceled -= ReadLookInput;
-        }
 
         private void Start()
         {
@@ -128,7 +100,6 @@ namespace Broccollie.Game.CameraEffect
             FirstPersonCameraMovement();
         }
 
-        #region Private Functions
         private void FirstPersonCameraMovement()
         {
             if (_cameraViewType != CameraViewType.FirstPersonView) return;
@@ -142,9 +113,6 @@ namespace Broccollie.Game.CameraEffect
 
             _cameraLookTarget.localRotation = Quaternion.Euler(_pitchAngle, 0f, 0f);
         }
-
-        #endregion
-
     }
 
     public enum CameraViewType { ThirdPersonView, FirstPersonView }
