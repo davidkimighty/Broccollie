@@ -17,14 +17,12 @@ namespace Broccollie.Game
 
         [Header("First-Person")]
         [SerializeField] private CinemachineVirtualCamera _fpVirtualCam = null;
-        [SerializeField] private Transform _fpLookTarget = null;
         [SerializeField] private float _fpSpeedX = 120f;
         [SerializeField] private float _fpSpeedY = 60f;
         [SerializeField] private LayerMask _fpIgnoreCullingLayer;
 
         [Header("Third-Person")]
         [SerializeField] private CinemachineFreeLook _tpVirtualCam = null;
-        [SerializeField] private Transform _tpLookTarget = null;
         [SerializeField] private float _tpSpeedX = 350f;
         [SerializeField] private float _tpSpeedY = 5f;
 
@@ -53,10 +51,6 @@ namespace Broccollie.Game
 
             Cursor.lockState = CursorLockMode.Locked;
 
-            _fpVirtualCam.Follow = _fpLookTarget;
-
-            _tpVirtualCam.Follow = _tpLookTarget;
-            _tpVirtualCam.LookAt = _tpLookTarget;
             _tpVirtualCam.m_XAxis.m_MaxSpeed = _tpSpeedX;
             _tpVirtualCam.m_YAxis.m_MaxSpeed = _tpSpeedY;
 
@@ -124,7 +118,7 @@ namespace Broccollie.Game
             _fpPitchAngle -= pitchVelocity;
             _fpPitchAngle = Mathf.Clamp(_fpPitchAngle, -90f, 90f);
 
-            _fpLookTarget.localRotation = Quaternion.Euler(_fpPitchAngle, 0, 0);
+            _fpVirtualCam.Follow.localRotation = Quaternion.Euler(_fpPitchAngle, 0, 0);
         }
 
 #if UNITY_EDITOR
