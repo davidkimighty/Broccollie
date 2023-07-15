@@ -16,14 +16,14 @@
       "path": "Samples~/UI"
     },
     {
-      "displayName": "Systems",
-      "description": "System feature samples.",
-      "path": "Samples~/System"
-    },
-    {
       "displayName": "Audio",
       "description": "Preset based audio manager.",
       "path": "Samples~/Audio"
+    },
+    {
+      "displayName": "Player Controller",
+      "description": "Both physics & non physics player controller.",
+      "path": "Samples~/Game/PlayerController"
     },
     {
       "displayName": "Camera Effect URP",
