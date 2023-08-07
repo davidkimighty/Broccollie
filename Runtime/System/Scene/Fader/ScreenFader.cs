@@ -8,10 +8,42 @@ namespace Broccollie.System
 {
     public class ScreenFader : MonoBehaviour
     {
-        #region Variable Field
+        [SerializeField] private FaderEventChannel _eventChannel = null;
         [SerializeField] private Image _fadeImage = null;
         [SerializeField] private float _fadeDuration = 1f;
         [SerializeField] private AnimationCurve _fadeCurve = null;
+
+        private IEnumerator _fadeCoroutine = null;
+
+        private void OnEnable()
+        {
+            if (_eventChannel != null)
+            {
+                _eventChannel.OnFade += ExecuteFade;
+                _eventChannel.OnFadeAsync += ExecuteFadeAsync;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (_eventChannel != null)
+            {
+                _eventChannel.OnFade -= ExecuteFade;
+                _eventChannel.OnFadeAsync -= ExecuteFadeAsync;
+            }
+        }
+
+        #region Subscribers
+        private void ExecuteFade(float alpha)
+        {
+            if (_fadeCoroutine != null)
+                StopCoroutine(_fadeCoroutine);
+
+            _fadeCoroutine = Fade(alpha);
+            StartCoroutine(_fadeCoroutine);
+        }
+
+        private async Task ExecuteFadeAsync(float alpha) => await FadeAsync(alpha);
 
         #endregion
 
