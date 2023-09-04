@@ -21,14 +21,14 @@ namespace Broccollie.System
 
         private void OnEnable()
         {
-            _eventChannel.OnRequestSaveAsync += RequestSaveAsync;
-            _eventChannel.OnRequestLoadAsync += RequestLoadAsync;
+            _eventChannel.OnSaveAsync += RequestSaveAsync;
+            _eventChannel.OnLoadAsync += RequestLoadAsync;
         }
 
         private void OnDisable()
         {
-            _eventChannel.OnRequestSaveAsync -= RequestSaveAsync;
-            _eventChannel.OnRequestLoadAsync -= RequestLoadAsync;
+            _eventChannel.OnSaveAsync -= RequestSaveAsync;
+            _eventChannel.OnLoadAsync -= RequestLoadAsync;
         }
 
         #region Subscribers

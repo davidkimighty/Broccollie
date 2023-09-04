@@ -32,7 +32,7 @@ namespace Broccollie.UI
 
         private async Task PlayAudioAsync(AudioUIPreset.AudioSetting setting, CancellationToken ct)
         {
-            _eventChannel.RaisePlayAudioEvent(setting.Audio);
+            _eventChannel.RequestPlayAudio(setting.Audio);
             await Task.Delay((int)(setting.Duration * 1000f), ct);
         }
 

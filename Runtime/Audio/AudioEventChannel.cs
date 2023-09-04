@@ -3,36 +3,33 @@ using UnityEngine;
 
 namespace Broccollie.Audio
 {
-    [CreateAssetMenu(fileName = "EventChannel_Audio", menuName = "Broccollie/Event Channels/Audio")]
+    [CreateAssetMenu(fileName = "EventChannel_Audio", menuName = "Broccollie/EventChannels/Audio")]
     public class AudioEventChannel : ScriptableObject
     {
-        #region Events
-        public event Action<AudioPreset> OnPlayAudioRequest = null;
-        public event Action<AudioPreset> OnPauseAudioRequest = null;
-        public event Action<AudioPreset> OnStopAudioRequest = null;
-
-        #endregion
+        public event Action<AudioPreset> OnPlayAudio = null;
+        public event Action<AudioPreset> OnPauseAudio = null;
+        public event Action<AudioPreset> OnStopAudio = null;
 
         #region Publishers
-        public void RaisePlayAudioEvent(AudioPreset audio)
+        public void RequestPlayAudio(AudioPreset audio)
         {
             if (audio == null) return;
 
-            OnPlayAudioRequest?.Invoke(audio);
+            OnPlayAudio?.Invoke(audio);
         }
 
-        public void RaisePauseAudioEvent(AudioPreset audio)
+        public void RequestPauseAudio(AudioPreset audio)
         {
             if (audio == null) return;
 
-            OnPauseAudioRequest?.Invoke(audio);
+            OnPauseAudio?.Invoke(audio);
         }
 
-        public void RaiseStopAudioEvent(AudioPreset audio)
+        public void RequestStopAudio(AudioPreset audio)
         {
             if (audio == null) return;
 
-            OnStopAudioRequest?.Invoke(audio);
+            OnStopAudio?.Invoke(audio);
         }
 
         #endregion

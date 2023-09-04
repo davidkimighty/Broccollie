@@ -1,39 +1,43 @@
 {
-  "name": "com.hyunwookimbob.broccollie",
-  "version": "2.1.7",
-  "displayName": "Broccollie",
-  "description": "Essential game features in Unity.",
-  "unity": "2022.3",
-  "dependencies": {
-    "com.unity.addressables": "1.21.8",
-    "com.unity.inputsystem": "1.5.0",
-    "com.unity.cinemachine": "2.9.5"
-  },
-  "samples": [
-    {
-      "displayName": "UI",
-      "description": "Preset based UI components",
-      "path": "Samples~/UI"
+    "name": "com.hyunwookimbob.broccollie",
+    "version": "2.1.8",
+    "displayName": "Broccollie",
+    "description": "Essential game features in Unity.",
+    "unity": "2022.3",
+    "dependencies": {
+        "com.unity.inputsystem": "1.5.0",
+        "com.unity.cinemachine": "2.9.5"
     },
-    {
-      "displayName": "Systems",
-      "description": "System feature samples.",
-      "path": "Samples~/System"
-    },
-    {
-      "displayName": "Audio",
-      "description": "Preset based audio manager.",
-      "path": "Samples~/Audio"
-    },
-    {
-      "displayName": "Camera Effect URP",
-      "description": "Camera effects in URP.",
-      "path": "Samples~/Game/CameraEffectURP"
+    "samples": [
+        {
+            "displayName": "UI Sample",
+            "description": "Preset based UI components",
+            "path": "Samples~/UI"
+        },
+        {
+            "displayName": "Systems",
+            "description": "System feature samples.",
+            "path": "Samples~/System"
+        },
+        {
+            "displayName": "Addressable Scene Loader Package",
+            "description": "Scene management using Addressables",
+            "path": "Samples~/System/Scene/AddressablesScene"
+        },
+        {
+            "displayName": "Audio Sample",
+            "description": "Preset based audio manager.",
+            "path": "Samples~/Audio"
+        },
+        {
+            "displayName": "Camera Effect URP Package",
+            "description": "Camera effects in URP.",
+            "path": "Samples~/Game/CameraEffectURP"
+        }
+    ],
+    "author": {
+        "name": "Hyunwoo Kim",
+        "email": "hyunwookimbob@gmail.com",
+        "url": "https://colliecollie.netlify.app"
     }
-  ],
-  "author": {
-    "name": "Hyunwoo Kim",
-    "email": "hyunwookimbob@gmail.com",
-    "url": "https://colliecollie.netlify.app"
-  }
 }

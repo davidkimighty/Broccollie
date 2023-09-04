@@ -1,17 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
 using UnityEngine.Pool;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Broccollie.Audio
 {
     [DefaultExecutionOrder(-100)]
     public class AudioController : MonoBehaviour
     {
-        #region Variable Field
         [Header("Event")]
         [SerializeField] private AudioEventChannel _audioEventChannel = null;
 
@@ -24,8 +20,6 @@ namespace Broccollie.Audio
         [SerializeField] private IObjectPool<AudioPlayer> _pool = null;
         [SerializeField] private List<AudioPlayer> _activeAudio = new List<AudioPlayer>();
 
-        #endregion
-
         private void Awake()
         {
             _pool = new ObjectPool<AudioPlayer>(CreatePooledItem, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject);
@@ -33,16 +27,16 @@ namespace Broccollie.Audio
 
         private void OnEnable()
         {
-            _audioEventChannel.OnPlayAudioRequest += PlayAudio;
-            _audioEventChannel.OnPauseAudioRequest += PauseAudio;
-            _audioEventChannel.OnStopAudioRequest += StopAudio;
+            _audioEventChannel.OnPlayAudio += PlayAudio;
+            _audioEventChannel.OnPauseAudio += PauseAudio;
+            _audioEventChannel.OnStopAudio += StopAudio;
         }
 
         private void OnDisable()
         {
-            _audioEventChannel.OnPlayAudioRequest -= PlayAudio;
-            _audioEventChannel.OnPauseAudioRequest -= PauseAudio;
-            _audioEventChannel.OnStopAudioRequest -= StopAudio;
+            _audioEventChannel.OnPlayAudio -= PlayAudio;
+            _audioEventChannel.OnPauseAudio -= PauseAudio;
+            _audioEventChannel.OnStopAudio -= StopAudio;
         }
 
         #region Subscribers
@@ -109,7 +103,6 @@ namespace Broccollie.Audio
 
         private void OnDestroyPoolObject(AudioPlayer audioPlayer)
         {
-            Addressables.Release(audioPlayer);
             Destroy(audioPlayer.gameObject);
         }
 

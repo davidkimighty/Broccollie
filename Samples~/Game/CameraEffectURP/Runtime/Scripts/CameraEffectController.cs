@@ -24,12 +24,12 @@ namespace Broccollie.Game.CameraEffect
 
         private void OnEnable()
         {
-            _eventChannel.OnPlayCameraEffectRequest += PlayCameraEffect;
+            _eventChannel.OnPlayCameraEffect += PlayCameraEffect;
         }
 
         private void OnDisable()
         {
-            _eventChannel.OnPlayCameraEffectRequest -= PlayCameraEffect;
+            _eventChannel.OnPlayCameraEffect -= PlayCameraEffect;
         }
 
         #region Subscribers

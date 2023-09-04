@@ -3,20 +3,17 @@ using UnityEngine;
 
 namespace Broccollie.Game.CameraEffect
 {
-    [CreateAssetMenu(fileName = "EventChannel_CameraEffect", menuName = "Broccollie/Event Channels/Camera Effect")]
+    [CreateAssetMenu(fileName = "EventChannel_CameraEffect", menuName = "Broccollie/EventChannels/CameraEffect")]
     public class CameraEffectEventChannel : ScriptableObject
     {
-        #region Events
-        public event Action<CameraEffectPreset> OnPlayCameraEffectRequest = null;
-
-        #endregion
+        public event Action<CameraEffectPreset> OnPlayCameraEffect = null;
 
         #region Publishers
-        public void RaisePlayCameraEffectEvent(CameraEffectPreset effect)
+        public void RequestPlayCameraEffectEvent(CameraEffectPreset effect)
         {
             if (effect == null) return;
 
-            OnPlayCameraEffectRequest?.Invoke(effect);
+            OnPlayCameraEffect?.Invoke(effect);
         }
 
         #endregion
