@@ -1,43 +1,12 @@
 {
-    "name": "com.hyunwookimbob.broccollie",
-    "version": "2.1.8",
-    "displayName": "Broccollie",
+    "name": "com.hyunwookimbob.broccollie.core",
+    "version": "2.2.0",
+    "displayName": "Broccollie Core",
     "description": "Essential game features in Unity.",
     "unity": "2022.3",
-    "dependencies": {
-        "com.unity.inputsystem": "1.5.0",
-        "com.unity.cinemachine": "2.9.5"
-    },
-    "samples": [
-        {
-            "displayName": "UI Sample",
-            "description": "Preset based UI components",
-            "path": "Samples~/UI"
-        },
-        {
-            "displayName": "Systems",
-            "description": "System feature samples.",
-            "path": "Samples~/System"
-        },
-        {
-            "displayName": "Addressable Scene Loader Package",
-            "description": "Scene management using Addressables",
-            "path": "Samples~/System/Scene/AddressablesScene"
-        },
-        {
-            "displayName": "Audio Sample",
-            "description": "Preset based audio manager.",
-            "path": "Samples~/Audio"
-        },
-        {
-            "displayName": "Camera Effect URP Package",
-            "description": "Camera effects in URP.",
-            "path": "Samples~/Game/CameraEffectURP"
-        }
-    ],
     "author": {
         "name": "Hyunwoo Kim",
-        "email": "hyunwookimbob@gmail.com",
+        "email": "davidkimighty@gmail.com",
         "url": "https://colliecollie.netlify.app"
     }
 }
