@@ -21,7 +21,7 @@
 - Audio controller
 - Local device save system
 
-**[ Dependencies ]**
+**[ Feature Packages ]**
 - https://github.com/hyunwookimbob/Broccollie-UI.git
 - https://github.com/hyunwookimbob/Broccollie-Systems.git
 - https://github.com/hyunwookimbob/Broccollie-Audio.git
