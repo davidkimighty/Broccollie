@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -11,7 +8,6 @@ namespace Broccollie.Audio
 {
     public class AudioPlayer : MonoBehaviour
     {
-        #region Variable Field
         [SerializeField] private AudioSource _source = null;
 
         private AudioPreset _injectedPreset = null;
@@ -23,8 +19,6 @@ namespace Broccollie.Audio
         private IObjectPool<AudioPlayer> _pool = null;
         private CancellationTokenSource _cts = new CancellationTokenSource();
         private bool _paused = false;
-
-        #endregion
 
         #region Public Functions
         public void Init(IObjectPool<AudioPlayer> pool, AudioPreset preset)
@@ -49,14 +43,14 @@ namespace Broccollie.Audio
                 }
             }
             _paused = false;
-            Task audioPlay = PlayAudioSourceAsync(data.Loop);
+            PlayAudioSourceAsync(data.Loop);
         }
 
         public void Play()
         {
             if (_injectedPreset == null) return;
             _paused = false;
-            Task audioPlay = PlayAudioSourceAsync(_injectedPreset.Loop);
+            PlayAudioSourceAsync(_injectedPreset.Loop);
         }
 
         public void Pause()
@@ -77,7 +71,7 @@ namespace Broccollie.Audio
         #endregion
 
         #region AudioPlayer Features
-        private async Task PlayAudioSourceAsync(bool loop)
+        private async void PlayAudioSourceAsync(bool loop)
         {
             try
             {

@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace Broccollie.Audio
 {
-    [CreateAssetMenu(fileName = "AudioPreset", menuName = "Broccollie/Audio/AudioPreset")]
+    [CreateAssetMenu(fileName = "AudioPreset", menuName = "Broccollie/Audio/Preset/Audio")]
     public class AudioPreset : ScriptableObject
     {
-        #region Variable Field
         public AudioClip[] AudioClips = null;
         public AudioMixerGroup MixerGroup = null;
         [Range(0f, 1f)] public float Volume = 1f;
@@ -17,7 +14,6 @@ namespace Broccollie.Audio
 
         [SerializeField] private int _playIndex = 0;
         [SerializeField] private AudioPlayOrder _playOrder = AudioPlayOrder.Random;
-        #endregion
 
         #region Public Functions
         public AudioClip GetAudioClip()

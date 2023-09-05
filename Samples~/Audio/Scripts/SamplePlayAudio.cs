@@ -21,27 +21,27 @@ public class SamplePlayAudio : MonoBehaviour
 
     private void Start()
     {
-        _eventChannel.RaisePlayAudioEvent(_loopAudioPreset);
+        _eventChannel.RequestPlayAudio(_loopAudioPreset);
     }
 
     public void PlayButtonAudio()
     {
-        _eventChannel.RaisePlayAudioEvent(_buttonAudioPreset);
+        _eventChannel.RequestPlayAudio(_buttonAudioPreset);
     }
 
     public void PlayLoopAudio()
     {
-        _eventChannel.RaisePlayAudioEvent(_loopAudioPreset);
+        _eventChannel.RequestPlayAudio(_loopAudioPreset);
     }
 
     public void PauseLoopAudio()
     {
-        _eventChannel.RaisePauseAudioEvent(_loopAudioPreset);
+        _eventChannel.RequestPauseAudio(_loopAudioPreset);
     }
 
     public void StopLoopAudio()
     {
-        _eventChannel.RaiseStopAudioEvent(_loopAudioPreset);
+        _eventChannel.RequestStopAudio(_loopAudioPreset);
     }
 
     public void ChangeVolume(float value)

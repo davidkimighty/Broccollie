@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Broccollie.System
 {
-    [CreateAssetMenu(fileName = "EventChannel_Fader", menuName = "Broccollie/Event Channels/Fader")]
+    [CreateAssetMenu(fileName = "EventChannel_Fader", menuName = "Broccollie/EventChannels/Fader")]
     public class FaderEventChannel : ScriptableObject
     {
         public event Action<float> OnFade = null;

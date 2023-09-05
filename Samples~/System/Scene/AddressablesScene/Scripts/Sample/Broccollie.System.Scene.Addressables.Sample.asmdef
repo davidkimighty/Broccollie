@@ -1,0 +1,17 @@
+{
+    "name": "Broccollie.System.Scene.Addressables.Sample",
+    "rootNamespace": "",
+    "references": [
+        "GUID:690a834c4515e4bbda3de4a506440e64",
+        "GUID:5edc14112552446a4a3759fb97a59175"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

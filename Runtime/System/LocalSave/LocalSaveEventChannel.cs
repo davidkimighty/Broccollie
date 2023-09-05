@@ -4,19 +4,16 @@ using UnityEngine;
 
 namespace Broccollie.System
 {
-    [CreateAssetMenu(fileName = "EventChannel_LocalSave", menuName = "Broccollie/Event Channels/Local Save")]
+    [CreateAssetMenu(fileName = "EventChannel_LocalSave", menuName = "Broccollie/EventChannels/LocalSave")]
     public class LocalSaveEventChannel : ScriptableObject
     {
-        #region Events
-        public event Func<Task> OnRequestSaveAsync = null;
-        public event Func<Task> OnRequestLoadAsync = null;
-
-        #endregion
+        public event Func<Task> OnSaveAsync = null;
+        public event Func<Task> OnLoadAsync = null;
 
         #region Publishers
-        public async Task RequestSaveAsync() => await OnRequestSaveAsync?.Invoke();
+        public async Task RequestSaveAsync() => await OnSaveAsync?.Invoke();
 
-        public async Task RequestLoadAsync() => await OnRequestLoadAsync?.Invoke();
+        public async Task RequestLoadAsync() => await OnLoadAsync?.Invoke();
 
         #endregion
     }
