@@ -1,12 +1,12 @@
 {
-    "name": "com.hyunwookimbob.broccollie.core",
-    "version": "2.2.0",
-    "displayName": "Broccollie Core",
-    "description": "Essential game features in Unity.",
-    "unity": "2022.3",
-    "author": {
-        "name": "Hyunwoo Kim",
-        "email": "davidkimighty@gmail.com",
-        "url": "https://colliecollie.netlify.app"
-    }
+  "name": "com.hyunwookimbob.broccollie.core",
+  "version": "2.2.1",
+  "displayName": "Broccollie Core",
+  "description": "Essential game features in Unity.",
+  "unity": "2022.3",
+  "author": {
+    "name": "Hyunwoo Kim",
+    "email": "davidkimighty@gmail.com",
+    "url": "https://colliecollie.netlify.app"
+  }
 }
