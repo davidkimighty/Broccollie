@@ -22,20 +22,20 @@
 - Local device save system
 
 **[ Feature Packages ]**
-- https://github.com/hyunwookimbob/Broccollie-UI.git
-- https://github.com/hyunwookimbob/Broccollie-Systems.git
-- https://github.com/hyunwookimbob/Broccollie-Audio.git
+- https://github.com/davidkimighty/Broccollie-UI.git
+- https://github.com/davidkimighty/Broccollie-Systems.git
+- https://github.com/davidkimighty/Broccollie-Audio.git
 
 ## Project Management 
-- [GitHub Project Roadmap](https://github.com/users/hyunwookimbob/projects/6/views/1?sliceBy%5Bvalue%5D=hyunwookimbob%2FBroccollie-Core)
-- [GitHub Project Table](https://github.com/users/hyunwookimbob/projects/6/views/3?sliceBy%5Bvalue%5D=hyunwookimbob%2FBroccollie-Core)
-- [GitHub Project Board](https://github.com/users/hyunwookimbob/projects/6/views/2?sliceBy%5Bvalue%5D=hyunwookimbob%2FBroccollie-Core)
+- [GitHub Project Roadmap](https://github.com/users/davidkimighty/projects/6/views/1?sliceBy%5Bvalue%5D=davidkimighty%2FBroccollie-Core)
+- [GitHub Project Table](https://github.com/users/davidkimighty/projects/6/views/3?sliceBy%5Bvalue%5D=davidkimighty%2FBroccollie-Core)
+- [GitHub Project Board](https://github.com/users/davidkimighty/projects/6/views/2?sliceBy%5Bvalue%5D=davidkimighty%2FBroccollie-Core)
 
 ## Changelog
 - [v2.2 GitHub Milestones]()
-- [v2.1 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/6?closed=1)
-- [v2.0 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/5?closed=1)
-- [v1.3 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/4?closed=1)
-- [v1.0 GitHub Milestones](https://github.com/hyunwookimbob/Broccollie/milestone/2?closed=1)
+- [v2.1 GitHub Milestones](https://github.com/davidkimighty/Broccollie/milestone/6?closed=1)
+- [v2.0 GitHub Milestones](https://github.com/davidkimighty/Broccollie/milestone/5?closed=1)
+- [v1.3 GitHub Milestones](https://github.com/davidkimighty/Broccollie/milestone/4?closed=1)
+- [v1.0 GitHub Milestones](https://github.com/davidkimighty/Broccollie/milestone/2?closed=1)
 
 <br />
