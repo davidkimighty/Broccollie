@@ -1,0 +1,17 @@
+{
+    "name": "Broccollie.UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9018b00fefbd64782bb938c28a0195c6",
+        "GUID:442a631929dbf4e1292c21ea70c57733"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

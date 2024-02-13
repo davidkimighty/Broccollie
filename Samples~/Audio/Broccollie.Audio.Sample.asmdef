@@ -1,0 +1,16 @@
+{
+    "name": "Broccollie.Audio.Sample",
+    "rootNamespace": "",
+    "references": [
+        "GUID:442a631929dbf4e1292c21ea70c57733"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
