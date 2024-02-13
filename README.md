@@ -4,7 +4,7 @@
 
 <!-- PROJECT LOGO -->
 <div align="center">
-  <img src="https://github.com/hyunwookimbob/Broccollie/assets/32338791/c4e89dae-cb6d-4ef1-b353-cf43910e48aa" alt="Logo" width="130" height="130">
+  <img src="https://github.com/davidkimighty/Broccollie/assets/32338791/c4e89dae-cb6d-4ef1-b353-cf43910e48aa" alt="Logo" width="130" height="130">
   <h1 align="center">Broccollie</h1>
   <p align="center">
     Essential game features in Unity.<br />
@@ -20,11 +20,6 @@
 - Addressable scene loader
 - Audio controller
 - Local device save system
-
-**[ Feature Packages ]**
-- https://github.com/davidkimighty/Broccollie-UI.git
-- https://github.com/davidkimighty/Broccollie-Systems.git
-- https://github.com/davidkimighty/Broccollie-Audio.git
 
 ## Project Management 
 - [GitHub Project Roadmap](https://github.com/users/davidkimighty/projects/6/views/1?sliceBy%5Bvalue%5D=davidkimighty%2FBroccollie-Core)
