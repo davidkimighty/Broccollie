@@ -1,12 +1,16 @@
 {
-  "name": "com.davidkimighty.broccollie.core",
-  "version": "2.2.1",
-  "displayName": "Broccollie Core",
+  "name": "com.davidkimighty.broccollie",
+  "version": "2.2.2",
+  "displayName": "Broccollie",
   "description": "Essential game features in Unity.",
   "unity": "2022.3",
   "author": {
     "name": "Hyunwoo Kim",
     "email": "davidkimighty@gmail.com",
     "url": "https://colliecollie.netlify.app"
+  },
+  "dependencies": {
+    "com.unity.inputsystem": "1.5.0",
+    "com.unity.addressables": "1.21.17"
   }
 }

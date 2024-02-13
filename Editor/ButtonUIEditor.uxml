@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.hyunwookimbob.broccollie/Editor/UI/ButtonUIEditor.uss?fileID=7433441132597879392&amp;guid=c94a964b2fa014631b1d054c1e3bccb0&amp;type=3#ButtonUIEditor" />
+    <ui:VisualElement name="root" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+        <ui:Label tabindex="-1" text="Button UI" display-tooltip-when-elided="true" name="label-title" class="header-1" />
+        <ui:VisualElement name="settings">
+            <ui:EnumField label="Current State" type="Broccollie.UI.UIStates, Broccollie.UI" name="button-state" />
+        </ui:VisualElement>
+        <ui:VisualElement name="features">
+            <ui:Label tabindex="-1" text="Features" display-tooltip-when-elided="true" name="label-feature" class="header-2" />
+            <ui:Foldout text="Color Feature" name="foldout-color" value="true">
+                <ui:VisualElement name="feature-color-content" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+            </ui:Foldout>
+            <ui:Foldout text="Sprite Feature" name="foldout-sprite" value="false">
+                <ui:VisualElement name="feature-sprite-content" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+            </ui:Foldout>
+            <ui:Foldout text="Audio Feature" name="foldout-audio" value="false">
+                <ui:VisualElement name="feature-audio-content" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+            </ui:Foldout>
+            <ui:Foldout text="Transform Feature" name="foldout-transform" value="false">
+                <ui:VisualElement name="feature-transform-content" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+            </ui:Foldout>
+            <ui:Foldout text="Animation Feature" name="foldout-animation" value="false">
+                <ui:VisualElement name="feature-animation-content" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+            </ui:Foldout>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
